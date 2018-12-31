@@ -76,24 +76,23 @@ Select an html page where you want to show the report.
 <br/>
 Add the js and css resources ( example taken from v1 examples:
 ```html
-	<!-- third party includes (angularjs, material, ...)-->
-    <link href="/v1/dist/3rd-party.css" type="text/css" rel="stylesheet" />
-    <script src="/v1/dist/3rd-party.js"></script>
-    
-    <!-- report includes, css, js-->
-    <link href="/v1/dist/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
-    <script src="/v1/dist/copyleaks-plagiarism-report.min.js"></script>
-    
-    <!-- report host ( application using report) -->
-     <script src="/v1/examples/js/app.js"></script>
+<!-- third party includes (angularjs, material, ...)-->
+<link href="/v1/dist/3rd-party.css" type="text/css" rel="stylesheet" />
+<script src="/v1/dist/3rd-party.js"></script>
 
+<!-- report includes, css, js-->
+<link href="/v1/dist/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
+<script src="/v1/dist/copyleaks-plagiarism-report.min.js"></script>
+
+<!-- report host ( application using report) -->
+<script src="/v1/examples/js/app.js"></script>
 ```
 Implement the host AngularJs application that will contain the report directive.
 <br/>
 The host initializes and comunicates with the report by dependency injecting the reportServiceListener service into one of its components.
 <br/>
 The reportServiceListener exposes the following constant:
-* reportTypes - used to communicate report type changes to report.
+* `reportTypes` - used to communicate report type changes to report.
 
 An example initialization code:
 ```javascript
