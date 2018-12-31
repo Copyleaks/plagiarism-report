@@ -75,7 +75,7 @@ Determine which version of the report you want to work with. v1 or v3.
 Select an html page where you want to show the report.
 <br/>
 Add the js and css resources ( example taken from v1 examples:
-```
+```html
 	<!-- third party includes (angularjs, material, ...)-->
     <link href="/v1/dist/3rd-party.css" type="text/css" rel="stylesheet" />
     <script src="/v1/dist/3rd-party.js"></script>
@@ -96,7 +96,7 @@ The reportServiceListener exposes the following constant:
 * reportTypes - used to communicate report type changes to report.
 
 An example initialization code:
-```
+```javascript
 //initialize report and get the promise that updates us regarding report events
 var listenerPromise = reportServiceListener.init({
     id: $routeParams.id, // Take the report id from the url route
@@ -110,7 +110,7 @@ var listenerPromise = reportServiceListener.init({
 List of parameters to the init event:
 
 Listening to report events:
-```
+```javascript
 listenerPromise.then(angular.noop, angular.noop, handleReportNotify);
 
         function handleReportNotify(message) {
@@ -123,27 +123,35 @@ listenerPromise.then(angular.noop, angular.noop, handleReportNotify);
             }
         }
 ```
-Events the report raises ( using the notification promise returned by the init method ):
-* icon-button-clicked
-* content-type-changed (v3 only)
-* multiple-suspect-page-change (v3 only)
-* single-suspect-source-page-change (v3 only)
-* single-suspect-suspect-page-change (v3 only)
-* download-source-clicked
-* download-suspect-clicked
+
+Events the report raises ( using the notification promise returned by the init method )
+
+
+| Method Name   | When is it called | Remarks |
+| ------------- |:-------------| -----|
+| icon-button-clicked | The customized report icon is clicked |
+| content-type-changed | report switched between html and text or vice versa | v3 only
+| multiple-suspect-page-change | report page changed ( in multiple suspect view ) | v3 only
+| single-suspect-source-page-change | report page changed ( in single suspect view ) | v3 only
+| single-suspect-suspect-page-change | suspect page changed ( in single suspect view ) | v3 only
+| download-source-clicked | report requests to download source document | in v3 contentType to download is passed as a parameter
+| download-suspect-clicked | report requests to download suspect document | in v3 contentType to download is passed as a parameter
 
 
 Methods exposed by the report ( using the reportServiceListener service)
-* init - initialize the report
-* progressChanged - give report the progress. 0-100.
-* onDocumentReady - add the document to the report (from your downloaded data).
-* onNewResult - add a new suspect to the report (from your downloaded data)..
-* onCompletion - add all suspects to report (The scan has ended and all suspects are known)
-* onMatches - add a suspect text and matches to the report.
-* setError - Ask the report to show an error to the user.
-* setContentType - Ask report to change contentType ('html' or 'text')
-* switchReportType - ask report to switch type (reportServiceListener.reportTypes.multipleSuspects or reportServiceListener.reportTypes.singleSuspect, if single is used pass suspect id as second parameter)
-* setDocumentProperties (set report title and icon)
-* setMultipleSuspectPage - set the page in multiple suspect report ( availabel in v3 only)
-* setSingleSuspectSourcePage - set the page in single suspect report ( availabel in v3 only)
-* setSingleSuspectSuspectPage- set the page in single suspect report ( availabel in v3 only)
+
+| Method Name   | What it does  | Remarks |
+| ------------- |-------------| -----|
+| init | initialize the report |
+| progressChanged | give report the progress. 0-100.|
+| onDocumentReady | add the document to the report (from your downloaded data).|
+| onNewResult | add a new suspect to the report (from your downloaded data)..|
+| onCompletion | add all suspects to report (The scan has ended and all suspects are known)|
+| onMatches | add a suspect text and matches to the report.|
+| setError | Ask the report to show an error to the user.|
+| setContentType | Ask report to change contentType ('html' or 'text')| v3 only
+| switchReportType | ask report to switch type (reportServiceListener.reportTypes.multipleSuspects or reportServiceListener.reportTypes.singleSuspect, if single is used pass suspect id as second parameter)|
+| setDocumentProperties | set report title and icon
+| setMultipleSuspectPage | set the page in multiple suspect report | v3 only
+| setSingleSuspectSourcePage | set the page in single suspect report | v3 only
+| setSingleSuspectSuspectPage| set the page in single suspect report | v3 only
