@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>indecator/Related/disable@3x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="19" height="19"></rect>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="indecator/Related/disable">
+            <g id="Rectangle-3">
+                <use fill="#32ABFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <rect stroke="#DDDDDD" stroke-width="2" x="1" y="1" width="17" height="17"></rect>
+            </g>
+            <polygon id="Path-2" fill="#D0021B" points="19 -3.55271368e-15 19 2 2 19 0 19 0 17 17 -3.55271368e-15"></polygon>
+        </g>
+    </g>
+</svg>

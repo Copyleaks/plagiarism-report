@@ -1,0 +1,16 @@
+.identical-on .highlight-1 {
+  background: rgba(255, 102, 102, 0.6);
+  cursor: pointer;
+}
+.similar-on .highlight-2 {
+  background: rgba(255, 154, 154, 0.6);
+  cursor: pointer;
+}
+.related-on .highlight-3 {
+  background: rgba(255, 217, 176, 0.6);
+  cursor: pointer;
+}
+.highlight-4 {
+  opacity: 0.5;
+  font-style: italic;
+}

@@ -1,0 +1,104 @@
+{
+    "scannedDocument": {
+        "totalWords": 3674,
+        "totalExcluded": 0,
+        "credits": 15,
+        "creationTime": "2018-12-30T13:53:48",
+        "cachedVersion": "https://scansv3.blob.core.windows.net/3x5f84lo/response-source.json?sv=2018-03-28&sr=b&sig=k2UUNk8GhOLNWxE7E79%2FISKBYfKrLeFAIUauRRUtiDo%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+    },
+    "results": {
+        "internet": [
+            
+            {
+                "url": "https://everipedia.org/wiki/lang_en/Plagiarism_detection/",
+                "id": "09477b84-9b86-4544-8375-38d200cee299",
+                "title": "Plagiarism detection | Wiki | Everipedia",
+                "introduction": "Plagiarism detection's wiki: Plagiarism detection is the process of locating instances of plagiarism within a work or document. The widespread use of computers and the advent of the Internet has made it easier to plagiarize the work of o...",
+                "matchedWords": 2212,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.09477b84-9b86-4544-8375-38d200cee299.json?sv=2018-03-28&sr=b&sig=te9Lx2pOWfZMCLczfyvsG3HKRpPaVrGpePKNzHAbfJQ%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://www.researchgate.net/publication/272853366_Detection_of_Plagiarism_in_Arabic_Documents",
+                "id": "0bbe8926-5f3b-43ee-a9cd-20b4385cd71c",
+                "title": "(PDF) Detection of Plagiarism in Arabic Documents",
+                "introduction": "PDF | Many language-sensitive tools for detecting plagiarism in natural language documents have been developed, particularly for English. Language-independent tools exist as well, but are considered restrictive as they usually do not take into acc...",
+                "matchedWords": 37,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.0bbe8926-5f3b-43ee-a9cd-20b4385cd71c.json?sv=2018-03-28&sr=b&sig=ObLfJOKjbwOtqfdxcHbCd1y7M7BhX%2FYqI7Tzal5jvaU%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://www.gipp.com/wp-content/papercite-data/pdf/gipp11c.pdf",
+                "id": "0c4d8ecc-a392-4139-9e96-87739e8dd84e",
+                "title": "gipp11c.pdf",
+                "introduction": "Preprint - DocEng11 CbPD Algo - gipp11cgipp11cABSTRACT General Terms Keywords 1. INTRODUCTION 2. RELATED WORK2.1 Forms of Plagiarism 2.2 Existing Plagiarism Detection Approaches 2.3 Strength and Weaknesses of PDS 3. CITATION-BASED PD3.1 Factors f...",
+                "matchedWords": 225,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.0c4d8ecc-a392-4139-9e96-87739e8dd84e.json?sv=2018-03-28&sr=b&sig=8r%2BNg9ObBciF3mRj%2BCVAgUcJ7JW0HWus8MLyrzbH5aw%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://www.quora.com/How-do-plagiarism-detectors-work",
+                "id": "0d84e13e-8082-45ec-9fad-5b6bdb1cf9e6",
+                "title": "How do plagiarism detectors work? - Quora",
+                "introduction": "Quora Ask New QuestionSign In Plagiarism Detectors Academic Plagiarism and Cheating Plagiarism How do plagiarism detectors work? UpdateCancel ad by Grammarly Your writing, ...",
+                "matchedWords": 125,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.0d84e13e-8082-45ec-9fad-5b6bdb1cf9e6.json?sv=2018-03-28&sr=b&sig=cAA90pe2AkQlm%2FUkaHeVhjSAoHOiJ2otnwcRlPwrQco%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://everipedia.org/wiki/lang_en/Plagiarism_detection/",
+                "id": "16a727dd-0766-4988-a024-3675bf223e3e",
+                "title": "Plagiarism detection | Wiki | Everipedia",
+                "introduction": "Plagiarism detection's wiki: Plagiarism detection is the process of locating instances of plagiarism within a work or document. The widespread use of computers and the advent of the Internet has made it easier to plagiarize the work of o...",
+                "matchedWords": 2212,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.16a727dd-0766-4988-a024-3675bf223e3e.json?sv=2018-03-28&sr=b&sig=oe%2Fwle9KPylZUKusVnxTN7ga9%2FW3o8H6HpD5oLGiMtA%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://en.wikiyy.com/wiki/Millimeter_wave_scanner",
+                "id": "29b5eddd-8409-4080-addd-5a2affc85c80",
+                "title": "Millimeter wave scanner - Wikipedia",
+                "introduction": "Install our Google Chrome Extension for fastest experience. → [close] Millimeter wave scanner - Wikipedia Millimeter wave scanner From Wikipedia, the free encyclopedia Jump to navigation Jump...",
+                "matchedWords": 203,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.29b5eddd-8409-4080-addd-5a2affc85c80.json?sv=2018-03-28&sr=b&sig=uMwirdP8gh1jFLPtacHm7IlxTeWFuha64hH8p6FzG%2FY%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "http://edutechwiki.unige.ch/en/Plagiarism",
+                "id": "2e5cfaf7-3d6e-4915-acdc-2dc2d2c268ad",
+                "title": "Plagiarism - EduTech Wiki",
+                "introduction": "Plagiarism From EduTech Wiki Jump to: navigation, search This article or chapter is incomplete and its contents need further attention. Some information may be missing or may be wrong, spelling and grammar may have ...",
+                "matchedWords": 23,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.2e5cfaf7-3d6e-4915-acdc-2dc2d2c268ad.json?sv=2018-03-28&sr=b&sig=K67XG3%2FhV1FYjKRMslXt21mUFFM2w6N5k%2BUq24bt6AI%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://everipedia.org/wiki/Plagiarism_detection/",
+                "id": "30632a33-20a5-477b-90fe-f3020f01a470",
+                "title": "Plagiarism detection | Wiki | Everipedia",
+                "introduction": "Plagiarism detection's wiki: Plagiarism detection is the process of locating instances of plagiarism within a work or document. The widespread use of computers and the advent of the Internet has made it easier to plagiarize the work of o...",
+                "matchedWords": 2212,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.30632a33-20a5-477b-90fe-f3020f01a470.json?sv=2018-03-28&sr=b&sig=WGLy9RYkZUGrinoQrjCSWN6BYBXTEryd7V40k5FZ66Q%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://mk.wikipedia.org/wiki/Откривање_на_плагијати",
+                "id": "394cc2a4-b288-484c-bf58-47457017f34d",
+                "title": "Откривање на плагијати — Википедија",
+                "introduction": "Откривање на плагијати Од Википедија — слободната енциклопедија Прејди на прегледникот Прејди на пребарувањето Oткривање на плагијати е процес на наоѓање на случаи на плагијат во рамките на некој труд или документ. Широката употр...",
+                "matchedWords": 694,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.394cc2a4-b288-484c-bf58-47457017f34d.json?sv=2018-03-28&sr=b&sig=nnDu%2FVLxr7KmB%2F5M3ehMvdwqh7iHHrVmk4Jq4usaWkA%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            },
+            {
+                "url": "https://sr.wikipedia.org/sr-el/Detekcija_plagijata",
+                "id": "39e40eb0-54cf-4dc1-b54b-2fca68706215",
+                "title": "Detekcija plagijata — Vikipedija, slobodna enciklopedija",
+                "introduction": "Detekcija plagijata Iz Vikipedije, slobodne enciklopedije Idi na navigaciju Idi na pretragu Detekcija plagijata je proces pronalaženja slučajeva plagijata u radu ili dokumentu. Rasprostranjenost računara i Interneta je učinila pl...",
+                "matchedWords": 880,
+                "comparison": "https://scansv3.blob.core.windows.net/3x5f84lo/results/v1.39e40eb0-54cf-4dc1-b54b-2fca68706215.json?sv=2018-03-28&sr=b&sig=kC7e5849iLXIt%2FTDwr5KiJRPNKmG319kOFo8fXUPz1Y%3D&se=2018-12-31T14%3A08%3A12Z&sp=r"
+            }
+        ],
+        "batch": [],
+        "score": {
+            "identicalWords": 3346,
+            "minorChangedWords": 84,
+            "relatedMeaningWords": 34
+        }
+    },
+    "downloadableReport": null,
+    "status": 0,
+    "error": null,
+    "developerPayload": null
+}

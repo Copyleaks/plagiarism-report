@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="57px" viewBox="0 0 48 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>DocType/ocr@3x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-34.000000, -496.000000)">
+        <g id="DocType/Doc" transform="translate(29.000000, 494.000000)">
+            <g id="Group-14-Copy" stroke-width="1" fill-rule="evenodd" transform="translate(5.000000, 2.000000)" fill="#333333">
+                <path d="M33.0015863,47.7726312 L39,47.7726312 L39,57 L0,57 L0,0 L33,0 L39,6 L39,29.8578945 L33.0015863,29.8578945 L33.0015863,26.872105 L6.00028841,26.872105 L6.00028841,50.7584206 L33.0015863,50.7584206 L33.0015863,47.7726312 Z M6.00028841,5.9715789 L6.00028841,8.95736835 L30.0014421,8.95736835 L30.0014421,5.9715789 L6.00028841,5.9715789 Z M6.00028841,11.9431578 L6.00028841,14.9289472 L33.0015863,14.9289472 L33.0015863,11.9431578 L6.00028841,11.9431578 Z M6.00028841,17.9147367 L6.00028841,20.9005261 L33.0015863,20.9005261 L33.0015863,17.9147367 L6.00028841,17.9147367 Z" id="Rectangle-7" fill-rule="nonzero"></path>
+            </g>
+            <g id="DocType/tag">
+                <polygon id="PDF" fill="#17A1FF" fill-rule="evenodd" points="14 32 14 50 53 50 53 32"></polygon>
+                <text id="PDF" font-family="Roboto-Bold, Roboto" font-size="14" font-weight="bold" fill="#FFFFFF">
+                    <tspan x="23.4750977" y="46">ocr</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

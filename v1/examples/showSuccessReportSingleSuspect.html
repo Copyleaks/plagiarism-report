@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: white;
+        }
+</style>
+    <base href="http://localhost:3000/v1single/" target="_blank">
+    <meta charset="utf-8" />
+    <title>Report demo</title>
+    <!--Host resources-->
+    
+    <!-- third party includes (angularjs, material, ...)-->
+    <link href="/v1/dist/3rd-party.css" type="text/css" rel="stylesheet" />
+    <script src="/v1/dist/3rd-party.js"></script>
+    
+    <!-- report includes, css, js-->
+    <link href="/v1/dist/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
+    <script src="/v1/dist/copyleaks-plagiarism-report.min.js"></script>
+    
+    <!-- report host ( application using report) -->
+    <script src="/v1/examples/js/directives/cp-report-container-single.js"></script>
+    <script src="/v1/examples/js/app.js"></script>
+    
+</head>
+<body ng-app="ReportDemo" ng-controller="reportHostController">
+    <div style="height: 100%" ng-if="isReportView">
+        <report-container></report-container>
+    </div>
+    <ng-view></ng-view>
+</body>
+</html>

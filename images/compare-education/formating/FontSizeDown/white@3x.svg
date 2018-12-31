@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>ic/FontSizeDown/white@3x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic/FontSizeDown/white">
+            <g id="ic_spellcheck_24px">
+                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+            </g>
+            <path d="M15.0587748,21.2764901 L18,21.2764901 L10.8087748,3.33204562 L8.19122517,3.33204562 L1,21.2764901 L3.94122517,21.2764901 L5.51738411,17.1354644 L13.4544702,17.1354644 L15.0587748,21.2764901 Z M6.58692053,14.3747807 L9.5,6.75529349 L12.4130795,14.3747807 L6.58692053,14.3747807 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+            <rect id="Rectangle-4" fill="#FFFFFF" x="16" y="9" width="8" height="3"></rect>
+        </g>
+    </g>
+</svg>
