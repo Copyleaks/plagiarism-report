@@ -9,6 +9,7 @@
     "type" : "git",
     "url" : "https://github.com/Copyleaks/plagiarism-report"
   },
+  "keywords": ["plagiarism","plagiarism checker", "copyleaks","report", "plagiarism report"],
   "scripts": {
     "preparethirdparty": "npm run preparethirdpartyjs && npm run preparethirdpartycss",
     "preparethirdpartyjs": "gulp 3d-party-js",
