@@ -74,7 +74,7 @@ Determine which version of the report you want to work with. v1 or v3.
 <br/>
 Select an html page where you want to show the report.
 <br/>
-Add the js and css resources ( example taken from v1 examples:
+Add the js and css resources (example taken from v1 examples:
 ```html
 <!-- third party includes (angularjs, material, ...)-->
 <link href="/v1/dist/3rd-party.css" type="text/css" rel="stylesheet" />
@@ -84,7 +84,7 @@ Add the js and css resources ( example taken from v1 examples:
 <link href="/v1/dist/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
 <script src="/v1/dist/copyleaks-plagiarism-report.min.js"></script>
 
-<!-- report host ( application using report) -->
+<!-- report host (application using report) -->
 <script src="/v1/examples/js/app.js"></script>
 ```
 Implement the host AngularJs application that will contain the report directive.
@@ -99,7 +99,7 @@ An example initialization code:
 //initialize report and get the promise that updates us regarding report events
 var listenerPromise = reportServiceListener.init({
     id: $routeParams.id, // Take the report id from the url route
-    reportType: reportType, // report type ( single or multi suspect)
+    reportType: reportType, // report type (single or multi suspect)
     suspectId: $routeParams.resultid, // if in single mode, pass result id.
     shareLinkCreationCallback: shareLinkCreationCallback,
     contentType: 'text' // the only option for v1
@@ -123,21 +123,21 @@ listenerPromise.then(angular.noop, angular.noop, handleReportNotify);
         }
 ```
 
-Events the report raises ( using the notification promise returned by the init method )
+Events the report raises (using the notification promise returned by the init method)
 
 
 | Event name   | When is it called | Remarks |
 | ------------- |:-------------| -----|
 | icon-button-clicked | The customized report icon is clicked |
 | content-type-changed | report switched between html and text or vice versa | v3 only
-| multiple-suspect-page-change | report page changed ( in multiple suspect view ) | v3 only
-| single-suspect-source-page-change | report page changed ( in single suspect view ) | v3 only
-| single-suspect-suspect-page-change | suspect page changed ( in single suspect view ) | v3 only
+| multiple-suspect-page-change | report page changed (in multiple suspect view) | v3 only
+| single-suspect-source-page-change | report page changed (in single suspect view) | v3 only
+| single-suspect-suspect-page-change | suspect page changed (in single suspect view) | v3 only
 | download-source-clicked | report requests to download source document | in v3 contentType to download is passed as a parameter
 | download-suspect-clicked | report requests to download suspect document | in v3 contentType to download is passed as a parameter
 
 
-Methods exposed by the report ( using the `reportServiceListener` service)
+Methods exposed by the report (using the `reportServiceListener` service)
 
 | Method name   | What it does  | Remarks |
 | ------------- |-------------| -----|
