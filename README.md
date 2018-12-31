@@ -89,9 +89,9 @@ Add the js and css resources ( example taken from v1 examples:
 ```
 Implement the host AngularJs application that will contain the report directive.
 <br/>
-The host initializes and comunicates with the report by dependency injecting the reportServiceListener service into one of its components.
+The host initializes and comunicates with the report by dependency injecting the `reportServiceListener` service into one of its components.
 <br/>
-The reportServiceListener exposes the following constant:
+The `reportServiceListener` exposes the following constant:
 * `reportTypes` - used to communicate report type changes to report.
 
 An example initialization code:
@@ -137,7 +137,7 @@ Events the report raises ( using the notification promise returned by the init m
 | download-suspect-clicked | report requests to download suspect document | in v3 contentType to download is passed as a parameter
 
 
-Methods exposed by the report ( using the reportServiceListener service)
+Methods exposed by the report ( using the `reportServiceListener` service)
 
 | Method Name   | What it does  | Remarks |
 | ------------- |-------------| -----|
