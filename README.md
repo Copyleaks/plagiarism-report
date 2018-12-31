@@ -1,6 +1,6 @@
 # Copyleaks Plagiarism Report
 Allow Copyleaks API users to view the plagiarism report using their downloaded data.
-Using this report allows users to view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the reports data).
+Using this report allows users to view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the report's data).
 
 ## How to use
 1. Scan a document in [Copyleaks API](https://api.copyleaks.com "Copyleaks api homepage").
@@ -9,9 +9,9 @@ Using this report allows users to view the report anytime without being restrict
 
 ### Customization
 Highlights: 
-1. Report can be used in your own domain.
+1. The Report can be used in your own domain.
 2. You can add your own logo to the report and change its title.
-3. You can change the reports look and feel (using css).
+3. You can change the report's look and feel (using css).
 
 ### Supported API versions:
 The report is compatible with Copyleaks API versions:
@@ -49,9 +49,9 @@ First install the report npm package (from the command line):
 npm install @Copyleaks\plagiarism-report
 ```
 
-Next steps can be skipped if demo is not of interest to you.
+Next steps can be skipped if the demo is not of interest to you.
 <br/>
-Compile the 3rd party libraries used in the report (underscore, angularJs, ...)
+Compile the third party libraries used in the report (underscore, angularJs, ...)
 ```
 npm run preparethirdparty
 ```
@@ -60,7 +60,7 @@ Start the server from the command line
 ```
 npm run server
 ```
-Open your browser in to <a href="http://localhost:3000">http://localhost:3000</a> and check out the reports.
+Open your browser to <a href="http://localhost:3000">http://localhost:3000</a> and check out the reports.
 
 There are 3 different report views for each version (v1 and v3):
 1. Multiple suspect report in which all suspect matches are shown together against source text.
@@ -89,7 +89,7 @@ Add the js and css resources (example taken from v1 examples:
 ```
 Implement the host AngularJs application that will contain the report directive.
 <br/>
-The host initializes and comunicates with the report by dependency injecting the `reportServiceListener` service into one of its components.
+The host initializes and communicates with the report by dependency injecting the `reportServiceListener` service into one of its components.
 <br/>
 The `reportServiceListener` exposes the following constant:
 * `reportTypes` - used to communicate report type changes to report.
@@ -160,9 +160,9 @@ Methods exposed by the report (using the `reportServiceListener` service)
 | onCompletion | add all suspects to report (The scan has ended and all suspects are known)|
 | onMatches | add a suspect text and matches to the report.|
 | setError | Ask the report to show an error to the user.|
-| setContentType | Ask report to change contentType ('html' or 'text')| v3 only
-| switchReportType | ask report to switch type (reportServiceListener.reportTypes.multipleSuspects or reportServiceListener.reportTypes.singleSuspect, if single is used pass suspect id as second parameter)|
-| setDocumentProperties | set report title and icon
-| setMultipleSuspectPage | set the page in multiple suspect report | v3 only
-| setSingleSuspectSourcePage | set the page in single suspect report | v3 only
-| setSingleSuspectSuspectPage| set the page in single suspect report | v3 only
+| setContentType | Ask the report to change contentType ('html' or 'text')| v3 only
+| switchReportType | ask the report to switch type (reportServiceListener.reportTypes.multipleSuspects or reportServiceListener.reportTypes.singleSuspect, if single is used pass suspect id as second parameter)|
+| setDocumentProperties | Set the report title and icon
+| setMultipleSuspectPage | Set the page in multiple suspect report | v3 only
+| setSingleSuspectSourcePage | Set the page in single suspect report | v3 only
+| setSingleSuspectSuspectPage| Set the suspect page in single suspect report | v3 only
