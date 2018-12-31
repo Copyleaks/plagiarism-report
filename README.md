@@ -106,7 +106,19 @@ var listenerPromise = reportServiceListener.init({
     //,showShareButton: false // optionally hide the share button completely
 });
 ```
-List of parameters to the init event:
+List of parameters to the init event
+
+| Parameter name   | Meaning | Remarks |
+| ------------- |-------------| -----|
+|contentType | `'html'` or `'text'` | v3 only
+|id| unique report id|
+|reportType | `reportServiceListener.reportTypes.singleSuspect` or `reportServiceListener.reportTypes.multipleSuspects` also pass suspectId if using single suspect|
+|suspectId | if report is initialized with report type `reportServiceListener.reportTypes.singleSuspect` then suspectId is mandatory
+|showShareButton | `true` or `false` | optional
+|shareLinkCreationCallback | function called when share button is clicked. resolve function parameter with a valid share link (see demo) |
+|multiSuspectePage | Set initial multi suspect page to show | v3 only. optional
+|singleSuspectSourcePage | Set initial single suspect source page to show | v3 only. optional
+|singleSuspectSuspectPage | Set initial single suspect suspect page to show | v3 only. optional
 
 Listening to report events:
 ```javascript
