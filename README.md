@@ -3,7 +3,7 @@ Allow Copyleaks API users to view the plagiarism report using their downloaded d
 Using this report allows users to view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the reports data).
 
 ## How to use
-1. Scan a document in Copyleaks.
+1. Scan a document in [Copyleaks API](https://api.copyleaks.com "Copyleaks api homepage").
 2. Download the results and store them.
 3. Present the downloaded data with this report inside your website.
 
