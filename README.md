@@ -44,13 +44,14 @@ In order to run the demo you need to have Node.js and npm installed on your syst
 
 
 ## installation
-First install the report npm package ( from the command line ):
+First install the report npm package (from the command line):
 ```
 npm install @Copyleaks\plagiarism-report
 ```
 
 Next steps can be skipped if demo is not of interest to you.
-then compile the 3rd party libraries used in the report ( underscore, angularJs, ...)
+<br/>
+Compile the 3rd party libraries used in the report (underscore, angularJs, ...)
 ```
 npm run preparethirdparty
 ```
@@ -61,7 +62,7 @@ npm run server
 ```
 Open your browser in to <a href="http://localhost:3000">http://localhost:3000</a> and check out the reports.
 
-There are 3 different report views for each version ( v1 and v3):
+There are 3 different report views for each version (v1 and v3):
 1. Multiple suspect report in which all suspect matches are shown together against source text.
 2. Single suspect report in which 1 suspect is compared to the source text.
 3. Error page in which we show there was an error showing the report.
