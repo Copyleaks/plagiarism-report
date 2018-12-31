@@ -5,6 +5,10 @@
   "description": "Copyleaks plagiarism report shows the data found by copyleaks api in a visual report. allowing developers to store copyleaks reports in their preferred data storage and display them using the open source report.",
   "author": "Copyleaks ltd.",
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/Copyleaks/plagiarism-report"
+  },
   "scripts": {
     "preparethirdparty": "npm run preparethirdpartyjs && npm run preparethirdpartycss",
     "preparethirdpartyjs": "gulp 3d-party-js",
