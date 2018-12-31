@@ -126,7 +126,7 @@ listenerPromise.then(angular.noop, angular.noop, handleReportNotify);
 Events the report raises ( using the notification promise returned by the init method )
 
 
-| Method Name   | When is it called | Remarks |
+| Event name   | When is it called | Remarks |
 | ------------- |:-------------| -----|
 | icon-button-clicked | The customized report icon is clicked |
 | content-type-changed | report switched between html and text or vice versa | v3 only
@@ -139,7 +139,7 @@ Events the report raises ( using the notification promise returned by the init m
 
 Methods exposed by the report ( using the `reportServiceListener` service)
 
-| Method Name   | What it does  | Remarks |
+| Method name   | What it does  | Remarks |
 | ------------- |-------------| -----|
 | init | initialize the report |
 | progressChanged | give report the progress. 0-100.|
