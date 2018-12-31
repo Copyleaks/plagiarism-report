@@ -4,7 +4,7 @@
   "private": false,
   "description": "Copyleaks plagiarism report shows the data found by copyleaks api in a visual report. allowing developers to store copyleaks reports in their preferred data storage and display them using the open source report.",
   "author": "Copyleaks ltd.",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE.md"
   "repository": {
     "type" : "git",
     "url" : "https://github.com/Copyleaks/plagiarism-report"
