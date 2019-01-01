@@ -1,6 +1,6 @@
 # Copyleaks Plagiarism Report
 Allow Copyleaks API users to view the plagiarism report using their downloaded data and present it on their platform.
-You can view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the report's data after a few months). Use this report to have access to your Copyleaks report anytime without having to build your own UI to presend the data.
+You can view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the report's data after a few months). Use this report to have access to your Copyleaks report anytime without having to build your own UI to present the data.
 
 ## How to use
 1. Scan a document using the [Copyleaks API](https://api.copyleaks.com "Copyleaks api homepage").
