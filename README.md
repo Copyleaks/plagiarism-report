@@ -1,11 +1,11 @@
 # Copyleaks Plagiarism Report
-Allow Copyleaks API users to view the plagiarism report using their downloaded data.
-Using this report allows users to view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the report's data).
+Allow Copyleaks API users to view the plagiarism report using their downloaded data and present it on their platform.
+You can view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the report's data after a few months). Use this report to have access to your Copyleaks report anytime without having to build your own UI to present the data.
 
 ## How to use
-1. Scan a document in [Copyleaks API](https://api.copyleaks.com "Copyleaks api homepage").
+1. Scan a document using the [Copyleaks API](https://api.copyleaks.com "Copyleaks api homepage").
 2. Download the results and store them.
-3. Present the downloaded data with this report inside your website.
+3. Present the downloaded data with this report on your website or platform.
 
 ### Customization
 Highlights: 
@@ -19,12 +19,12 @@ The report is compatible with Copyleaks API versions:
 * v3 - coming soon.
 
 The report has two view configurations:
-* Multiple suspects reports: all suspect matches found are shown together against source text.
-* Single suspect report: a single suspect (a webpage or document) is compared to the source text.
+* One-to-many Report: shows the submitted text on the left side and all of the results that were found on the right side.
+* One-to-one Report: shows your submitted text on the left side compared to one specific result on the right side. 
 
 ## Prerequisites
 
-The report is made from js only and is an angularJs directive. The report uses the following third party libraries:
+The report is in js only and is an angularJs directive. The report uses the following third party libraries:
  * angular
  * angular-animate
  * angular-aria
@@ -40,7 +40,7 @@ The report is made from js only and is an angularJs directive. The report uses t
  * jquery
  * underscore
 
-In order to run the demo you need to have Node.js and npm installed on your system. If you are not interested in running the demo you can skip this.
+In order to run the demo you will need to have Node.js and npm installed on your system. If you are not interested in running the demo you can skip this.
 
 
 ## Installation
@@ -63,16 +63,16 @@ npm run server
 Open your browser to <a href="http://localhost:3000">http://localhost:3000</a> and check out the reports.
 
 There are 3 different report views for each version (v1 and v3):
-1. Multiple suspect report in which all suspect matches are shown together against source text.
-2. Single suspect report in which 1 suspect is compared to the source text.
+1. One-to-many Report: shows the submitted text on the left side and all of the results that were found on the right side.
+2. One-to-one Report: shows your submitted text on the left side compared to one specific result on the right side. 
 3. Error page in which we show there was an error showing the report.
 
 ## Using the report in your web site:
 There are working examples of how the report is used in the v1/examples and v3/examples directories.
 <br/>
-Determine which version of the report you want to work with. v1 or v3.
+Determine which version of the report you would like to work with. v1 or v3.
 <br/>
-Select an html page where you want to show the report.
+Select an html page where you would like to show the report.
 <br/>
 Add the js and css resources (example taken from v1 examples:
 ```html
