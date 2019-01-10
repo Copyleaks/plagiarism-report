@@ -72,7 +72,7 @@ There are working examples of how the report is used in the v1/examples and v3/e
 <br/>
 Determine which version of the report you would like to work with. v1 or v3.
 <br/>
-Select an html page where you would like to show the report.
+Select an html page where you would like to show the report. Add the ```copyleaks-report-parent``` css class to a parent element of the ```<report></report>``` directive ( The report css is scoped under this class).
 <br/>
 Add the js and css resources (example taken from v1 examples:
 ```html

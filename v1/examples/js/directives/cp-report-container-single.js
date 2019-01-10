@@ -22,7 +22,7 @@ function attach_reportContainer(app) {
         //the developer can choose to create a url that can be viewed without credentials.
         //alternatively the showShareButton can be passed to the listener init function ( see above)
         function shareLinkCreationCallback(pid, deffered) {
-            var urlForSharing = "demo/" + pid + '?key=' + response.data;
+            var urlForSharing = "demo/" + pid + '?key=randomKeyString';
             deffered.resolve(urlForSharing);
         }
 
