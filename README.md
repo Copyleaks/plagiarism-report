@@ -46,7 +46,7 @@ In order to run the demo you will need to have Node.js and npm installed on your
 ## Installation
 First install the report npm package (from the command line):
 ```
-npm install @Copyleaks\plagiarism-report
+npm install @copyleaks\plagiarism-report
 ```
 
 Next steps can be skipped if the demo is not of interest to you.
