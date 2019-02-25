@@ -115,6 +115,7 @@ List of parameters to the init event
 |reportType | `reportServiceListener.reportTypes.singleSuspect` or `reportServiceListener.reportTypes.multipleSuspects` also pass suspectId if using single suspect|
 |suspectId | if report is initialized with report type `reportServiceListener.reportTypes.singleSuspect` then suspectId is mandatory
 |showShareButton | `true` or `false` | optional
+|showDownloadPdfReportButton | `true` or `false`. show or hide the download report button. | optional. v3 only.
 |shareLinkCreationCallback | function called when share button is clicked. resolve function parameter with a valid share link (see demo) |
 |multiSuspectePage | Set initial multi suspect page to show | v3 only. optional
 |singleSuspectSourcePage | Set initial single suspect source page to show | v3 only. optional
@@ -156,7 +157,7 @@ Methods exposed by the report (using the `reportServiceListener` service)
 | init | initialize the report |
 | progressChanged | give report the progress. 0-100.|
 | onDocumentReady | add the document to the report (from your downloaded data).|
-| onNewResult | add a new suspect to the report (from your downloaded data)..|
+| onNewResult | add a new suspect to the report (from your downloaded data).|
 | onCompletion | add all suspects to report (The scan has ended and all suspects are known)|
 | onMatches | add a suspect text and matches to the report.|
 | setError | Ask the report to show an error to the user.|
