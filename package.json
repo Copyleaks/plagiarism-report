@@ -22,27 +22,5 @@
     "preparethirdpartycss": "gulp 3d-party-css",
     "gulp": ".\\node_modules\\.bin\\gulp",
     "server": "node serverApp.js"
-  },
-  "dependencies": {
-    "angular": "1.6.9",
-    "angular-animate": "1.6.9",
-    "angular-aria": "1.6.9",
-    "angular-chart.js": "1.1.1",
-    "angular-loading-bar": "0.9.0",
-    "angular-material": "1.1.10",
-    "angular-moment": "1.2.0",
-    "angular-route": "1.6.9",
-    "angular-sanitize": "1.6.9",
-    "angular-ui-notification": "0.3.6",
-    "angular-ui-validate": "1.2.3",
-    "chart.js": "2.7.0",
-    "jquery": "3.1.0",
-    "underscore": "1.9.1"
-  },
-  "devDependencies": {
-    "express": "^4.16.4",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-less": "3.3.0"
   }
 }

@@ -77,8 +77,8 @@ Select an html page where you would like to show the report. Add the ```copyleak
 Add the js and css resources (example taken from v1 examples:
 ```html
 <!-- third party includes (angularjs, material, ...)-->
-<link href="/v1/dist/3rd-party.css" type="text/css" rel="stylesheet" />
-<script src="/v1/dist/3rd-party.js"></script>
+<link href="/dist/3rd-party.css" type="text/css" rel="stylesheet" />
+<script src="/dist/3rd-party.js"></script>
 
 <!-- report includes, css, js-->
 <link href="/v1/dist/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
