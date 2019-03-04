@@ -24,21 +24,6 @@ The report has two view configurations:
 
 ## Prerequisites
 
-The report is in js only and is an angularJs directive. The report uses the following third party libraries:
- * angular
- * angular-animate
- * angular-aria
- * angular-chart.js
- * angular-loading-bar
- * angular-material
- * angular-moment
- * angular-route
- * angular-sanitize
- * angular-ui-notification
- * angular-ui-validate
- * chart.js
- * jquery
- * underscore
 
 In order to run the demo you will need to have Node.js and npm installed on your system. If you are not interested in running the demo you can skip this.
 
@@ -51,15 +36,15 @@ npm install @copyleaks\plagiarism-report
 
 Next steps can be skipped if the demo is not of interest to you.
 <br/>
-Compile the third party libraries used in the report (underscore, angularJs, ...)
-```
-npm run preparethirdparty
-```
+
 ## Running the demo
-Start the server from the command line
+Install Express and run the demo
 ```
+cd yourProject/node_modules/@copyleaks/plagiarism-report
+npm i express
 npm run server
 ```
+
 Open your browser to <a href="http://localhost:3000">http://localhost:3000</a> and check out the reports.
 
 There are 3 different report views for each version (v1 and v3):

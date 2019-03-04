@@ -17,10 +17,6 @@
     "plagiarism report"
   ],
   "scripts": {
-    "preparethirdparty": "npm run preparethirdpartyjs && npm run preparethirdpartycss",
-    "preparethirdpartyjs": "gulp 3d-party-js",
-    "preparethirdpartycss": "gulp 3d-party-css",
-    "gulp": ".\\node_modules\\.bin\\gulp",
     "server": "node serverApp.js"
   }
 }
