@@ -14,5 +14,5 @@ In order to run the demo you will need to have Node.js and npm installed on your
 
 ## Supported api versions:
 Depending on your usage of Copyleaks API, there are 2 versions supported by the report:
-[V1 report](https://github.com/Copyleaks/plagiarism-report/blob/master/V1-README.md "V1 report readme").
-[V3 report](https://github.com/Copyleaks/plagiarism-report/blob/master/V3-README.md "V3 report readme").
+- [V1 report](https://github.com/Copyleaks/plagiarism-report/blob/master/V1-README.md "V1 report readme")
+- [V3 report](https://github.com/Copyleaks/plagiarism-report/blob/master/V3-README.md "V3 report readme")
