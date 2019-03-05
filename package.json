@@ -17,6 +17,10 @@
     "plagiarism report"
   ],
   "scripts": {
-    "server": "node serverApp.js"
+    "demoV3": "node ./demo/v3/demoApp.js",
+	"demoV1": "node ./demo/v1/demoApp.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
   }
 }

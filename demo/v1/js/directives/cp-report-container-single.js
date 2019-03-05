@@ -5,13 +5,8 @@ function attach_reportContainer(app) {
     controller.$inject = ["$scope", 'reportServiceListener', '$routeParams', '$route', '$http', '$q'];
     function controller($scope, reportServiceListener, $routeParams, $route, $http, $q) {
 
-        //read report type ( single/multiple suspect) from route.
-        var reportType = null;
-        if ($routeParams.resultid) {
-            reportType = reportServiceListener.reportTypes.singleSuspect;
-        } else {
-            reportType = reportServiceListener.reportTypes.multipleSuspects;
-        }
+        //set report to single suspect
+        var reportType = reportServiceListener.reportTypes.singleSuspect;
 
         //initialize report and get the promise that updates us regarding report events
         var listenerPromise = reportServiceListener.init({
@@ -27,7 +22,7 @@ function attach_reportContainer(app) {
         //the developer can choose to create a url that can be viewed without credentials.
         //alternatively the showShareButton can be passed to the listener init function ( see above)
         function shareLinkCreationCallback(pid, deffered) {
-            var urlForSharing = "demo/" + pid + '?key=123123123';
+            var urlForSharing = "demo/" + pid + '?key=randomKeyString';
             deffered.resolve(urlForSharing);
         }
 
@@ -52,6 +47,7 @@ function attach_reportContainer(app) {
                     break;
             }
         }
+
 
         function downloadSourceClicked() {
             var url = '/download-source/v1';
@@ -79,7 +75,7 @@ function attach_reportContainer(app) {
 
         //Fill Report results ( list of suspects )
         $scope.fillResults = function () {
-            return $http.get('/v1/examples/data/results.json').then(function (response) {
+            return $http.get('/demo/v1/data/results.json').then(function (response) {
                 setSourcesSingleSuspectLink(response.data.results); //add link to customize the single suspect url
                 reportServiceListener.onCompletion(response.data.results);
                 return response.data.results;
@@ -97,7 +93,7 @@ function attach_reportContainer(app) {
 
         //fill report info - word count, excluded ranges, ...
         $scope.fillInfo = function () {
-            return $http.get('/v1/examples/data/info.json').then(function (response) {
+            return $http.get('/demo/v1/data/info.json').then(function (response) {
                 reportServiceListener.onInfoReady(response.data);
             });
         }
@@ -116,7 +112,7 @@ function attach_reportContainer(app) {
 
         //download report document and pass to report
         $scope.fillDocument = function () {
-            return getText('/v1/examples/data/source-text.json')
+            return getText('/demo/v1/data/source-text.json')
                 .then(function (response) {
                     reportServiceListener.onDocumentReady(response.data);
                 });
@@ -131,10 +127,10 @@ function attach_reportContainer(app) {
 
         //download match text and comparison and pass to report
         $scope.fillMatch = function (matchId) {
-            var textJsonFileName = "" + matchId + "_result-text.json"; //get text demo file name
-            var comparisonJsonFileName = "" + matchId + "_comparison.json"; //get comparison demo file name
-            var textPromise = getText('/v1/examples/data/' + textJsonFileName); //get text
-            var comparisonPromise = $http.get('/v1/examples/data/' + comparisonJsonFileName); //get comparison
+            var textJsonFileName = "" + matchId + "_result-text.json";
+            var comparisonJsonFileName = "" + matchId + "_comparison.json";
+            var textPromise = getText('/demo/v1/data/' + textJsonFileName);
+            var comparisonPromise = $http.get('/demo/v1/data/' + comparisonJsonFileName)
 
             return $q.all([textPromise, comparisonPromise]) //wait for all results to return and pass to report
                 .then(function (responses) {
@@ -159,20 +155,6 @@ function attach_reportContainer(app) {
         }
 
         $scope.fillAll();
-
-        //listen to route changes and ask report to update to reflect new path
-        $scope.$on('$routeChangeSuccess', function (evert, to, from) {
-
-            if (from && to.$$route && from.$$route &&
-                to.$$route.multipleSuspect != from.$$route.multipleSuspect) {
-                if (to.$$route.multipleSuspect) { //switching from  single to multiple
-                    reportServiceListener.switchReportType(reportServiceListener.reportTypes.multipleSuspects);
-                }
-                else {  //switching from multiple to single
-                    reportServiceListener.switchReportType(reportServiceListener.reportTypes.singleSuspect, to.params.resultid);
-                }
-            }
-        });
     }
     app.directive('reportContainer', [function () {
         return {

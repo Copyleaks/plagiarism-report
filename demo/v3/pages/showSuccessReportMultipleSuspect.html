@@ -5,8 +5,8 @@
         body {
             background: white;
         }
-</style>
-    <base href="http://localhost:3000/v3single/" target="_blank">
+    </style>
+    <base href="http://localhost:3003/v3/" target="_blank">
     <meta charset="utf-8" />
     <title>Report demo</title>
     <!--Host resources-->
@@ -14,14 +14,17 @@
     <!-- third party includes (angularjs, material, ...)-->
     <link href="/dist/3rd-party.css" type="text/css" rel="stylesheet" />
     <script src="/dist/3rd-party.js"></script>
-    
+    <script>
+        var underscore = _;
+    </script>
     <!-- report includes, css, js-->
-    <link href="/v3/dist/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
-    <script src="/v3/dist/copyleaks-plagiarism-report.min.js"></script>
+    <link href="/dist/v3/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
+    <script src="/dist/v3/copyleaks-plagiarism-report.min.js"></script>
+    
     
     <!-- report host ( application using report) -->
-    <script src="/v3/examples/js/directives/cp-report-container-single.js"></script>
-    <script src="/v3/examples/js/app.js"></script>
+    <script src="/demo/v3/js/directives/cp-report-container.js"></script>
+    <script src="/demo/v3/js/app.js"></script>
     
 </head>
 <body ng-app="ReportDemo" ng-controller="reportHostController">

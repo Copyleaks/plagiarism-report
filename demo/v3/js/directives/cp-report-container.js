@@ -5,7 +5,14 @@ function attach_reportContainer(app) {
     controller.$inject = ["$scope", 'reportServiceListener', '$routeParams', '$route', '$http', '$q', '$location'];
     function controller($scope, reportServiceListener, $routeParams, $route, $http, $q, $location) {
 
-        var reportType =  reportServiceListener.reportTypes.singleSuspect;
+        //read report type ( single/multiple suspect) from route.
+        var reportType = null;
+        if ($routeParams.resultid) {
+            reportType = reportServiceListener.reportTypes.singleSuspect;
+        } else {
+            reportType = reportServiceListener.reportTypes.multipleSuspects;
+        }
+
         var availableContentTypes = ["text/html", "text/plain"];
 
         var contentType = 'html';
@@ -18,6 +25,7 @@ function attach_reportContainer(app) {
             id: $routeParams.id,
             reportType: reportType,
             suspectId: $routeParams.resultid,
+            multiSuspectePage: $routeParams.pageNum,
             singleSuspectSourcePage: $routeParams.pageNumSource,
             singleSuspectSuspectPage: $routeParams.pageNumResult,
             shareLinkCreationCallback: shareLinkCreationCallback,
@@ -44,6 +52,9 @@ function attach_reportContainer(app) {
                 case 'content-type-changed': //html/text switch
                     switchedContentType(params.contentType);
                     break;
+                case 'multiple-suspect-page-change'://page changed in multiple suspect report
+                    multipleSuspectPageChange(params.pageNumber);
+                    break;
                 case 'single-suspect-source-page-change'://source page changed in single suspect report
                     singleSuspectSourcePageChange(params.pageNumber);
                     break;
@@ -61,6 +72,7 @@ function attach_reportContainer(app) {
                     break;
             }
         }
+        
         
         function downloadSourceClicked(contentType) {
             var url = '/download-source/v3/' + contentType;
@@ -90,6 +102,15 @@ function attach_reportContainer(app) {
                 });
         }
 
+        var settingMultipleSuspectPageChangeFromReport = false;
+        function multipleSuspectPageChange(pageNumber) {
+            settingMultipleSuspectPageChangeFromReport = true;
+            $route.updateParams(
+                {
+                    'pageNum': pageNumber
+                });
+        }
+
         var settingContentTypeFromReport = false;
         function switchedContentType(contentType) {
             settingContentTypeFromReport = true;
@@ -112,7 +133,7 @@ function attach_reportContainer(app) {
 
         //Fill Report results ( list of suspects )
         $scope.fillResults = function () {
-            return $http.get('/v3/examples/data/results.json').then(function (response) {
+            return $http.get('/demo/v3/data/results.json').then(function (response) {
                 setSourcesSingleSuspectLink(response.data.results.internet); //add link to customize the single suspect url
                 reportServiceListener.onCompletion(response.data);
             return response.data.results;
@@ -129,7 +150,7 @@ function attach_reportContainer(app) {
 
         //download report document and pass to report
         $scope.fillDocument = function () {
-            return $http.get('/v3/examples/data/document.json')
+        return $http.get('/demo/v3/data/document.json')
                 .then(function (response) {
                    return reportServiceListener.onDocumentReady(response.data);
                 });
@@ -145,7 +166,7 @@ function attach_reportContainer(app) {
         //download match text and comparison and pass to report
         $scope.fillMatch = function (matchId) {
             var jsonFileName = "" + matchId + "_comparison.json"; //get text demo file name
-            $http.get('/v3/examples/data/' + jsonFileName).then(function (response) {
+            $http.get('/demo/v3/data/' + jsonFileName).then(function (response) {
                 reportServiceListener.onMatches(matchId, response.data);
             });
         }
@@ -171,7 +192,32 @@ function attach_reportContainer(app) {
         //listen to route changes and ask report to update to reflect new path
         $scope.$on('$routeChangeSuccess', function (evert, to, from) {
 
-        
+            if (to.$$route && from.$$route &&
+                to.$$route.multipleSuspect != from.$$route.multipleSuspect) {
+
+                if (to.$$route.multipleSuspect) { //report switched to multi suspect report
+                    reportServiceListener.switchReportType(reportServiceListener.reportTypes.multipleSuspects);
+                    if (reportV3Service.resultid) {
+                        delete reportV3Service.resultid;
+                        reportV3Service.downloadSourcesMatches();
+                    }
+                }
+                else { //report switched to single suspect report
+                    reportServiceListener.switchReportType(reportServiceListener.reportTypes.singleSuspect, to.params.resultid);
+                }
+            }
+
+            if (to.$$route && from.$$route && //multi suspect page changed
+                to.$$route.multipleSuspect && from.$$route.multipleSuspect) {
+                if (settingMultipleSuspectPageChangeFromReport) {
+                    settingMultipleSuspectPageChangeFromReport = false;
+                    return;
+                }
+                if (to.params.pageNum != from.params.pageNum) {
+                    reportServiceListener.setMultipleSuspectPage(to.params.pageNum);
+                }
+            }
+
             if (to.$$route && from.$$route && //single suspect source page changed
                 !to.$$route.multipleSuspect && !from.$$route.multipleSuspect) {
                 if (settingSingleSuspectSourcePageChangeFromReport) {

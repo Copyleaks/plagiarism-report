@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <base href="http://localhost:3003/v3error/" target="_blank">
+    <meta charset="utf-8" />
+    <title></title>
+    <!--Host resources-->
+    <link href="/dist/3rd-party.css" type="text/css" rel="stylesheet" />
+    <link href="/dist/v3/copyleaks-plagiarism-report.min.css" type="text/css" rel="stylesheet" />
+
+    <script src="/dist/3rd-party.js"></script>
+    <script src="/dist/v3/copyleaks-plagiarism-report.min.js"></script>
+
+    <script src="/demo/v3/js/directives/cp-report-container-error.js"></script>
+    <script src="/demo/v3/js/app.js"></script>
+    
+</head>
+<body ng-app="ReportDemo" ng-controller="reportHostController">
+    <div style="height: 100%" ng-if="isReportView">
+        <report-container class="copyleaks-report-parent"></report-container>
+    </div>
+    <ng-view></ng-view>
+</body>
+</html>
