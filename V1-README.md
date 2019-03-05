@@ -26,12 +26,12 @@ You will generally folow these steps ( with more details in the next section):
 ### In depth description of integration process:
 1. Make sure the [Demo Report](https://github.com/Copyleaks/plagiarism-report/blob/master/demo/v1/pages/showSuccessReportMultipleSuspect.html "Demo Report") is working for you.
 2. Scan a document using the copyleaks api.
-3. Gather all the results from the copyleaks api:
-    a. Download and store in your storage the report info from: `http://api.copyleaks.com/v1/{product}/{ProcessId}/info`
-    b. Download and store in your storage the report source document from: `http://api.copyleaks.com/v1/downloads/source-text?pid={PID}`
-    c. Download and store in your storage the report results from: `http://api.copyleaks.com/v1/{product}/{scanId}/result`
-    d. Download and store in your storage each result text from: `http://api.copyleaks.com/v1/downloads/result-text?rid={RID}`
-	e. Download and store in your storage each result comparisson matches from: `http://api.copyleaks.com/v1/downloads/comparison?rid={RID}`
+3. Gather all the results from the copyleaks api.
+   1. Download and store in your storage the report info from: `http://api.copyleaks.com/v1/{product}/{ProcessId}/info`
+   1. Download and store in your storage the report source document from: `http://api.copyleaks.com/v1/downloads/source-text?pid={PID}`
+   1. Download and store in your storage the report results from: `http://api.copyleaks.com/v1/{product}/{scanId}/result`
+   1. Download and store in your storage each result text from: `http://api.copyleaks.com/v1/downloads/result-text?rid={RID}`
+   1. Download and store in your storage each result comparisson matches from: `http://api.copyleaks.com/v1/downloads/comparison?rid={RID}`
 	
 	
 *Product can be education or buisnesses	
@@ -41,12 +41,12 @@ You will generally folow these steps ( with more details in the next section):
   b. Customize the `$scope.fillAll` function in file `.demo/v1/js/directives/cp-report-container.js` file to pass the report the data you downloaded at step 2 ( details in the next section).
 
 6. Customize the demo report to show your data:
-  a. Pass 100 to `reportServiceListener.progressChanged` - showing the report is complete.
-  b. Fill the report title and icon using `reportServiceListener.setDocumentProperties`
-  b. pass data you downloaded and stored in step 2.a to `reportServiceListener.onInfoReady`
-  b. pass data you downloaded and stored in step 2.b to `reportServiceListener.onDocumentReady`
-  c. pass data you downloaded and stored in step 2.c to `reportServiceListener.onCompletion`
-  d. pass each match data you downloaded and stored in step 2.d and 2.e to `reportServiceListener.onMatches`.
+   1. Pass 100 to `reportServiceListener.progressChanged` - showing the report is complete.
+   1. Fill the report title and icon using `reportServiceListener.setDocumentProperties`
+   1. pass data you downloaded and stored in step 3.i to `reportServiceListener.onInfoReady`
+   1. pass data you downloaded and stored in step 3.ii to `reportServiceListener.onDocumentReady`
+   1. pass data you downloaded and stored in step 3.iii to `reportServiceListener.onCompletion`
+   1. pass each match data you downloaded and stored in step 3.iv and 3.v to `reportServiceListener.onMatches`.
 
 7. The report now shows your scan.
  
