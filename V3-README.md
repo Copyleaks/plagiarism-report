@@ -15,10 +15,10 @@ There are 3 demos provided:
 3. Error page in which we show there was an error showing the report.
 
 
-# Integrating with the report
-## Outline of process:
+## Integrating with the report
+### Outline of process:
 You will generally folow these steps ( with more details in the next section):
-1. Viewing the demo report and make sure it's working.
+1. Viewing the demo report and make sure it's working in your environment.
 2. Scanning a document using the [Copyleaks API](https://api.copyleaks.com "Copyleaks api homepage").
 3. Downloading the results and storing them.
 4. Creating endpoints in your server for serving the data from the scan.
@@ -113,7 +113,7 @@ Methods exposed by the report (using the `reportServiceListener` service)
 | setSingleSuspectSourcePage | Set the page in single suspect report | 
 | setSingleSuspectSuspectPage| Set the suspect page in single suspect report | 
 
-# Faq
+## Faq
 Q: How to use the report with different frameworks or different versions of angularJs?
 A: There are a few options:
     1. Show report as a standalone page on your server outside of the flow of your app. And possibly show in an iframe.
