@@ -17,7 +17,7 @@ There are 3 demos provided:
 ## Integrating with the report
 ### Outline of process:
 You will generally folow these steps ( with more details in the next section):
-1. Viewing the demo report and make sure it's working.
+1. Viewing the demo report and make sure it's working in your environment.
 2. Scanning a document using the [Copyleaks API](https://api.copyleaks.com "Copyleaks api homepage").
 3. Downloading the results and storing them.
 4. Creating endpoints in your server for serving the data from the scan.
