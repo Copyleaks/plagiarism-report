@@ -2,8 +2,8 @@
 //The communication is handled through the reportServiceListener service, exported from the report module.
 //The reportServiceListener service can recieve action requests and it raises events the host app can listen to.
 function attach_reportContainer(app) {
-    controller.$inject = ["$scope", 'reportServiceListener', '$routeParams', '$route', '$http', '$q', '$location'];
-    function controller($scope, reportServiceListener, $routeParams, $route, $http, $q, $location) {
+    controller.$inject = ["$scope", 'reportServiceListener', '$routeParams', '$route', '$http', '$q', '$location','reportDataService','$timeout'];
+    function controller($scope, reportServiceListener, $routeParams, $route, $http, $q, $location,reportDataService, $timeout) {
 
         //read report type ( single/multiple suspect) from route.
         var reportType = null;
@@ -13,9 +13,8 @@ function attach_reportContainer(app) {
             reportType = reportServiceListener.reportTypes.multipleSuspects;
         }
 
-        var availableContentTypes = ["text/html", "text/plain"];
-
         var contentType = 'html';
+        var sourcesWaitingToDownloadMatches = [];
         var search = $location.search();
         if (search.contentType) {
             contentType = search.contentType;
@@ -133,11 +132,44 @@ function attach_reportContainer(app) {
 
         //Fill Report results ( list of suspects )
         $scope.fillResults = function () {
+            
+            ///Todo: get results from your server and pass to listener
             return $http.get('/demo/v3/data/results.json').then(function (response) {
                 setSourcesSingleSuspectLink(response.data.results.internet); //add link to customize the single suspect url
                 reportServiceListener.onCompletion(response.data);
             return response.data.results;
             });
+        }
+        
+        //Prepare results to download matches
+        $scope.prepareToDownloadMatches = function () {
+            sourcesWaitingToDownloadMatches = underscore.values(reportDataService.sources);
+            downloadSourcesMatches();
+        }
+        
+        var downloadSourcesMatchesTimeout = null;
+        function cancelSourcesMatchesTimeout() {
+            if (downloadSourcesMatchesTimeout) $timeout.cancel(downloadSourcesMatchesTimeout);
+
+        }
+        
+        function downloadSourcesMatches() {
+            var counter = 0;
+
+            if (sourcesWaitingToDownloadMatches.length == 0) {
+                return;
+            }
+
+            for (var i = 0; i < sourcesWaitingToDownloadMatches.length; ++i) {
+                if (counter++ >= 5) break;
+                var result = sourcesWaitingToDownloadMatches[i];
+                // download their text and comparison and pass to report
+                $scope.fillMatch(result.id);
+            }
+
+            sourcesWaitingToDownloadMatches = sourcesWaitingToDownloadMatches.slice(i);
+            cancelSourcesMatchesTimeout();
+            downloadSourcesMatchesTimeout = $timeout(downloadSourcesMatches, 650);
         }
 
         //Set each suspect singleSuspectLink property to allow for custom routing when suspect clicked.
@@ -150,21 +182,23 @@ function attach_reportContainer(app) {
 
         //download report document and pass to report
         $scope.fillDocument = function () {
-        return $http.get('/demo/v3/data/document.json')
+            
+            ///Todo: get scanned document from your server here
+            return $http.get('/demo/v3/data/document.json')
                 .then(function (response) {
                    return reportServiceListener.onDocumentReady(response.data);
                 });
         }
-        var progress = 0;
-
+        
         //simulate report status increment. 
         $scope.incrementStatus = function () {
-            reportServiceListener.progressChanged(progress);
-            progress += 50;
+            reportServiceListener.progressChanged(100);
         }
 
         //download match text and comparison and pass to report
         $scope.fillMatch = function (matchId) {
+            
+            ///Todo: get suspect matches from your db here
             var jsonFileName = "" + matchId + "_comparison.json"; //get text demo file name
             $http.get('/demo/v3/data/' + jsonFileName).then(function (response) {
                 reportServiceListener.onMatches(matchId, response.data);
@@ -174,17 +208,14 @@ function attach_reportContainer(app) {
         //Fill report data
         $scope.fillAll = function () {
             //Fill report status - https://api.copyleaks.com/documentation/education/status
-            $scope.incrementStatus(); $scope.incrementStatus(); $scope.incrementStatus();
+            $scope.incrementStatus();
             //Fill report icon and title ( developer can select any icon and text to fill in report ).
             $scope.fillMetadata('Scanned document', '/images/loginlogo.png');
             //Fill report info - https://api.copyleaks.com/documentation/education/info
 
             $scope.fillDocument()//Fill report document
                 .then($scope.fillResults)//Fill report results - https://api.copyleaks.com/documentation/education/result
-                .then(function (results) {
-                    for (var i = 0; i < results.internet.length; ++i) //there are 10 results in the demo
-                        $scope.fillMatch(results.internet[i].id); // download their text and comparison and pass to report
-                });
+                .then($scope.prepareToDownloadMatches);
         }
 
         $scope.fillAll();
@@ -197,10 +228,6 @@ function attach_reportContainer(app) {
 
                 if (to.$$route.multipleSuspect) { //report switched to multi suspect report
                     reportServiceListener.switchReportType(reportServiceListener.reportTypes.multipleSuspects);
-                    if (reportV3Service.resultid) {
-                        delete reportV3Service.resultid;
-                        reportV3Service.downloadSourcesMatches();
-                    }
                 }
                 else { //report switched to single suspect report
                     reportServiceListener.switchReportType(reportServiceListener.reportTypes.singleSuspect, to.params.resultid);

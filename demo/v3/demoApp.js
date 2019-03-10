@@ -7,7 +7,7 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '/../..')))
 
 app.get('/', (req, res) => {
-	res.sendFile(__dirname + "/index.html");
+	res.sendFile(__dirname + "/pages/index.html");
 })
 
 //Listen to v3 report requests
