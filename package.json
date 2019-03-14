@@ -1,5 +1,5 @@
 {
-  "version": "1.0.20",
+  "version": "1.0.21",
   "name": "@copyleaks/plagiarism-report",
   "private": false,
   "description": "Copyleaks plagiarism report shows the data found by copyleaks api in a visual report. allowing developers to store copyleaks reports in their preferred data storage and display them using the open source report.",
