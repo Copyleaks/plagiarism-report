@@ -18,7 +18,6 @@
         "angular-route": "1.6.9"
     },
     "devDependencies": {
-        "pump": "^3.0.0",
         "grunt-angular-templates": "^1.1.0",
         "gulp": "^3.9.1",
         "gulp-angular-embed-templates": "^2.3.0",
@@ -31,8 +30,6 @@
         "gulp-purifycss": "^0.2.0",
         "gulp-rename": "^1.4.0",
         "gulp-uglify": "^3.0.1",
-        "gulp-watch-less": "^1.0.1",
-        "gulp-watch-less2": "^2.0.4",
         "merge-stream": "^1.0.1",
         "purify-css": "^1.2.5"
     },
