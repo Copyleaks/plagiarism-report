@@ -1,0 +1,30 @@
+﻿<div class="report-container container parent-height full-width" cp-education-report-top-area
+     ng-class="{'one-to-one' : showOneToOne,
+      'parent-height-desktop': parentHeight,
+      'html-report': contentTypeService.contentType.isHtml()}">
+    <cp-report-info></cp-report-info>
+        <cp-scan-progress></cp-scan-progress>
+        <div layout="row" class="contributing-to-height-error error-container" ng-if="reportDataService.isErrored" ng-cloak>
+            <div flex>
+                <div class="bs-callout bs-callout-warning">
+                    <h4 class="normal-font-weight">Scanning Problem</h4>
+                    <p>
+                        {{reportDataService.ErrorMessage}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div layout="row" class="cp-affix-parent contributing-to-height-scan-properties" ng-if="!reportDataService.isErrored">
+            <div flex="100" hide-xs ng-hide="hide">
+                <cp-scan-properties control="scanPropertiesControl"></cp-scan-properties>
+            </div>
+        </div>
+        <div class="parent-height">
+            <div class="almost-parent-height-one-to-one" ng-class="{'margin-top-20' : hidePropertiesSectionCompletely}" ng-if="showOneToOne">
+                <cp-one-to-one-report></cp-one-to-one-report>
+            </div>
+            <div class="parent-height" ng-class="{'margin-top-20' : hidePropertiesSectionCompletely}" ng-if="!showOneToOne">
+                <multi-suspect-report></multi-suspect-report>
+            </div>
+        </div>
+</div>

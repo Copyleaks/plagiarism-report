@@ -1,0 +1,65 @@
+﻿<div class="panel panel-scanned-text parent-height v3-html-page-multi">
+    <div class="panel-heading" layout="row">
+        <div flex></div>
+        <span class="">
+            <md-icon ng-click="zoom < maxZoom && zoomIn()" class="panel-heading-button-with-md-icon" md-font-icon="link" ng-class="{'disabled': zoom == maxZoom}">
+                zoom_in
+            </md-icon>
+            <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                Zoom In
+            </md-tooltip>
+        </span>
+        <span class="">
+            <md-icon class="panel-heading-button-with-md-icon" ng-click="zoom > minZoom && zoomOut()" 
+                     md-font-icon="link" ng-class="{'disabled': zoom == minZoom}">
+                zoom_out
+            </md-icon>
+            <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                Zoom Out
+            </md-tooltip>
+        </span>
+        <span ng-if="!isShared" class="">
+            <a href="" ng-click="download()"><img src="/images/compare-education/formating/file_download/white@3x.svg" /></a>
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Download Your Text
+            </md-tooltip>
+        </span>
+        <span ng-if="!reportDataService.isErrored && reportDataService.showShareButton && reportDataService.scanProgressPercents == 100">
+            <a href="" class="btn-share-report-mobile hide show-custom-small" ng-click="showShareModal()">
+                <md-icon md-font-icon="link" class="panel-heading-button-with-md-icon">share</md-icon>
+            </a>
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Share this report
+            </md-tooltip>
+        </span>
+        <span ng-if="!reportDataService.isErrored && reportDataService.showDownloadPdfReportButton  && reportDataService.scanProgressPercents == 100">
+            <a href="" class="btn-share-report-mobile hide show-custom-small" ng-click="downloadPdfReport()">
+                <md-icon md-svg-src="/images/compare-education/Report@3x.svg" aria-label="download report in pdf format"></md-icon>
+            </a>
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Download report in pdf format
+            </md-tooltip>
+        </span>
+        <span>
+            <a href="" class="btn-share-report-mobile" ng-click="isSwitchTypeVisible ? switchContentType() : angular.noop"
+               ng-class="{'disabeld-anchor' : !isSwitchTypeVisible}">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">
+                    title
+                </md-icon>
+                <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                    Switch between html and text view
+                </md-tooltip>
+            </a>
+        </span>
+    </div>
+    <div class="panel-body panel-body-html results-panel-body multi heigher">
+        <md-progress-circular md-mode="indeterminate" class="hide-during-angular-ng-leave" md-diameter="50px" ng-show="!loaded || reportDataService.working">
+        </md-progress-circular>
+        <md-tooltip md-direction="auto" ng-show="!loaded" class="hide-during-angular-ng-leave" md-delay="500">
+            Loading page...
+        </md-tooltip>
+
+        <iframe id="sourceIframe" width="100%" sandbox="allow-scripts" seamless frameBorder="0" style="max-height: 100%; height:100%"
+                ng-style="iframeStyle"></iframe>
+    </div>
+</div>

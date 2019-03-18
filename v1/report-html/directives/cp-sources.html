@@ -1,0 +1,137 @@
+﻿<div id="sources" class="panel panel-default panel-sources actual-results-height">
+    <div class="panel-heading" id="sources-panel-heading" ng-click="toggleSourcesVisibility($event)" layout="row">
+        <span flex="none" class="visible-xs-inline" id="sources-visibility-toggle" ng-click="toggleSourcesVisibility($event)" ng-class="{'up-arrow': !sourcesVisible, 'down-arrow': sourcesVisible}"></span>
+        <span flex ng-show="mode === MODE_NORMAL" class="mode-normal">Results</span>
+        <span flex ng-show="mode === MODE_LOCKED" class="mode-locked" ng-click="exitLockedMode($event);" ng-if="!isMobile">Results ({{numOfSources}} of {{totalSources}})</span>
+        <span flex="none" ng-show="mode === MODE_LOCKED" ng-if="isMobile">
+            Results ({{numOfSources}} of {{totalSources}})
+        </span>
+        <div flex="none">
+            <span>
+                <img src="/images/compare-education/filter_list/white@3x.svg" class="pointer" ng-click="showFilter($event)"/>
+                <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                    Filter Results
+                </md-tooltip>
+            </span>
+            <span>
+                <img src="/images/compare-education/settings/white@3x.svg" class="pointer" ng-click="showSettings($event)" />
+                <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                    Settings
+                </md-tooltip>
+            </span>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div ng-if="isEmpty">
+            <div class="no-results-div text-center">
+                <img src="/images/compare-education/PilgarFree05.png" height="180" />
+                <div class="no-results-text">Plagiarism Free</div>
+            </div>
+        </div>
+        <div ng-if="!isEmpty && isPageEmpty">
+            <div class="no-results-div text-center">
+                <img src="/images/compare-education/PilgarFreeOne Page.png" height="180" />
+                <div class="no-results-text">This Page Is Plagiarism Free</div>
+            </div>
+        </div>
+        <md-card class="source-card" md-theme="default" md-theme-watch ng-repeat="source in sourcesToShow | orderBy:'-totalMatchedWords' track by $index " ng-class="{'unchecked-source': !source.is_active}">
+            <md-card-title>
+                <md-card-title-text>
+                    <div class="md-headline" layout="row">
+                        <div flex>
+                            <div ng-show="source.status">
+                                <md-tooltip md-direction="bottom" md-delay="500">
+                                    Loading matches...
+                                </md-tooltip>
+                                <md-progress-circular md-mode="indeterminate" class="" md-diameter="25px">
+                                </md-progress-circular>
+                            </div>
+                            <a class="title" ng-class="{'rtl-mode': settings.ui.rtlMode}" href="" ng-click="goToSingleSuspectReport(source)" ng-if="!source.singleSuspectLink">
+                                {{ source.title }}
+                            </a>
+                            <a class="title" ng-class="{'rtl-mode': settings.ui.rtlMode}" ng-href="{{source.singleSuspectLink}}" ng-if="source.singleSuspectLink">
+                                {{ source.title }}
+                            </a>
+                        </div>
+                        <md-button class="md-icon-button visibility-toggle-wrapper" 
+                                   ng-class="{'pull-left': settings.ui.rtlMode}"
+                                   aria-label="Toggle source visibility"
+                                   ng-click="changeVisibilityAndUpdate(source)"
+                                   ng-keypress="changeVisibilityAndUpdateIfEnter($event,source)">
+                            <md-icon ng-if="source.is_active" md-svg-icon="/images/compare-education/visibility/googblue@3x.svg"></md-icon>
+                            <md-icon ng-if="!source.is_active" md-svg-icon="/images/compare-education/visibility_off/grey600@3x.svg"></md-icon>
+                            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                                <span ng-show="source.is_active">
+                                    Hide
+                                </span>
+                                <span ng-show="!source.is_active">
+                                    Show
+                                </span>
+                            </md-tooltip>
+                        </md-button>
+                    </div>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <span class="md-subhead block-with-text" ng-class="{'rtl-mode': settings.ui.rtlMode}">
+                    {{ source.introduction }}
+                </span>
+                <div class="source-url">
+                    <a ng-show="source.url.startsWith('http')" href="{{source.url}}" target="_blank">
+                        {{ source.url | removeProtocol}}
+                        <md-tooltip md-direction="left" md-delay="300">
+                            {{ source.url }}
+                        </md-tooltip>
+                    </a>
+                    <span ng-show="!source.url.startsWith('http')">
+                        {{source.url}}
+                        <md-tooltip md-direction="left" md-delay="300">
+                            {{ source.url }}
+                        </md-tooltip>
+                    </span>
+                </div>
+                <div class="source-stat" ng-show="source.status === 0">
+                    <hr />
+                    <span class="percent" ng-class="{'low': source.totalMatchedPercents<= 20 , 'medium': source.totalMatchedPercents<= 60 &&  source.totalMatchedPercents>=21, 'high': source.totalMatchedPercents> 60}">
+                        <span>
+                            {{ source.totalMatchedWords | prettyNumberWithK }}
+                            <md-tooltip ng-if="source.totalMatchedWords > 999" class="multiline" md-direction="bottom" md-delay="500">
+                                {{ source.totalMatchedWords | prettyNumber }}
+                            </md-tooltip>
+                        </span>
+                        similar words ({{source.totalMatchedPercents}}%)
+                    </span>
+                    <div class="pull-right">
+                        <md-tooltip class="multiline" md-delay="500" md-direction="left">
+                            <div ng-show="source.matches.identicalWordsCounter > 0">
+                                <span class="identical-color">Identical {{ source.matches.identicalWordsCounter }} words</span>
+                                <span ng-show="!settings.showIdentical">
+                                    (disabled)
+                                </span>
+                            </div>
+                            <div ng-show="source.matches.similarWordsCounter > 0">
+                                <span class="similar-color">
+                                    Minor Changes {{ source.matches.similarWordsCounter }} words
+                                </span>
+                                <span ng-show="!settings.showSimilar">
+                                    (disabled)
+                                </span>
+                            </div>
+                            <div ng-show="source.matches.relatedWordsCounter > 0">
+                                <span class="related-color">
+                                    Related Meaning {{ source.matches.relatedWordsCounter }} words
+                                </span>
+                                <span ng-show="!settings.showRelated">
+                                    (disabled)
+                                </span>
+                            </div>
+                        </md-tooltip>
+                        <div ng-show="source.matches.identicalWordsCounter > 0" ng-class="settings.showIdentical ? 'identical-on' : 'identical-off'"></div>
+                        <div ng-show="source.matches.similarWordsCounter > 0" ng-class="settings.showSimilar ? 'similar-on' : 'similar-off'"></div>
+                        <div ng-show="source.matches.relatedWordsCounter > 0" ng-class="settings.showRelated ? 'related-on' : 'related-off'"></div>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>

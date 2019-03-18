@@ -1,0 +1,111 @@
+﻿<div class="panel panel-scanned-text parent-height panel-scanned-text-one-to-one" ng-clock>
+    <div class="burger-menu" ng-show="isBurgerMenuVisible" ng-clock>
+        <div class="burger-menu-item" role="button">
+            <img src="/images/compare-education/formating/format_align_left/white@3x.svg" ng-click="source_set_rtl(false)" />
+        </div>
+        <div class="burger-menu-item" role="button">
+            <img src="/images/compare-education/formating/format_align_right/white@3x.svg" ng-click="source_set_rtl(true)" />
+        </div>
+        <div class="burger-menu-item" role="button">
+            <img src="/images/compare-education/formating/FontSizeUp/white@3x.svg" ng-click="source_font_inc()" />
+        </div>
+        <div class="burger-menu-item" role="button">
+            <img src="/images/compare-education/formating/FontSizeDown/white@3x.svg" ng-click="source_font_dec()" />
+        </div>
+        <div class="burger-menu-item" role="button" ng-if="!isShared">
+            <a href="" ng-click="download()"><img src="/images/compare-education/formating/file_download/white@3x.svg" /></a>
+        </div>
+        <div class="burger-menu-item" role="button" ng-if="pageUrl && pageUrl != 'Uploaded text'" aria-label="visit website">
+            <a ng-href="{{pageUrl}}" class="btn-share-report-mobile">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">launch</md-icon>
+            </a>
+        </div>
+        <div class="burger-menu-item" role="button">
+            <a href="" class="btn-share-report-mobile" ng-click="showShareModal()">
+                <md-icon md-font-icon="link">share</md-icon>
+            </a>
+        </div>
+        <div class="burger-menu-item" role="button">
+            <a href="" class="btn-share-report-mobile" ng-click="isSwitchToHtmlVisible ? switchContentType() : angular.noop()" ng-disabled="!isSwitchToHtmlVisible"
+               ng-class="{'disabeld-anchor' : !isSwitchToHtmlVisible }">
+                <md-icon md-font-icon="link" class="clicked-panel-button">title</md-icon>
+            </a>
+        </div>
+    </div>
+    <div class="panel-heading" layout="row">
+        <div class="one-to-one-page-title" flex>
+            <md-tooltip ng-if="showToolTip">{{pageTitle}}</md-tooltip>
+            {{pageTitle}}
+        </div>
+        <span class="hidden-when-burger">
+            <a href="" class="btn-share-report-mobile"
+               ng-click="isSwitchToHtmlVisible ? switchContentType() : angular.noop"
+               ng-class="{'disabeld-anchor' : !isSwitchToHtmlVisible}">
+                <md-icon class="panel-heading-button-with-md-icon clicked-panel-button"
+                         md-font-icon="link">
+                    title
+                </md-icon>
+                <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                    Switch between html and text view
+                </md-tooltip>
+            </a>
+        </span>
+        <span class="hidden-when-burger">
+            <img src="/images/compare-education/formating/format_align_left/white@3x.svg" ng-click="source_set_rtl(false)" />
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Align Left
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger">
+            <img src="/images/compare-education/formating/format_align_right/white@3x.svg" ng-click="source_set_rtl(true)" />
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Align Right
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger">
+            <img src="/images/compare-education/formating/FontSizeUp/white@3x.svg" ng-click="source_font_inc()" />
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Increase Font Size
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger">
+            <img src="/images/compare-education/formating/FontSizeDown/white@3x.svg" ng-click="source_font_dec()" />
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Decrease Font Size
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger " ng-if="pageUrl && pageUrl != 'Uploaded text'">
+            <a ng-href="{{pageUrl}}" class="btn-share-report-mobile" aria-label="visit website">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">launch</md-icon>
+            </a>
+            <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                Visit Website
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger" ng-if="!isShared">
+            <a href="" ng-click="download()"><img src="/images/compare-education/formating/file_download/white@3x.svg" /></a>
+            <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                Download Your Text
+            </md-tooltip>
+        </span>
+        <span class="hidden visible-when-burger">
+            <a href="" ng-click="toggleBurger()">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">menu</md-icon>
+            </a>
+        </span>
+    </div>
+    <div class="panel-body panel-body-scrollable flexcroll" ng-class="{'heigher': paginationObject.pagination.total_pages == 1 && otherPageObject.pagination.total_pages == 1,
+         'results-panel-body': !highlighted_text || !control.hasResult }">
+        <md-progress-circular md-mode="indeterminate" class="pull-left hide-during-angular-ng-leave" md-diameter="50px" ng-show="!highlighted_text || !control.hasResult">
+        </md-progress-circular>
+        <pre ng-show="highlighted_text" ng-bind-html-compile="highlighted_text | unsafe" compile-tags="span" style="font-size: {{ pageSettings.ui.fontSize }}px;"
+             ng-class="{'rtl-mode': pageSettings.ui.rtlMode, 'identical-on': settings.showIdentical, 'similar-on': settings.showSimilar, 'related-on': settings.showRelated}"></pre>
+    </div>
+    <div class="panel-footer" ng-hide="!highlighted_text || paginationObject.pagination.total_pages == 1 && otherPageObject.pagination.total_pages == 1">
+        <div class="one-to-one-pagination-row">
+            <cp-pagination2 pagination="paginationObject.pagination" control="paginationObject.control"
+                           on-changed="paginationObject.changed()" initial-sources="paginationObject.results"></cp-pagination2>
+        </div>
+    </div>
+</div>
+

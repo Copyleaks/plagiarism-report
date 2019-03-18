@@ -1,0 +1,58 @@
+﻿<div ng-cloak class="parent-height contributing-to-height-page" ng-if="!reportDataService.isErrored" cp-on-resize>
+    <!--TEXT-->
+    <div flex-gt-lg="75" flex-gt-xs="67" flex="100"
+         ng-if="contentTypeService.contentType.isText()"
+         class="almost-parent-height"
+         id="my-affix"
+         ng-class="{'no-pagination': !document_pagination.ready || document_pagination.total_pages == 1}">
+            <md-card layout="row" class="parent-height">
+                <div flex class="parent-height overflow-x-hidden">
+                    <cp-page focus-results="focusResults(items)"
+                             unfocus="unfocusResults()"
+                             document-pagination="document_pagination"
+                             switch-content-type="switchToHtmlContentType()"></cp-page>
+                </div>
+            </md-card>
+            <div layout="row" class="pagination-row" ng-show="document_pagination.current > 0 && document_pagination.total_pages > 1">
+                <div flex>
+                    <cp-pagination2 pagination="document_pagination" control="paginationControl"
+                                    on-changed="source_page_changed(pagination);" initial-sources="paginationObject.results"></cp-pagination2>
+                </div>
+            </div>
+            <div layout="row" class="one-to-one-footer my-target">
+                <span>Powered by</span><a href="https://copyleaks.com" alt="Copyleaks.com"><img src="/images/small_logo_black.png" /></a>
+            </div>
+    </div>
+    <!--HTML-->
+    <div class="almost-parent-height no-pagination content-div"
+         id="my-affix"
+         ng-if="contentTypeService.contentType.isHtml()">
+        <md-card layout="row" class="parent-height">
+            <div flex class="parent-height overflow-x-hidden">
+                <cp-html-page focus-results="focusResults(items)"
+                              unfocus="unfocusResults()"
+                              switch-content-type="switchToTextContentType()"></cp-html-page>
+            </div>
+        </md-card>
+        <div layout="row" class="pagination-row" ng-show="document_pagination.current > 0 && document_pagination.total_pages > 1">
+            <div flex>
+                <cp-pagination2 pagination="document_pagination" control="paginationControl"
+                                on-changed="source_page_changed(pagination);" initial-sources="paginationObject.results"></cp-pagination2>
+            </div>
+        </div>
+        <div layout="row" class="one-to-one-footer my-target">
+            <span>Powered by</span><a href="https://copyleaks.com" alt="Copyleaks.com"><img src="/images/small_logo_black.png" /></a>
+        </div>
+    </div>
+    <div class="result-div">
+        <md-card id="result-column-next-to-affix">
+            <div layout="row">
+                <div flex class="actual-results">
+                    <cp-sources sources="sources" selection-changed="updateCurrentPageMatchesAndStatistics()"
+                                locked-sources="lockedSources" pagination="document_pagination"
+                                control="sourceListControl"></cp-sources>
+                </div>
+            </div>
+        </md-card>
+    </div>
+</div>

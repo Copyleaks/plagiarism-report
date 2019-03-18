@@ -1,0 +1,32 @@
+﻿<md-card ng-if="reportDataService.scanProgressPercents < 100 && !reportDataService.isErrored" ng-cloak layout="row" class="contributing-to-height-scan-progress scan-progress">
+    <div flex="100">
+        <div class="panel panel panel-progress">
+            <div class="panel-heading">
+                <i class="material-icons" ng-show="panelVisible ">
+                    hourglass_empty
+                </i>
+                Scanning Status
+            </div>
+            <div class="panel-body">
+                <md-progress-linear md-mode="determinate" value="{{reportDataService.scanProgressPercents}}"></md-progress-linear>
+                <div class="text">
+                    <div ng-if="reportDataService.scanProgressPercents <= 5">
+                        Analyzing your content...
+                    </div>
+                    <div ng-if="reportDataService.scanProgressPercents > 5 && reportDataService.scanProgressPercents <= 30">
+                        Searching more than 30 billion pages online to find matches...
+                    </div>
+                    <div ng-if="reportDataService.scanProgressPercents > 30 && reportDataService.scanProgressPercents < 95">
+                        Comparing your text...
+                    </div>
+                    <div ng-if="reportDataService.scanProgressPercents >= 95 && !calculatingScores">
+                        Final touches
+                    </div>
+                    <div ng-if="reportDataService.scanProgressPercents >= 95 && calculatingScores">
+                        Calculating score...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-card>

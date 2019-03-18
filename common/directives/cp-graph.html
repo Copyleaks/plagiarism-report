@@ -1,0 +1,17 @@
+﻿<div ng-if="!ready" class="loading-indicator">
+    <md-tooltip md-direction="bottom" md-delay="500">
+        Computing statistics graph...
+    </md-tooltip>
+    <md-progress-circular md-mode="indeterminate" class="pull-left" md-diameter="20px">
+    </md-progress-circular>
+    <label>Computing...</label>
+</div>
+<div ng-if="ready" class="position-relative">
+    <div class="cp-graph-wrapper" ng-if="ready">
+        <canvas 
+                id="pie" class="chart chart-pie"
+                chart-data="data" chart-labels="labels" chart-options="options"
+                chart-click="onClick"
+                chart-colors="colors"></canvas>
+    </div>
+</div>

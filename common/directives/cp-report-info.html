@@ -1,0 +1,48 @@
+﻿<div layout="column" layout-gt-xs="row" class="report-info contributing-to-height-report-info" ng-hide="hideReportInfo">
+    <a href="" ng-click="goBack()" class="title-back-link" ng-if="reportDataService.isBackButtonVisible">
+        <md-icon md-font-icon="link">arrow_back</md-icon>
+    </a>
+    <a ng-click="raiseIconClick()" hide-xs>
+        <div class="report-type-image">
+            <img ng-src="{{reportDataService.reportIcon}}" />
+        </div>
+    </a>
+    <div layout="row" flex>
+        <div class="scan-title" flex layout="column">
+            <h1 class="ellipsis-text" ng-cloak flex>
+                {{reportDataService.reportTitle}}
+            </h1>
+            <div class="compare-image-height-filler" ng-if="reportDataService.isErrored">
+            </div>
+            <div class="scan-metadata" ng-if="getScanTime()">
+                <time ng-if="isRequestTimeInTheFuture()">
+                    a few seconds ago
+                </time>
+                <time ng-if="!isRequestTimeInTheFuture()" am-time-ago="getScanTime() | amUtc | amLocal "></time>
+            </div>
+        </div>
+        <div class="suspected-info-border" ng-hide="hideStatistics" ng-if="!reportDataService.isErrored">
+            <cp-statistics control="statisticsControl" ng-if="reportDataService.showStatisticControls"></cp-statistics>
+        </div>
+        <md-button class="suspected-info btn-share-report"
+                   ng-if="!reportDataService.isErrored && reportDataService.showShareButton && reportDataService.scanProgressPercents == 100"
+                   ng-class="{'hidden-when-burger': reportDataService.type== reportDataService.reportTypes.singleSuspect,
+                        'multi': reportDataService.type== reportDataService.reportTypes.multipleSuspects}"
+                   ng-click="showShareModal()" layout="row" layout-align="center center">
+            <md-icon md-font-icon="link">share</md-icon>
+            <span class="hide-sm">
+                Share
+            </span>
+        </md-button>
+        <md-button class="suspected-info download btn-share-report"
+                   ng-if="!reportDataService.isErrored && reportDataService.showDownloadPdfReportButton && reportDataService.scanProgressPercents == 100"
+                   ng-class="{'hidden-when-burger': reportDataService.type== reportDataService.reportTypes.singleSuspect,
+                        'multi': reportDataService.type== reportDataService.reportTypes.multipleSuspects}"
+                   ng-click="downloadPDF()" layout="row" layout-align="center center">
+            <md-icon md-svg-src="/images/compare-education/Report@3x.svg" aria-label="download report in pdf format"></md-icon>
+            <span class="hide-sm">
+                Download
+            </span>
+        </md-button>
+    </div>
+</div>

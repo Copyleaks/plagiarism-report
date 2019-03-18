@@ -1,0 +1,40 @@
+﻿<md-dialog aria-label="Filter results" class="modal-dialog copyleaks-report-parent">
+    <form ng-cloak>
+        <md-toolbar>
+            <div layout="row" class="flex-center-center">
+                <h4 class="modal-title" flex>Results Filter</h4>
+                <md-button ng-click="close()" class="md-icon-button" aria-label="close filter dialog">
+                    <i class="material-icons">
+                        close
+                    </i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="filter-dialog-content">
+            <md-input-container class="md-block no-gap-bottom">
+                <label layout="row">
+                    <i class="material-icons" aria-hidden="true">
+                        search
+                    </i>
+                    Filtered by Results
+                </label>
+                <input ng-model="source_filter_query">
+            </md-input-container>
+            <ul class="filtered-list list-unstyled flexcroll">
+                <li ng-repeat="source in allSources | orderBy:'title' | filter: {url: source_filter_query} as filtered_sources track by $index"
+                    ng-class="{'unchecked-source': !source.is_active}" title="{{source.url}}"
+                    ng-click="changeSourceVisibilityStatus(source);">
+                    <span ng-class="source.is_active ? 'visibility-on' : 'visibility-off'"></span>
+                    <span class="ellipsis-text">{{ source.title }}</span>
+                </li>
+            </ul>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <div flex layout="column">
+                <a ng-click="uncheckAll()">Hide all results</a>
+                <a ng-click="checkAll()">Show all results</a>
+            </div>
+            <md-button class="md-raised md-primary" ng-click="close()">Close</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

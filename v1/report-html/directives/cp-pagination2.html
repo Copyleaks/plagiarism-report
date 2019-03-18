@@ -1,0 +1,30 @@
+﻿<div class="pagination2">
+    <div class="pagination-back">
+        <md-button class="md-icon-button hide-when-really-small" aria-label="First page" ng-click="findMatchBackwards()" ng-disabled="!isExistMatchesBackward">
+            <md-icon md-font-icon="link">first_page</md-icon>
+            <md-tooltip md-direction="top">Go to previous page with matches</md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More" ng-click="source_back()" ng-disabled="source_back_disabled">
+            <md-icon md-font-icon="link">navigate_before</md-icon>
+        </md-button>
+    </div>
+
+    <div class="pagination-center">
+        <md-input-container>
+            <input type="number" ng-model="pagination.current" ng-change="page_changed()" ng-model-options="{ updateOn: 'blur'}"
+                   min="1" max="{{pagination.total_pages}}" 
+                   update-on-enter
+                   class="text-center"/>
+        </md-input-container>
+        <span> of &nbsp;&nbsp;{{pagination.total_pages}}</span>
+    </div>
+    <div class="pagination-forward">
+        <md-button class="md-icon-button" aria-label="First page" ng-click="source_next()" ng-disabled="source_next_disabled">
+            <md-icon md-font-icon="link">navigate_next</md-icon>
+        </md-button>
+        <md-button class="md-icon-button hide-when-really-small" aria-label="More" ng-click="findMatchForwards()" ng-disabled="!isExistMatchesForward">
+            <md-icon md-font-icon="link">last_page</md-icon>
+            <md-tooltip md-direction="top">Go to next page with matches</md-tooltip>
+        </md-button>
+    </div>
+</div>

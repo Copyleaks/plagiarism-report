@@ -1,0 +1,54 @@
+﻿<md-dialog aria-label="settings dialog" class="modal-dialog copyleaks-report-parent" id="share-form">
+    <form ng-cloak>
+        <md-toolbar>
+            <div layout="row" class="flex-center-center">
+                <h4 class="modal-title" flex>Share with others</h4>
+                <md-button ng-click="close()" class="md-icon-button" aria-label="close filter dialog">
+                    <i class="material-icons" aria-hidden="true">
+                        close
+                    </i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="settings-dialog-content">
+            <div class="modal-body">
+                <div layout="row">
+                    <div flex="100" class="anyone-can-share-label">
+                        <div ng-show="!urlForSharing && !deleted">
+                            <md-tooltip md-direction="bottom" style="margin-right:10px" md-delay="500">
+                                Generating Share url
+                            </md-tooltip>
+                            <md-progress-circular md-mode="indeterminate" class="pull-left" md-diameter="25px">
+                            </md-progress-circular>
+                        </div>
+                        <md-label>Use this URL to share the comparison report</md-label>
+                    </div>
+
+                </div>
+                <div layout="row">
+                    <div flex="100">
+                        <md-input-container class="md-block">
+                            <md-icon md-font-icon="link">link</md-icon>
+                            <input id="share-link-input" type="text" aria-label="Share this comparison report" ng-model="urlForSharing" readonly onClick="this.setSelectionRange(0, this.value.length)" />
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" class="sharing-info-section" ng-if="!disableDelete">
+                    <div flex="9">
+                        <md-icon>lock_outline</md-icon>
+                    </div>
+                    <div flex="91">
+                        <div>
+                            You can <a href="" ng-click="deleteSharedLink()">revoke access</a> from others seeing this report
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <div layout="row" class="sharing-actions" flex>
+                <md-button class="md-raised md-primary" ng-click="close()" ng-disabled="saveDisabled">OK</md-button>
+            </div>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

@@ -1,0 +1,40 @@
+﻿//@import "/lib/bootstrap/less/variables";
+
+@screen-sm: 768px;
+@screen-sm-min: @screen-sm;
+
+@screen-xs-max: (@screen-sm-min - 1);
+@screen-lg: 1200px;
+@screen-lg-min: @screen-lg;
+@screen-md-max: (@screen-lg-min - 1);
+
+@logo-blue-color: #17A1FF;
+@dark-blue-color: #337ab7;
+@warning-color: #ff6a00;
+@highlight-identical: rgba(255, 102, 102, 0.6);
+@highlight-similar: rgba(255, 154, 154, 0.6);
+@highlight-related: rgba(255, 217, 176, 0.6);
+@highlight-identical-underline: rgba(255, 102, 102, 0.9);
+@highlight-similar-underline: rgba(255, 154, 154, 0.9);
+@highlight-related-underline: rgba(255, 217, 176, 0.9);
+
+
+.identical-on .highlight-1 {
+    background: @highlight-identical;
+    cursor: pointer;
+}
+
+.similar-on .highlight-2 {
+    background: @highlight-similar;
+    cursor: pointer;
+}
+
+.related-on .highlight-3 {
+    background: @highlight-related;
+    cursor: pointer;
+}
+
+.highlight-4 {
+    opacity: 0.5;
+    font-style: italic;
+}

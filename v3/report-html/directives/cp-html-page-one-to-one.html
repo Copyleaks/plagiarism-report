@@ -1,0 +1,98 @@
+﻿<div class="panel panel-scanned-text parent-height panel-scanned-text-one-to-one" ng-clock>
+    <div class="burger-menu" ng-show="isBurgerMenuVisible">
+        <div class="burger-menu-item" role="button">
+            <a href="" ng-click="zoom < maxZoom && zoomIn()" ng-class="{'disabled': zoom == maxZoom}">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">zoom_in</md-icon>
+            </a>
+        </div>
+        <div class="burger-menu-item" role="button">
+            <a href="" ng-click="zoom > minZoom && zoomOut()" ng-class="{'disabled': zoom == minZoom}">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">zoom_out</md-icon>
+            </a>
+        </div>
+        <div class="burger-menu-item" role="button" ng-if="!isShared">
+            <a href="" ng-click="download()"><img src="/images/compare-education/formating/file_download/white@3x.svg" /></a>
+        </div>
+        <div class="burger-menu-item" role="button" ng-if="pageUrl" aria-label="visit website">
+            <a ng-href="{{pageUrl}}" class="btn-share-report-mobile">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">launch</md-icon>
+            </a>
+        </div>
+        <div class="burger-menu-item" role="button">
+            <a href="" class="btn-share-report-mobile" ng-click="showShareModal()">
+                <md-icon md-font-icon="link">share</md-icon>
+            </a>
+        </div>
+        <div class="burger-menu-item" role="button">
+            <a href="" class="btn-share-report-mobile" ng-click="downloadPdfReport()">
+                <md-icon md-svg-src="/images/compare-education/Report@3x.svg" aria-label="download report in pdf format"></md-icon>
+            </a>
+        </div>
+        <div class="burger-menu-item" role="button">
+            <a href="" class="btn-share-report-mobile" ng-click="switchContentType()">
+                <md-icon md-font-icon="link">title</md-icon>
+            </a>
+        </div>
+    </div>
+    <div class="panel-heading" layout="row">
+        <div class="one-to-one-page-title" flex>
+            <md-tooltip ng-if="showToolTip">{{pageTitle}}</md-tooltip>
+            {{pageTitle}}
+        </div>
+        <span class="hidden visible-when-burger">
+            <a href="" ng-click="toggleBurger()">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">menu</md-icon>
+            </a>
+        </span>
+        <span class="hidden-when-burger">
+            <a href="" class="btn-share-report-mobile"
+               ng-click="switchContentType()">
+                <md-icon class="panel-heading-button-with-md-icon"
+                         md-font-icon="link">
+                    title
+                </md-icon>
+                <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                    Switch between html and text view
+                </md-tooltip>
+            </a>
+        </span>
+        <span class="hidden-when-burger">
+            <md-icon class="panel-heading-button-with-md-icon" ng-click="zoom > minZoom && zoomOut()" md-font-icon="link" ng-class="{'disabled': zoom == minZoom}">
+                zoom_out
+            </md-icon>
+            <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                Zoom Out
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger">
+            <md-icon ng-click="zoom < maxZoom && zoomIn()" class="panel-heading-button-with-md-icon" md-font-icon="link" ng-class="{'disabled': zoom == maxZoom}">
+                zoom_in
+            </md-icon>
+            <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                Zoom In
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger" ng-if="pageUrl">
+            <a ng-href="{{pageUrl}}" class="btn-share-report-mobile" aria-label="visit website">
+                <md-icon class="panel-heading-button-with-md-icon" md-font-icon="link">launch</md-icon>
+            </a>
+            <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                Visit Website
+            </md-tooltip>
+        </span>
+        <span class="hidden-when-burger" ng-if="!isShared">
+            <a href="" ng-click="download()"><img src="/images/compare-education/formating/file_download/white@3x.svg" /></a>
+            <md-tooltip md-direction="bottom" md-autohide="true" md-delay="500">
+                Download Your Text
+            </md-tooltip>
+        </span>
+    </div>
+    <div class="panel-body panel-body-html" 
+         ng-class="{'results-panel-body': !loaded || reportDataService.working, 'heigher': !paginationObject || paginationObject.pagination.total_pages == 1 && otherPageObject.pagination.total_pages == 1}">
+        <md-progress-circular md-mode="indeterminate" class="pull-left hide-during-angular-ng-leave" md-diameter="50px" ng-show="!loaded || reportDataService.working">
+        </md-progress-circular>
+        <iframe class="content-iframe" sandbox="allow-scripts" seamless frameBorder="0" style="height:100%;width:100%;"
+                ng-style="iframeStyle"></iframe>
+    </div>
+</div>
+

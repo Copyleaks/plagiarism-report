@@ -1,0 +1,55 @@
+﻿<md-dialog aria-label="settings dialog" class="modal-dialog copyleaks-report-parent ">
+    <form ng-cloak>
+        <md-toolbar>
+            <div layout="row" class="flex-center-center">
+                <h4 class="modal-title" flex>Settings</h4>
+                <md-button ng-click="close()" class="md-icon-button" aria-label="close filter dialog">
+                    <i class="material-icons" aria-hidden="true">
+                        close
+                    </i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="settings-dialog-content">
+            <div class="modal-body">
+                <md-switch ng-model="tempSettings.showPageSources" aria-label="Show only sources with matches in page" ng-click="enableSave();">
+                    <span hide-xs>View sources with matches in page</span>
+                </md-switch>
+                <label class="md-title" hide show-xs>View sources with matches in page</label>
+                <md-switch ng-model="tempSettings.showOnlyTopResults" aria-label="Related Meaning" ng-click="enableSave();">
+                    <span hide-xs>Show only top 100 relevant results</span>
+                </md-switch>
+                <div class="md-title" hide show-xs>Show only top 100 relevant results</div>
+                <label class="warning" ng-if="!tempSettings.showOnlyTopResults">If disabled, the scan may be slowed down</label>
+                <md-divider style="margin:20px 0;"></md-divider>
+                <ul class="list-unstyled">
+                    <li>
+                        <md-checkbox ng-model="tempSettings.showIdentical" aria-label="Identical" ng-click="enableSave();" ng-disabled="!tempSettings.showSimilar && !tempSettings.showRelated">
+                            Identical
+                        </md-checkbox>
+                    </li>
+                    <li>
+                        <md-checkbox ng-model="tempSettings.showSimilar" aria-label="Similar" ng-click="enableSave();" ng-disabled="!tempSettings.showIdentical&& !tempSettings.showRelated">
+                            Minor Changes
+                        </md-checkbox>
+                    </li>
+                    <li>
+                        <md-checkbox ng-model="tempSettings.showRelated" aria-label="Related Meaning" ng-click="enableSave();" ng-disabled="!tempSettings.showIdentical && !tempSettings.showSimilar">
+                            Related Meaning
+                        </md-checkbox>
+                    </li>
+                </ul>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <div layout="row" class="settings-actions" flex>
+                <div>
+                    <md-checkbox ng-model="settings_make_default" aria-label="Set default" ng-click="enableSave();">
+                        Set as default for all scans
+                    </md-checkbox>
+                </div>
+                <md-button class="md-raised md-primary" ng-click="saveSettings()" ng-disabled="saveDisabled">Save</md-button>
+            </div>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

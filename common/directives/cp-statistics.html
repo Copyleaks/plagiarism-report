@@ -1,0 +1,32 @@
+﻿<div class="statistics-control">
+    <div class="suspected-words">
+        Suspected Words
+    </div>
+    <div ng-if="!ready" class="loading-indicator">
+        <md-tooltip md-direction="bottom" md-delay="500">
+            Computing statistics...
+        </md-tooltip>
+        <md-progress-circular md-mode="indeterminate" class="pull-left" md-diameter="20px">
+        </md-progress-circular>
+        <label>Computing...</label>
+    </div>
+    <div ng-if="ready" layout="column">
+        <div layout="row" layout-align="start center">
+            <div class="suspected-indicator" ng-class="{'low': total <= 20 , 'medium': total <= 60 &&  total>=21, 'high': total > 60}">
+                {{total| number:0}}%
+            </div>
+            <span class="suspected-indicator-icon">
+                <md-icon class="cl-info">info_outline</md-icon>
+                <md-tooltip md-direction="left" md-autohide="true" md-delay="500">
+                    {{total| number:0}}% of this content is similar to other sources
+                </md-tooltip>
+            </span>
+        </div>
+        <div class="suspected-counter" ng-class="{'low': total <= 20 , 'medium': total <= 60 &&  total>=21, 'high': total > 60}">
+            {{statistics.totalCopiedWords | prettyNumberWithK}} Words Copied
+            <md-tooltip md-direction="left" md-autohide="true" ng-if="statistics.totalCopiedWords >= 1000" md-delay="500">
+                {{statistics.totalCopiedWords | number}} Words Copied
+            </md-tooltip>
+        </div>
+    </div>
+</div>

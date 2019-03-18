@@ -1,0 +1,53 @@
+﻿<div class="container parent-height main-container">
+    <div ng-cloak layout-xs="column" layout="row" class="parent-height contributing-to-height-page" ng-if="!reportDataService.isErrored" cp-on-resize>
+        <md-card flex-xs="100" flex-gt-xs="50" class="source-page one-to-one-page">
+            <div class="parent-height overflow-x-hidden">
+                <cp-one-to-one-page control="page1Control"
+                                    ng-if="contentTypeService.contentType.isText()"
+                                    text="sourceText"
+                                    focus-result="page1Selected(items)"
+                                    page-title="sourceTitle"
+                                    page-url="sourceUrl"
+                                    page-type="{{reportDataService.pageTypes.source}}"
+                                    pagination-object="sourcePaginationObject"
+                                    other-page-object="suspectPaginationObject"
+                                    switch-content-type="switchContentType()"></cp-one-to-one-page>
+                <cp-one-to-one-html-page control="page1Control"
+                                         ng-if="contentTypeService.contentType.isHtml()"
+                                         text="sourceText"
+                                         focus-result="page1Selected(items)"
+                                         page-title="sourceTitle"
+                                         page-type="{{reportDataService.pageTypes.source}}"
+                                         page-url="sourceUrl"
+                                         pagination-object="sourcePaginationObject"
+                                         other-page-object="suspectPaginationObject"
+                                         switch-content-type="switchContentType()"></cp-one-to-one-html-page>
+            </div>
+        </md-card>
+        <md-card flex-xs="100" flex-gt-xs="50" class="suspect-page one-to-one-page">
+            <div class="parent-height overflow-x-hidden">
+                <cp-one-to-one-page control="page2Control" text="resultText"
+                                    ng-if="!result.contentType ||contentTypeService.isTextContentType(result.contentType)"
+                                    focus-result="page2Selected(items)"
+                                    page-title="suspectTitle"
+                                    page-url="suspectUrl"
+                                    page-type="{{reportDataService.pageTypes.suspect}}"
+                                    pagination-object="suspectPaginationObject"
+                                    other-page-object="sourcePaginationObject"
+                                    switch-content-type="switchContentType()"></cp-one-to-one-page>
+                <cp-one-to-one-html-page control="page2Control" text="resultText"
+                                         ng-if="result.contentType && contentTypeService.isHtmlContentType(result.contentType)"
+                                         focus-result="page2Selected(items)"
+                                         page-title="suspectTitle"
+                                         page-type="{{reportDataService.pageTypes.suspect}}"
+                                         page-url="suspectUrl"
+                                         pagination-object="suspectPaginationObject"
+                                         other-page-object="sourcePaginationObject"
+                                         switch-content-type="switchContentType()"></cp-one-to-one-html-page>
+            </div>
+        </md-card>
+    </div>
+    <div layout="row" class="one-to-one-footer">
+        <span>Powered by</span><a href="https://copyleaks.com" alt="Copyleaks.com"><img src="/images/small_logo_black.png" /></a>
+    </div>
+</div>

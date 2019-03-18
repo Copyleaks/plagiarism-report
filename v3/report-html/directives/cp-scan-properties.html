@@ -1,0 +1,36 @@
+﻿<md-card>
+    <div class="panel panel-properties" ng-class="{'when-status-is-shown': reportDataService.scanProgressPercents < 100 }">
+        <md-button ng-click="togglePanel()">
+            <span>Scan Properties</span>
+            <i class="material-icons" ng-show="panelVisible ">
+                expand_less
+            </i>
+            <i class="material-icons" ng-show="!panelVisible">
+                expand_more
+            </i>
+        </md-button>
+        <div id="scan-properties" class="in top-border">
+            <div layout="row" layout-fill>
+                <div flex-gt-md="67" flex-md="58" flex-xs="42" flex>
+                    <div class="panel-body">
+                        <div>
+                            Words in Document: {{reportDataService.scanned_document.metadata.words | number }}
+                        </div>                   
+                        <div>
+                            <span ng-if="reportDataService.scanned_document.metadata.excluded > 0">Omitted Words: {{reportDataService.scanned_document.metadata.excluded | number}}</span>
+                        </div>
+                        <div ng-if="reportDataService.type== reportDataService.reportTypes.multipleSuspects && reportDataService.sourceCount  > 0">
+                            Results Found: {{reportDataService.sourceCount | number }}
+                        </div>
+                    </div>
+                </div>
+                <div flex-gt-md="11" flex-md="21" flex-xs="27">
+                    <cp-graph control="graphControl"></cp-graph>
+                </div>
+                <div flex-gt-md="22" flex-md="21" flex-xs="27">
+                    <cp-graph-legend control="graphLegendControl"></cp-graph-legend>
+                </div>
+            </div>
+        </div>
+    </div>
+</md-card>

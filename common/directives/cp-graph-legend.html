@@ -1,0 +1,16 @@
+﻿<div class="cp-graph-legend">
+    <div ng-repeat="legendItem in sources" class="legend-item" ng-show="settings[legendItem.setting]">
+        <div class="box-wrapper">
+            <div class="color-box" ng-style="legendItem.colorBoxStyle"></div>
+        </div>
+        <div class="legend-title">{{legendItem.text}}</div>
+        <span class="legend-info">
+            <md-tooltip md-autohide="true" md-delay="500">
+                {{legendItem.tooltipText}}
+            </md-tooltip>
+        </span>
+        <div class="legend-percent" ng-if="legendItem.percent == 0">0%</div>
+        <div class="legend-percent" ng-if="legendItem.percent >= 1">{{legendItem.percent | number:0}}%</div>
+        <div class="legend-percent" ng-if="legendItem.percent < 1 && legendItem.percent > 0">&lt;1%</div>
+    </div>
+</div>

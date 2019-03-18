@@ -1,0 +1,37 @@
+﻿@screen-sm: 768px;
+@screen-sm-min: @screen-sm;
+
+@screen-xs-max: (@screen-sm-min - 1);
+@screen-lg: 1200px;
+@screen-lg-min: @screen-lg;
+@screen-md-max: (@screen-lg-min - 1);
+
+@logo-blue-color: #17A1FF;
+@dark-blue-color: #337ab7;
+@warning-color: #ff6a00;
+@highlight-identical: rgba(255, 102, 102, 0.6);
+@highlight-similar: rgba(255, 154, 154, 0.6);
+@highlight-related: rgba(255, 217, 176, 0.6);
+@highlight-identical-underline: rgba(255, 102, 102, 0.9);
+@highlight-similar-underline: rgba(255, 154, 154, 0.9);
+@highlight-related-underline: rgba(255, 217, 176, 0.9);
+@identical-color: rgb(255, 102, 102);
+@similar-color: rgb(255, 154, 154);
+@related-color: rgb(255, 217, 176);
+
+@indicator-border: #707070;
+
+@material-screen-md-min: 992px;
+@screen-md-min: 992px;
+@screen-sm-max: (@screen-md-min - 1);
+
+@screen-burger-width-max: 600px;
+@screen-burger-width-max-plus-one: (@screen-burger-width-max + 1px);
+/* fallback */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(/fonts/MaterialIcons-Regular.woff2) format('woff2'), url(/fonts/MaterialIcons-Regular.woff) format('woff'), url(/fonts/MaterialIcons-Regular.ttf) format('truetype');
+}

@@ -1,0 +1,17 @@
+﻿<div class="nav-strip contributing-to-height-1" ng-hide="hideHeader" ng-cloak>
+    <div class="container bread-crumb-header full-width">
+        <span ng-repeat="segment in segments">
+            <a ng-if="!$last && segment.path" class="nav-item" ng-href="{{segment.path}}" target="_self">{{segment.name}} /</a>
+            <a ng-if="!$last && segment.onClick" class="nav-item" href="" ng-click="segment.onClick();" target="_self">{{segment.name}} /</a>
+            <span ng-if="$last">{{segment.name}}</span>
+        </span>
+    </div>
+</div>
+<div class="nav-strip contributing-to-height-2" ng-show="comingFromTwoFilesCompare" ng-cloak>
+    <div class="container bread-crumb-header full-width">
+        <a class="nav-item" href="/" target="_self">Home</a>
+        /
+        <a class="nav-item" href="/compare" target="_self">Compare Two Documents</a>
+        / Your comparison
+    </div>
+</div>
