@@ -1,6 +1,6 @@
 {
-    "version": "1.0.1",
-    "name": "asp.net",
+    "version": "1.0.21",
+    "name": "plagiarism-report",
     "private": true,
     "dependencies": {
         "angular": "1.6.9",
