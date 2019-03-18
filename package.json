@@ -35,6 +35,7 @@
     },
     "scripts": {
         "demoV3": "node ./hosts/v3/demoApp.js",
-        "demoV1": "node ./hosts/v1/demoApp.js"
+        "demoV1": "node ./hosts/v1/demoApp.js",
+		"build": "./node_modules/.bin/gulp"
     }
 }
