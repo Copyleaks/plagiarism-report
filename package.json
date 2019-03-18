@@ -1,41 +1,56 @@
 {
-    "version": "1.0.22",
-    "name": "plagiarism-report",
-    "private": true,
-    "dependencies": {
-        "angular": "1.6.9",
-        "angular-animate": "1.6.9",
-        "angular-aria": "1.6.9",
-        "angular-chart.js": "1.1.1",
-        "angular-material": "1.1.10",
-        "angular-moment": "1.2.0",
-        "angular-sanitize": "1.6.9",
-        "angular-ui-validate": "1.2.3",
-        "chart.js": "2.7.0",
-        "express": "^4.16.4",
-        "jquery": "3.1.0",
-        "underscore": "1.9.1",
-        "angular-route": "1.6.9"
-    },
-    "devDependencies": {
-        "grunt-angular-templates": "^1.1.0",
-        "gulp": "^3.9.1",
-        "gulp-angular-embed-templates": "^2.3.0",
-        "gulp-angular-templatecache": "2.2.5",
-        "gulp-concat": "^2.6.1",
-        "gulp-csso": "^3.0.1",
-        "gulp-less": "3.3.0",
-        "gulp-minify-html": "1.0.6",
-        "gulp-ngmin": "0.3.0",
-        "gulp-purifycss": "^0.2.0",
-        "gulp-rename": "^1.4.0",
-        "gulp-uglify": "^3.0.1",
-        "merge-stream": "^1.0.1",
-        "purify-css": "^1.2.5"
-    },
-    "scripts": {
-        "demoV3": "node ./hosts/v3/demoApp.js",
-        "demoV1": "node ./hosts/v1/demoApp.js",
-        "build": "./node_modules/.bin/gulp"
-    }
+	"version": "1.0.21",
+	"name": "@copyleaks/plagiarism-report",
+	"private": false,
+	"description": "Copyleaks plagiarism report shows the data found by copyleaks api in a visual report. allowing developers to store copyleaks reports in their preferred data storage and display them using the open source report.",
+	"author": "Copyleaks ltd - https://copyleaks.com",
+	"license": "SEE LICENSE IN LICENSE.md",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Copyleaks/plagiarism-report"
+	},
+	"keywords": [
+		"plagiarism",
+		"plagiarism checker",
+		"copyleaks",
+		"report",
+		"plagiarism report"
+	],
+	"private": true,
+	"dependencies": {
+		"angular": "1.6.9",
+		"angular-animate": "1.6.9",
+		"angular-aria": "1.6.9",
+		"angular-chart.js": "1.1.1",
+		"angular-material": "1.1.10",
+		"angular-moment": "1.2.0",
+		"angular-sanitize": "1.6.9",
+		"angular-ui-validate": "1.2.3",
+		"chart.js": "2.7.0",
+		"express": "^4.16.4",
+		"jquery": "3.1.0",
+		"underscore": "1.9.1",
+		"angular-route": "1.6.9"
+	},
+	"devDependencies": {
+		"grunt-angular-templates": "^1.1.0",
+		"gulp": "^3.9.1",
+		"gulp-angular-embed-templates": "^2.3.0",
+		"gulp-angular-templatecache": "2.2.5",
+		"gulp-concat": "^2.6.1",
+		"gulp-csso": "^3.0.1",
+		"gulp-less": "3.3.0",
+		"gulp-minify-html": "1.0.6",
+		"gulp-ngmin": "0.3.0",
+		"gulp-purifycss": "^0.2.0",
+		"gulp-rename": "^1.4.0",
+		"gulp-uglify": "^3.0.1",
+		"merge-stream": "^1.0.1",
+		"purify-css": "^1.2.5"
+	},
+	"scripts": {
+		"demoV3": "node ./hosts/v3/demoApp.js",
+		"demoV1": "node ./hosts/v1/demoApp.js",
+		"build": "./node_modules/.bin/gulp"
+	}
 }
