@@ -1,5 +1,7 @@
 ﻿<div layout="column" layout-gt-xs="row" class="report-info contributing-to-height-report-info" ng-hide="hideReportInfo">
-    <a href="" ng-click="goBack()" class="title-back-link" ng-if="reportDataService.isBackButtonVisible">
+    <a href="" ng-click="goBack()" class="title-back-link"
+        layout="row" layout-align="center center" 
+        ng-if="reportDataService.isBackButtonVisible">
         <md-icon md-font-icon="link">arrow_back</md-icon>
     </a>
     <a ng-click="raiseIconClick()" hide-xs>
