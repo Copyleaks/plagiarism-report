@@ -59,7 +59,7 @@ gulp.task('build-v1', function () {
 });
 
 gulp.task('build-v3', function () {
-    gulp.src(['common/services/underscoreVarFix', 'v3/report/**/*.js', 'common/**/*.js'])
+    gulp.src(['common/services/underscoreVarFix.js', 'v3/report/**/*.js', 'common/**/*.js'])
         .pipe(embedTemplates({
             basePath: '.'
         }))
