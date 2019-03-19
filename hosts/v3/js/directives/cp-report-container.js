@@ -143,6 +143,8 @@ function attach_reportContainer(app) {
             ///Todo: get results from your server and pass to listener
             return $http.get('/hosts/v3/data/results.json').then(function (response) {
                 setSourcesSingleSuspectLink(response.data.results.internet); //add link to customize the single suspect url
+                setSourcesSingleSuspectLink(response.data.results.batch);
+                setSourcesSingleSuspectLink(response.data.results.database);
                 reportServiceListener.onCompletion(response.data);
             return response.data.results;
             });
