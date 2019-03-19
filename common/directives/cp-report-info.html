@@ -21,7 +21,8 @@
                 <time ng-if="!isRequestTimeInTheFuture()" am-time-ago="getScanTime() | amUtc | amLocal "></time>
             </div>
         </div>
-        <div class="suspected-info-border" ng-hide="hideStatistics" ng-if="!reportDataService.isErrored">
+        <div class="suspected-info-border" ng-hide="hideStatistics" 
+             ng-if="!reportDataService.isErrored && reportDataService.showShareButton && reportDataService.scanProgressPercents == 100">
             <cp-statistics control="statisticsControl" ng-if="reportDataService.showStatisticControls"></cp-statistics>
         </div>
         <md-button class="suspected-info btn-share-report"

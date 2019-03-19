@@ -8,7 +8,7 @@
 
             function clear() {
                 service.sources = {};
-                service.scanProgressPercents = 100;
+                service.scanProgressPercents = 0;
                 service.excludedRangesPerPage = null;
             }
             
