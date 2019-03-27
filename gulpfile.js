@@ -1,15 +1,73 @@
-﻿/// <binding BeforeBuild='less-to-css' />
-var gulp = require("gulp"),
-    fs = require("fs"),
-    less = require("gulp-less"),
-    merge = require('merge-stream');
+﻿var gulp = require("gulp");
+var less = require("gulp-less");
 var embedTemplates = require('gulp-angular-embed-templates');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require("gulp-rename");
 var purify = require('gulp-purifycss');
 var csso = require('gulp-csso');
+var gutil = require('gulp-util');
+var terser = require('gulp-terser');
+var filesExist = require('files-exist');
+var sourcemaps = require('gulp-sourcemaps');
 
+var config = {
+    production: !!gutil.env.production
+};
+
+console.log('Current configuration: ' + (config.production ? 'PRODUCTION' : 'DEVELOPMENT'));
+
+function buildJs(arr, outputDir, outputName, templatesBasePath = undefined, watch = true) {
+    if (watch && !config.production) {
+        gulp.watch(arr).on('change', function () {
+            console.log('rebuilding js: ' + outputName);
+            buildJs(arr, outputDir, outputName, templatesBasePath, false);
+            console.log('done!');
+        });
+
+        // watch for embeded html.
+        if (templatesBasePath) {
+            pathToWatch = templatesBasePath.endsWith('/') ? templatesBasePath + "**/*.html" : templatesBasePath + "/**/*.html";
+            console.log(pathToWatch);
+            gulp.watch([pathToWatch]).on('change', function () {
+                console.log('rebuilding html template: ' + outputName);
+                buildJs(arr, outputDir, outputName, templatesBasePath, false);
+                console.log('done!');
+            });
+        }
+    }
+
+    return gulp.src(filesExist(arr))
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+        .pipe(templatesBasePath ? embedTemplates({ basePath: templatesBasePath }) : gutil.noop())
+        .pipe(concat(outputName + '.js'))
+        .pipe(gulp.dest(outputDir))
+        .pipe(config.production ? sourcemaps.init() : gutil.noop())
+        .pipe(config.production ? terser() : gutil.noop())
+        .pipe(config.production ? rename(outputName + '.min.js') : gutil.noop())
+        .pipe(config.production ? sourcemaps.write() : gutil.noop())
+        .pipe(config.production ? gulp.dest(outputDir) : gutil.noop());
+}
+
+function buildLess(arr, outputDir, outputName, watch = true) {
+    if (watch && !config.production)
+        gulp.watch(arr).on('change', function () {
+            console.log('rebuilding css: ' + outputName);
+            buildLess(arr, outputDir, outputName, false);
+            console.log('done!');
+        });
+
+    return gulp.src(filesExist(arr))
+        .pipe(less().on('error', gutil.log))
+        .pipe(concat(outputName + '.css'))
+        .pipe(gulp.dest(outputDir))
+        .on('error', gutil.log)
+        .pipe(config.production ? sourcemaps.init() : gutil.noop())
+        .pipe(config.production ? csso() : gutil.noop())
+        .pipe(config.production ? rename(outputName + '.min.css') : gutil.noop())
+        .pipe(config.production ? sourcemaps.write() : gutil.noop())
+        .pipe(config.production ? gulp.dest(outputDir) : gutil.noop());
+}
 
 //Search for unused css
 gulp.task('purifycss', function () {
@@ -21,95 +79,29 @@ gulp.task('purifycss', function () {
 });
 
 gulp.task("css", function () {
-    gulp.src(['css/copyleaks-plagiarism-report-iframe.less'])
-        .pipe(less())
-        .pipe(rename('copyleaks-plagiarism-report-iframe.css'))
-        .pipe(gulp.dest('dist'))
-        .pipe(csso())
-        .pipe(rename('copyleaks-plagiarism-report-iframe.min.css'))
-        .pipe(gulp.dest('dist'));
-
-    gulp.src(['css/opensource_report.less'])
-        .pipe(less())
-        .pipe(rename('copyleaks-plagiarism-report.css'))
-        .pipe(gulp.dest('dist'))
-        .pipe(csso())
-        .pipe(rename('copyleaks-plagiarism-report.min.css'))
-        .pipe(gulp.dest('dist'));
+    return buildLess(['css/opensource_report.less'], 'dist', 'copyleaks-plagiarism-report');
 });
 
 gulp.task('build-v1', function () {
-    gulp.src(['v1/report/**/*.js', 'common/**/*.js'])
-        .pipe(embedTemplates({
-            basePath: '.'
-        }))
-        .pipe(concat('copyleaks-plagiarism-report.js'))
-        .pipe(gulp.dest('./dist/v1'))
-        .pipe(uglify({
-            mangle: {
-                toplevel: true
-            },
-            compress: {
-                drop_console: true,
-                drop_debugger: true,
-            }
-        }))
-        .pipe(rename('copyleaks-plagiarism-report.min.js'))
-        .pipe(gulp.dest('./dist/v1/'));
+    return buildJs([
+        'v1/report/**/*.js',
+        'common/**/*.js'], 'dist/v1/', 'copyleaks-plagiarism-report', '.');
 });
 
 gulp.task('build-v3', function () {
-    gulp.src(['common/services/underscoreVarFix.js', 'v3/report/**/*.js', 'common/**/*.js'])
-        .pipe(embedTemplates({
-            basePath: '.'
-        }))
-        .pipe(concat('copyleaks-plagiarism-report.js'))
-        .pipe(gulp.dest('./dist/v3/'))
-        .pipe(uglify({
-            mangle: {
-                toplevel: true
-            },
-            compress: {
-                drop_console: true,
-                drop_debugger: true,
-            }
-        }))
-        .pipe(rename('copyleaks-plagiarism-report.min.js'))
-        .pipe(gulp.dest('./dist/v3/'));
-});
-
-var watcher = gulp.watch(['v3/report/**/*.js', 'common/**/*.js', 'common/**/*.html']);
-
-watcher.on('change', function (path, stats) {
-    gulp.run(['build-v3']);
-});
-
-var watcherV1 = gulp.watch(['v1/report/**/*.js', 'common/**/*.js']);
-
-watcherV1.on('change', function (path, stats) {
-    gulp.run(['build-v1']);
-});
-
-var watcherCss = gulp.watch(['css/*.less']);
-
-watcherCss.on('change', function (path, stats) {
-    gulp.run(['css']);
+    return buildJs([
+        'common/services/underscoreVarFix.js',
+        'v3/report/**/*.js',
+        'common/**/*.js'
+    ], 'dist/v3/', 'copyleaks-plagiarism-report', '.')
 });
 
 gulp.task("3rd-party", function () {
-    var root = gulp.src([
-        "node_modules/angular-ui-notification/dist/angular-ui-notification.css",
-        "node_modules/components-font-awesome/css/font-awesome.css",
+    var t1 = buildLess([
         "node_modules/angular-material/angular-material.css"
-    ])
-        .pipe(less())
-        .pipe(concat('3rd-party.css'))
-        .pipe(gulp.dest('dist'))
-        .pipe(csso())
-        .pipe(rename('3rd-party.min.css'))
-        .pipe(gulp.dest('dist'));
+    ], 'dist', '3rd-party');
 
-    gulp.src([
+    var t2 = buildJs([
         "node_modules/jquery/dist/jquery.js",
         "node_modules/angular/angular.js",
         "node_modules/angular-route/angular-route.js",
@@ -118,26 +110,14 @@ gulp.task("3rd-party", function () {
         "node_modules/angular-aria/angular-aria.js",
         "node_modules/angular-material/angular-material.js",
         "node_modules/angular-sanitize/angular-sanitize.js",
-        "node_modules/angular-loading-bar/build/loading-bar.js",
-        "node_modules/angular-ui-notification/dist/angular-ui-notification.js",
         "node_modules/chart.js/dist/Chart.js",
         "node_modules/moment/moment.js",
         "node_modules/angular-moment/angular-moment.js",
         "node_modules/underscore/underscore.js",
         "node_modules/angular-chart.js/dist/angular-chart.js"
-    ]).pipe(concat('3rd-party.js'))
-        .pipe(gulp.dest('dist'))
-        .pipe(uglify({
-            mangle: {
-                toplevel: true
-            },
-            compress: {
-                drop_console: true,
-                drop_debugger: true,
-            }
-        }))
-        .pipe(rename('3rd-party.min.js'))
-        .pipe(gulp.dest('dist'));
+    ], 'dist', '3rd-party');
+
+    return [t1, t2];
 });
 
 gulp.task('default', ['css', 'build-v1', 'build-v3', '3rd-party']);
