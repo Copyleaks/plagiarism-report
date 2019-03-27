@@ -28,7 +28,8 @@ function attach_reportContainer(app) {
             singleSuspectSourcePage: $routeParams.pageNumSource,
             singleSuspectSuspectPage: $routeParams.pageNumResult,
             shareLinkCreationCallback: shareLinkCreationCallback,
-            contentType: contentType
+            contentType: contentType,
+            showBackButton: true
         });
 
         //when report share link is called. this function will be called.
@@ -69,9 +70,23 @@ function attach_reportContainer(app) {
                 case 'download-pdf-report-button-clicked':
                     downloadPdfReportButtonClicked();
                     break;
-            
+                case 'back-button-clicked':
+                    backButtonClicked();
+                    break;
                 default:
                     break;
+            }
+        }
+        
+        function backButtonClicked(){
+            //Todo: change here the behavior where you want the page to go
+            if ($routeParams.resultid){
+                //going back from single suspect report
+                var locationPath = "/report/" + $routeParams.id + "/" + $routeParams.pageNumSource; 
+                $location.path(locationPath);
+            } else {
+                //going back from multi suspect report
+                location.href = "/"
             }
         }
                 
@@ -143,6 +158,8 @@ function attach_reportContainer(app) {
             ///Todo: get results from your server and pass to listener
             return $http.get('/hosts/v3/data/results.json').then(function (response) {
                 setSourcesSingleSuspectLink(response.data.results.internet); //add link to customize the single suspect url
+                setSourcesSingleSuspectLink(response.data.results.batch);
+                setSourcesSingleSuspectLink(response.data.results.database);
                 reportServiceListener.onCompletion(response.data);
             return response.data.results;
             });
