@@ -1,9 +1,9 @@
-﻿var gulp = require("gulp");
-var less = require("gulp-less");
+﻿var gulp = require('gulp');
+var less = require('gulp-less');
 var embedTemplates = require('gulp-angular-embed-templates');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-var rename = require("gulp-rename");
+var rename = require('gulp-rename');
 var purify = require('gulp-purifycss');
 var csso = require('gulp-csso');
 var gutil = require('gulp-util');
@@ -27,7 +27,7 @@ function buildJs(arr, outputDir, outputName, templatesBasePath = undefined, watc
 
         // watch for embeded html.
         if (templatesBasePath) {
-            pathToWatch = templatesBasePath.endsWith('/') ? templatesBasePath + "**/*.html" : templatesBasePath + "/**/*.html";
+            pathToWatch = templatesBasePath.endsWith('/') ? templatesBasePath + '**/*.html' : templatesBasePath + '/**/*.html';
             console.log(pathToWatch);
             gulp.watch([pathToWatch]).on('change', function () {
                 console.log('rebuilding html template: ' + outputName);
@@ -78,7 +78,7 @@ gulp.task('purifycss', function () {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task("css", function () {
+gulp.task('css', function () {
     return buildLess(['css/opensource_report.less'], 'dist', 'copyleaks-plagiarism-report');
 });
 
@@ -96,25 +96,25 @@ gulp.task('build-v3', function () {
     ], 'dist/v3/', 'copyleaks-plagiarism-report', '.')
 });
 
-gulp.task("3rd-party", function () {
+gulp.task('3rd-party', function () {
     var t1 = buildLess([
-        "node_modules/angular-material/angular-material.css"
+        'node_modules/angular-material/angular-material.css'
     ], 'dist', '3rd-party');
 
     var t2 = buildJs([
-        "node_modules/jquery/dist/jquery.js",
-        "node_modules/angular/angular.js",
-        "node_modules/angular-route/angular-route.js",
-        "node_modules/angular-ui-validate/dist/validate.js",
-        "node_modules/angular-animate/angular-animate.js",
-        "node_modules/angular-aria/angular-aria.js",
-        "node_modules/angular-material/angular-material.js",
-        "node_modules/angular-sanitize/angular-sanitize.js",
-        "node_modules/chart.js/dist/Chart.js",
-        "node_modules/moment/moment.js",
-        "node_modules/angular-moment/angular-moment.js",
-        "node_modules/underscore/underscore.js",
-        "node_modules/angular-chart.js/dist/angular-chart.js"
+        'node_modules/jquery/dist/jquery.js',
+        'node_modules/angular/angular.js',
+        'node_modules/angular-route/angular-route.js',
+        'node_modules/angular-ui-validate/dist/validate.js',
+        'node_modules/angular-animate/angular-animate.js',
+        'node_modules/angular-aria/angular-aria.js',
+        'node_modules/angular-material/angular-material.js',
+        'node_modules/angular-sanitize/angular-sanitize.js',
+        'node_modules/chart.js/dist/Chart.js',
+        'node_modules/moment/moment.js',
+        'node_modules/angular-moment/angular-moment.js',
+        'node_modules/underscore/underscore.js',
+        'node_modules/angular-chart.js/dist/angular-chart.js'
     ], 'dist', '3rd-party');
 
     return [t1, t2];
