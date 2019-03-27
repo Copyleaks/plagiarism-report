@@ -125,8 +125,6 @@
 
             function getIframeText(pageText) {
                 var el = document.createElement('html');
-                //pageText = pageText.replaceAll('https://sandbox.copyleaks.com/?', 'https://sandbox.copyleaks.com?');
-                //pageText = pageText.replaceAll('https://sandbox.copyleaks.com??', 'https://sandbox.copyleaks.com?');
                 try {
                     el.innerHTML = pageText;
                 } catch (err) {
@@ -137,13 +135,11 @@
                 body.classList.add('identical-on', 'similar-on', 'related-on');
 
                 var head = el.getElementsByTagName('head')[0];
-
-                var ss = document.createElement("link");
-                ss.type = "text/css";
-                ss.rel = "stylesheet";
-                //ss.href = window.location.origin + "/css/education-report-iframe.css";
-                ss.href = window.location.origin + "/dist/copyleaks-plagiarism-report-iframe.min.css";
-                head.appendChild(ss);
+                
+                // Insert matches colors
+                var style = document.createElement("style");
+                style.innerHTML = ".identical-on .highlight-1{background:rgba(255,102,102,.6);cursor:pointer}.similar-on .highlight-2{background:rgba(255,154,154,.6);cursor:pointer}.related-on .highlight-3{background:rgba(255,217,176,.6);cursor:pointer}.highlight-4{opacity:.5;font-style:italic}";
+                head.appendChild(style);
 
                 var script = document.createElement('script');
                 script.type = 'text/javascript';
