@@ -122,8 +122,6 @@
 
             function getIframeText(pageText) {
                 var el = document.createElement('html');
-                //pageText = pageText.replaceAll('https://sandbox.copyleaks.com/?', 'https://sandbox.copyleaks.com?');
-                //pageText = pageText.replaceAll('https://sandbox.copyleaks.com??', 'https://sandbox.copyleaks.com?');
                 try {
                     el.innerHTML = pageText;
                 } catch (err) {
