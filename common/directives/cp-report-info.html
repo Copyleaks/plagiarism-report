@@ -1,13 +1,18 @@
 ﻿<div layout="column" layout-gt-xs="row" class="report-info contributing-to-height-report-info" ng-hide="hideReportInfo">
-    <a href="" ng-click="goBack()" class="title-back-link" ng-if="reportDataService.isBackButtonVisible">
-        <md-icon md-font-icon="link">arrow_back</md-icon>
-    </a>
-    <a ng-click="raiseIconClick()" hide-xs>
-        <div class="report-type-image">
-            <img ng-src="{{reportDataService.reportIcon}}" />
-        </div>
-    </a>
     <div layout="row" flex>
+        <!-- Back Button -->
+        <a href="" ng-click="goBack()" class="title-back-link" ng-if="reportDataService.isBackButtonVisible">
+            <md-icon md-font-icon="link">arrow_back</md-icon>
+        </a>
+
+        <!-- Logo Icon -->
+        <a ng-click="raiseIconClick()" hide-xs>
+            <div class="report-type-image">
+                <img ng-src="{{reportDataService.reportIcon}}" />
+            </div>
+        </a>
+
+        <!-- Scan Title -->
         <div class="scan-title" flex layout="column">
             <h1 class="ellipsis-text" ng-cloak flex>
                 {{reportDataService.reportTitle}}
