@@ -1,33 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <style>
         body {
             background: white;
         }
-</style>
+    </style>
     <base href="http://localhost:3003/v3single/" target="_blank">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <meta charset="utf-8" />
     <title>Report demo</title>
     <!--Host resources-->
-    
+
     <!-- third party includes (angularjs, material, ...)-->
     <link href="/dist/3rd-party.css" type="text/css" rel="stylesheet" />
     <script src="/dist/3rd-party.js"></script>
-    
+
     <!-- report includes, css, js-->
     <link href="/dist/copyleaks-plagiarism-report.css" type="text/css" rel="stylesheet" />
     <script src="/dist/v3/copyleaks-plagiarism-report.js"></script>
-    
+
     <!-- report host ( application using report) -->
     <script src="/hosts/v3/js/directives/cp-report-container-single.js"></script>
     <script src="/hosts/v3/js/app.js"></script>
-    
+
 </head>
+
 <body ng-app="ReportDemo" ng-controller="reportHostController">
     <div style="height: 100%" ng-if="isReportView">
         <report-container class="copyleaks-report-parent"></report-container>
     </div>
     <ng-view></ng-view>
 </body>
+
 </html>
