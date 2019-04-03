@@ -1,4 +1,4 @@
-﻿function attach_educationReportController(app) {
+﻿function attach_multiSuspectController(app) {
     app.controller('multi-suspect-ctrl', ["$scope", "$window", "$timeout", "utilitiesService", "statisticsService", "settingsService", "logService", 'shareDialogService', 'pageService', 'affixService', 'reportDataService', '$rootScope', 'contentTypeService', 'reportServiceListener', 'sourcesService', 'DataService', 'reportServiceMediator',
         function ($scope, $window, $timeout, utilitiesService, statisticsService, settingsService, logService, shareDialogService, pageService, affixService, reportDataService, $rootScope, contentTypeService, reportServiceListener, sourcesService, DataService, reportServiceMediator) {
         $('html').css('maxHeight', 'auto');

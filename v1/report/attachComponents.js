@@ -17,7 +17,7 @@
     attach_cpScanProperties(app);
     attach_pageService(app);
     attach_filters(app);
-    attach_educationReportController(app);
+    attach_multiSuspectController(app);
     attach_cpScanProgress(app);
     attach_cpReportInfo(app);
     attach_oneToOneReportController(app);

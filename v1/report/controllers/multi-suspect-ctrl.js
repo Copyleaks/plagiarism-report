@@ -1,5 +1,5 @@
-﻿function attach_educationReportController(app) {
-    app.controller('education-report-ctrl', ["$scope", "$window", "$location", "$http", "$timeout", "utilitiesService", "statisticsService", "settingsService", "logService", 'shareDialogService', 'pageService', 'affixService', 'reportDataService', '$rootScope','contentTypeService','reportServiceListener','sourcesService','DataService','reportServiceMediator',
+﻿function attach_multiSuspectController(app) {
+    app.controller('multi-suspect-ctrl', ["$scope", "$window", "$location", "$http", "$timeout", "utilitiesService", "statisticsService", "settingsService", "logService", 'shareDialogService', 'pageService', 'affixService', 'reportDataService', '$rootScope','contentTypeService','reportServiceListener','sourcesService','DataService','reportServiceMediator',
         function ($scope, $window, $location, $http, $timeout, utilitiesService, statisticsService, settingsService, logService, shareDialogService, pageService, affixService, reportDataService, $rootScope, contentTypeService, reportServiceListener, sourcesService, DataService, reportServiceMediator) {
         $('html').css('maxHeight', 'auto');
         if ($scope.comingFromBusinessReport) return;

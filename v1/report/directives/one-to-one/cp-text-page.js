@@ -3,7 +3,6 @@
 function attach_cpOneToOneTextPage(app) {
     cpPageOneToOneCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "reportDataService", "$element", 'pageService', 'reportServiceMediator']; 
 
-    
     function cpPageOneToOneCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, reportDataService, $element, pageService, reportServiceMediator) {
         $scope.reportDataService = reportDataService;
         $scope.highlighted_text = $scope.text;
@@ -109,7 +108,7 @@ function attach_cpOneToOneTextPage(app) {
                 switchContentType: '&',
                 pageUrl: '=?',
             },
-            templateUrl: '/v1/templates/cp-page-one-to-one.html',
+            templateUrl: '/v1/templates/one-to-one/cp-text-page.html',
             controller: cpPageOneToOneCntl,
             link: function (scope, elm, attr) {
             }

@@ -131,7 +131,7 @@ function attach_cpMultiSuspectTextPage(app) {
                 documentPagination: '=',
                 switchContentType: '&'
             },
-            templateUrl: '/v1/templates/cp-text-page.html',
+            templateUrl: '/v1/templates/multi-suspect/cp-text-page.html',
             controller: cpTextPageCntl,
             link: function (scope, elm, attr) {
                 scope.askedForRefresh = false;
