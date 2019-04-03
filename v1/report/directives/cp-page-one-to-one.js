@@ -109,7 +109,7 @@ function attach_cpPageOneToOne(app) {
                 switchContentType: '&',
                 pageUrl: '=?',
             },
-            templateUrl: '/v1/report-html/directives/cp-page-one-to-one.html',
+            templateUrl: '/v1/templates/cp-page-one-to-one.html',
             controller: cpPageOneToOneCntl,
             link: function (scope, elm, attr) {
             }
