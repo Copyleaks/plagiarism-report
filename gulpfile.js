@@ -84,14 +84,14 @@ gulp.task('css', function () {
 
 gulp.task('build-v1', function () {
     return buildJs([
-        'v1/report/**/*.js',
+        'v1/js/**/*.js',
         'common/**/*.js'], 'dist/v1/', 'copyleaks-plagiarism-report', '.');
 });
 
 gulp.task('build-v3', function () {
     return buildJs([
         'common/services/underscoreVarFix.js',
-        'v3/report/**/*.js',
+        'v3/js/**/*.js',
         'common/**/*.js'
     ], 'dist/v3/', 'copyleaks-plagiarism-report', '.')
 });
