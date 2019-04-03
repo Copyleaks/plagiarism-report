@@ -102,7 +102,7 @@
 
         /**
          * Update the object `$scope.current_page_matches` with the current page
-         * matches for disply. The display of this member is 'cp-page' responsibility
+         * matches for disply. The display of this member is 'cp-text-page' responsibility
          *
          */
         var inUpdateCurrentPageMatches = false;

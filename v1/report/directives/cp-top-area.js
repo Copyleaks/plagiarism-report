@@ -1,4 +1,4 @@
-function attach_cpMultiSuscpectTopArea(app) {
+function attach_cpTopArea(app) {
     controller.$inject = ["$scope", "settingsService", "logService", '$element', "reportDataService", 'utilitiesService', 'shareDialogService'];
     function controller($scope, settingsService, logService, $element, reportDataService, utilitiesService, shareDialogService) {
 

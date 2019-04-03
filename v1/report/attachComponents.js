@@ -1,6 +1,6 @@
 ﻿function attach_allServicesAndDirectives(app) {
     attachDataService(app);
-    attach_cpPage(app);
+    attach_cpMultiSuspectTextPage(app);
     attach_cpPagination(app);
     attach_cpSources(app);
     attach_cpGraph(app);
@@ -22,12 +22,12 @@
     attach_cpReportInfo(app);
     attach_oneToOneReportController(app);
     attach_affixService(app);
-    attach_cpPageOneToOne(app);
+    attach_cpOneToOneTextPage(app);
     attach_ReportDataService(app);
     attach_oneToOneReportService(app);
     attach_scrollService(app);
     attach_reportOnResize(app);
-    attach_cpMultiSuspectTopArea(app);
+    attach_cpTopArea(app);
     attach_iFrameService(app);
     attach_ReportContentType(app);
     attach_cpOneToOneReport(app);

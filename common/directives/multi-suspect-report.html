@@ -7,7 +7,7 @@
          ng-class="{'no-pagination': !document_pagination.ready || document_pagination.total_pages == 1}">
             <md-card layout="row" class="parent-height">
                 <div flex class="parent-height overflow-x-hidden">
-                    <cp--text-page focus-results="focusResults(items)"
+                    <cp-text-page focus-results="focusResults(items)"
                              unfocus="unfocusResults()"
                              document-pagination="document_pagination"
                              switch-content-type="switchToHtmlContentType()"></cp-text-page>

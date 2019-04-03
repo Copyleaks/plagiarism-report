@@ -1,11 +1,11 @@
 "use strict";
 
-function attach_cpTextPage(app) {
-    cpPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "pageService", 'reportDataService', 'contentTypeService', 'reportServiceMediator'];
+function attach_cpMultiSuspectTextPage(app) {
+    cpTextPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "pageService", 'reportDataService', 'contentTypeService', 'reportServiceMediator'];
     
     attachBindHtmlCompile(app);
 
-    function cpPageCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, pageService, reportDataService, contentTypeService, reportServiceMediator) {
+    function cpTextPageCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, pageService, reportDataService, contentTypeService, reportServiceMediator) {
         $scope.settings = settingsService.instance;
         $scope.reportDataService = reportDataService;
         $scope.isShared = !!window.keyForToken;
@@ -122,7 +122,7 @@ function attach_cpTextPage(app) {
         // #endregion
     }
 
-    app.directive('cpPage', ["logService", 'contentTypeService', function (logService, contentTypeService) {
+    app.directive('cpTextPage', ["logService", 'contentTypeService', function (logService, contentTypeService) {
         return {
             restrict: 'E',
             scope: {
@@ -131,8 +131,8 @@ function attach_cpTextPage(app) {
                 documentPagination: '=',
                 switchContentType: '&'
             },
-            templateUrl: '/v1/templates/cp-page.html',
-            controller: cpPageCntl,
+            templateUrl: '/v1/templates/cp-text-page.html',
+            controller: cpTextPageCntl,
             link: function (scope, elm, attr) {
                 scope.askedForRefresh = false;
 
