@@ -136,7 +136,7 @@ function attach_cpPage(app) {
                 documentPagination: '=',
                 switchContentType: '&'
             },
-            templateUrl: '/v3/report-html/directives/cp-page.html',
+            templateUrl: '/v3/templates/cp-page.html',
             controller: cpPageCntl,
             link: function (scope, elm, attr) {
                 scope.askedForRefresh = false;

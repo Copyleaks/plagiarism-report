@@ -92,7 +92,7 @@ function attach_cpPageOneToOne(app) {
                 switchContentType: '&',
                 pageUrl: '=?',
             },
-            templateUrl: '/v3/report-html/directives/cp-page-one-to-one.html',
+            templateUrl: '/v3/templates/cp-page-one-to-one.html',
             controller: cpPageOneToOneCntl,
         };
     }]);

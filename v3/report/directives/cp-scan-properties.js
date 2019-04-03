@@ -38,7 +38,7 @@ function attach_cpScanProperties(app) {
             scope: {
                 control: '='
             },
-            templateUrl: '/v3/report-html/directives/cp-scan-properties.html',
+            templateUrl: '/v3/templates/cp-scan-properties.html',
             controller: cpScanPropertiesController
         };
     }]);

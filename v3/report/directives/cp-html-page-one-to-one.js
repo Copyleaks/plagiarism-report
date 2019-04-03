@@ -116,7 +116,7 @@ function attach_cpHtmlPageOneToOne(app) {
                 pageUrl: '=?',
                 switchContentType: '&'
             },
-            templateUrl: '/v3/report-html/directives/cp-html-page-one-to-one.html',
+            templateUrl: '/v3/templates/cp-html-page-one-to-one.html',
             controller: cpPageOneToOneCntl,
             link: function (scope, elm, attr) {
             }

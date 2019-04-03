@@ -265,7 +265,7 @@ function attach_cpPagination2(app) {
                 control: '=',
                 initialSources: '=?'
             },
-            templateUrl: '/v3/report-html/directives/cp-pagination2.html',
+            templateUrl: '/v3/templates/cp-pagination2.html',
             controller: cpPaginationCntl,
             link: function (scope, elm, attr) {
                 scope.$watch('pagination.current', function (newValue, oldValue) {

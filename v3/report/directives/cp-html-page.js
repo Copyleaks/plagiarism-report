@@ -163,7 +163,7 @@ function attach_cpHtmlPage(app) {
                 switchContentType: '&',
                 text: '=?'
             },
-            templateUrl: '/v3/report-html/directives/cp-html-page.html',
+            templateUrl: '/v3/templates/cp-html-page.html',
             controller: cpPageCntl,
             link: function (scope, elm, attr) {
                 scope.$on('updatePageMatches', function () {

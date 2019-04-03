@@ -264,7 +264,7 @@ function attach_cpSources(app) {
                 pagination: '=',
                 control: '='
             },
-            templateUrl: '/v3/report-html/directives/cp-sources.html',
+            templateUrl: '/v3/templates/cp-sources.html',
             controller: cpSourcesCntl,
             link: function (scope, elm, attr) {
                 scope.$watchCollection('sources', function (newValue, oldValue) {
