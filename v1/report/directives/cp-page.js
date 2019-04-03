@@ -1,6 +1,6 @@
 "use strict";
 
-function attach_cpPage(app) {
+function attach_cpTextPage(app) {
     cpPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "pageService", 'reportDataService', 'contentTypeService', 'reportServiceMediator'];
     
     attachBindHtmlCompile(app);
@@ -138,7 +138,7 @@ function attach_cpPage(app) {
 
                 scope.$on('updatePageMatches', function () {
                     if (scope.shouldHide()) return;
-                    logService.log("cp-page: currentMatches changed!");
+                    logService.log("cp-text-page: currentMatches changed!");
                     scope.askedForRefresh = true;
                     scope.askForRefresh();// Auto update the current matches when list is changed.
                 });

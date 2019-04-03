@@ -1,11 +1,11 @@
 "use strict";
 
-function attach_cpPage(app) {
-    cpPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "pageService", 'reportDataService', 'contentTypeService', 'reportServiceMediator'];
+function attach_cpTextPage(app) {
+    cpTextPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "pageService", 'reportDataService', 'contentTypeService', 'reportServiceMediator'];
     
     attachBindHtmlCompile(app);
 
-    function cpPageCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, pageService, reportDataService, contentTypeService, reportServiceMediator) {
+    function cpTextPageCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, pageService, reportDataService, contentTypeService, reportServiceMediator) {
         $scope.settings = settingsService.instance;
         $scope.reportDataService = reportDataService;
         $scope.isShared = !!window.keyForToken;
@@ -127,7 +127,7 @@ function attach_cpPage(app) {
         // #endregion
     }
 
-    app.directive('cpPage', ["logService", 'contentTypeService', function (logService, contentTypeService) {
+    app.directive('cpTextPage', ["logService", 'contentTypeService', function (logService, contentTypeService) {
         return {
             restrict: 'E',
             scope: {
@@ -136,14 +136,14 @@ function attach_cpPage(app) {
                 documentPagination: '=',
                 switchContentType: '&'
             },
-            templateUrl: '/v3/templates/cp-page.html',
-            controller: cpPageCntl,
+            templateUrl: '/v3/templates/multi-suspect/cp-text-page.html',
+            controller: cpTextPageCntl,
             link: function (scope, elm, attr) {
                 scope.askedForRefresh = false;
 
                 scope.$on('updatePageMatches', function () {
                     if (scope.shouldHide()) return;
-                    logService.log("cp-page: currentMatches changed!");
+                    logService.log("cp-text-page: currentMatches changed!");
                     scope.askedForRefresh = true;
                     scope.askForRefresh();// Auto update the current matches when list is changed.
                 });

@@ -7,16 +7,16 @@
          ng-class="{'no-pagination': !document_pagination.ready || document_pagination.total_pages == 1}">
             <md-card layout="row" class="parent-height">
                 <div flex class="parent-height overflow-x-hidden">
-                    <cp-page focus-results="focusResults(items)"
+                    <cp--text-page focus-results="focusResults(items)"
                              unfocus="unfocusResults()"
                              document-pagination="document_pagination"
-                             switch-content-type="switchToHtmlContentType()"></cp-page>
+                             switch-content-type="switchToHtmlContentType()"></cp-text-page>
                 </div>
             </md-card>
             <div layout="row" class="pagination-row" ng-show="document_pagination.current > 0 && document_pagination.total_pages > 1">
                 <div flex>
-                    <cp-pagination2 pagination="document_pagination" control="paginationControl"
-                                    on-changed="source_page_changed(pagination);" initial-sources="paginationObject.results"></cp-pagination2>
+                    <cp-pagination pagination="document_pagination" control="paginationControl"
+                                    on-changed="source_page_changed(pagination);" initial-sources="paginationObject.results"></cp-pagination>
                 </div>
             </div>
             <div layout="row" class="one-to-one-footer my-target">
@@ -36,8 +36,8 @@
         </md-card>
         <div layout="row" class="pagination-row" ng-show="document_pagination.current > 0 && document_pagination.total_pages > 1">
             <div flex>
-                <cp-pagination2 pagination="document_pagination" control="paginationControl"
-                                on-changed="source_page_changed(pagination);" initial-sources="paginationObject.results"></cp-pagination2>
+                <cp-pagination pagination="document_pagination" control="paginationControl"
+                                on-changed="source_page_changed(pagination);" initial-sources="paginationObject.results"></cp-pagination>
             </div>
         </div>
         <div layout="row" class="one-to-one-footer my-target">

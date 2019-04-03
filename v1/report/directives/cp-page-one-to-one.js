@@ -1,6 +1,6 @@
 "use strict";
 
-function attach_cpPageOneToOne(app) {
+function attach_cpOneToOneTextPage(app) {
     cpPageOneToOneCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "reportDataService", "$element", 'pageService', 'reportServiceMediator']; 
 
     

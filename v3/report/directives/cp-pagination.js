@@ -1,6 +1,6 @@
 "use strict";
 
-function attach_cpPagination2(app) {
+function attach_cpPagination(app) {
     cpPaginationCntl.$inject = ["$scope", "logService", "settingsService", "$window", "utilitiesService"];
     function cpPaginationCntl($scope, logService, settingsService, $window, utilitiesService) {
         //var pagesToHighlight = []; // Empty by default. Nothing to highlight yet.
@@ -256,7 +256,7 @@ function attach_cpPagination2(app) {
 
     }
 
-    app.directive('cpPagination2', function () {
+    app.directive('cpPagination', function () {
         return {
             restrict: 'E',
             scope: {
@@ -265,7 +265,7 @@ function attach_cpPagination2(app) {
                 control: '=',
                 initialSources: '=?'
             },
-            templateUrl: '/v3/templates/cp-pagination2.html',
+            templateUrl: '/v3/templates/cp-pagination.html',
             controller: cpPaginationCntl,
             link: function (scope, elm, attr) {
                 scope.$watch('pagination.current', function (newValue, oldValue) {

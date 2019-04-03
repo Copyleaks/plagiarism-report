@@ -5,7 +5,7 @@ function attach_cpcontentTypeReport(app) {
         return {
             restrict: 'E',
             templateUrl: '/common/directives/multi-suspect-report.html',
-            controller: 'education-report-ctrl',
+            controller: 'multi-suspect-ctrl',
         };
     }]);
 }

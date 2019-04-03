@@ -2,9 +2,9 @@
 var maxHtmlHeight = window.innerHeight;
 
 function attach_cpHtmlPage(app) {
-    cpPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "pageService", 'reportDataService', '$element', 'iframeService', 'contentTypeService', 'reportServiceMediator'];
+    cpHtmlPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "pageService", 'reportDataService', '$element', 'iframeService', 'contentTypeService', 'reportServiceMediator'];
     
-    function cpPageCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, pageService, reportDataService, $element, iframeService, contentTypeService, reportServiceMediator) {
+    function cpHtmlPageCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, pageService, reportDataService, $element, iframeService, contentTypeService, reportServiceMediator) {
         $scope.settings = settingsService.instance;
         $scope.reportDataService = reportDataService;
         $scope.isShared = !!window.keyForToken;
@@ -163,12 +163,12 @@ function attach_cpHtmlPage(app) {
                 switchContentType: '&',
                 text: '=?'
             },
-            templateUrl: '/v3/templates/cp-html-page.html',
-            controller: cpPageCntl,
+            templateUrl: '/v3/templates/multi-suspect/cp-html-page.html',
+            controller: cpHtmlPageCntl,
             link: function (scope, elm, attr) {
                 scope.$on('updatePageMatches', function () {
                     if (contentTypeService.contentType.isText()) return;
-                    logService.log("cp-page: currentMatches changed!");
+                    logService.log("cp-text-page: currentMatches changed!");
                     scope.askForRefresh();// Auto update the current matches when list is changed.
                 });
                 scope.$on('updatePageMatchesNow', function () {

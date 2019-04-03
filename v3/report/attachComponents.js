@@ -2,9 +2,9 @@
 
     attach_affixService(app);
     attachDataService(app);
-    attach_cpPage(app);
+    attach_cpTextPage(app);
     attach_cpHtmlPage(app);
-    attach_cpPagination2(app);
+    attach_cpPagination(app);
     attach_cpSources(app);
     attach_cpGraph(app);
     attach_cpGraphLegend(app);
@@ -23,8 +23,8 @@
     attach_cpScanProgress(app);
     attach_cpReportInfo(app);
     attach_oneToOneReportController(app);
-    attach_cpPageOneToOne(app);
-    attach_cpHtmlPageOneToOne(app);
+    attach_cpOneToOneTextPage(app);
+    attach_cpOneToOneHtmlDocument(app);
     attach_ReportDataService(app);
     attach_oneToOneReportService(app);
     attach_scrollService(app);

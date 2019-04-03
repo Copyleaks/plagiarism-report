@@ -1,7 +1,7 @@
 ﻿function attach_allServicesAndDirectives(app) {
     attachDataService(app);
     attach_cpPage(app);
-    attach_cpPagination2(app);
+    attach_cpPagination(app);
     attach_cpSources(app);
     attach_cpGraph(app);
     attach_cpGraphLegend(app);

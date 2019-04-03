@@ -1,10 +1,9 @@
 "use strict";
 
-function attach_cpHtmlPageOneToOne(app) {
-    cpPageOneToOneCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "reportDataService", "$element", 'pageService', 'iframeService', 'reportServiceMediator'];
+function attach_cpOneToOneHtmlDocument(app) {
+    cpOneToOneHtmlDocumentCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "reportDataService", "$element", 'pageService', 'iframeService', 'reportServiceMediator'];
 
-
-    function cpPageOneToOneCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, reportDataService, $element, pageService, iframeService, reportServiceMediator) {
+    function cpOneToOneHtmlDocumentCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, reportDataService, $element, pageService, iframeService, reportServiceMediator) {
         $scope.reportDataService = reportDataService;
         $scope.isShared = !!window.keyForToken;
         
@@ -116,8 +115,8 @@ function attach_cpHtmlPageOneToOne(app) {
                 pageUrl: '=?',
                 switchContentType: '&'
             },
-            templateUrl: '/v3/templates/cp-html-page-one-to-one.html',
-            controller: cpPageOneToOneCntl,
+            templateUrl: '/v3/templates/one-to-one/cp-html-page.html',
+            controller: cpOneToOneHtmlDocumentCntl,
             link: function (scope, elm, attr) {
             }
         };

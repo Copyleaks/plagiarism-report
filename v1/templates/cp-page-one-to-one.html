@@ -84,8 +84,8 @@
     </div>
     <div class="panel-footer" ng-hide="!highlighted_text || paginationObject.pagination.total_pages == 1 && otherPageObject.pagination.total_pages == 1">
         <div class="one-to-one-pagination-row">
-            <cp-pagination2 pagination="paginationObject.pagination" control="paginationObject.control"
-                           on-changed="paginationObject.changed()" initial-sources="paginationObject.results"></cp-pagination2>
+            <cp-pagination pagination="paginationObject.pagination" control="paginationObject.control"
+                           on-changed="paginationObject.changed()" initial-sources="paginationObject.results"></cp-pagination>
         </div>
     </div>
 </div>

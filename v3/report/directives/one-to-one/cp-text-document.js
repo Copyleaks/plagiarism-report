@@ -1,10 +1,9 @@
 "use strict";
 
-function attach_cpPageOneToOne(app) {
-    cpPageOneToOneCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "reportDataService", "$element", 'pageService', 'reportServiceMediator'];
+function attach_cpOneToOneTextPage(app) {
+    cpOneToOneTextPageCntl.$inject = ["$scope", "$timeout", "settingsService", "utilitiesService", "$rootScope", "logService", "shareDialogService", "reportDataService", "$element", 'pageService', 'reportServiceMediator'];
 
-    
-    function cpPageOneToOneCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, reportDataService, $element, pageService, reportServiceMediator) {
+    function cpOneToOneTextPageCntl($scope, $timeout, settingsService, utilitiesService, $rootScope, logService, shareDialogService, reportDataService, $element, pageService, reportServiceMediator) {
         $scope.reportDataService = reportDataService;
         $scope.highlighted_text = $scope.text;
         $scope.isSwitchToHtmlVisible = reportDataService.availableTypes.length > 1;
@@ -92,8 +91,8 @@ function attach_cpPageOneToOne(app) {
                 switchContentType: '&',
                 pageUrl: '=?',
             },
-            templateUrl: '/v3/templates/cp-page-one-to-one.html',
-            controller: cpPageOneToOneCntl,
+            templateUrl: '/v3/templates/one-to-one/cp-text-page.html',
+            controller: cpOneToOneTextPageCntl,
         };
     }]);
 }

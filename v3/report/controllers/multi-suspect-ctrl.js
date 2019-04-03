@@ -1,5 +1,5 @@
 ﻿function attach_educationReportController(app) {
-    app.controller('education-report-ctrl', ["$scope", "$window", "$timeout", "utilitiesService", "statisticsService", "settingsService", "logService", 'shareDialogService', 'pageService', 'affixService', 'reportDataService', '$rootScope', 'contentTypeService', 'reportServiceListener', 'sourcesService', 'DataService', 'reportServiceMediator',
+    app.controller('multi-suspect-ctrl', ["$scope", "$window", "$timeout", "utilitiesService", "statisticsService", "settingsService", "logService", 'shareDialogService', 'pageService', 'affixService', 'reportDataService', '$rootScope', 'contentTypeService', 'reportServiceListener', 'sourcesService', 'DataService', 'reportServiceMediator',
         function ($scope, $window, $timeout, utilitiesService, statisticsService, settingsService, logService, shareDialogService, pageService, affixService, reportDataService, $rootScope, contentTypeService, reportServiceListener, sourcesService, DataService, reportServiceMediator) {
         $('html').css('maxHeight', 'auto');
         //if ($scope.comingFromBusinessReport) return;
@@ -104,7 +104,7 @@
 
         /**
          * Update the object `$scope.current_page_matches` with the current page
-         * matches for disply. The display of this member is 'cp-page' responsibility
+         * matches for disply. The display of this member is 'cp-text-page' responsibility
          *
          */
         var inUpdateCurrentPageMatches = false;
