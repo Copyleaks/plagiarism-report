@@ -1,4 +1,4 @@
-function attach_cpEducationReportTopArea(app) {
+function attach_cpMultiSuscpectTopArea(app) {
     controller.$inject = ["$scope", "settingsService", "logService", '$element', "reportDataService", 'utilitiesService', 'shareDialogService'];
     function controller($scope, settingsService, logService, $element, reportDataService, utilitiesService, shareDialogService) {
 
@@ -52,7 +52,7 @@ function attach_cpEducationReportTopArea(app) {
 
         // #endregion
     }
-    app.directive('cpEducationReportTopArea', [function () {
+    app.directive('cpTopArea', [function () {
         return {
             restrict: 'A',
             controller: controller

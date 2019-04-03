@@ -27,7 +27,7 @@
     attach_oneToOneReportService(app);
     attach_scrollService(app);
     attach_reportOnResize(app);
-    attach_cpEducationReportTopArea(app);
+    attach_cpMultiSuspectTopArea(app);
     attach_iFrameService(app);
     attach_ReportContentType(app);
     attach_cpOneToOneReport(app);
