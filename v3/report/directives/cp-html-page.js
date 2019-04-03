@@ -39,22 +39,14 @@ function attach_cpHtmlPage(app) {
             var currentMatches = pageService.updateCurrentPageMatches(reportDataService.sources,
                 0, reportDataService.excludedHtmlRangesPerPage,'html');
 
-            if (hasSomeMatches(currentMatches)) {
-                //console.log('hehe1');
+            if (hasSomeMatches(currentMatches)) 
                 $scope.isSwitchTypeVisible = true;
-            }
 
             var newMatcheIds = getMatchIds(currentMatches);
-
-            //console.log('newMatcheIds');
-            //console.log(newMatcheIds);
-            //console.log('currentMatchesIds');
-            //console.log(currentMatchesIds);
 
             if (currentMatchesIds && areSameMatchIds(newMatcheIds,currentMatchesIds)) return;
             currentMatchesIds = newMatcheIds;
 
-            //console.log('refreshed');
             $scope.loaded = true;
             var pageText = pageService.highlightText({
                 text: reportDataService.scanned_document.html.value,
