@@ -8,7 +8,7 @@ function attach_shareDialogService(app) {
         function show() {
             return $mdDialog.show({
                 controller: DialogController,
-                templateUrl: '/common/directives/share-dialog.html',
+                templateUrl: '/common/templates/share-dialog.html',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true,
             });

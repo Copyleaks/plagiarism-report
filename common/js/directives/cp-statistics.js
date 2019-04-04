@@ -44,7 +44,7 @@ function attach_cpStatistics(app) {
             scope: {
                 control : '='
             },
-            templateUrl: '/common/directives/cp-statistics.html',
+            templateUrl: '/common/templates/cp-statistics.html',
             controller: cpStatisticsCntl
         };
     }]);

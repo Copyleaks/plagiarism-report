@@ -96,7 +96,7 @@ function attach_cpGraph(app) {
             scope: {
                 control: '='
             },
-            templateUrl: '/common/directives/cp-graph.html',
+            templateUrl: '/common/templates/cp-graph.html',
             controller: cpGraphCntl
         };
     }]);

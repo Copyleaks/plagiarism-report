@@ -6,7 +6,7 @@ function attach_cpReport(app) {
             restrict: 'E',
             scope: {
             },
-            templateUrl: '/common/directives/report.html',
+            templateUrl: '/common/templates/report.html',
             controller: 'reportController',
         };
     }]);

@@ -4,7 +4,7 @@ function attach_cpcontentTypeReport(app) {
     app.directive('multiSuspectReport', [function () {
         return {
             restrict: 'E',
-            templateUrl: '/common/directives/multi-suspect-report.html',
+            templateUrl: '/common/templates/multi-suspect-report.html',
             controller: 'multi-suspect-ctrl',
         };
     }]);

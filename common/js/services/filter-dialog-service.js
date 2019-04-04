@@ -8,7 +8,7 @@ function attach_filterDialogService(app) {
         function show() {
             return $mdDialog.show({
                 controller: DialogController,
-                templateUrl: '/common/directives/filter-dialog.html',
+                templateUrl: '/common/templates/filter-dialog.html',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true,
                 //targetEvent: '#saveToFolder'

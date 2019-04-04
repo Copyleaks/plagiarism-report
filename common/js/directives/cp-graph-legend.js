@@ -66,7 +66,7 @@ function attach_cpGraphLegend(app) {
             scope: {
                 control: '='
             },
-            templateUrl: '/common/directives/cp-graph-legend.html',
+            templateUrl: '/common/templates/cp-graph-legend.html',
             controller: cpGraphLegendCntl
         };
     }]);

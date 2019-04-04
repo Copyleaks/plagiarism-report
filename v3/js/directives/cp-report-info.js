@@ -3,7 +3,7 @@ function attach_cpReportInfo(app) {
     app.directive('cpReportInfo', [function () {
         return {
             restrict: 'E',
-            templateUrl: '/common/directives/cp-report-info.html',
+            templateUrl: '/common/templates/cp-report-info.html',
             controller: ['$scope', 'reportServiceMediator', function ($scope, reportServiceMediator) {
                 $scope.hideReportInfo = window.hideTitleSectionCompletely;
 

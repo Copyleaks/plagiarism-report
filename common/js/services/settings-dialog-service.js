@@ -8,7 +8,7 @@ function attach_settingsDialogService(app) {
         function show() {
             return $mdDialog.show({
                 controller: DialogController,
-                templateUrl: '/common/directives/settings-dialog.html',
+                templateUrl: '/common/templates/settings-dialog.html',
                 //parent: angular.element(document.body),
                 clickOutsideToClose: true,
                 //targetEvent: '#saveToFolder'
