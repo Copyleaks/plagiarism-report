@@ -72,28 +72,32 @@ function buildLess(arr, outputDir, outputName, watch = true) {
 //Search for unused css
 gulp.task('purifycss', function () {
     return gulp.src('./dist/opensource_report.css')
-        .pipe(purify(['./v1/templates/**/*.js', './v1/templates/**/*.html',
-            './v3/templates/**/*.js', './v3/templates/**/*.html',
-            './common/js/**/*.js', './common/templates/**/*.html']))
+        .pipe(purify([
+            'sources/v1/templates/**/*.js', 
+            'sources/v1/templates/**/*.html',
+            'sources/v3/templates/**/*.js', 
+            'sources/v3/templates/**/*.html',
+            'sources/common/js/**/*.js', 
+            'sources/common/templates/**/*.html']))
         .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('css', function () {
-    return buildLess(['css/opensource_report.less'], 'dist', 'copyleaks-plagiarism-report');
+    return buildLess(['sources/css/opensource_report.less'], 'dist', 'copyleaks-plagiarism-report');
 });
 
 gulp.task('build-v1', function () {
     return buildJs([
-        'v1/js/**/*.js',
-        'common/js/**/*.js'
+        'sources/v1/js/**/*.js',
+        'sources/common/js/**/*.js'
     ], 'dist/v1/', 'copyleaks-plagiarism-report', '.');
 });
 
 gulp.task('build-v3', function () {
     return buildJs([
-        'common/js/services/underscoreVarFix.js',
-        'v3/js/**/*.js',
-        'common/js/**/*.js'
+        'sources/common/js/services/underscoreVarFix.js',
+        'sources/v3/js/**/*.js',
+        'sources/common/js/**/*.js'
     ], 'dist/v3/', 'copyleaks-plagiarism-report', '.')
 });
 
