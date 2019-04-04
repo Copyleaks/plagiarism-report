@@ -9,6 +9,7 @@
     attach_cpGraph(app);
     attach_cpGraphLegend(app);
     attach_cpStatistics(app);
+    attach_cpPoweredBy(app);
     attach_utilites(app);
     attach_statistics_service(app);
     attach_settings_service(app);
