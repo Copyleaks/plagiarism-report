@@ -1,5 +1,5 @@
 ﻿function attach_pageService(app) {
-    app.service('pageService', ['settingsService', 'DataService','reportDataService','contentTypeService',
+    app.service('pageService', ['settingsService', 'DataService', 'reportDataService', 'contentTypeService',
         function (settingsService, DataService, reportDataService, contentTypeService) {
             var service = {
                 updateCurrentPageMatches: updateCurrentPageMatches,
@@ -29,7 +29,7 @@
                 ranges = mergeSimilarMatches(ranges);
                 keepUniqueIds(ranges);
                 ranges = sortRanges(ranges, mapType)
-                
+
                 var text = _highlightText(text, ranges, sources, mapType, reportType, disableTooltip, pageType);
                 return text;
             }
@@ -54,42 +54,42 @@
                 for (var i = 0; i < ranges.length; ++i) {
                     range = ranges[i];
                     if (lastIndex >= range.SoE) {
-                        result.unshift(text.substr(range.SoE, lastIndex - range.SoE+1));
+                        result.unshift(text.substr(range.SoE, lastIndex - range.SoE + 1));
                     }
-                    
+
                     if (range.matchType == 4) {
                         tooltip = '';
                         if (!disableTooltip)
                             tooltip = "<md-tooltip md-direction=\"top\" md-delay=\"1000\">References are omitted according to your settings</md-tooltip>";
-                        
+
                         var textToAdd = text.substr(range.SoS, range.SoE - range.SoS);
                         result.unshift('<span class="highlight-4">' + tooltip + textToAdd + "</span>");
                     } else {
                         tooltip = '';
                         if (!disableTooltip)
                             tooltip = getTooltip(range.ids, sources, reportType);
-                        
+
 
                         var textToAdd = text.substr(range.SoS, range.SoE - range.SoS);
                         var preText = "<span" +
                             getClassesForHighlightedElement(range.matchType, range.ids) +
-                             getClickAction(pageType, range.ids) +
-                             tooltip +
-                             ">";
+                            getClickAction(pageType, range.ids) +
+                            tooltip +
+                            ">";
                         result.unshift(preText + textToAdd + "</span>");
                     }
-                    lastIndex = range.SoS-1;
+                    lastIndex = range.SoS - 1;
                 }
 
                 if (lastIndex != 0) {
-                    result.unshift(text.substr(0, lastIndex+1));
+                    result.unshift(text.substr(0, lastIndex + 1));
                 }
 
                 var newResults = result.join('');
-                
+
                 return newResults;
             }
-            
+
             function getClickAction(pageType, rangeIds) {
                 var rangeIdsString = getRangeIdsStringForClickParameter(rangeIds);
 
@@ -101,23 +101,23 @@
                 return " ng-click=\"clicked($event, " + rangeIdsString + ");\"";
             }
 
-            function getRangeIdsStringForClickParameter(rangeIds){
+            function getRangeIdsStringForClickParameter(rangeIds) {
                 var result = '[';
 
-                for (var i= 0; i < rangeIds.length ; ++i){
+                for (var i = 0; i < rangeIds.length; ++i) {
                     result += "'" + rangeIds[i] + "',";
                 }
 
-                result = result.slice(0,-1);
+                result = result.slice(0, -1);
                 result += ']';
                 return result;
             }
 
             function getClassesForHighlightedElement(matchType, rangeIds) {
-                return  " class=\"highlight-" + matchType + " " + rangeIds.join(' ') + "\"";
+                return " class=\"highlight-" + matchType + " " + rangeIds.join(' ') + "\"";
             }
 
-            function getTooltip(ids, sources, reportType ){
+            function getTooltip(ids, sources, reportType) {
                 if (reportType != '1to1') {
                     return "title=\"" + getTooltipText(ids, sources) + "\"";
                 } else {
@@ -133,7 +133,7 @@
                 else {
                     var urls = {};
                     var nonurls = {};
-                    for (var i = 0; i < ids.length ; ++i) {
+                    for (var i = 0; i < ids.length; ++i) {
                         var sourceId = reportDataService.getSourceIdFromMatchId(ids[i]);
                         var source = sources[sourceId];
                         var url = source.url;
@@ -174,12 +174,12 @@
                             urls[deepestParent] = urls[deepestParent] + count;
                         }
                     }
-                    
+
                     var msg = "Results came from:";
                     var keys = Object.keys(urls);
-                    for (var i = 0; i < keys.length && i < 7; ++i){
+                    for (var i = 0; i < keys.length && i < 7; ++i) {
                         var numberOfSubdomainsWithResults = urls[keys[i]];
-                        if ( numberOfSubdomainsWithResults > 1)
+                        if (numberOfSubdomainsWithResults > 1)
                             msg += "&#13;" + keys[i] + ' (' + urls[keys[i]] + ')';
                         else
                             msg += "&#13;" + keys[i];
@@ -220,8 +220,8 @@
                     positions.push([]);
                 }
 
-                
-                
+
+
 
                 fillRangeWithMatchType(positions, matches.identical, 'i', 1);
                 fillRangeWithMatchType(positions, matches.similar, 's', 2);
@@ -231,7 +231,7 @@
                     var matchStart = matches.excluded[i].start;
                     var length = matches.excluded[i].length;
                     var matchEnd = matchStart + length;
-                    for (var x = matchStart  ; x < matchEnd; ++x) {
+                    for (var x = matchStart; x < matchEnd; ++x) {
                         positions[x].push({
                             matchType: 4,
                             id: -1//matches.relatedMeaning[i].id,
@@ -282,7 +282,7 @@
                             var id = positions[i][pos].id;
                             lastRange.ids.push(id);
                             rangesIds[i][id] = true;
-                        }      
+                        }
                     }
                 }
 
@@ -291,13 +291,13 @@
                 return ranges;
             }
 
-            function fillRangeWithMatchType(positions,matches, matchLetter, matchType) {
+            function fillRangeWithMatchType(positions, matches, matchLetter, matchType) {
                 for (var i = 0; i < matches.length; ++i) {
                     match = matches[i];
                     uniqueId = matchLetter + '_' + match.id + '_' + match.gid;
                     var matchStart = match.start;
                     var matchEnd = matchStart + match.length;
-                    for (var x = matchStart ; x < matchEnd; ++x) {
+                    for (var x = matchStart; x < matchEnd; ++x) {
                         positions[x].push({
                             matchType: matchType,
                             id: uniqueId//matches.identical[i].id
@@ -308,7 +308,7 @@
 
             function areAllIdsTheSame(idList, idObject) {
                 for (var i = 0; i < idList.length; ++i) {
-                    if (!idObject.hasOwnProperty( idList[i].id )) return false;
+                    if (!idObject.hasOwnProperty(idList[i].id)) return false;
                 }
                 return true;
             }
@@ -380,6 +380,8 @@
                 var source;
                 var length;
                 var contentTypeProperty = contentType == 'html' ? 'splitMatchesHtml' : 'splitMatchesText';
+                if (contentType == 'html')
+                    pageIndex = 0; // HTML has only a single page
 
                 for (var item in sourcesToLookForMatches) {
                     source = sourcesToLookForMatches[item];
@@ -389,9 +391,9 @@
                         || !source[contentTypeProperty])
                         continue;
 
-                    
 
-                    if (settings.showIdentical && source[contentTypeProperty].identical ) {
+
+                    if (settings.showIdentical && source[contentTypeProperty].identical) {
                         length = source[contentTypeProperty].identical[pageIndex].groupId.length;
                         var pageMatches = source[contentTypeProperty].identical[pageIndex];
                         for (var i = 0; i < length; ++i) {
@@ -406,10 +408,10 @@
                         }
                     }
 
-                    if (settings.showSimilar && source[contentTypeProperty].similar ) {
+                    if (settings.showSimilar && source[contentTypeProperty].similar) {
                         length = source[contentTypeProperty].similar[pageIndex].groupId.length;
                         var pageMatches = source[contentTypeProperty].similar[pageIndex];
-                        for (var i = 0; i < length ; ++i) {
+                        for (var i = 0; i < length; ++i) {
                             current_page_matches.similar.push(
                                 {
                                     id: source.id,
@@ -438,7 +440,13 @@
                 }
 
                 if (excludedRangesPerPage && excludedRangesPerPage.length > 0) {
-                    for (var i = 0; i < excludedRangesPerPage[pageIndex].groupId.length; ++i) {
+                    var length;
+                    if (excludedRangesPerPage[pageIndex].groupIds)
+                        length = excludedRangesPerPage[pageIndex].groupId.length;
+                    else
+                        length = excludedRangesPerPage[pageIndex].starts.length;
+
+                    for (var i = 0; i < length; ++i) {
                         current_page_matches.excluded.push(
                             {
                                 id: -1,
@@ -458,7 +466,7 @@
                 if (!pageRanges || pageRanges === null)
                     throw ('pageRanges cannot be null');
 
-                
+
                 var spliter = new PagesSpliter();
                 var matches = {
                     identical: spliter.splitMatch(matches.identical, pageRanges, mapType),
@@ -476,7 +484,7 @@
 
 
             function getColorForMatchType(matchType) {
-                
+
                 switch (matchType) {
                     case 'i':
                         return 'rgba(255, 102, 102, 0.9)';
