@@ -1,4 +1,4 @@
-﻿function PagesSpliter() {}
+﻿function PagesSpliter() { }
 
 PagesSpliter.prototype.splitText = function (text, pageRanges) {
     var splitPages = [];
@@ -22,7 +22,7 @@ PagesSpliter.prototype.splitMatch = function (matches, pageRanges, mapType) {
 
     if (matches == null) return null;
 
-    var targetMatchProperty,otherMatchProperty;
+    var targetMatchProperty, otherMatchProperty;
     if (mapType == "sourceToSuspect") {
         targetMatchProperty = 'source';
         otherMatchProperty = 'suspected'
@@ -31,8 +31,8 @@ PagesSpliter.prototype.splitMatch = function (matches, pageRanges, mapType) {
         otherMatchProperty = 'source'
     } else throw new Error('Unsupported map type: ' + mapType)
 
-    var starts = angular.extend([],matches[targetMatchProperty].chars.starts);
-    var lengths = angular.extend([],matches[targetMatchProperty].chars.lengths);
+    var starts = angular.extend([], matches[targetMatchProperty].chars.starts);
+    var lengths = angular.extend([], matches[targetMatchProperty].chars.lengths);
     var otherStarts = matches[otherMatchProperty].chars.starts;
     var otherLengths = matches[otherMatchProperty].chars.lengths;
 
@@ -49,10 +49,23 @@ PagesSpliter.prototype.splitMatch = function (matches, pageRanges, mapType) {
             otherLengths: []
         });
     }
-    var totalMatches = matches.groupId.length;
+    var totalMatches = matches.source.chars.starts.length;
     //var startMatchIndex = 0; // We wanted to improve the run time by skipping already splited matches.
     //But, the matches are not ordered therefore we can't assume anything about the page a match is in
-    
+
+    var groupIds;
+    if (matches.groupIds) {
+        // HTML exluded sections has `groupIds`
+        groupIds = matches.groupIds;
+    }
+    else {
+        // Text excluded sections doesn't have `groupIds`
+        groupIds = [];
+        for (var groupIdIndex = 0; groupIdIndex < totalMatches; ++groupIdIndex)
+            groupIds.push(groupIdIndex);
+    }
+
+
     for (var i = 0; i < pageRanges.length; ++i) {
         var pageStartIndex = pageRanges[i];
 
@@ -61,8 +74,8 @@ PagesSpliter.prototype.splitMatch = function (matches, pageRanges, mapType) {
             pageEndIndex = 99999999999;
         else
             pageEndIndex = pageRanges[i + 1];
-        
-        for (var matchIndex = 0; matchIndex < totalMatches ; ++matchIndex) {
+
+        for (var matchIndex = 0; matchIndex < totalMatches; ++matchIndex) {
             var matchStart = starts[matchIndex];
             var length = lengths[matchIndex];
             var otherStart = otherStarts[matchIndex];
@@ -71,14 +84,14 @@ PagesSpliter.prototype.splitMatch = function (matches, pageRanges, mapType) {
             var matcheEnd = matchStart + length;
             if (pageStartIndex <= matchStart && matchStart < pageEndIndex) {
                 if (pageEndIndex >= matcheEnd) {
-                    pagesVsMatches[i].groupId.push(matches.groupId[matchIndex]);
+                    pagesVsMatches[i].groupId.push(groupIds[matchIndex]);
                     pagesVsMatches[i].starts.push(matchStart);
                     pagesVsMatches[i].lengths.push(length);
                     pagesVsMatches[i].otherStarts.push(otherStart);
                     pagesVsMatches[i].otherLengths.push(otherLength);
                 }
                 else {
-                    pagesVsMatches[i].groupId.push(matches.groupId[matchIndex]);
+                    pagesVsMatches[i].groupId.push(groupIds[matchIndex]);
                     pagesVsMatches[i].starts.push(matchStart);
                     pagesVsMatches[i].lengths.push(pageEndIndex - matchStart);
                     pagesVsMatches[i].otherStarts.push(otherStart);
@@ -105,11 +118,24 @@ PagesSpliter.prototype.splitExcluded = function (matches, pageRanges) {
     for (var i = 0; i < pageRanges.length; ++i) {
         pagesVsMatches.push({
             groupId: [],
-            reasons:[],
-            lengths:[],
+            reasons: [],
+            lengths: [],
             starts: []
         });
     }
+
+    var groupIds;
+    if (matches.groupIds) {
+        // HTML exluded sections has `groupIds`
+        groupIds = matches.groupIds;
+    }
+    else {
+        // Text excluded sections doesn't have `groupIds`
+        groupIds = [];
+        for (var groupIdIndex = 0; groupIdIndex < matches.reasons.length; ++groupIdIndex)
+            groupIds.push(groupIdIndex);
+    }
+
     for (var i = 0; i < pageRanges.length; ++i) {
         var startIndex = pageRanges[i];
 
@@ -118,20 +144,21 @@ PagesSpliter.prototype.splitExcluded = function (matches, pageRanges) {
             endIndex = 9999999999;
         else
             endIndex = pageRanges[i + 1];
-        
-        for (var matchIndex = 0; matchIndex < matches.groupIds.length; ++matchIndex) {
-            var start = matches.value[matchIndex];   
+
+
+        for (var matchIndex = 0; matchIndex < groupIds.length; ++matchIndex) {
+            var start = matches.value[matchIndex];
             var end = start + matches.lengths[matchIndex];
             if (startIndex <= start && start < endIndex) {
                 if (endIndex >= end - 1) {
-                    pagesVsMatches[i].groupId.push(matches.groupIds[matchIndex]);
+                    pagesVsMatches[i].groupId.push(groupIds[matchIndex]);
                     pagesVsMatches[i].reasons.push(matches.reasons[matchIndex]);
                     pagesVsMatches[i].lengths.push(matches.lengths[matchIndex]);
                     pagesVsMatches[i].starts.push(matches.value[matchIndex]);
                 }
                 else {
                     var subtract = end - endIndex;
-                    pagesVsMatches[i].groupId.push(matches.groupIds[matchIndex]);
+                    pagesVsMatches[i].groupId.push(groupIds[matchIndex]);
                     pagesVsMatches[i].reasons.push(matches.reasons[matchIndex]);
                     pagesVsMatches[i].lengths.push(subtract);
                     pagesVsMatches[i].starts.push(matches.value[matchIndex]);
@@ -153,7 +180,7 @@ PagesSpliter.prototype.makeExcludePageZeroBased = function (pagesVsMatches, page
 
         var matchesInPage = pagesVsMatches[pageIndex].starts.length;
 
-        for (var matchIndex = 0; matchIndex < matchesInPage ; ++matchIndex) // Start from the next page.
+        for (var matchIndex = 0; matchIndex < matchesInPage; ++matchIndex) // Start from the next page.
         {
             pagesVsMatches[pageIndex].starts[matchIndex] -= pageRanges[pageIndex];
         }

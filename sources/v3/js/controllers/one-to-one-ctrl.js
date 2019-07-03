@@ -121,7 +121,14 @@
             function getPageContainingMatch(matchId, matches, pageRanges, targetType) {
                 var matchGroup = getMatchGroupForMatchId(matchId, matches.matches.text.comparison);
                 var gid = Number(matchId.substr(matchId.lastIndexOf('_') + 1));
-                var matchIndex = matchGroup.groupId.indexOf(gid);
+
+                // groupIds is exists only if it's HTML comparison. 
+                var matchIndex;
+                if (matchGroup.groupId)
+                    matchIndex = matchGroup.groupId.indexOf(gid);
+                else
+                    matchIndex = gid;
+
                 var matchProperty = targetType == "source" ? "source" : "suspected";
                 var startIndex = matchGroup[matchProperty].chars.starts[matchIndex];
 
