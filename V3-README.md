@@ -30,7 +30,7 @@ You will generally folow these steps ( with more details in the next section):
 3. Gather all the results from the copyleaks api:
    1. Download and store in your storage the report source document from: `http://api.copyleaks.com/v3/downloads/{scanId}`
    1. Download and store in your storage the report sources from: `http://api.copyleaks.com/v3/{product}/{scanId}/result`
-   1. Download and store in your storage each results matches from: `http://api.copyleaks.com/v3/downloads/{pid}/results/{resultId}`
+   1. Download and store in your storage each results matches from: `http://api.copyleaks.com/v3/downloads/{scanId}/results/{resultId}`
 4. Create endpoints in your server to expose each data you stored in the previous step.
 5. Present the downloaded data with the demo report:
   a. Copy the demo angularJs app from `./hosts/v3/showSuccessReportMultipleSuspect.html` into your webpage where you want to display the report.
