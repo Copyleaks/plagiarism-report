@@ -1,0 +1,84 @@
+<ng-container *ngIf="result; else skeleton__card">
+	<div header
+			 fxLayout="row"
+			 fxLayoutAlign="space-between stretch"
+			 class="title"
+			 (click)="onTitleClick()">
+		{{preview.title}}
+	</div>
+
+	<p body>
+		{{ preview.introduction }}
+	</p>
+
+	<div url>
+		<a [href]="preview.url"
+			 target="_blank">{{preview.url}}</a>
+	</div>
+	<mat-divider></mat-divider>
+	<div footer
+			 fxLayout="row"
+			 fxLayoutAlign="space-between stretch">
+		<div [ngClass]="{'text-identical': true}">
+			{{ preview.matchedWords | shortNumber:2 }} similar words
+		</div>
+		<div fxLayout="row"
+				 fxLayoutGap="1em"
+				 style="height: 28px"
+				 [satPopoverAnchor]='popover'
+				 satPopoverHover>
+			<span class="dot identical"></span>
+			<span class="dot minor-changes"></span>
+			<span class="dot related"></span>
+		</div>
+	</div>
+	<sat-popover #popover
+							 horizontalAlign="after">
+		<div fxLayout="column nowrap"
+				 fxLayoutAlign="start start"
+				 class="sat-tooltip">
+			<div class="text-identical">
+				identical - {{ result.statistics.identical }} words
+			</div>
+			<div class="text-minor-changes">
+				minor changes - {{ result.statistics.minorChanges}} words
+			</div>
+			<div class="text-related">
+				related - {{result.statistics.relatedMeaning }} words
+			</div>
+		</div>
+	</sat-popover>
+
+</ng-container>
+
+<ng-template #skeleton__card>
+	<p>
+		<ngx-skeleton-loader></ngx-skeleton-loader>
+	</p>
+	<ngx-skeleton-loader></ngx-skeleton-loader>
+	<ngx-skeleton-loader></ngx-skeleton-loader>
+	<ngx-skeleton-loader></ngx-skeleton-loader>
+	<p>
+		<ngx-skeleton-loader></ngx-skeleton-loader>
+	</p>
+	<mat-divider></mat-divider>
+	<div footer
+			 fxLayout="row"
+			 fxLayoutAlign="space-between stretch">
+		<ngx-skeleton-loader fxFlex="30"
+												 [theme]="{height:'28px',margin:0}">
+		</ngx-skeleton-loader>
+		<div fxLayout="row"
+				 fxLayoutGap="1em">
+			<ngx-skeleton-loader [theme]="{ height:'28px',width:'28px',margin:0}"
+													 appearance="circle">
+			</ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height:'28px',width:'28px',margin:0}"
+													 appearance="circle">
+			</ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height:'28px',width:'28px',margin:0}"
+													 appearance="circle">
+			</ngx-skeleton-loader>
+		</div>
+	</div>
+</ng-template>

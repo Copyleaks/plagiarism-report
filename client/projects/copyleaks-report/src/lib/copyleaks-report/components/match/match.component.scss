@@ -1,0 +1,45 @@
+@import '../../../styles';
+
+:host {
+  cursor: pointer;
+  background-color: red;
+
+  &.cr-m-0 {
+    background-color: $color-identical;
+
+    &:hover {
+      background-color: lighten($color-identical, 5%);
+    }
+  }
+}
+
+
+
+span[class*="cr-m-"] {
+  cursor: pointer;
+
+  &.cr-m-1 {
+    background-color: $color-minor-changes;
+
+    &:hover {
+      background-color: lighten($color-minor-changes, 5%);
+    }
+  }
+
+  &.cr-m-2 {
+    background-color: $color-related;
+
+    &:hover {
+      background-color: lighten($color-related, 5%);
+    }
+  }
+
+
+  &.cr-highlight {
+    background-color: gold;
+
+    &:hover {
+      background-color: lighten(gold, 10%);
+    }
+  }
+}

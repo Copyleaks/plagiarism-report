@@ -1,0 +1,190 @@
+<cr-expansion-panel expanded="true">
+	<cr-expansion-panel-title>SCAN PROPERTIES </cr-expansion-panel-title>
+	<cr-expansion-panel-menu>
+		<cr-expansion-panel-menu-item *ngIf="share">
+			<button mat-button
+							(click)="shareClicked()">
+				<mat-icon>share</mat-icon>
+			</button>
+		</cr-expansion-panel-menu-item>
+		<cr-expansion-panel-menu-item *ngIf="download">
+			<button mat-button
+							(click)="downloadClicked()">
+				<mat-icon>save_alt</mat-icon>
+			</button>
+		</cr-expansion-panel-menu-item>
+	</cr-expansion-panel-menu>
+
+
+	<cr-expansion-panel-body fxLayout="row nowrap">
+		<!-- <div progress>
+			<ng-container *ngIf="metadata;else skeleton__prop">
+				<span fxLayout="row"
+							fxLayoutGap="1em">
+					<mat-icon>check_circle</mat-icon>{{progress | percent:"1.0" }}
+				</span>
+			</ng-container>
+		</div> -->
+
+		<div prop>
+			<ng-container *ngIf="metadata;else skeleton__prop">
+				<div fxLayout="row nowrap"
+						 fxLayoutAlign="center center"
+						 fxLayoutGap="1em">
+					<mat-spinner *ngIf="!done"
+											 [diameter]="40"></mat-spinner>
+					<label>
+						<ng-container *ngIf="!done">
+							{{(progress / 100) | percent:"1.0" }}
+						</ng-container>
+						<ng-container *ngIf="!done">
+
+						</ng-container>
+						<ng-container *ngIf="done">
+							done
+						</ng-container>
+					</label>
+				</div>
+				<div>
+					<ng-container *ngIf="!done;">
+						working...
+					</ng-container>
+					<ng-container *ngIf="done">
+						<small *ngIf="metadata"
+									 matTooltip="{{metadata?.scannedDocument.creationTime | date:'long'}}">
+							Scanned {{ metadata?.scannedDocument.creationTime | timeAgo }}
+						</small>
+					</ng-container>
+				</div>
+			</ng-container>
+		</div>
+		<div prop>
+			<ng-container *ngIf="metadata;else skeleton__prop">
+				<label>{{metadata.results.batch.length + metadata.results.internet.length + metadata.results.database.length}}</label>
+				<div>
+					results found
+				</div>
+			</ng-container>
+		</div>
+		<div stats
+				 [fxFlexOrder.lt-md]="-5"
+				 fxLayout="row nowrap"
+				 fxLayoutAlign="stretch stretch">
+			<ng-container *ngIf="metadata;else skeleton__stats">
+				<ngx-charts-pie-chart fxHide.lt-md
+															#pie
+															[customColors]="customColors"
+															[results]='chartData'
+															[view]="[150,150]">
+				</ngx-charts-pie-chart>
+				<div legend
+						 fxLayout="column"
+						 fxFlex
+						 fxLayoutAlign="space-evenly stretch">
+					<div row
+							 fxLayout="row"
+							 fxLayoutAlign="start center"
+							 fxLayoutGap="0.5em">
+						<div class="dot identical"></div>
+						<div text> Identical</div>
+						<span fxFlex></span>
+						<div>{{ (stats?.identical / stats?.total) | percent:"1.0-1"}}</div>
+					</div>
+					<mat-divider></mat-divider>
+					<div row
+							 fxLayout="row"
+							 fxLayoutAlign="center center"
+							 fxLayoutGap="0.5em">
+						<div class="dot minor-changes"></div>
+						<div text> Minor Changes</div>
+						<span fxFlex></span>
+						<div>{{ ( stats?.minorChanges / stats?.total) | percent:"1.0-1"}}</div>
+					</div>
+					<mat-divider></mat-divider>
+					<div row
+							 fxLayout="row"
+							 fxLayoutAlign="start center"
+							 fxLayoutGap="0.5em">
+						<div class="dot related"></div>
+						<div text> Related Meaning </div>
+						<span fxFlex></span>
+						<div> {{ (stats?.relatedMeaning/ stats?.total) | percent:"1.0-1" }}</div>
+					</div>
+					<mat-divider></mat-divider>
+					<div row
+							 fxLayout="row"
+							 fxLayoutAlign="start center"
+							 fxLayoutGap="0.5em">
+						<div class="dot omitted"></div>
+						<div text> Omitted Words </div>
+						<span fxFlex></span>
+						<div> {{ (metadata.scannedDocument.totalExcluded/ stats?.total) | percent:"1.0-1" }}
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</div>
+		<div prop>
+			<ng-container *ngIf="stats;else skeleton__prop">
+				<label>{{ ((stats.identical + stats.relatedMeaning + stats.minorChanges) / stats.total) | percent:"1.0-1"}}</label>
+				<div>match</div>
+			</ng-container>
+		</div>
+
+
+		<div prop>
+			<ng-container *ngIf="stats;else skeleton__prop">
+				<label>{{ stats.identical | shortNumber:1}}</label>
+				<div>coppied words</div>
+			</ng-container>
+		</div>
+	</cr-expansion-panel-body>
+</cr-expansion-panel>
+
+<ng-template #skeleton__prop>
+	<ngx-skeleton-loader [theme]="{height:'3em',width:'95px',margin:'0.5em'}"></ngx-skeleton-loader>
+	<ngx-skeleton-loader [theme]="{height:'1em',width:'3em'}"></ngx-skeleton-loader>
+</ng-template>
+
+<ng-template #skeleton__stats>
+
+	<div fxLayout="column">
+		<ngx-skeleton-loader [theme]="{width:'113px',height:'113px',margin:'1em'}"
+												 appearance="circle">
+		</ngx-skeleton-loader>
+	</div>
+	<div fxLayout="column"
+			 fxFlex
+			 fxLayoutAlign="space-evenly stretch">
+		<div fxLayout="row"
+				 fxLayoutGap="1em"
+				 fxLayoutAlign="center center"
+				 style="margin-right: 0.5em">
+			<ngx-skeleton-loader appearance="circle"
+													 [theme]="{width:'1.75em',height:'1.75em'}"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{margin:'0'}"
+													 fxFlex></ngx-skeleton-loader>
+		</div>
+		<mat-divider></mat-divider>
+		<div fxLayout="row"
+				 fxLayoutGap="1em"
+				 fxLayoutAlign="center center"
+				 style="margin-right: 0.5em">
+			<ngx-skeleton-loader appearance="circle"
+													 [theme]="{width:'1.75em',height:'1.75em'}"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{margin:'0'}"
+													 fxFlex></ngx-skeleton-loader>
+		</div>
+		<mat-divider></mat-divider>
+		<div fxLayout="row"
+				 fxLayoutGap="1em"
+				 fxLayoutAlign="center center"
+				 style="margin-right: 0.5em">
+			<ngx-skeleton-loader appearance="circle"
+													 [theme]="{width:'1.75em',height:'1.75em'}"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{margin:'0'}"
+													 fxFlex></ngx-skeleton-loader>
+		</div>
+	</div>
+
+</ng-template>

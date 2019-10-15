@@ -1,0 +1,11 @@
+{
+	"extends": "../../tslint.json",
+	"rules": {
+		"variable-name": {
+			"options": ["allow-leading-underscore", "require-const-for-all-caps"]
+		},
+		"directive-selector": [true, "attribute", "cr", "camelCase"],
+
+		"component-selector": [true, ["element", "attributes"], "cr", "kebab-case"]
+	}
+}

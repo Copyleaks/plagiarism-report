@@ -1,0 +1,106 @@
+@import "../../../styles";
+
+cr-powered-by {
+  @include gt-sm {
+    display: none;
+  }
+}
+
+cr-panel {
+  cr-panel-header {
+    text-transform: uppercase;
+  }
+
+  cr-panel-body {
+    position: relative;
+    max-width: 100%;
+
+    [card] {
+      overflow-y: auto;
+    }
+
+    pre {
+      word-break: break-word;
+      max-width: 100%;
+      margin: 0px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+
+      &:not([hidden]) {
+        display: block;
+      }
+    }
+
+    [content-footer] {
+      height: 36px;
+      margin-top: 0.5em;
+
+      @include lt-md {
+        margin-top: 0em;
+      }
+    }
+  }
+}
+
+[text-container] {
+  white-space: pre-line;
+
+
+  span[class*="cr-m-"] {
+    cursor: pointer;
+
+
+
+    &.cr-m-0 {
+      background-color: $color-identical;
+
+      &:hover {
+        background-color: lighten($color-identical, 5%);
+      }
+    }
+
+
+    &.cr-m-1 {
+      background-color: $color-minor-changes;
+
+      &:hover {
+        background-color: lighten($color-minor-changes, 5%);
+      }
+    }
+
+    &.cr-m-2 {
+      background-color: $color-related;
+
+      &:hover {
+        background-color: lighten($color-related, 5%);
+      }
+    }
+
+
+    &.cr-highlight {
+      background-color: gold;
+
+      &:hover {
+        background-color: lighten(gold, 10%);
+      }
+    }
+  }
+}
+
+[mat-button] {
+  min-width: 36px;
+  padding: 0;
+}
+
+[skeleton__body] {
+  @for $i from 1 through 5 {
+    ngx-skeleton-loader:nth-child(5n + #{$i}) {
+      flex: 1;
+      width: percentage((random(30) + 70) / 100);
+    }
+  }
+}

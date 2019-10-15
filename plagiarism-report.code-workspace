@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"name": ".",
+			"path": "./"
+		},
+		{
+			"path": "./server"
+		},
+		{
+			"path": "./client"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"client/": true,
+			"server/": true
+		}
+	}
+}

@@ -1,0 +1,215 @@
+<cr-panel fxFlex>
+	<cr-panel-header>
+
+		<label> Suspect </label>
+	</cr-panel-header>
+	<cr-panel-actions>
+		<cr-panel-action fxHide.lt-md>
+			<ng-container *ngTemplateOutlet="menu__toggle_html"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md>
+			<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md>
+			<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md>
+			<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md>
+			<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.gt-sm
+										 *ngIf="isMobile">
+			<button mat-button
+							[matMenuTriggerFor]="appMenu"
+							matTooltip="show options">
+				<mat-icon>more_vert</mat-icon>
+			</button>
+		</cr-panel-action>
+		<cr-panel-action>
+			<ng-container *ngTemplateOutlet="menu__show_results"></ng-container>
+		</cr-panel-action>
+
+	</cr-panel-actions>
+
+	<cr-panel-body fxLayout="column nowrap"
+								 suspectMarker>
+		<div fxFlex
+				 fxLayout="column">
+			<div card
+					 fxFlex
+					 class="mat-elevation-z3"
+					 [style.padding]="isHtml ? '0em' : '1em'">
+				<div *ngIf="suspect ; else skeleton__body"
+						 [hidden]="hasHtml && isHtml"
+						 text-container
+						 [ngStyle]="{ 'font-size': zoom + 'em' }"
+						 [dir]="direction">
+					<ng-container *ngIf="matches; else clean">
+						<ng-container *ngFor="let partial of matches[currentPage-1]">
+							<span *ngIf="partial.match.type === MatchType.none">{{partial.content}}</span>
+							<span *ngIf="partial.match.type !== MatchType.none"
+										[cr-match]="partial.match"
+										[isSource]="false">{{partial.content}}</span>
+						</ng-container>
+					</ng-container>
+					<ng-template #clean>
+						{{ suspect.text.value | slice:pages[currentPage-1]:pages[currentPage] }}
+					</ng-template>
+				</div>
+				<iframe #suspectFrame
+								fxFlex
+								[hidden]="!hasHtml || !isHtml"
+								cr-suspect-frame-helper>
+				</iframe>
+
+			</div>
+			<div content-footer
+					 fxLayoutAlign="space-between center"
+					 fxLayout="row-reverse nowrap">
+
+				<ng-container *ngIf="suspect ;else skeleton__pagination">
+					<cr-mat-pagination *ngIf="!hasHtml || !isHtml"
+														 showFirstLastButtons
+														 [(currentPage)]="currentPage"
+														 [totalPages]="pages.length"></cr-mat-pagination>
+				</ng-container>
+				<cr-powered-by></cr-powered-by>
+			</div>
+		</div>
+
+	</cr-panel-body>
+</cr-panel>
+
+<ng-template #skeleton__pagination>
+	<div fxLayout="row nowrap"
+			 fxLayoutGap="0.5em"
+			 fxLayoutAlign="start stretch">
+		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{width:'200px',height:'36px'}"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
+	</div>
+</ng-template>
+
+<!-- menu -->
+
+<!-- menu -->
+<mat-menu #appMenu>
+	<button mat-menu-item
+					crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__next_match">
+		</ng-container>
+		Next Match
+	</button>
+	<button mat-menu-item
+					crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__prev_match">
+		</ng-container>
+		Previous Match
+	</button>
+	<button mat-menu-item
+					(click)="toggleContent()"
+					crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__toggle_html"></ng-container>
+		{{isHtml ? 'Switch to textual mode':'Switch to rich text mode'}}
+	</button>
+	<button mat-menu-item
+					crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__align_left">
+		</ng-container>
+		Align Left
+	</button>
+	<button mat-menu-item
+					crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__align_right">
+		</ng-container>
+		Align Right
+	</button>
+	<button mat-menu-item
+					(click)="increaseFontSize()"
+					crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__font_inc">
+		</ng-container>
+		Increase Font Size
+	</button>
+	<button mat-menu-item
+					(click)="decreaseFontSize()"
+					crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__font_dec">
+		</ng-container>
+		Decrease Font Size
+	</button>
+</mat-menu>
+<ng-template #menu__next_match>
+	<button mat-button
+					matTooltip="Go to next match">
+		<mat-icon>arrow_downward</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__prev_match>
+	<button mat-button
+					matTooltip="Go to next match">
+		<mat-icon>arrow_upward</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__toggle_html>
+	<button mat-button
+					[matTooltip]=" isHtml ? 'Switch to textual mode':'Switch to rich text mode'"
+					[disabled]="!hasHtml"
+					(click)="toggleContent()">
+		<mat-icon>title</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__align_left>
+	<button mat-button
+					matTooltip="Align left"
+					(click)="direction = 'ltr'">
+		<mat-icon>format_align_left</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__align_right>
+	<button mat-button
+					matTooltip="Align right"
+					(click)="direction = 'rtl'">
+		<mat-icon>format_align_right</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__font_inc>
+	<button mat-button
+					matTooltip="Increase font size"
+					(click)="increaseFontSize()">
+		<mat-icon>zoom_in</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__font_dec>
+	<button mat-button
+					matTooltip="Decrease font size"
+					(click)="decreaseFontSize()">
+		<mat-icon>zoom_out</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__show_results>
+	<button mat-button
+					matTooltip="Close"
+					(click)="goBack()">
+		<mat-icon>close</mat-icon>
+	</button>
+</ng-template>
+
+
+<!-- skeletons -->
+<ng-template #skeleton__body>
+	<div fxFlex
+			 fxLayout="column"
+			 fxLayoutAlign="start stretch"
+			 fxLayoutGap="1em"
+			 style="overflow: hidden"
+			 skeleton__body>
+		<ngx-skeleton-loader [theme]="{ height: '100%' }"
+												 *ngFor="let item of 20 | array; index as i">
+		</ngx-skeleton-loader>
+	</div>
+</ng-template>

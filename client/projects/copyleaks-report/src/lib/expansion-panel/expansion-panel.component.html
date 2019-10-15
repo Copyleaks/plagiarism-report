@@ -1,0 +1,34 @@
+<div fxLayout="row nowrap"
+		 fxLayoutAlign="start stretch"
+		 top>
+	<span fxLayout="row"
+				fxLayoutAlign="center center"
+				fxFlex
+				top-title
+				matRipple
+				(click)="toggle()">
+		<ng-container [ngTemplateOutlet]="title"></ng-container>
+		<mat-icon>{{ expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+	</span>
+	<div>
+		<ng-container [ngTemplateOutlet]="menu"></ng-container>
+	</div>
+</div>
+<div [@expandCollapse]="expanded ? 'open' : 'close'"
+		 body>
+	<!-- <div body> -->
+	<mat-divider *ngIf="expanded"></mat-divider>
+	<ng-container [ngTemplateOutlet]="body"></ng-container>
+</div>
+
+<!-- content for outlets -->
+<ng-template #title>
+	<ng-content select="cr-expansion-panel-title"></ng-content>
+</ng-template>
+
+<ng-template #menu>
+	<ng-content select="cr-expansion-panel-menu"></ng-content>
+</ng-template>
+<ng-template #body>
+	<ng-content select="cr-expansion-panel-body"></ng-content>
+</ng-template>

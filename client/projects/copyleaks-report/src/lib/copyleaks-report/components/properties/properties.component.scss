@@ -1,0 +1,74 @@
+@import "../../../styles.scss";
+
+:host {
+  width: 100%;
+}
+
+cr-expansion-panel-menu-item {
+  [mat-button] {
+    min-width: 36px;
+    padding: 0;
+  }
+}
+
+cr-expansion-panel-body {
+  overflow-x: auto;
+
+  &>div:not(:last-child) {
+    border-right: 1px solid #e6e6e6;
+  }
+
+  [progress] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1em;
+    align-items: center;
+    flex: 1;
+
+    mat-icon {
+      color: #6ac259;
+    }
+  }
+
+  [stats] {
+    flex: 3;
+    max-width: 475px;
+    min-width: 375px;
+
+    @include lt-md {
+      max-width: 300px;
+      min-width: unset;
+    }
+
+    [legend] {
+      [row] {
+        padding: 0 0.5em;
+
+        [text] {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  [prop] {
+    padding: 1em;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    white-space: nowrap;
+
+    label {
+      font-size: 3em;
+
+      @include lt-md {
+        font-size: 2em;
+      }
+    }
+  }
+}
