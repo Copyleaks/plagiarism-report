@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { CopyleaksReportModule, CopyleaksReportConfig } from 'projects/copyleaks-report/src/public-api';
+import { CopyleaksReportModule, CopyleaksReportConfig } from 'projects/plagiarism-report/src/public-api';
 
 const reportConfig: CopyleaksReportConfig = {
 	contentMode: 'text',

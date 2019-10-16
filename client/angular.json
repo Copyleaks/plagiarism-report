@@ -115,40 +115,43 @@
 				}
 			}
 		},
-		"copyleaks-report": {
+		"plagiarism-report": {
 			"projectType": "library",
 			"schematics": {
 				"@schematics/angular:component": {
 					"style": "scss"
 				}
 			},
-			"root": "projects/copyleaks-report",
-			"sourceRoot": "projects/copyleaks-report/src",
+			"root": "projects/plagiarism-report",
+			"sourceRoot": "projects/plagiarism-report/src",
 			"prefix": "cr",
 			"architect": {
 				"build": {
 					"builder": "@angular-devkit/build-ng-packagr:build",
 					"options": {
-						"tsConfig": "projects/copyleaks-report/tsconfig.lib.json",
-						"project": "projects/copyleaks-report/ng-package.json"
+						"tsConfig": "projects/plagiarism-report/tsconfig.lib.json",
+						"project": "projects/plagiarism-report/ng-package.json"
 					}
 				},
 				"test": {
 					"builder": "@angular-builders/jest:run",
 					"options": {
-						"main": "projects/copyleaks-report/src/test.ts",
-						"tsConfig": "projects/copyleaks-report/tsconfig.spec.json"
+						"main": "projects/plagiarism-report/src/test.ts",
+						"tsConfig": "projects/plagiarism-report/tsconfig.spec.json"
 					}
 				},
 				"lint": {
 					"builder": "@angular-devkit/build-angular:tslint",
 					"options": {
-						"tsConfig": ["projects/copyleaks-report/tsconfig.lib.json", "projects/copyleaks-report/tsconfig.spec.json"],
+						"tsConfig": [
+							"projects/plagiarism-report/tsconfig.lib.json",
+							"projects/plagiarism-report/tsconfig.spec.json"
+						],
 						"exclude": ["**/node_modules/**"]
 					}
 				}
 			}
 		}
 	},
-	"defaultProject": "copyleaks-report"
+	"defaultProject": "plagiarism-report"
 }

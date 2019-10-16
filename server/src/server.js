@@ -3,7 +3,7 @@ const cors = require("cors");
 const expressStaticGzip = require("express-static-gzip");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4206;
 
 app.use(cors());
 app.use(expressStaticGzip("scans"));
