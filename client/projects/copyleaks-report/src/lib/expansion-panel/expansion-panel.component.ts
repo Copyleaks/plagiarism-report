@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Component, Input } from '@angular/core';
 import { expandCollapseAnimation } from '../copyleaks-report/utils/animations';
 
 @Component({

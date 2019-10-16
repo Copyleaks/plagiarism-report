@@ -1,16 +1,14 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { combineLatest } from 'rxjs';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { Match, ResultPreview } from '../../models';
-
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
+import { MatchService } from '../../services/match.service';
 import { ReportService } from '../../services/report.service';
 import { fadeIn, listFade } from '../../utils/animations';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
 import { ResultsSettingsDialogComponent } from '../results-settings-dialog/results-settings-dialog.component';
-import { MatchService } from '../../services/match.service';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-results',
@@ -66,12 +64,12 @@ export class ResultsComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroy(this))
 			.subscribe(previews => (this.previews = previews.sort((a, b) => b.matchedWords - a.matchedWords)));
 
-		combineLatest(originalText$, originalHtml$, contentMode$)
+		combineLatest([originalText$, originalHtml$, contentMode$])
 			.pipe(untilDestroy(this))
 			.subscribe(([text, html, mode]) => {
 				this.focusedMatch = mode === 'text' ? text && text.match : html;
 			});
-		//sourceSelectedMatch$.pipe(untilDestroy(this)).subscribe(match => (this.focusedMatch = match));
+		// sourceSelectedMatch$.pipe(untilDestroy(this)).subscribe(match => (this.focusedMatch = match));
 		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => (this.hiddenResults = ids));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(isMobile => (this.isMobile = isMobile));
 	}

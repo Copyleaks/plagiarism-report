@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, from } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import {
 	ComparisonKey,
 	CompleteResult,
@@ -8,10 +9,8 @@ import {
 	ReportStatistics,
 	ResultItem,
 	SubjectResultKey,
-	Score,
 } from '../models';
 import { ReportService } from './report.service';
-import { switchMap, map } from 'rxjs/operators';
 
 /**
  * Higher order function that returns a function that extracts Match Intervals from a Result

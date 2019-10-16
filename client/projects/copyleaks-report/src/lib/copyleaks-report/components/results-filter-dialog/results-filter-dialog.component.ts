@@ -1,13 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, take } from 'rxjs/operators';
-
-import { ReportService } from '../../services/report.service';
-
-import { truthy } from '../../utils/operators';
-import { ResultPreview } from '../../models';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
+import { ResultPreview } from '../../models';
+import { ReportService } from '../../services/report.service';
+import { truthy } from '../../utils/operators';
 
 @Component({
 	selector: 'cr-results-filter-dialog',

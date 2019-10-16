@@ -1,14 +1,14 @@
-import { Component, OnInit, ElementRef, Renderer2, HostListener, HostBinding, OnDestroy } from '@angular/core';
-import { ReportService } from '../../services/report.service';
-import { Match, MatchType, MatchJumpEvent, MatchSelectEvent, PostMessageEvent } from '../../models';
-import { HighlightService } from '../../services/highlight.service';
+import { Component, ElementRef, HostBinding, HostListener, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { filter, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { truthy } from '../../utils/operators';
-import { filter, withLatestFrom, tap } from 'rxjs/operators';
-import { EXCLUDE_MESSAGE } from '../../utils/constants';
-import iframeScript from './one-to-one-frame-helper';
-import { findRespectiveStart } from '../../utils/highlight-helpers';
+import { Match, MatchJumpEvent, MatchSelectEvent, MatchType, PostMessageEvent } from '../../models';
+import { HighlightService } from '../../services/highlight.service';
 import { MatchService } from '../../services/match.service';
+import { ReportService } from '../../services/report.service';
+import { EXCLUDE_MESSAGE } from '../../utils/constants';
+import { findRespectiveStart } from '../../utils/highlight-helpers';
+import { truthy } from '../../utils/operators';
+import iframeScript from './one-to-one-frame-helper';
 /** used for importing css as a string */
 declare var require: any;
 /** import css as a string */

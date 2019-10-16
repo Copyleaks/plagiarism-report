@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, filter, skip, take, takeUntil, withLatestFrom, tap, switchMapTo } from 'rxjs/operators';
-import { Match, ResultItem, ResultsSettings, SlicedMatch, ScanSource } from '../models';
+import { distinctUntilChanged, filter, skip, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { Match, ResultItem, ResultsSettings, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/highlight-helpers';
 import { truthy } from '../utils/operators';
 import { ReportService } from './report.service';
