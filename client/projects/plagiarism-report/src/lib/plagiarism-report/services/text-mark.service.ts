@@ -55,7 +55,7 @@ export class TextMarkService {
 		const key = this.toLowerFirst(MatchType[type]);
 		const { source: original, suspected: suspect } = comparisons[key] as Comparison;
 		const [source, target] = isSource ? [original, suspect] : [suspect, original];
-		const index = source.chars.starts.findIndex((s, i, _) => s <= start && start <= s + source.chars.lengths[i]);
+		const index = source.chars.starts.findIndex((s, i) => s <= start && start <= s + source.chars.lengths[i]);
 		return [source.chars.starts[index], target.chars.starts[index]];
 	}
 	/**
@@ -87,7 +87,7 @@ export class TextMarkService {
 				continue;
 			}
 			const { source } = comparison;
-			const found = source.chars.starts.find((s, i, _) => s <= start && end <= s + source.chars.lengths[i]);
+			const found = source.chars.starts.find((s, i) => s <= start && end <= s + source.chars.lengths[i]);
 			if (found !== undefined) {
 				return found;
 			}

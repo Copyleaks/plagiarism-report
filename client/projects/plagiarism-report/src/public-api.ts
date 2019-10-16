@@ -1,5 +1,5 @@
 /*
- * Public API Surface of copyleaks-report
+ * Public API Surface of plagiarism-report
  */
 
 // services

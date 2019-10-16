@@ -4,11 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+		"build": "ng build",
+		"lib:pack":"cd dist/plagiarism-report && npm pack",
+		"lib:build": "ng build plagiarism-report",
+		"package":"npm run lib:build && npm run lib:pack",
     "test": "jest",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "dev": "concurrently \"ng build plagiarism-report --watch\" \"ng serve demo-app\""
+		"e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {

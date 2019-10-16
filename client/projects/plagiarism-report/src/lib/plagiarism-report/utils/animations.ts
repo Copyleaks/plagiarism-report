@@ -36,21 +36,3 @@ export const listFade = trigger('listFade', [
 		}),
 	]),
 ]);
-
-/** animation for expanding and collapsing an element's height */
-export const expandCollapseAnimation = trigger('expandCollapse', [
-	state(
-		'open',
-		style({
-			height: '*',
-		})
-	),
-	state(
-		'close',
-		style({
-			height: '0px',
-			overflow: 'hidden',
-		})
-	),
-	transition('open <=> close', animate(200)),
-]);
