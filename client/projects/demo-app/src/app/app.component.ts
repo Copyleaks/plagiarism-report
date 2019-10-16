@@ -12,7 +12,7 @@ import { forkJoin } from 'rxjs';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-	readonly scanId = 'wikipedia-us';
+	readonly scanId = 'martina';
 	progress = 0;
 	constructor(private service: CopyleakService, private results: ResultsService) {}
 	ngOnInit(): void {
