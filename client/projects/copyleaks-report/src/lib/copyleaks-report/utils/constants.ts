@@ -1,5 +1,5 @@
-import { CopyleaksReportConfig, ExcludeReason } from '../models';
 import { InjectionToken } from '@angular/core';
+import { CopyleaksReportConfig } from '../models';
 
 /** Constants related to `report.service.ts` */
 export const REPORT_SERVICE = {
@@ -28,11 +28,12 @@ export const MAX_TEXT_ZOOM = 4;
 export const MIN_TEXT_ZOOM = 0.5;
 
 /** User messages for text exclusion cases */
+
 export const EXCLUDE_MESSAGE = {
-	[ExcludeReason.Quotation]: 'Quotation are omitted according to your settings',
-	[ExcludeReason.Reference]: 'References are omitted according to your settings',
-	[ExcludeReason.HtmlTemplate]: 'HTML templates are omitted according to your settings',
-	[ExcludeReason.TableOfContent]: 'Tables of content are omitted according to your settings',
+	1: 'Quotation are omitted according to your settings',
+	2: 'References are omitted according to your settings',
+	5: 'HTML templates are omitted according to your settings',
+	6: 'Tables of content are omitted according to your settings',
 };
 /** Injection token used to override the default config of the report */
 export const COPYLEAKS_CONFIG_INJECTION_TOKEN = new InjectionToken<CopyleaksReportConfig>('copyleaks-config');

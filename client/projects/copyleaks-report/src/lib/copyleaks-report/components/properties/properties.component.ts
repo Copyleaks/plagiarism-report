@@ -7,7 +7,6 @@ import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
 import { fadeIn } from '../../utils/animations';
 import { truthy } from '../../utils/operators';
-import { tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-properties',

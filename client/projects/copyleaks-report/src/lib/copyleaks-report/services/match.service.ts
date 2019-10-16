@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, map, withLatestFrom, tap, pairwise } from 'rxjs/operators';
+import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
 import { MatchComponent } from '../components/match/match.component';
 import { Match, ViewMode } from '../models';
 import { ReportService } from './report.service';
@@ -181,7 +181,7 @@ export class MatchService {
 
 	/**
 	 * Executes when a `text` match component is clicked in `one-to-many` view
-	 * @param event
+	 * @param event the match click event object
 	 */
 	private onOneToManyTextMatchClick(event: TextMatchClickEvent) {
 		this.setOriginalTextMatch(event.match);

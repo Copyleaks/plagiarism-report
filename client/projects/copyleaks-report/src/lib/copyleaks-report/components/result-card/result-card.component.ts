@@ -1,9 +1,8 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { first, find, take } from 'rxjs/operators';
-
+import { find, take } from 'rxjs/operators';
+import { ResultPreview } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { ReportService } from '../../services/report.service';
-import { ResultPreview } from '../../models';
 
 @Component({
 	selector: 'cr-result-card',

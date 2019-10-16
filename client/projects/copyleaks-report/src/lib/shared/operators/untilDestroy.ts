@@ -8,24 +8,10 @@ import { takeUntil } from 'rxjs/operators';
 export const destroy$ = Symbol('destroy$');
 
 /**
- * An operator that takes until destroy it takes a components this a parameter
- * returns a pipeable RxJS operator.
- */
-export const untilDestroy = <T>(component: any): MonoTypeOperatorFunction<T> => {
-	if (component[destroy$] === undefined) {
-		// only hookup each component once.
-		addDestroyObservableToComponent(component);
-	}
-
-	// pipe in the takeUntil destroy$ and return the source unaltered
-	return takeUntil<T>(component[destroy$]);
-};
-
-/**
  * decorate `component`'s ngOnDestroy method and complete it before destroy
  * @internal
  */
-export function addDestroyObservableToComponent(component: any) {
+export const addDestroyObservableToComponent = (component: any) => {
 	component[destroy$] = new Observable<void>(observer => {
 		// keep track of the original destroy function,
 		// the user might do something in there
@@ -47,4 +33,17 @@ export function addDestroyObservableToComponent(component: any) {
 		// return cleanup function.
 		return (_: any) => (component[destroy$] = undefined);
 	});
-}
+};
+
+/**
+ * An operator that takes until destroy it takes a components this a parameter
+ * returns a pipeable RxJS operator.
+ */
+export const untilDestroy = <T>(component: any): MonoTypeOperatorFunction<T> => {
+	if (component[destroy$] === undefined) {
+		// only hookup each component once.
+		addDestroyObservableToComponent(component);
+	}
+	// pipe in the takeUntil destroy$ and return the source unaltered
+	return takeUntil<T>(component[destroy$]);
+};

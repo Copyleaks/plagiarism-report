@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { Component } from '@angular/core';
 
 @Component({
 	selector: 'cr-panel',

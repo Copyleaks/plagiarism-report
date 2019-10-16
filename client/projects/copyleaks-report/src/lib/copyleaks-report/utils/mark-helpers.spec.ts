@@ -1,7 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import { ComparisonCollection } from '../models';
 import { Match, MatchType } from '../models/Highlight';
 import * as helper from './mark-helpers';
-import { ComparisonCollection } from '../models';
 
 describe('MarkService', () => {
 	describe('findRespectivePage', () => {

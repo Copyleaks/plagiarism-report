@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, find, map, switchMap, take, toArray } from 'rxjs/operators';
 import {

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 export interface PageChangeEvent {
 	currentPage: number;

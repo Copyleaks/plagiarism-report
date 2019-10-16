@@ -1,12 +1,10 @@
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, HostBinding } from '@angular/core';
+import { Component, EventEmitter, HostBinding, OnDestroy, OnInit, Output } from '@angular/core';
 import { untilDestroy } from '../shared/operators/untilDestroy';
-import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
-
-import { ReportService } from './services/report.service';
-import { LayoutMediaQueryService } from './services/layout-media-query.service';
-import { expandAnimation, fadeIn } from './utils/animations';
 import { ReportDownloadEvent, ReportShareEvent } from './models';
+import { ViewMode } from './models/CopyleaksReportConfig';
+import { LayoutMediaQueryService } from './services/layout-media-query.service';
+import { ReportService } from './services/report.service';
+import { expandAnimation, fadeIn } from './utils/animations';
 
 @Component({
 	selector: 'cr-copyleaks-report',

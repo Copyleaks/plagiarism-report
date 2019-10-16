@@ -10,9 +10,7 @@ import { ReportService } from '../../services/report.service';
 import { TextMarkService } from '../../services/text-mark.service';
 import { fadeIn } from '../../utils/animations';
 import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
-import { Timer } from '../../utils/performance';
 import { MatchComponent } from '../match/match.component';
-import { pairwise } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-original',
@@ -21,8 +19,6 @@ import { pairwise } from 'rxjs/operators';
 	animations: [fadeIn],
 })
 export class OriginalComponent implements OnInit, OnDestroy {
-	private t: Timer;
-
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
@@ -143,7 +139,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 			sourceHtmlMatches$,
 			working$,
 		} = this.highlightService;
-		const { originalText$, sourceText$ } = this.matchService;
+
 		metadata$.pipe(untilDestroy(this)).subscribe(val => (this.metadata = val));
 		source$.pipe(untilDestroy(this)).subscribe(val => (this.source = val));
 		viewMode$.pipe(untilDestroy(this)).subscribe(val => (this.viewMode = val));

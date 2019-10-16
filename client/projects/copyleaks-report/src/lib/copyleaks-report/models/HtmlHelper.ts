@@ -1,5 +1,3 @@
-import { ViewMode } from './CopyleaksReportConfig';
-
 export type PostMessageEvent = MatchClickEvent | MatchJumpEvent | MatchSelectEvent | MatchWarnEvent;
 export type OriginalOrSuspect = 'original' | 'suspect';
 interface BasePostMessageEvent {
