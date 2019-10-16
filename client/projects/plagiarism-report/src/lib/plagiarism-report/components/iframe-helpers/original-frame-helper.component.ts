@@ -14,7 +14,7 @@ import { MatchService } from '../../services/match.service';
 declare var require: any;
 
 /** import css as a string */
-const iframeStyle = require('./frame-helper-style.css') as any;
+const iframeStyle = require('../../assets/iframe-helper-style.css') as any;
 
 /**
  * Component to handle manipulating the scan result's html inside an iframe

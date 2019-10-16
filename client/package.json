@@ -7,7 +7,8 @@
     "build": "ng build",
     "lib:pack": "cd dist/plagiarism-report && npm pack",
     "lib:build": "ng build plagiarism-report",
-    "package": "npm run lib:build && npm run lib:pack",
+    "lib:copy-assets": "node copy_assets.js",
+    "package": "npm run lib:build && npm run lib:copy-assets && npm run lib:pack",
     "test": "jest",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -45,6 +46,7 @@
     "@types/jest": "^24.0.18",
     "@types/node": "^8.9.5",
     "codelyzer": "^5.0.0",
+    "cpx": "^1.5.0",
     "jest": "^24.9.0",
     "ng-packagr": "^5.1.0",
     "prettier": "^1.18.2",

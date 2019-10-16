@@ -12,7 +12,7 @@ import { MatchService } from '../../services/match.service';
 /** used for importing css as a string */
 declare var require: any;
 /** import css as a string */
-const iframeStyle = require('./frame-helper-style.css') as any;
+const iframeStyle = require('../../assets/iframe-helper-style.css') as any;
 @Component({
 	selector: 'iframe[cr-suspect-frame-helper]',
 	template: '',
