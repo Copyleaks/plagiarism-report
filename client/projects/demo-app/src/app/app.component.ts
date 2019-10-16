@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CopyleakService } from 'projects/copyleaks-report/src/public-api';
+import { CopyleakService } from 'projects/plagiarism-report/src/public-api';
 
 // import results_json from 'projects/demo-app/examples/results.json';
 import { ResultsService } from './results.service';

@@ -1,5 +1,23 @@
 import { Component, Input } from '@angular/core';
-import { expandCollapseAnimation } from '../copyleaks-report/utils/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
+/** animation for expanding and collapsing an element's height */
+export const expandCollapseAnimation = trigger('expandCollapse', [
+	state(
+		'open',
+		style({
+			height: '*',
+		})
+	),
+	state(
+		'close',
+		style({
+			height: '0px',
+			overflow: 'hidden',
+		})
+	),
+	transition('open <=> close', animate(200)),
+]);
 
 @Component({
 	selector: 'cr-expansion-panel',
