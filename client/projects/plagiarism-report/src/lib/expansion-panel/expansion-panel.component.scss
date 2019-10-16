@@ -1,0 +1,25 @@
+$panel-padding: 1em;
+$panel-border: 1px solid #e6e6e6;
+
+:host(cr-expansion-panel) {
+  border: $panel-border;
+  display: flex;
+  flex-direction: column;
+  [top] {
+    [top-title] {
+      text-align: center;
+    }
+    cursor: pointer;
+  }
+}
+
+:host(cr-expansion-panel-title) {
+  vertical-align: super;
+}
+:host(cr-expansion-panel-menu) {
+  display: flex;
+  flex-flow: row nowrap;
+}
+:host(cr-expansion-panel-menu-item) {
+  display: flex;
+}

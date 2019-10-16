@@ -1,0 +1,34 @@
+<div header
+		 fxLayout="row"
+		 fxLayoutAlign="space-between start">
+	<div fxLayout="row nowrap"
+			 fxFlex
+			 fxLayoutAlign="start center"
+			 fxFlexAlign="stretch">
+
+		<ng-container [ngTemplateOutlet]="title"></ng-container>
+	</div>
+	<div right
+			 fxLayout="row nowrap"
+			 fxLayoutGap="0.5em"
+			 fxFlexAlign="center">
+		<ng-container [ngTemplateOutlet]="actions"></ng-container>
+	</div>
+</div>
+<mat-divider></mat-divider>
+<div fxLayout="column"
+		 fxFlex="100"
+		 body>
+	<ng-container [ngTemplateOutlet]="body"></ng-container>
+</div>
+
+<!-- content for outlets -->
+<ng-template #title>
+	<ng-content select="cr-panel-header"></ng-content>
+</ng-template>
+<ng-template #actions>
+	<ng-content select="cr-panel-actions"></ng-content>
+</ng-template>
+<ng-template #body>
+	<ng-content select="cr-panel-body"></ng-content>
+</ng-template>

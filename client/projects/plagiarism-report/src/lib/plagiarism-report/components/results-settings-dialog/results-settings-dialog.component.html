@@ -1,0 +1,40 @@
+<div mat-dialog-title>Results Settings</div>
+<mat-dialog-content style="min-width: 50vw">
+	<!-- <div>
+		<mat-slide-toggle [(ngModel)]="settings.showPageSources">View sources with matches in page</mat-slide-toggle>
+	</div> -->
+	<div>
+		<mat-slide-toggle [(ngModel)]="settings.showOnlyTopResults">Show only top 100 relevant results</mat-slide-toggle>
+	</div>
+	<div>
+		<mat-divider></mat-divider>
+	</div>
+	<div>
+		<mat-checkbox [(ngModel)]="settings.showIdentical">Identical</mat-checkbox>
+	</div>
+	<div>
+		<mat-checkbox [(ngModel)]="settings.showMinorChanges">Minor Changes</mat-checkbox>
+	</div>
+	<div>
+		<mat-checkbox [(ngModel)]="settings.showRelated">Related Meaning</mat-checkbox>
+	</div>
+
+</mat-dialog-content>
+
+<div fxLayout.lt-md="column nowrap"
+		 fxLayout="row nowrap"
+		 fxLayoutGap="1em"
+		 fxLayoutAlign="space-between center">
+	<mat-checkbox fxFlexAlign.lt-md="start"
+								[(ngModel)]="settings.setAsDefault"> Set as default for all scans</mat-checkbox>
+	<button mat-raised-button
+					(click)="close(true)"
+					color="primary">
+		SAVE
+	</button>
+</div>
+<button close
+				mat-icon-button
+				(click)="close()">
+	<mat-icon>close</mat-icon>
+</button>

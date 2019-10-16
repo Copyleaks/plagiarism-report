@@ -1,0 +1,40 @@
+<div mat-dialog-title>Results Filter</div>
+<mat-form-field floatLabel="never">
+	<mat-icon matSuffix>search</mat-icon>
+	<mat-placeholder>Filter By Results</mat-placeholder>
+	<input matInput
+				 type="search"
+				 [(ngModel)]="query" />
+</mat-form-field>
+<mat-dialog-content>
+	<div result
+			 *ngFor="let result of results | search:'title,id':query"
+			 fxLayout="row"
+			 fxLayoutAlign="space-between center"
+			 (click)="toggleResult(result)"
+			 matRipple>
+		<p>
+			{{result.title }}
+		</p>
+		<mat-pseudo-checkbox [state]="isHidden(result)? 'unchecked':'checked'"></mat-pseudo-checkbox>
+	</div>
+</mat-dialog-content>
+<div fxLayout="row"
+		 style="padding-top:1em"
+		 fxLayoutAlign="end center">
+	<button mat-raised-button
+					(click)="checkAll()"
+					color="primary">
+		CHEK ALL
+	</button> <button mat-raised-button
+					(click)="close(true)"
+					color="primary">
+		SAVE
+	</button>
+</div>
+
+<button close
+				mat-icon-button
+				(click)="close()">
+	<mat-icon>close</mat-icon>
+</button>
