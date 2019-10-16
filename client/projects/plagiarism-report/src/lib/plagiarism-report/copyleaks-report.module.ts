@@ -34,7 +34,6 @@ import { CopyleaksReportComponent } from './copyleaks-report.component';
 import { MatPaginationModule } from '../mat-pagination/mat-pagination.module';
 import { PoweredByComponent } from './components/powered-by/powered-by.component';
 
-import { PopoverModule } from 'ngx-smart-popover';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 
@@ -84,7 +83,6 @@ import { MatchComponent } from './components/match/match.component';
 		NgxSkeletonLoaderModule,
 		MatPaginationModule,
 		MatProgressSpinnerModule,
-		PopoverModule,
 		ScrollingModule,
 		ExperimentalScrollingModule,
 	],

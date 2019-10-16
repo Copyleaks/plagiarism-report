@@ -9,13 +9,12 @@ import { EXCLUDE_MESSAGE } from '../../utils/constants';
 import { findRespectiveStart } from '../../utils/highlight-helpers';
 import { truthy } from '../../utils/operators';
 import iframeScript from './one-to-one-frame-helper';
-/** used for importing css as a string */
-declare var require: any;
-/** import css as a string */
-const iframeStyle = require('./frame-helper-style.css') as any;
+import iframeStyle from './iframe-helper-style';
+
 @Component({
 	selector: 'iframe[cr-source-frame-helper]',
 	template: '',
+	styleUrls: ['./frame-helper-style.css'],
 })
 export class SourceFrameHelperComponent implements OnInit, OnDestroy {
 	constructor(

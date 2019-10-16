@@ -7,7 +7,7 @@ scans/*
 ### ALLOW ### 
 #!scans/download.js
 !scans/download.js
-!scans/wikipedia-us
+!scans/martina
 ### Node ###
 # Logs
 logs
