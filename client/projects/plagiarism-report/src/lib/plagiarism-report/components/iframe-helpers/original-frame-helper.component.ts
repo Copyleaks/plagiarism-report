@@ -7,14 +7,9 @@ import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import { EXCLUDE_MESSAGE } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
-import iframeScript from './one-to-many-frame-helper';
 import { MatchService } from '../../services/match.service';
-
-/** used for importing css as a string */
-declare var require: any;
-
-/** import css as a string */
-const iframeStyle = require('../../assets/iframe-helper-style.css') as any;
+import iframeScript from './one-to-many-frame-helper';
+import iframeStyle from './iframe-helper-style';
 
 /**
  * Component to handle manipulating the scan result's html inside an iframe
@@ -22,7 +17,7 @@ const iframeStyle = require('../../assets/iframe-helper-style.css') as any;
 @Component({
 	selector: 'iframe[cr-original-frame-helper]',
 	template: '',
-	styleUrls: [],
+	styleUrls: ['./frame-helper-style.css'],
 })
 export class OriginalFrameHelperComponent implements OnInit, OnDestroy {
 	/** convinient getter for the iframe window object */
@@ -37,6 +32,7 @@ export class OriginalFrameHelperComponent implements OnInit, OnDestroy {
 		private renderer: Renderer2,
 		private matchService: MatchService
 	) {
+		console.log(this);
 		const css = renderer.createElement('style') as HTMLStyleElement;
 		css.textContent = iframeStyle;
 		this.style = css.outerHTML;

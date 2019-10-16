@@ -6,7 +6,7 @@
 	},
 	"license": "SEE LICENSE IN LICENSE.md",
 	"homepage": "https://api.copyleaks.com",
-	"version": "2.0.0-alpha.4",
+	"version": "2.0.0-alpha.5",
 	"dependencies": {
 		"scroll-into-view-if-needed": "^2.0.0",
 		"@ncstate/sat-popover": "^4.0.0",
@@ -17,7 +17,7 @@
 		"@angular/common": "^8.0.0",
 		"@angular/core": "^8.0.0",
 		"@angular/material": "^8.0.0",
-		"@angular/flex-layout": "^8.0.0",
+		"@angular/flex-layout": "^8.0.0 | ^8.0.0-beta.26",
 		"@angular/cdk": "^8.0.0",
 		"@angular/cdk-experimental": "^8.0.0"
 	}
