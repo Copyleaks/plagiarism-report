@@ -39,16 +39,16 @@
 								 fxFlex="100">
 
 
-		<ng-container *ngIf="previews ; else skeleton__fakes">
-			<cdk-virtual-scroll-viewport fxFlex
-																	 fxLayout="column"
-																	 autosize
-																	 fxLayoutGap="1em">
+		<cdk-virtual-scroll-viewport fxFlex
+																 fxLayout="column"
+																 autosize
+																 fxLayoutGap="1em">
+			<ng-container *ngIf="previews ; else skeleton__fakes">
 				<cr-result-card *cdkVirtualFor="let preview of previews | whitelist:'id':focusedMatch?.ids;"
 												[preview]="preview">
 				</cr-result-card>
-			</cdk-virtual-scroll-viewport>
-		</ng-container>
+			</ng-container>
+		</cdk-virtual-scroll-viewport>
 	</cr-panel-body>
 </cr-panel>
 <ng-template #menu__show_results>

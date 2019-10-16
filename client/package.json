@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-		"build": "ng build",
-		"lib:pack":"cd dist/plagiarism-report && npm pack",
-		"lib:build": "ng build plagiarism-report",
-		"package":"npm run lib:build && npm run lib:pack",
+    "build": "ng build",
+    "lib:pack": "cd dist/plagiarism-report && npm pack",
+    "lib:build": "ng build plagiarism-report",
+    "package": "npm run lib:build && npm run lib:pack",
     "test": "jest",
     "lint": "ng lint",
-		"e2e": "ng e2e"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -30,10 +30,8 @@
     "@swimlane/ngx-charts": "^12.0.1",
     "hammerjs": "^2.0.8",
     "ngx-skeleton-loader": "^1.2.2",
-    "ngx-smart-popover": "^1.1.0",
     "rxjs": "^6.5.3",
     "scroll-into-view-if-needed": "^2.2.20",
-    "time-ago-pipe": "^1.3.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
