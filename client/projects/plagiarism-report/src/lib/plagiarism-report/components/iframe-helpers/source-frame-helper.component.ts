@@ -143,7 +143,7 @@ export class SourceFrameHelperComponent implements OnInit, OnDestroy {
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$),
-				filter(([_, mode]) => mode === 'one-to-one')
+				filter(([, mode]) => mode === 'one-to-one')
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
 

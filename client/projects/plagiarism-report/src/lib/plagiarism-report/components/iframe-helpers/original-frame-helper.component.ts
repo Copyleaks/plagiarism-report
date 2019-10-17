@@ -140,7 +140,7 @@ export class OriginalFrameHelperComponent implements OnInit, OnDestroy {
 			.subscribe(matches => (this.matches = matches) && this.renderMatches(matches));
 		const onOneToManyJump$ = combineLatest([jump$, viewMode$]).pipe(
 			untilDestroy(this),
-			filter(([_, mode]) => mode === 'one-to-many'),
+			filter(([, mode]) => mode === 'one-to-many'),
 			map(([forward]) => forward)
 		);
 		onOneToManyJump$.subscribe(forward => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));

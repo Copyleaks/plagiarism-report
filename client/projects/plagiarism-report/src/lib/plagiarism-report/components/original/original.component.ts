@@ -11,6 +11,7 @@ import { TextMarkService } from '../../services/text-mark.service';
 import { fadeIn } from '../../utils/animations';
 import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { MatchComponent } from '../match/match.component';
+import { combineLatest, take } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-original',

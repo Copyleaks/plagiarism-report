@@ -141,23 +141,18 @@ export class SuspectFrameHelperComponent implements OnInit, OnDestroy {
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$),
-				filter(([_, mode]) => mode === 'one-to-one')
+				filter(([, mode]) => mode === 'one-to-one')
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
-		sourceHtml$
-			.pipe(
-				tap(console.log),
-				withLatestFrom(suspect$)
-			)
-			.subscribe(([match, suspect]) => {
-				if (match && suspect) {
-					const comparison = suspect.result.html.comparison[MatchType[match.type]];
-					const [start] = findRespectiveStart(match.start, comparison, true);
-					const found = this.matches.findIndex(m => m.start === start);
-					this.markSingleMatchInFrame(found);
-				} else {
-					this.markSingleMatchInFrame(-1);
-				}
-			});
+		sourceHtml$.pipe(withLatestFrom(suspect$)).subscribe(([match, suspect]) => {
+			if (match && suspect) {
+				const comparison = suspect.result.html.comparison[MatchType[match.type]];
+				const [start] = findRespectiveStart(match.start, comparison, true);
+				const found = this.matches.findIndex(m => m.start === start);
+				this.markSingleMatchInFrame(found);
+			} else {
+				this.markSingleMatchInFrame(-1);
+			}
+		});
 	}
 }

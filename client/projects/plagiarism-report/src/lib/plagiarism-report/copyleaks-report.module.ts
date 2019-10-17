@@ -43,6 +43,8 @@ import { OriginalFrameHelperComponent } from './components/iframe-helpers/origin
 import { SourceFrameHelperComponent } from './components/iframe-helpers/source-frame-helper.component';
 import { SuspectFrameHelperComponent } from './components/iframe-helpers/suspect-frame-helper.component';
 import { MatchComponent } from './components/match/match.component';
+import { CopyleakService } from './services/copyleaks.service';
+
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,

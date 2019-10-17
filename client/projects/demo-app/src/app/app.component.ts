@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CopyleakService } from 'projects/plagiarism-report/src/public-api';
 
 // import results_json from 'projects/demo-app/examples/results.json';
 import { ResultsService } from './results.service';
 import { tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
+import { CopyleakService } from 'projects/plagiarism-report/src/public-api';
 
 @Component({
 	selector: 'app-root',

@@ -138,6 +138,11 @@ export class ReportService {
 	 */
 	public setSource(source: ScanSource) {
 		this._source.next(source);
+
+		/** Switch to text in case no html exists */
+		if (source && !source.html && this._contentMode.value === 'html') {
+			this._contentMode.next('text');
+		}
 	}
 	/**
 	 * Pushes a new `id` to the suspect id observer

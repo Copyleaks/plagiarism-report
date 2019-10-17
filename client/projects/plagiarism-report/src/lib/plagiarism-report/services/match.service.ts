@@ -44,25 +44,25 @@ export class MatchService {
 
 	public readonly oneToManyTextMatchClick$ = this._textMatchClicked.asObservable().pipe(
 		withLatestFrom(this.reportService.viewMode$),
-		filter(([_, mode]) => mode === 'one-to-many'),
+		filter(([, mode]) => mode === 'one-to-many'),
 		map(([event]) => event)
 	);
 
 	public readonly oneToOneTextMatchClick$ = this._textMatchClicked.asObservable().pipe(
 		withLatestFrom(this.reportService.viewMode$),
-		filter(([_, mode]) => mode === 'one-to-one'),
+		filter(([, mode]) => mode === 'one-to-one'),
 		map(([event]) => event)
 	);
 
 	public readonly oneToManyHtmlMatchClick$ = this._htmlMatchClicked.asObservable().pipe(
 		withLatestFrom(this.reportService.viewMode$),
-		filter(([_, mode]) => mode === 'one-to-many'),
+		filter(([, mode]) => mode === 'one-to-many'),
 		map(([event]) => event)
 	);
 
 	public readonly oneToOneHtmlMatchClick$ = this._htmlMatchClicked.asObservable().pipe(
 		withLatestFrom(this.reportService.viewMode$),
-		filter(([_, mode]) => mode === 'one-to-one'),
+		filter(([, mode]) => mode === 'one-to-one'),
 		map(([event]) => event)
 	);
 

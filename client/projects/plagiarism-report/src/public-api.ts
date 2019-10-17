@@ -10,3 +10,5 @@ export * from './lib/plagiarism-report/copyleaks-report.component';
 export * from './lib/plagiarism-report/copyleaks-report.module';
 // models
 export * from './lib/plagiarism-report/models';
+
+export { COPYLEAKS_CONFIG_INJECTION_TOKEN } from './lib/plagiarism-report/utils/constants';
