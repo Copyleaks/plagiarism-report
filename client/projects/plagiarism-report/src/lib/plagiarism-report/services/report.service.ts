@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, find, map, switchMap, take, toArray } from 'rxjs/operators';
 import {
@@ -16,7 +16,7 @@ import {
 	ScanSource,
 	ViewMode,
 } from '../models';
-import { COPYLEAKS_CONFIG_INJECTION_TOKEN, REPORT_SERVICE } from '../utils/constants';
+import { COPYLEAKS_CONFIG_INJECTION_TOKEN, REPORT_SERVICE, DEFAULT_REPORT_CONFIG } from '../utils/constants';
 import { truthy } from '../utils/operators';
 
 /** The default report settings */
@@ -55,7 +55,7 @@ export class ReportService {
 
 	private readonly _statistics = new BehaviorSubject<ReportStatistics>(undefined);
 
-	constructor(@Inject(COPYLEAKS_CONFIG_INJECTION_TOKEN) public config?: CopyleaksReportConfig) {
+	constructor(@Optional() @Inject(COPYLEAKS_CONFIG_INJECTION_TOKEN) private _config?: CopyleaksReportConfig) {
 		const settings = JSON.parse(localStorage.getItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY)) || DEFAULT_SETTINGS;
 		this.setSettings(settings);
 	}
@@ -89,6 +89,14 @@ export class ReportService {
 	public downloadClick$ = this._downloadClick.asObservable();
 	public shareClick$ = this._shareClick.asObservable();
 	public results$ = this._results.asObservable();
+
+	/**
+	 * Get the report config, can be a config provided by client, or a default config.
+	 */
+	public get config() {
+		return this._config || DEFAULT_REPORT_CONFIG;
+	}
+
 	public previews$ = this.metadata$.pipe(
 		map(({ results }): ResultPreview[] => [...results.internet, ...results.database, ...results.batch])
 	);

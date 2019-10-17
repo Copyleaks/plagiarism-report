@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
 	ngOnInit(): void {
 		this.mockFromServer();
 	}
+
 	mockFromServer() {
 		this.results.completeResult(this.scanId).subscribe(meta => {
 			this.service.pushCompletedResult(meta);

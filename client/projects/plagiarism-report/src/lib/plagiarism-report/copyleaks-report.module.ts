@@ -37,7 +37,7 @@ import { PoweredByComponent } from './components/powered-by/powered-by.component
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 
-import { DEFAULT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN } from './utils/constants';
+import { DEFAULT_REPORT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN } from './utils/constants';
 import { CopyleaksReportConfig } from './models';
 import { OriginalFrameHelperComponent } from './components/iframe-helpers/original-frame-helper.component';
 import { SourceFrameHelperComponent } from './components/iframe-helpers/source-frame-helper.component';
@@ -88,7 +88,7 @@ import { CopyleakService } from './services/copyleaks.service';
 		ScrollingModule,
 		ExperimentalScrollingModule,
 	],
-	providers: [{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: DEFAULT_CONFIG }],
+	providers: [],
 	entryComponents: [ResultsSettingsDialogComponent, ResultsFilterDialogComponent],
 	exports: [CopyleaksReportComponent],
 })
@@ -100,7 +100,7 @@ export class CopyleaksReportModule {
 	static forRoot(config: CopyleaksReportConfig): ModuleWithProviders {
 		return {
 			ngModule: CopyleaksReportModule,
-			providers: [{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_CONFIG, ...config } }],
+			providers: [{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } }],
 		};
 	}
 }

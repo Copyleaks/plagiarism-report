@@ -8,7 +8,7 @@ export const REPORT_SERVICE = {
 };
 
 /** The default config of the report component. */
-export const DEFAULT_CONFIG: CopyleaksReportConfig = {
+export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
 	contentMode: 'html',
 	share: false,
 	download: false,
