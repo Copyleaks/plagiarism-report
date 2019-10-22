@@ -1,5 +1,8 @@
 @import '../../../styles';
 
+:host {
+  background-color: $background-color;
+}
 
 [text-container] {
   white-space: pre-line;
@@ -56,6 +59,10 @@ cr-panel {
     }
   }
 
+  cr-powered-by {
+    height: 36px;
+  }
+
   cr-panel-body {
     @include lt-md {
       &>div {
@@ -68,7 +75,7 @@ cr-panel {
 
     [card] {
       overflow-y: auto;
-      padding: 1em;
+      //padding: 1em;
     }
 
     [spacer] {

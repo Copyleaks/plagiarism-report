@@ -1,5 +1,10 @@
 @import "../../../styles.scss";
 
+:host {
+  background-color: $background-color;
+}
+
+
 cr-panel {
   cr-panel-header {
     text-transform: uppercase;

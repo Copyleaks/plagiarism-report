@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
-import { distinctUntilChanged, find, map, switchMap, take, toArray } from 'rxjs/operators';
+import { distinctUntilChanged, find, map, switchMap, take, toArray, tap } from 'rxjs/operators';
 import {
 	CompleteResult,
 	ContentMode,
@@ -270,7 +270,6 @@ export class ReportService {
 	 * it will basically complete the source and results observers
 	 */
 	public done() {
-		this._source.complete();
 		this._results.complete();
 	}
 

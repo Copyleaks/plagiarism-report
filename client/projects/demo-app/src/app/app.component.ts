@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ResultsService } from './results.service';
 import { tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import { CopyleakService } from 'projects/plagiarism-report/src/public-api';
+import { CopyleaksService } from 'projects/plagiarism-report/src/public-api';
 
 @Component({
 	selector: 'app-root',
@@ -12,9 +12,9 @@ import { CopyleakService } from 'projects/plagiarism-report/src/public-api';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-	readonly scanId = 'martina';
+	readonly scanId = 'htfh7xcnplh2ntzh';
 	progress = 0;
-	constructor(private service: CopyleakService, private results: ResultsService) {}
+	constructor(private service: CopyleaksService, private results: ResultsService) {}
 	ngOnInit(): void {
 		this.mockFromServer();
 	}

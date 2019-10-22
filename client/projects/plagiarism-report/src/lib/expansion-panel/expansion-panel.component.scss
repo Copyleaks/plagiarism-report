@@ -5,10 +5,14 @@ $panel-border: 1px solid #e6e6e6;
   border: $panel-border;
   display: flex;
   flex-direction: column;
+
   [top] {
+    height: 2.5em;
+
     [top-title] {
       text-align: center;
     }
+
     cursor: pointer;
   }
 }
@@ -16,10 +20,12 @@ $panel-border: 1px solid #e6e6e6;
 :host(cr-expansion-panel-title) {
   vertical-align: super;
 }
+
 :host(cr-expansion-panel-menu) {
   display: flex;
   flex-flow: row nowrap;
 }
+
 :host(cr-expansion-panel-menu-item) {
   display: flex;
 }

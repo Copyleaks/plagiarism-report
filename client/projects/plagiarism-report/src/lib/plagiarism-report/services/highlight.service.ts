@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, filter, skip, take, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, skip, take, takeUntil, withLatestFrom, tap } from 'rxjs/operators';
 import { Match, ResultItem, ResultsSettings, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/highlight-helpers';
 import { truthy } from '../utils/operators';
@@ -23,9 +23,7 @@ export class HighlightService {
 			.subscribe(params => this.processOneToOneMatches(...params));
 
 		// listen to changes in settings and filtered results
-		combineLatest([filteredResults$, settings$, source$])
-			.pipe()
-			.subscribe(params => this.processOneToManyMatches(...params));
+		combineLatest([filteredResults$, settings$, source$]).subscribe(params => this.processOneToManyMatches(...params));
 	}
 	private get onFirstTextMode$() {
 		return this.reportService.contentMode$.pipe(
@@ -77,14 +75,12 @@ export class HighlightService {
 	private processOneToOneMatches = (result: ResultItem, settings: ResultsSettings, source: ScanSource) => {
 		this.onFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 			setTimeout(() => {
-				console.log('processing source text results');
 				const text = helpers.processSourceText(result, settings, source);
 				if (text) {
 					this._sourceTextMatches.next(text);
 				}
 			});
 			setTimeout(() => {
-				console.log('processing suspect text results');
 				const text = helpers.processSuspectText(result, settings);
 				if (text) {
 					this._suspectTextMatches.next(text);
@@ -93,14 +89,12 @@ export class HighlightService {
 		});
 		this.onFirstHtmlMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 			setTimeout(() => {
-				console.log('processing source html results');
 				const html = helpers.processSourceHtml(result, settings, source);
 				if (html) {
 					this._sourceHtmlMatches.next(html);
 				}
 			});
 			setTimeout(() => {
-				console.log('processing suspect html results');
 				const html = helpers.processSuspectHtml(result, settings);
 				if (html) {
 					this._suspectHtmlMatches.next(html);

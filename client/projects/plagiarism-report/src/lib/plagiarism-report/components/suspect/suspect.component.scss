@@ -1,5 +1,9 @@
 @import "../../../styles";
 
+:host {
+  background-color: $background-color;
+}
+
 cr-powered-by {
   @include gt-sm {
     display: none;

@@ -12,7 +12,7 @@ import { ReportService } from './report.service';
 @Injectable({
 	providedIn: 'root',
 })
-export class CopyleakService {
+export class CopyleaksService {
 	constructor(private reportService: ReportService) {}
 	/**
 	 * Insert the completion result of a scan to the report.
@@ -82,9 +82,10 @@ export class CopyleakService {
 	done = () => this.reportService.done();
 
 	// Simple object validation
-	private isCompleteResult = (o: CompleteResult) => !!o.scannedDocument && !!o.results;
-	private isScanSource = (o: ScanSource) => !!o.metadata && !!o.text && !!o.version;
-	private isScanResult = (o: ScanResult) => !!o.text && !!o.statistics && !!o.version;
-	private isNewResult = (o: NewResult) => !!o.internet && !!o.database && !!o.batch;
-	private isCorrectVersion = ({ version }: ScanResult | ScanSource) => version === 3;
+
+	private isCompleteResult = (o: CompleteResult) => o && !!o.scannedDocument && !!o.results;
+	private isScanSource = (o: ScanSource) => o && !!o.metadata && !!o.text && !!o.version;
+	private isScanResult = (o: ScanResult) => o && !!o.text && !!o.statistics && !!o.version;
+	private isNewResult = (o: NewResult) => o && !!o.internet && !!o.database && !!o.batch;
+	private isCorrectVersion = (o: ScanResult | ScanSource) => o && o.version === 3;
 }

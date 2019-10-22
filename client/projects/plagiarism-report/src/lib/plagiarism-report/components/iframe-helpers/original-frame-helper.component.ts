@@ -32,7 +32,6 @@ export class OriginalFrameHelperComponent implements OnInit, OnDestroy {
 		private renderer: Renderer2,
 		private matchService: MatchService
 	) {
-		console.log(this);
 		const css = renderer.createElement('style') as HTMLStyleElement;
 		css.textContent = iframeStyle;
 		this.style = css.outerHTML;
@@ -129,15 +128,14 @@ export class OriginalFrameHelperComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		const { source$, viewMode$, jump$ } = this.reportService;
 		const { originalHtmlMatches$ } = this.highlightService;
-		source$
-			.pipe(
-				untilDestroy(this),
-				truthy()
-			)
-			.subscribe(source => (this.html = source.html && source.html.value));
-		originalHtmlMatches$
+
+		combineLatest([source$.pipe(truthy()), originalHtmlMatches$])
 			.pipe(untilDestroy(this))
-			.subscribe(matches => (this.matches = matches) && this.renderMatches(matches));
+			.subscribe(([source, matches]) => {
+				this.matches = matches;
+				this.html = source.html.value;
+				this.renderMatches(matches);
+			});
 		const onOneToManyJump$ = combineLatest([jump$, viewMode$]).pipe(
 			untilDestroy(this),
 			filter(([, mode]) => mode === 'one-to-many'),

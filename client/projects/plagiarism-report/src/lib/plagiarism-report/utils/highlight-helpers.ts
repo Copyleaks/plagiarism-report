@@ -39,6 +39,9 @@ const extractMatchEndpoints = (acc: MatchEndpoint[], curr: Match): MatchEndpoint
 export const fillMissingGaps = (intervals: Match[], length: number): Match[] => {
 	let start = 0;
 	const end = length;
+	if (intervals.length === 0) {
+		return [{ start, end, type: MatchType.none }];
+	}
 	for (let i = 0; i < intervals.length; i++) {
 		const current = intervals[i];
 		if (start < current.start) {
@@ -49,7 +52,7 @@ export const fillMissingGaps = (intervals: Match[], length: number): Match[] => 
 	}
 	const last = intervals[intervals.length - 1];
 	if (intervals[intervals.length - 1].end < end) {
-		intervals.push({ start: last.end, end, type: MatchType.none });
+		intervals.push({ start: last.end || 0, end, type: MatchType.none });
 	}
 	return intervals;
 };
@@ -80,6 +83,9 @@ const mergeMathchesInNestFast = (matches: Match[]): Match[] => {
  * @param matches the base `matches` to process
  */
 export const findNests = (matches: Match[]): Match[][] => {
+	if (matches.length === 0) {
+		return [];
+	}
 	matches.sort((a, b) => a.start - b.start || a.end - b.end || a.type - b.type);
 	const nests: Match[][] = [[matches[0]]];
 	let nestFurthestEnd = matches[0].end;
