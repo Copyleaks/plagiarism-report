@@ -5,15 +5,14 @@
     "ng": "ng",
     "start": "ng serve",
 		"build": "ng build",
+		"lint": "ng lint",
 		"lib:test":"ng test plagiarism-report",
 		"lib:lint":"ng lint plagiarism-report",
 		"lib:version" :"cd projects/plagiarism-report && npm version prerelease --preid=alpha",
 		"lib:build": "ng build plagiarism-report",
-    "lib:publish": "cd dist/plagiarism-report && npm publish --tag=next ",
-    "package": "npm run lib:test && npm run lib:lint && npm run lib:version && npm run lib:build && npm run lib:publish",
-    "test": "jest",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+		"lib:publish": "cd dist/plagiarism-report && npm publish --tag=next ",
+		"script:tag":"node scripts/tag.js",
+    "package": "npm run lib:test && npm run lib:lint && npm run lib:version && npm run lib:build && npm run lib:publish"
   },
   "private": true,
   "dependencies": {

@@ -1,6 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, asyncScheduler } from 'rxjs';
+import {
+	map,
+	switchMap,
+	bufferTime,
+	debounce,
+	debounceTime,
+	tap,
+	throttle,
+	throttleTime,
+	sampleTime,
+	takeUntil,
+	mapTo,
+	switchMapTo,
+	withLatestFrom,
+} from 'rxjs/operators';
 import {
 	ComparisonKey,
 	CompleteResult,
@@ -11,6 +25,7 @@ import {
 	SubjectResultKey,
 } from '../models';
 import { ReportService } from './report.service';
+import { truthy, falsey } from '../utils/operators';
 
 /**
  * Higher order function that returns a function that extracts Match Intervals from a Result
@@ -110,6 +125,9 @@ const mergeWordIntervals = (matches: Match[]): Match[] =>
  * @param matches the matches to split
  */
 const findNests = (matches: Match[]): Match[][] => {
+	if (matches.length === 0) {
+		return [[]];
+	}
 	matches.sort((a, b) => a.start - b.start || a.end - b.end || a.type - b.type);
 	const nests: Match[][] = [[matches[0]]];
 	let nestFurthestEnd = matches[0].end;
@@ -133,10 +151,13 @@ export class StatisticsService {
 	public statistics$ = this._statistics.asObservable();
 
 	constructor(reportService: ReportService) {
-		const { metadata$, filteredResults$, suspectId$, suspect$ } = reportService;
+		const { completeResult$, filteredResults$, suspectId$, suspect$ } = reportService;
 		suspectId$
-			.pipe(switchMap(id => combineLatest([metadata$, id ? suspect$.pipe(map(x => [x])) : filteredResults$])))
-			.subscribe(([meta, results]) => {
+			.pipe(
+				switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)),
+				withLatestFrom(completeResult$)
+			)
+			.subscribe(([results, meta]) => {
 				const { batch, internet, database } = meta.results;
 				if (batch.length + database.length + internet.length === results.length) {
 					this._statistics.next({

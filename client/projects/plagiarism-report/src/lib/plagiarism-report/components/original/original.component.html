@@ -47,10 +47,12 @@
 					 fxFlex
 					 class="mat-elevation-z3"
 					 fxLayout="column">
-				<ng-container *ngTemplateOutlet="(isHtml && !htmlMatches || !isHtml && !textMatches) ? skeleton__body:null">
+				<!-- skeleton placeholder -->
+				<ng-container *ngTemplateOutlet="!source ? skeleton__body:null">
 				</ng-container>
-				<div *ngIf="textMatches"
-						 [hidden]="hasHtml && isHtml"
+				<!-- text for one-to-many -->
+				<div cr-original-text-helper
+						 [fxShow]="source && !(hasHtml && isHtml) && isOneToMany"
 						 text-container
 						 [ngStyle]="{ 'font-size': zoom + 'em' }"
 						 [dir]="direction">
@@ -63,19 +65,41 @@
 										[cr-match]="partial.match">{{partial.content}}</span>
 						</ng-container>
 					</ng-container>
-					<ng-template #clean>
-						{{ source.text.value | slice:pages[currentPage-1]:pages[currentPage] }}
-					</ng-template>
 				</div>
-				<iframe [fxHide]="!hasHtml || !isHtml || !isOneToMany || !htmlMatches"
-								cr-original-frame-helper
+
+				<div cr-source-text-helper
+						 [fxShow]="source && !(hasHtml && isHtml) && !isOneToMany"
+						 text-container
+						 [ngStyle]="{ 'font-size': zoom + 'em' }"
+						 [dir]="direction">
+					<ng-container *ngIf="textMatches; else clean">
+						<ng-container *ngFor="let partial of textMatches[currentPage-1]">
+							<span *ngIf="partial.match.type === MatchType.none">{{partial.content}}</span>
+							<i *ngIf="partial.match.type === MatchType.excluded"
+								 [title]="EXCLUDE_MESSAGE[partial.match.reason]">{{partial.content}}</i>
+							<span *ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
+										[cr-match]="partial.match">{{partial.content}}</span>
+						</ng-container>
+					</ng-container>
+				</div>
+
+				<ng-template #clean>
+					{{source && (source.text.value | slice:pages[currentPage-1]:pages[currentPage])}}
+				</ng-template>
+
+
+				<!-- text for one-to-one -->
+
+				<!-- html for one-to-many -->
+				<iframe [fxShow]="hasHtml && isHtml  && isOneToMany"
+								cr-original-html-helper
 								fxFlex>
 				</iframe>
+				<!-- html for one to one -->
 				<iframe fxFlex
-								[fxHide]="!hasHtml || !isHtml || isOneToMany || !htmlMatches"
-								cr-source-frame-helper>
+								[fxShow]="hasHtml && isHtml  && !isOneToMany"
+								cr-source-html-helper>
 				</iframe>
-
 			</div>
 		</div>
 
@@ -219,12 +243,14 @@
 		<ngx-skeleton-loader [theme]="{width:'2em',height:'2em'}"></ngx-skeleton-loader>
 	</div>
 </ng-template>
+
+
 <ng-template #skeleton__body>
 	<div fxFlex
 			 fxLayout="column"
 			 fxLayoutAlign="start stretch"
 			 fxLayoutGap="1em"
-			 style="overflow: hidden"
+			 style="overflow: hidden;margin:1em"
 			 skeleton__body>
 		<ngx-skeleton-loader [theme]="{ height: '100%' }"
 												 *ngFor="let item of 20 | array"></ngx-skeleton-loader>

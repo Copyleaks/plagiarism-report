@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { find, take } from 'rxjs/operators';
+import { find, take, map } from 'rxjs/operators';
 import { ResultPreview } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { ReportService } from '../../services/report.service';
@@ -32,12 +32,8 @@ export class ResultCardComponent implements OnInit {
 	 */
 	ngOnInit() {
 		if (this.preview) {
-			this.reportService.results$
-				.pipe(
-					find(result => result.id === this.preview.id),
-					take(1)
-				)
-				.subscribe(result => (this.result = result.result));
+			const found = this.reportService.findResultById(this.preview.id);
+			found && (this.result = found.result);
 		}
 	}
 }

@@ -132,7 +132,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { metadata$, source$, viewMode$, contentMode$ } = this.reportService;
+		const { completeResult$: metadata$, source$, viewMode$, contentMode$ } = this.reportService;
 		const {
 			originalTextMatches$,
 			sourceTextMatches$,

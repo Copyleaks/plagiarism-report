@@ -4,15 +4,8 @@ import { AppComponent } from './app.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CopyleaksReportModule } from 'projects/plagiarism-report/src/public-api';
-
-// const reportConfig: CopyleaksReportConfig = {
-// 	contentMode: 'text',
-// 	download: true,
-// 	share: true,
-// };
 
 @NgModule({
 	declarations: [AppComponent],
@@ -22,7 +15,7 @@ import { CopyleaksReportModule } from 'projects/plagiarism-report/src/public-api
 		BrowserAnimationsModule,
 		HttpClientModule,
 		FlexLayoutModule,
-		CopyleaksReportModule,
+		CopyleaksReportModule.forRoot({ contentMode: 'text' }),
 	],
 	providers: [],
 	bootstrap: [AppComponent],

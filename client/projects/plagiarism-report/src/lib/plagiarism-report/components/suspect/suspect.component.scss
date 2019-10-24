@@ -52,12 +52,10 @@ cr-panel {
 
 [text-container] {
   white-space: pre-line;
-
+  padding: 1em;
 
   span[class*="cr-m-"] {
     cursor: pointer;
-
-
 
     &.cr-m-0 {
       background-color: $color-identical;

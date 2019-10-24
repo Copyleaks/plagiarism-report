@@ -23,7 +23,7 @@ export class CopyleaksService {
 		if (!this.isCompleteResult(result)) {
 			throw new Error(COMPLETE_RESULT_VALIDATION_ERROR);
 		}
-		this.reportService.setMetadata(result);
+		this.reportService.setCompleteResult(result);
 	}
 
 	/**
@@ -31,10 +31,11 @@ export class CopyleaksService {
 	 * @see https://api.copyleaks.com/documentation/v3/webhooks/new-result
 	 * @param result the new result
 	 */
-	private pushNewResult(result: NewResult) {
+	public pushNewResult(result: NewResult) {
 		if (!this.isNewResult(result)) {
 			throw new Error(NEW_RESULT_VALIDATION_ERROR);
 		}
+		this.reportService.addPreview(result.internet[0] || result.database[0] || result.batch[0]);
 	}
 
 	/**
@@ -75,11 +76,6 @@ export class CopyleaksService {
 	setProgress(progress: number) {
 		this.reportService.setProgress(progress);
 	}
-
-	/**
-	 * Notify the service that you are done loading results
-	 */
-	done = () => this.reportService.done();
 
 	// Simple object validation
 

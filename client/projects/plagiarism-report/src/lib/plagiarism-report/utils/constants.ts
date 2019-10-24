@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { CopyleaksReportConfig } from '../models';
+import { CopyleaksReportConfig, CopyleaksReportOptions } from '../models';
 
 /** Constants related to `report.service.ts` */
 export const REPORT_SERVICE = {
@@ -7,11 +7,22 @@ export const REPORT_SERVICE = {
 	BTN_THROTTLE_MS: 250,
 };
 
+/** A default result options of the report */
+export const DEFAULT_OPTIONS: CopyleaksReportOptions = {
+	showPageSources: false,
+	showOnlyTopResults: true,
+	showRelated: true,
+	showIdentical: true,
+	showMinorChanges: true,
+	setAsDefault: false,
+};
 /** The default config of the report component. */
 export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
 	contentMode: 'html',
+	viewMode: 'one-to-many',
 	share: false,
 	download: false,
+	options: DEFAULT_OPTIONS,
 	dialogConfig: {
 		height: 'auto',
 		width: 'auto',

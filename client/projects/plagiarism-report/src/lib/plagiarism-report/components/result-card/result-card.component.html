@@ -1,4 +1,4 @@
-<ng-container *ngIf="result; else skeleton__card">
+<ng-container *ngIf="preview; else skeleton__card">
 	<div header
 			 fxLayout="row"
 			 fxLayoutAlign="space-between stretch"
@@ -38,13 +38,13 @@
 				 fxLayoutAlign="start start"
 				 class="sat-tooltip">
 			<div class="text-identical">
-				identical - {{ result.statistics.identical }} words
+				identical - {{  result?.statistics.identical }} words
 			</div>
 			<div class="text-minor-changes">
-				minor changes - {{ result.statistics.minorChanges}} words
+				minor changes - {{ result?.statistics.minorChanges}} words
 			</div>
 			<div class="text-related">
-				related - {{result.statistics.relatedMeaning }} words
+				related - {{result?.statistics.relatedMeaning }} words
 			</div>
 		</div>
 	</sat-popover>

@@ -37,13 +37,12 @@ import { PoweredByComponent } from './components/powered-by/powered-by.component
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 
-import { DEFAULT_REPORT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN } from './utils/constants';
+import { DEFAULT_REPORT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN, DEFAULT_OPTIONS } from './utils/constants';
 import { CopyleaksReportConfig } from './models';
-import { OriginalFrameHelperComponent } from './components/iframe-helpers/original-frame-helper.component';
-import { SourceFrameHelperComponent } from './components/iframe-helpers/source-frame-helper.component';
-import { SuspectFrameHelperComponent } from './components/iframe-helpers/suspect-frame-helper.component';
+import { OriginalHtmlHelperComponent } from './components/html-helpers/original-html-helper.component';
+import { SourceHtmlHelperComponent } from './components/html-helpers/source-html-helper.component';
+import { SuspectHtmlHelperComponent } from './components/html-helpers/suspect-html-helper.component';
 import { MatchComponent } from './components/match/match.component';
-import { CopyleaksService } from './services/copyleaks.service';
 
 @NgModule({
 	declarations: [
@@ -57,9 +56,9 @@ import { CopyleaksService } from './services/copyleaks.service';
 		ResultsFilterDialogComponent,
 		PoweredByComponent,
 		MatchComponent,
-		OriginalFrameHelperComponent,
-		SourceFrameHelperComponent,
-		SuspectFrameHelperComponent,
+		OriginalHtmlHelperComponent,
+		SourceHtmlHelperComponent,
+		SuspectHtmlHelperComponent,
 	],
 	imports: [
 		CommonModule,

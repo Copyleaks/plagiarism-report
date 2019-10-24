@@ -23,17 +23,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	get done() {
 		return this.progress === 100;
 	}
-
 	get total(): number {
 		return this.metadata.scannedDocument.totalWords;
 	}
+
 	@HostBinding('class.mobile') isMobile: boolean;
 
 	public stats: ReportStatistics;
 
 	progress = 0;
+	previewCount = 0;
 	metadata: CompleteResult;
-
 	identical: number;
 	minor: number;
 	related: number;
@@ -71,8 +71,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { share$, download$, metadata$, progress$ } = this.reportService;
-		metadata$.pipe(untilDestroy(this)).subscribe(meta => (this.metadata = meta));
+		const { share$, download$, completeResult$, progress$, previews$ } = this.reportService;
+		completeResult$.pipe(untilDestroy(this)).subscribe(meta => (this.metadata = meta));
+		previews$.subscribe(({ length }) => (this.previewCount = length));
 		share$.pipe(untilDestroy(this)).subscribe(share => (this.share = share));
 		download$.pipe(untilDestroy(this)).subscribe(download => (this.download = download));
 		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));

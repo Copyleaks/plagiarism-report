@@ -27,7 +27,7 @@
 		</div> -->
 
 		<div prop>
-			<ng-container *ngIf="metadata;else skeleton__prop">
+			<ng-container>
 				<div fxLayout="row nowrap"
 						 fxLayoutAlign="center center"
 						 fxLayoutGap="1em">
@@ -46,7 +46,7 @@
 					</label>
 				</div>
 				<div>
-					<ng-container *ngIf="!done;">
+					<ng-container *ngIf="!done">
 						working...
 					</ng-container>
 					<ng-container *ngIf="done">
@@ -59,8 +59,8 @@
 			</ng-container>
 		</div>
 		<div prop>
-			<ng-container *ngIf="metadata;else skeleton__prop">
-				<label>{{metadata.results.batch.length + metadata.results.internet.length + metadata.results.database.length}}</label>
+			<ng-container>
+				<label>{{ previewCount }}</label>
 				<div>
 					results found
 				</div>
@@ -118,7 +118,7 @@
 						<div class="dot omitted"></div>
 						<div text> Omitted Words </div>
 						<span fxFlex></span>
-						<div> {{ (metadata.scannedDocument.totalExcluded/ stats?.total) | percent:"1.0-1" }}
+						<div *ngIf="stats"> {{ (metadata.scannedDocument.totalExcluded / stats?.total) | percent:"1.0-1" }}
 						</div>
 					</div>
 				</div>

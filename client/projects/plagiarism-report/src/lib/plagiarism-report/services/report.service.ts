@@ -1,6 +1,9 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
-import { distinctUntilChanged, find, map, switchMap, take, toArray, tap } from 'rxjs/operators';
+
+import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
+
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+
 import {
 	CompleteResult,
 	ContentMode,
@@ -11,84 +14,197 @@ import {
 	ReportStatistics,
 	ResultItem,
 	ResultPreview,
-	ResultsSettings,
+	CopyleaksReportOptions,
 	ScanResult,
 	ScanSource,
 	ViewMode,
 } from '../models';
+
 import { COPYLEAKS_CONFIG_INJECTION_TOKEN, REPORT_SERVICE, DEFAULT_REPORT_CONFIG } from '../utils/constants';
+
 import { truthy } from '../utils/operators';
 
-/** The default report settings */
-const DEFAULT_SETTINGS: ResultsSettings = {
-	showPageSources: false,
-	showOnlyTopResults: true,
-	showRelated: true,
-	showIdentical: true,
-	showMinorChanges: true,
-	setAsDefault: false,
-};
+/**
+ * Get the user's report options from localstorage
+ */
+const settingsFromLocalStorage = JSON.parse(localStorage.getItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY));
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ReportService {
-	private readonly _metadata = new BehaviorSubject<CompleteResult>(undefined);
-	private readonly _source = new BehaviorSubject<ScanSource>(undefined);
-	private readonly _suspectId = new BehaviorSubject<string>(undefined);
-	private readonly _progress = new BehaviorSubject<number>(0);
-	private readonly _viewMode = new BehaviorSubject<ViewMode>('one-to-many');
-	private readonly _contentMode = new BehaviorSubject<ContentMode>(this.config.contentMode);
-	private readonly _hiddenResults = new BehaviorSubject<string[]>([]);
-	private readonly _settings = new BehaviorSubject<ResultsSettings>(undefined);
-	private readonly _download = new BehaviorSubject<boolean>(this.config.download);
-	private readonly _share = new BehaviorSubject<boolean>(this.config.share);
-	private readonly _downloadClick = new Subject<ReportDownloadEvent>();
-	private readonly _shareClick = new Subject<ReportShareEvent>();
-	private readonly _previews = new ReplaySubject<ResultPreview>();
-	private readonly _jump = new Subject<boolean>();
-	private readonly _results = new ReplaySubject<ResultItem>();
+	/** scans api items state */
+	private _completeResult = new BehaviorSubject<CompleteResult>(null);
+	private _source = new BehaviorSubject<ScanSource>(null);
+	private _previews = new BehaviorSubject<ResultPreview[]>([]);
+	private _results = new BehaviorSubject<ResultItem[]>([]);
 
-	private readonly _sourceSelectedMatch = new Subject<Match>();
-	private readonly _suspectSelectedMatch = new Subject<Match>();
-	private readonly _originalSelectedMatch = new Subject<Match>();
+	/** report display state */
+	private _viewMode = new BehaviorSubject<ViewMode>(this.config.viewMode);
+	private _contentMode = new BehaviorSubject<ContentMode>(this.config.contentMode);
+	private _suspectId = new BehaviorSubject<string>(null);
+	private _share = new BehaviorSubject<boolean>(this.config.share);
+	private _download = new BehaviorSubject<boolean>(this.config.download);
+	private _progress = new BehaviorSubject<number>(0);
+	private _statistics = new BehaviorSubject<ReportStatistics>(null);
 
-	private readonly _statistics = new BehaviorSubject<ReportStatistics>(undefined);
+	/** settings state */
+	private _hiddenResults = new BehaviorSubject<string[]>([]);
+	private _options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
+
+	/** user event emitters */
+	private _jump = new Subject<boolean>();
+	private _downloadClick = new Subject<ReportDownloadEvent>();
+	private _shareClick = new Subject<ReportShareEvent>();
+	private _sourceSelectedMatch = new Subject<Match>();
+	private _suspectSelectedMatch = new Subject<Match>();
+	private _originalSelectedMatch = new Subject<Match>();
 
 	constructor(@Optional() @Inject(COPYLEAKS_CONFIG_INJECTION_TOKEN) private _config?: CopyleaksReportConfig) {
-		const settings = JSON.parse(localStorage.getItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY)) || DEFAULT_SETTINGS;
-		this.setSettings(settings);
+		this.reset();
 	}
 
-	public jump$ = this._jump.asObservable();
-	public statistics$ = this._statistics.asObservable();
-	public originalSelectedMatch$ = this._originalSelectedMatch.asObservable();
-	public sourceSelectedMatch$ = this._sourceSelectedMatch.asObservable();
-	public suspectSelectedMatch$ = this._suspectSelectedMatch.asObservable();
+	/**
+	 * Resets the current state of the report service
+	 */
+	public reset() {
+		this._completeResult && this._completeResult.complete();
+		this._completeResult = new BehaviorSubject<CompleteResult>(null);
+		this._source && this._source.complete();
+		this._source = new BehaviorSubject<ScanSource>(null);
+		this._previews && this._previews.complete();
+		this._previews = new BehaviorSubject<ResultPreview[]>([]);
+		this._results && this._results.complete();
+		this._results = new BehaviorSubject<ResultItem[]>([]);
+		this._viewMode && this._viewMode.complete();
+		this._viewMode = new BehaviorSubject<ViewMode>(this.config.viewMode);
+		this._contentMode && this._contentMode.complete();
+		this._contentMode = new BehaviorSubject<ContentMode>(this.config.contentMode);
+		this._suspectId && this._suspectId.complete();
+		this._suspectId = new BehaviorSubject<string>(null);
+		this._share && this._share.complete();
+		this._share = new BehaviorSubject<boolean>(this.config.share);
+		this._download && this._download.complete();
+		this._download = new BehaviorSubject<boolean>(this.config.download);
+		this._progress && this._progress.complete();
+		this._progress = new BehaviorSubject<number>(0);
+		this._statistics && this._statistics.complete();
+		this._statistics = new BehaviorSubject<ReportStatistics>(null);
+		this._hiddenResults && this._hiddenResults.complete();
+		this._hiddenResults = new BehaviorSubject<string[]>([]);
+		this._options && this._options.complete();
+		this._options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
+		this._jump && this._jump.complete();
+		this._jump = new Subject<boolean>();
+		this._downloadClick && this._downloadClick.complete();
+		this._downloadClick = new Subject<ReportDownloadEvent>();
+		this._shareClick && this._shareClick.complete();
+		this._shareClick = new Subject<ReportShareEvent>();
+		this._sourceSelectedMatch && this._sourceSelectedMatch.complete();
+		this._sourceSelectedMatch = new Subject<Match>();
+		this._suspectSelectedMatch && this._suspectSelectedMatch.complete();
+		this._suspectSelectedMatch = new Subject<Match>();
+		this._originalSelectedMatch && this._originalSelectedMatch.complete();
+		this._originalSelectedMatch = new Subject<Match>();
+	}
 
-	public suspect$: Observable<ResultItem> = this._suspectId
-		.asObservable()
-		.pipe(switchMap(id => (id ? this.results$.pipe(find(res => res.id === id)) : of(null))));
-	public metadata$ = this._metadata.asObservable().pipe(
-		truthy(),
-		take(1)
-	);
-	public source$ = this._source.asObservable().pipe(
-		truthy(),
-		take(1)
-	);
+	public get jump$() {
+		return this._jump.asObservable();
+	}
 
-	public suspectId$ = this._suspectId.asObservable();
-	public progress$ = this._progress.asObservable();
-	public viewMode$ = this._viewMode.asObservable().pipe(distinctUntilChanged());
-	public contentMode$ = this._contentMode.asObservable().pipe(distinctUntilChanged());
-	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
-	public settings$ = this._settings.asObservable().pipe(truthy());
-	public download$ = this._download.asObservable().pipe(distinctUntilChanged());
-	public share$ = this._share.asObservable().pipe(distinctUntilChanged());
-	public downloadClick$ = this._downloadClick.asObservable();
-	public shareClick$ = this._shareClick.asObservable();
-	public results$ = this._results.asObservable();
+	public get statistics$() {
+		return this._statistics.asObservable();
+	}
+
+	public get originalSelectedMatch$() {
+		return this._originalSelectedMatch.asObservable();
+	}
+
+	public get sourceSelectedMatch$() {
+		return this._sourceSelectedMatch.asObservable();
+	}
+
+	public get suspectSelectedMatch$() {
+		return this._suspectSelectedMatch.asObservable();
+	}
+
+	public get suspect$() {
+		return this._suspectId.asObservable().pipe(switchMap(id => of(this._results.value.find(item => item.id === id))));
+	}
+
+	public get completeResult$() {
+		return this._completeResult.asObservable().pipe(
+			truthy(),
+			take(1)
+		);
+	}
+
+	public get source$() {
+		return this._source.asObservable().pipe(
+			truthy(),
+			take(1)
+		);
+	}
+
+	public get suspectId$() {
+		return this._suspectId.asObservable();
+	}
+
+	public get progress$() {
+		return this._progress.asObservable();
+	}
+
+	public get viewMode$() {
+		return this._viewMode.asObservable().pipe(distinctUntilChanged());
+	}
+
+	public get contentMode$() {
+		return this._contentMode.asObservable().pipe(distinctUntilChanged());
+	}
+
+	public get hiddenResults$() {
+		return this._hiddenResults.asObservable().pipe(distinctUntilChanged());
+	}
+
+	public get options$() {
+		return this._options.asObservable().pipe(truthy());
+	}
+
+	public get download$() {
+		return this._download.asObservable().pipe(distinctUntilChanged());
+	}
+
+	public get share$() {
+		return this._share.asObservable().pipe(distinctUntilChanged());
+	}
+
+	public get downloadClick$() {
+		return this._downloadClick.asObservable();
+	}
+
+	public get shareClick$() {
+		return this._shareClick.asObservable();
+	}
+
+	public get results$() {
+		return this._results.asObservable();
+	}
+
+	public get previews$() {
+		return this._previews.asObservable();
+	}
+
+	public get filteredPreviews$() {
+		return combineLatest([this.previews$, this.hiddenResults$]).pipe(
+			map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
+		);
+	}
+
+	public get filteredResults$() {
+		return combineLatest([this.results$, this.hiddenResults$]).pipe(
+			map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
+		);
+	}
 
 	/**
 	 * Get the report config, can be a config provided by client, or a default config.
@@ -97,17 +213,6 @@ export class ReportService {
 		return this._config || DEFAULT_REPORT_CONFIG;
 	}
 
-	public previews$ = this.metadata$.pipe(
-		map(({ results }): ResultPreview[] => [...results.internet, ...results.database, ...results.batch])
-	);
-
-	public filteredPreviews$ = combineLatest([this.previews$, this.hiddenResults$]).pipe(
-		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
-	);
-	public filteredResults$ = combineLatest([this.results$.pipe(toArray()), this.hiddenResults$]).pipe(
-		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
-	);
-
 	/**
 	 * Pushes a new match as the match selected in the source text/html
 	 * @param match the selected match
@@ -115,6 +220,15 @@ export class ReportService {
 	public setSourceSelectedMatch(match: Match) {
 		this._sourceSelectedMatch.next(match);
 	}
+
+	/**
+	 * Retrieves the result item with the given id
+	 * @param id the result id to find
+	 */
+	public findResultById(id: string) {
+		return this._results.value.find(res => res.id === id);
+	}
+
 	/**
 	 * Pushes a new match as the match selected in the suspect text/html
 	 * @param match the selected match
@@ -122,6 +236,7 @@ export class ReportService {
 	public setSuspectSelectedMatch(match: Match) {
 		this._suspectSelectedMatch.next(match);
 	}
+
 	/**
 	 * Pushes a new match as the match selected in the original text/html
 	 * @param match the selected match
@@ -132,14 +247,16 @@ export class ReportService {
 
 	/**
 	 * Pushes a new complete result that contains the report `metadata` and updates the metadata observer.
-	 * @param metedata the complete result object
+	 * @param completeResult the complete result object
 	 */
-	public setMetadata(metedata: CompleteResult) {
-		metedata.results.internet.forEach(preview => this.addPreview(preview));
-		metedata.results.database.forEach(preview => this.addPreview(preview));
-		metedata.results.batch.forEach(preview => this.addPreview(preview));
-		this._metadata.next(metedata);
+	public setCompleteResult(completeResult: CompleteResult) {
+		const { internet, database, batch } = completeResult.results;
+		const previews = [...internet, ...database, ...batch];
+		previews.sort((a, b) => a.matchedWords - b.matchedWords).forEach(preview => this.addPreview(preview));
+		this._previews.next(previews);
+		this._completeResult.next(completeResult);
 	}
+
 	/**
 	 * Pushes a new scan `source` to the source observer
 	 * @param source the scanned document source
@@ -152,6 +269,7 @@ export class ReportService {
 			this._contentMode.next('text');
 		}
 	}
+
 	/**
 	 * Pushes a new `id` to the suspect id observer
 	 * @param id the suspect result id
@@ -168,14 +286,7 @@ export class ReportService {
 	 * @param progress the progress to display
 	 */
 	public setProgress(progress: number) {
-		if (progress !== 100 && !this._progress.isStopped) {
-			this._progress.next(progress);
-		}
-		if (progress === 100 && !this._progress.isStopped) {
-			this._progress.next(progress);
-			this._progress.complete();
-			// this._source.complete();
-		}
+		this._progress.next(progress);
 	}
 
 	/**
@@ -203,17 +314,18 @@ export class ReportService {
 	}
 
 	/**
-	 * Pushes new `settings` to the settings observer.
-	 * if `setAsDefault` is set to true, these settings will be saved to localStorage
-	 * @param settings the updated settings
+	 * Pushes new `options` to the options observer.
+	 * if `setAsDefault` is set to true, these options will be saved to localStorage
+	 * @param options the updated options
 	 */
-	public setSettings(settings: ResultsSettings) {
-		if (settings.setAsDefault) {
-			localStorage.setItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY, JSON.stringify(settings));
+	public setOptions(options: CopyleaksReportOptions) {
+		if (options.setAsDefault) {
+			localStorage.setItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY, JSON.stringify(options));
 		} else {
 			localStorage.removeItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY);
 		}
-		this._settings.next(settings);
+
+		this._options.next(options);
 	}
 
 	/**
@@ -253,7 +365,9 @@ export class ReportService {
 	 * @param preview the preview to push next
 	 */
 	public addPreview(preview: ResultPreview) {
-		this._previews.next(preview);
+		if (!this._completeResult.value && !this._previews.value.find(p => p.id === preview.id)) {
+			this._previews.next([...this._previews.value, preview]);
+		}
 	}
 
 	/**
@@ -262,7 +376,9 @@ export class ReportService {
 	 * @param result the result
 	 */
 	public addDownloadedResult(id: string, result: ScanResult) {
-		this._results.next({ id, result });
+		if (!this._results.value.find(r => r.id === id)) {
+			this._results.next([...this._results.value, { id, result }]);
+		}
 	}
 
 	/**

@@ -16,4 +16,5 @@ interface NewBatchResult {
 	database: [];
 	batch: [BatchResultPreview];
 }
+
 export type NewResult = NewInternetResult | NewDatabaseResult | NewBatchResult;

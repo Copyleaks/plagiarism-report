@@ -10,7 +10,7 @@ import {
 	ScanSource,
 	SlicedMatch,
 	SubjectResultKey,
-	ResultsSettings,
+	CopyleaksReportOptions,
 } from '../models';
 
 /** A reduce function to extrace `MatchEndpoint`s */
@@ -298,7 +298,7 @@ export const findRespectiveStart = (index: number, comparison: Comparison, fromS
  */
 export const processSourceText = (
 	results: ResultItem | ResultItem[],
-	settings: ResultsSettings,
+	settings: CopyleaksReportOptions,
 	source: ScanSource
 ) => {
 	if (!source || !source.text) {
@@ -326,7 +326,7 @@ export const processSourceText = (
  * @param suspect the suspect result item
  * @param settings the current user settings
  */
-export const processSuspectText = (suspect: ResultItem, settings: ResultsSettings): SlicedMatch[][] => {
+export const processSuspectText = (suspect: ResultItem, settings: CopyleaksReportOptions): SlicedMatch[][] => {
 	if (!suspect) {
 		return null;
 	}
@@ -347,7 +347,7 @@ export const processSuspectText = (suspect: ResultItem, settings: ResultsSetting
  */
 export const processSourceHtml = (
 	results: ResultItem | ResultItem[],
-	settings: ResultsSettings,
+	settings: CopyleaksReportOptions,
 	source: ScanSource
 ) => {
 	if (!source || !source.html) {
@@ -375,7 +375,7 @@ export const processSourceHtml = (
  * @param suspect the suspect result item
  * @param settings the current user settings
  */
-export const processSuspectHtml = (suspect: ResultItem, settings: ResultsSettings): Match[] => {
+export const processSuspectHtml = (suspect: ResultItem, settings: CopyleaksReportOptions): Match[] => {
 	if (!suspect || !suspect.result.html) {
 		return null;
 	}

@@ -1,7 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, filter, skip, take, takeUntil, withLatestFrom, tap } from 'rxjs/operators';
-import { Match, ResultItem, ResultsSettings, ScanSource, SlicedMatch } from '../models';
+import {
+	distinctUntilChanged,
+	filter,
+	skip,
+	take,
+	takeUntil,
+	withLatestFrom,
+	tap,
+	debounce,
+	debounceTime,
+} from 'rxjs/operators';
+import { Match, ResultItem, CopyleaksReportOptions, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/highlight-helpers';
 import { truthy } from '../utils/operators';
 import { ReportService } from './report.service';
@@ -15,15 +25,17 @@ import { ReportService } from './report.service';
 })
 export class HighlightService {
 	constructor(private reportService: ReportService) {
-		const { source$, filteredResults$, settings$ } = reportService;
+		const { source$, filteredResults$, options$ } = reportService;
 
 		// listen to suspect changes and process one-to-one matches
 		this.onSuspectChange$
-			.pipe(withLatestFrom(settings$, source$))
+			.pipe(withLatestFrom(options$, source$))
 			.subscribe(params => this.processOneToOneMatches(...params));
 
 		// listen to changes in settings and filtered results
-		combineLatest([filteredResults$, settings$, source$]).subscribe(params => this.processOneToManyMatches(...params));
+		combineLatest([filteredResults$.pipe(debounceTime(10000)), options$, source$]).subscribe(params =>
+			this.processOneToManyMatches(...params)
+		);
 	}
 	private get onFirstTextMode$() {
 		return this.reportService.contentMode$.pipe(
@@ -72,7 +84,7 @@ export class HighlightService {
 	/* Emits a boolean indication weather there are ongoing calculations */
 	public working$ = this._working.asObservable().pipe(distinctUntilChanged());
 
-	private processOneToOneMatches = (result: ResultItem, settings: ResultsSettings, source: ScanSource) => {
+	private processOneToOneMatches = (result: ResultItem, settings: CopyleaksReportOptions, source: ScanSource) => {
 		this.onFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 			setTimeout(() => {
 				const text = helpers.processSourceText(result, settings, source);
@@ -103,7 +115,7 @@ export class HighlightService {
 		});
 	};
 
-	private processOneToManyMatches = (results: ResultItem[], settings: ResultsSettings, source: ScanSource) => {
+	private processOneToManyMatches = (results: ResultItem[], settings: CopyleaksReportOptions, source: ScanSource) => {
 		this.onFirstTextMode$.subscribe(() => {
 			const text = helpers.processSourceText(results, settings, source);
 			if (text) {

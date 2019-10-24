@@ -6,7 +6,7 @@ export class Timer {
 	 */
 	stop(): number {
 		const time = performance.now() - this.start;
-		console.log('Timer:', this.name, 'finished in', Math.round(time), 'ms');
+		console.dir('Timer:', this.name, 'finished in', Math.round(time), 'ms');
 		return time;
 	}
 }

@@ -17,8 +17,6 @@ export class WhitelistPipe implements PipeTransform {
 		if (!whitelist || whitelist.length === 0) {
 			return value;
 		}
-		return (value || []).filter(item =>
-			key ? item.hasOwnProperty(key) : true && whitelist.includes(key ? item[key] : item)
-		);
+		return (value || []).filter(item => whitelist.includes(key ? item[key] : item));
 	}
 }

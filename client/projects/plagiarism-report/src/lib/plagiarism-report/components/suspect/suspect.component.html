@@ -39,10 +39,13 @@
 				 fxLayout="column">
 			<div card
 					 fxFlex
-					 class="mat-elevation-z3"
-					 [style.padding]="isHtml ? '0em' : '1em'">
-				<div *ngIf="suspect ; else skeleton__body"
-						 [hidden]="hasHtml && isHtml"
+					 class="mat-elevation-z3">
+				<!-- skeleton placeholder -->
+				<ng-container *ngTemplateOutlet="!suspect ? skeleton__body:null">
+				</ng-container>
+				<!-- text for one-to-one -->
+				<div cr-suspect-text-helper
+						 [fxShow]="suspect && !(hasHtml && isHtml)"
 						 text-container
 						 [ngStyle]="{ 'font-size': zoom + 'em' }"
 						 [dir]="direction">
@@ -55,15 +58,14 @@
 						</ng-container>
 					</ng-container>
 					<ng-template #clean>
-						{{ suspect.text.value | slice:pages[currentPage-1]:pages[currentPage] }}
+						{{ suspect && (suspect.text.value | slice:pages[currentPage-1]:pages[currentPage]) }}
 					</ng-template>
 				</div>
 				<iframe #suspectFrame
 								fxFlex
-								[hidden]="!hasHtml || !isHtml"
-								cr-suspect-frame-helper>
+								[fxShow]="hasHtml && isHtml"
+								cr-suspect-html-helper>
 				</iframe>
-
 			</div>
 			<div content-footer
 					 fxLayoutAlign="space-between center"

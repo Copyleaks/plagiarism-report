@@ -66,10 +66,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
 		combineLatest([originalText$, originalHtml$, contentMode$])
 			.pipe(untilDestroy(this))
-			.subscribe(([text, html, mode]) => {
-				this.focusedMatch = mode === 'text' ? text && text.match : html;
-			});
-		// sourceSelectedMatch$.pipe(untilDestroy(this)).subscribe(match => (this.focusedMatch = match));
+			.subscribe(([text, html, mode]) => (this.focusedMatch = mode === 'text' ? text && text.match : html));
+
 		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => (this.hiddenResults = ids));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(isMobile => (this.isMobile = isMobile));
 	}
