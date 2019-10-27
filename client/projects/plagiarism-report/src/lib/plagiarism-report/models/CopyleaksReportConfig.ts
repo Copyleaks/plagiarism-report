@@ -6,7 +6,7 @@ export type ContentMode = 'text' | 'html';
 export type DirectionMode = 'rtl' | 'ltr';
 
 export interface CopyleaksReportConfig {
-	/** The initial content mode*/
+	/** The initial content mode */
 	contentMode?: ContentMode;
 	/** The initial view mode */
 	viewMode?: ViewMode;
@@ -16,8 +16,8 @@ export interface CopyleaksReportConfig {
 	share?: boolean;
 	/** Flag to display the download button */
 	download?: boolean;
-	/** Angular Material Dialog config override*/
+	/** Angular Material Dialog config override */
 	dialogConfig?: MatDialogConfig<any>;
-	/** time in milliseconds to throttle incoming results to prevent calculation*/
+	/** time in milliseconds to throttle incoming results to prevent calculation */
 	throttleResults?: number;
 }

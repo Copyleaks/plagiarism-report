@@ -106,7 +106,7 @@ export class ReportService {
 		this._suspectSelectedMatch = new Subject<Match>();
 		this._originalSelectedMatch && this._originalSelectedMatch.complete();
 		this._originalSelectedMatch = new Subject<Match>();
-		combineLatest(this.source$, this.completeResult$)
+		combineLatest([this.source$, this.completeResult$])
 			.pipe(take(1))
 			.subscribe(() => this._progress.next(100));
 	}
