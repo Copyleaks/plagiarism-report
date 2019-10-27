@@ -1,8 +1,9 @@
 <cr-panel fxFlex>
-	<cr-panel-header>
 
+	<cr-panel-header>
 		<label> Suspect </label>
 	</cr-panel-header>
+
 	<cr-panel-actions>
 		<cr-panel-action fxHide.lt-md>
 			<ng-container *ngTemplateOutlet="menu__toggle_html"></ng-container>
@@ -33,13 +34,14 @@
 
 	</cr-panel-actions>
 
-	<cr-panel-body fxLayout="column nowrap"
-								 suspectMarker>
+	<cr-panel-body fxLayout="column nowrap">
 		<div fxFlex
-				 fxLayout="column">
+				 fxLayout="column"
+				 fxLayoutGap="1em">
 			<div card
 					 fxFlex
-					 class="mat-elevation-z3">
+					 class="mat-elevation-z3"
+					 fxLayout="column">
 				<!-- skeleton placeholder -->
 				<ng-container *ngTemplateOutlet="!suspect ? skeleton__body:null">
 				</ng-container>
@@ -49,38 +51,38 @@
 						 text-container
 						 [ngStyle]="{ 'font-size': zoom + 'em' }"
 						 [dir]="direction">
-					<ng-container *ngIf="matches; else clean">
-						<ng-container *ngFor="let partial of matches[currentPage-1]">
+					<ng-container *ngIf="textMatches; else clean">
+						<ng-container *ngFor="let partial of textMatches[currentPage-1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{partial.content}}</span>
 							<span *ngIf="partial.match.type !== MatchType.none"
 										[cr-match]="partial.match"
 										[isSource]="false">{{partial.content}}</span>
 						</ng-container>
 					</ng-container>
-					<ng-template #clean>
-						{{ suspect && (suspect.text.value | slice:pages[currentPage-1]:pages[currentPage]) }}
-					</ng-template>
 				</div>
-				<iframe #suspectFrame
-								fxFlex
+				<!-- text without match highlighting -->
+				<ng-template #clean>
+					{{ suspect && (suspect.text.value | slice:pages[currentPage-1]:pages[currentPage]) }}
+				</ng-template>
+
+				<iframe fxFlex
 								[fxShow]="hasHtml && isHtml"
 								cr-suspect-html-helper>
 				</iframe>
 			</div>
-			<div content-footer
-					 fxLayoutAlign="space-between center"
-					 fxLayout="row-reverse nowrap">
-
-				<ng-container *ngIf="suspect ;else skeleton__pagination">
-					<cr-mat-pagination *ngIf="!hasHtml || !isHtml"
-														 showFirstLastButtons
-														 [(currentPage)]="currentPage"
-														 [totalPages]="pages.length"></cr-mat-pagination>
-				</ng-container>
-				<cr-powered-by></cr-powered-by>
-			</div>
 		</div>
+		<div content-footer
+				 fxLayoutAlign="space-between center"
+				 fxLayout="row-reverse nowrap">
 
+			<ng-container *ngIf="suspect ;else skeleton__pagination">
+				<cr-mat-pagination *ngIf="!hasHtml || !isHtml"
+													 showFirstLastButtons
+													 [(currentPage)]="currentPage"
+													 [totalPages]="pages.length"></cr-mat-pagination>
+			</ng-container>
+			<cr-powered-by></cr-powered-by>
+		</div>
 	</cr-panel-body>
 </cr-panel>
 
@@ -208,7 +210,7 @@
 			 fxLayout="column"
 			 fxLayoutAlign="start stretch"
 			 fxLayoutGap="1em"
-			 style="overflow: hidden"
+			 style="overflow: hidden;margin:1em"
 			 skeleton__body>
 		<ngx-skeleton-loader [theme]="{ height: '100%' }"
 												 *ngFor="let item of 20 | array; index as i">

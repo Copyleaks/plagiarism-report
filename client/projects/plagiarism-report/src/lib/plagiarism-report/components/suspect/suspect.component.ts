@@ -29,7 +29,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	public zoom = 1;
 	public direction: DirectionMode = 'ltr';
 	public currentPage = 1;
-	public matches: SlicedMatch[][];
+	public textMatches: SlicedMatch[][];
 	public suspect: ScanResult;
 	public content: ContentMode;
 
@@ -98,7 +98,9 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			.subscribe(item => (this.suspect = item.result));
 		contentMode$.pipe(untilDestroy(this)).subscribe(mode => (this.content = mode));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
-		this.highlightService.suspectTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.matches = matches));
+		this.highlightService.suspectTextMatches$
+			.pipe(untilDestroy(this))
+			.subscribe(matches => (this.textMatches = matches));
 	}
 	/**
 	 * life-cycle method

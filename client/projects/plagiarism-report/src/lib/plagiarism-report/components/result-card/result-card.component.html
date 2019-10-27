@@ -1,9 +1,9 @@
 <ng-container *ngIf="preview; else skeleton__card">
 	<div header
-			 fxLayout="row"
-			 fxLayoutAlign="space-between stretch"
 			 class="title"
 			 (click)="onTitleClick()">
+		<mat-spinner *ngIf="loading"
+								 [diameter]="20"></mat-spinner>
 		{{preview.title}}
 	</div>
 

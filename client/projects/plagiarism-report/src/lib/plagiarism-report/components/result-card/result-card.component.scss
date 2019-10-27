@@ -12,6 +12,11 @@
   }
 
 
+  mat-spinner {
+    margin: 2px;
+    display: inline-block;
+    vertical-align: text-bottom;
+  }
 
   mat-divider {
     margin-top: $card-padding;

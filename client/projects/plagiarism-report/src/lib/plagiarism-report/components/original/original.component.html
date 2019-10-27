@@ -1,12 +1,9 @@
 <cr-panel fxFlex>
+
 	<cr-panel-header>
 		<label>Original </label>
-
-		<mat-spinner *ngIf="working"
-								 style="display: inline-flex;margin-left: 10px"
-								 [diameter]="25"></mat-spinner>
-
 	</cr-panel-header>
+
 	<cr-panel-actions>
 		<cr-panel-action fxHide.lt-md>
 			<ng-container *ngTemplateOutlet="menu__next_match"></ng-container>
@@ -39,6 +36,7 @@
 			</button>
 		</cr-panel-action>
 	</cr-panel-actions>
+
 	<cr-panel-body fxLayout="column nowrap">
 		<div fxFlex
 				 fxLayout="column"
@@ -47,9 +45,11 @@
 					 fxFlex
 					 class="mat-elevation-z3"
 					 fxLayout="column">
+
 				<!-- skeleton placeholder -->
 				<ng-container *ngTemplateOutlet="!source ? skeleton__body:null">
 				</ng-container>
+
 				<!-- text for one-to-many -->
 				<div cr-original-text-helper
 						 [fxShow]="source && !(hasHtml && isHtml) && isOneToMany"
@@ -59,14 +59,15 @@
 					<ng-container *ngIf="textMatches; else clean">
 						<ng-container *ngFor="let partial of textMatches[currentPage-1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{partial.content}}</span>
-							<i *ngIf="partial.match.type === MatchType.excluded"
-								 [title]="EXCLUDE_MESSAGE[partial.match.reason]">{{partial.content}}</i>
 							<span *ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
 										[cr-match]="partial.match">{{partial.content}}</span>
+							<i *ngIf="partial.match.type === MatchType.excluded"
+								 [title]="EXCLUDE_MESSAGE[partial.match.reason]">{{partial.content}}</i>
 						</ng-container>
 					</ng-container>
 				</div>
 
+				<!-- text for one-to-one -->
 				<div cr-source-text-helper
 						 [fxShow]="source && !(hasHtml && isHtml) && !isOneToMany"
 						 text-container
@@ -83,18 +84,17 @@
 					</ng-container>
 				</div>
 
+				<!-- text without match highlighting -->
 				<ng-template #clean>
 					{{source && (source.text.value | slice:pages[currentPage-1]:pages[currentPage])}}
 				</ng-template>
-
-
-				<!-- text for one-to-one -->
 
 				<!-- html for one-to-many -->
 				<iframe [fxShow]="hasHtml && isHtml  && isOneToMany"
 								cr-original-html-helper
 								fxFlex>
 				</iframe>
+
 				<!-- html for one to one -->
 				<iframe fxFlex
 								[fxShow]="hasHtml && isHtml  && !isOneToMany"

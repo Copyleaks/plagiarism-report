@@ -12,8 +12,10 @@
 			 fxLayoutAlign="start stretch"
 			 fxLayoutGap.lt-md="-1px"
 			 fxLayoutGap.gt-sm="1em">
+
 		<cr-original></cr-original>
 		<cr-suspect [fxShow]="view === 'one-to-one'"> </cr-suspect>
+
 		<ng-container *ngTemplateOutlet="isMobile ? null:results"></ng-container>
 	</div>
 	<ng-container *ngTemplateOutlet="isMobile ? results:null"></ng-container>

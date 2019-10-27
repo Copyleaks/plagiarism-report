@@ -1,16 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import {
-	distinctUntilChanged,
-	filter,
-	skip,
-	take,
-	takeUntil,
-	withLatestFrom,
-	tap,
-	debounce,
-	debounceTime,
-} from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, interval, asyncScheduler } from 'rxjs';
+import { distinctUntilChanged, filter, skip, take, takeUntil, withLatestFrom, throttleTime, tap } from 'rxjs/operators';
 import { Match, ResultItem, CopyleaksReportOptions, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/highlight-helpers';
 import { truthy } from '../utils/operators';
@@ -33,9 +23,13 @@ export class HighlightService {
 			.subscribe(params => this.processOneToOneMatches(...params));
 
 		// listen to changes in settings and filtered results
-		combineLatest([filteredResults$.pipe(debounceTime(10000)), options$, source$]).subscribe(params =>
-			this.processOneToManyMatches(...params)
+		const throttledResults$ = filteredResults$.pipe(
+			throttleTime(5000, asyncScheduler, { leading: false, trailing: true })
 		);
+		combineLatest([throttledResults$, options$, source$]).subscribe(params => {
+			console.log('working');
+			this.processOneToManyMatches(...params);
+		});
 	}
 	private get onFirstTextMode$() {
 		return this.reportService.contentMode$.pipe(

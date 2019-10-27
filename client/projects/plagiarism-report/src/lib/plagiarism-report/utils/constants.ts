@@ -27,6 +27,7 @@ export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
 		height: 'auto',
 		width: 'auto',
 	},
+	throttleResults: 30 * 1000,
 };
 
 /** Font size unit for increasing/decreasing font size while in `text` content mode */

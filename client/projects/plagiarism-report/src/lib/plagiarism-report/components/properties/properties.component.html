@@ -34,11 +34,9 @@
 					<mat-spinner *ngIf="!done"
 											 [diameter]="40"></mat-spinner>
 					<label>
-						<ng-container *ngIf="!done">
-							{{(progress / 100) | percent:"1.0" }}
-						</ng-container>
-						<ng-container *ngIf="!done">
+						<ng-container *ngIf="!done && progress !== null">
 
+							{{ (progress && (progress / 100)) | percent:"1.0" }}
 						</ng-container>
 						<ng-container *ngIf="done">
 							done
@@ -60,7 +58,7 @@
 		</div>
 		<div prop>
 			<ng-container>
-				<label>{{ previewCount }}</label>
+				<label>{{previewCount}}</label>
 				<div>
 					results found
 				</div>
@@ -70,9 +68,8 @@
 				 [fxFlexOrder.lt-md]="-5"
 				 fxLayout="row nowrap"
 				 fxLayoutAlign="stretch stretch">
-			<ng-container *ngIf="metadata;else skeleton__stats">
+			<ng-container>
 				<ngx-charts-pie-chart fxHide.lt-md
-															#pie
 															[customColors]="customColors"
 															[results]='chartData'
 															[view]="[150,150]">
@@ -88,7 +85,8 @@
 						<div class="dot identical"></div>
 						<div text> Identical</div>
 						<span fxFlex></span>
-						<div>{{ (stats?.identical / stats?.total) | percent:"1.0-1"}}</div>
+						<ng-container *ngTemplateOutlet="statsSpinner"></ng-container>
+						<div>{{ stats && stats?.identical / stats?.total | percent:"1.0-1"}}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
@@ -98,7 +96,8 @@
 						<div class="dot minor-changes"></div>
 						<div text> Minor Changes</div>
 						<span fxFlex></span>
-						<div>{{ ( stats?.minorChanges / stats?.total) | percent:"1.0-1"}}</div>
+						<ng-container *ngTemplateOutlet="statsSpinner"></ng-container>
+						<div>{{ stats && stats?.minorChanges / stats?.total | percent:"1.0-1"}}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
@@ -108,7 +107,8 @@
 						<div class="dot related"></div>
 						<div text> Related Meaning </div>
 						<span fxFlex></span>
-						<div> {{ (stats?.relatedMeaning/ stats?.total) | percent:"1.0-1" }}</div>
+						<ng-container *ngTemplateOutlet="statsSpinner"></ng-container>
+						<div> {{ stats && stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
@@ -118,10 +118,21 @@
 						<div class="dot omitted"></div>
 						<div text> Omitted Words </div>
 						<span fxFlex></span>
-						<div *ngIf="stats"> {{ (metadata.scannedDocument.totalExcluded / stats?.total) | percent:"1.0-1" }}
+						<ng-container *ngTemplateOutlet="statsSpinner"></ng-container>
+						<div>
+							{{ stats && metadata && metadata.scannedDocument.totalExcluded / stats?.total  | percent:"1.0-1" }}
 						</div>
 					</div>
 				</div>
+
+				<ng-template #statsSpinner>
+					<mat-spinner *ngIf="!stats"
+											 [diameter]="16"
+											 style="display: inline-block;">
+					</mat-spinner>
+				</ng-template>
+
+
 			</ng-container>
 		</div>
 		<div prop>

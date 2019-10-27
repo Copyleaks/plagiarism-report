@@ -11,7 +11,6 @@ import { TextMarkService } from '../../services/text-mark.service';
 import { fadeIn } from '../../utils/animations';
 import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { MatchComponent } from '../match/match.component';
-import { combineLatest, take } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-original',
@@ -36,7 +35,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	public readonly copyleaksB64: string = logoSvg;
 	public zoom = 1;
 	public direction: DirectionMode = 'ltr';
-	public working = false;
+
 	@ContentChildren(MatchComponent, { descendants: true })
 	matchItems: QueryList<MatchComponent>;
 	mqPriority: number;
@@ -138,7 +137,6 @@ export class OriginalComponent implements OnInit, OnDestroy {
 			sourceTextMatches$,
 			originalHtmlMatches$,
 			sourceHtmlMatches$,
-			working$,
 		} = this.highlightService;
 
 		metadata$.pipe(untilDestroy(this)).subscribe(val => (this.metadata = val));
@@ -149,7 +147,6 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		sourceTextMatches$.pipe(untilDestroy(this)).subscribe(val => (this.sourceTextMatches = val));
 		originalHtmlMatches$.pipe(untilDestroy(this)).subscribe(val => (this.originalHtmlMatches = val));
 		sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(val => (this.sourceHtmlMatches = val));
-		working$.pipe(untilDestroy(this)).subscribe(val => (this.working = val));
 		this.layoutService.mediaAliases$.pipe(untilDestroy(this)).subscribe(val => (this.activeMediaQueries = val));
 	}
 

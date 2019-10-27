@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { take, toArray } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ResultPreview } from '../../models';
 import { ReportService } from '../../services/report.service';

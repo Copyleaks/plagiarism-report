@@ -7,6 +7,7 @@ import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
 import { fadeIn } from '../../utils/animations';
 import { truthy } from '../../utils/operators';
+import { distinctUntilChanged, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-properties',
@@ -31,7 +32,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 	public stats: ReportStatistics;
 
-	progress = 0;
+	progress?: number = null;
 	previewCount = 0;
 	metadata: CompleteResult;
 	identical: number;
@@ -41,6 +42,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		{ name: 'identical', value: '#ff6666' },
 		{ name: 'minor changes', value: '#ff9a9a' },
 		{ name: 'related meaning', value: '#ffd9b0' },
+		{ name: 'original', value: '#f7f7f7' },
 	];
 
 	chartData = [];
@@ -79,15 +81,18 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));
 		this.statistics.statistics$
 			.pipe(
-				truthy(),
-				untilDestroy(this)
+				untilDestroy(this),
+				distinctUntilChanged(),
+				truthy()
 			)
 			.subscribe(value => {
 				this.stats = value;
+				const { identical, minorChanges, relatedMeaning, omittedWords, total } = value;
 				this.chartData = [
-					{ name: 'identical', value: value.identical },
-					{ name: 'minor changes', value: value.minorChanges },
-					{ name: 'related meaning', value: value.relatedMeaning },
+					{ name: 'identical', value: identical },
+					{ name: 'minor changes', value: minorChanges },
+					{ name: 'related meaning', value: relatedMeaning },
+					{ name: 'original', value: total - (identical + minorChanges + relatedMeaning + omittedWords) },
 				];
 			});
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));

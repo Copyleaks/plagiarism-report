@@ -1,20 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, asyncScheduler } from 'rxjs';
-import {
-	map,
-	switchMap,
-	bufferTime,
-	debounce,
-	debounceTime,
-	tap,
-	throttle,
-	throttleTime,
-	sampleTime,
-	takeUntil,
-	mapTo,
-	switchMapTo,
-	withLatestFrom,
-} from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import {
 	ComparisonKey,
 	CompleteResult,
@@ -25,7 +11,6 @@ import {
 	SubjectResultKey,
 } from '../models';
 import { ReportService } from './report.service';
-import { truthy, falsey } from '../utils/operators';
 
 /**
  * Higher order function that returns a function that extracts Match Intervals from a Result
@@ -148,27 +133,30 @@ const findNests = (matches: Match[]): Match[][] => {
 })
 export class StatisticsService {
 	private readonly _statistics = new BehaviorSubject<ReportStatistics>(undefined);
+	private completeResultStats = null;
 	public statistics$ = this._statistics.asObservable();
 
 	constructor(reportService: ReportService) {
-		const { completeResult$, filteredResults$, suspectId$, suspect$ } = reportService;
+		const { completeResult$, results$, filteredResults$, suspectId$, suspect$ } = reportService;
 		suspectId$
 			.pipe(
 				switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)),
-				withLatestFrom(completeResult$)
+				withLatestFrom(completeResult$, results$)
 			)
-			.subscribe(([results, meta]) => {
+			.subscribe(([filtered, meta, results]) => {
 				const { batch, internet, database } = meta.results;
-				if (batch.length + database.length + internet.length === results.length) {
-					this._statistics.next({
+				const totalResults = batch.length + internet.length + database.length;
+				if (results.length < totalResults || totalResults === filtered.length) {
+					this.completeResultStats = this.completeResultStats || {
 						identical: meta.results.score.identicalWords,
 						relatedMeaning: meta.results.score.relatedMeaningWords,
 						minorChanges: meta.results.score.minorChangedWords,
 						omittedWords: meta.scannedDocument.totalExcluded,
 						total: meta.scannedDocument.totalWords,
-					});
+					};
+					this._statistics.next(this.completeResultStats);
 				} else {
-					this._statistics.next(this.calculateStatistics(meta, results));
+					this._statistics.next(this.calculateStatistics(meta, filtered));
 				}
 			});
 	}

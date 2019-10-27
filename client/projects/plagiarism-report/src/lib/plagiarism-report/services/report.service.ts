@@ -87,7 +87,7 @@ export class ReportService {
 		this._download && this._download.complete();
 		this._download = new BehaviorSubject<boolean>(this.config.download);
 		this._progress && this._progress.complete();
-		this._progress = new BehaviorSubject<number>(0);
+		this._progress = new BehaviorSubject<number>(null);
 		this._statistics && this._statistics.complete();
 		this._statistics = new BehaviorSubject<ReportStatistics>(null);
 		this._hiddenResults && this._hiddenResults.complete();
@@ -106,6 +106,9 @@ export class ReportService {
 		this._suspectSelectedMatch = new Subject<Match>();
 		this._originalSelectedMatch && this._originalSelectedMatch.complete();
 		this._originalSelectedMatch = new Subject<Match>();
+		combineLatest(this.source$, this.completeResult$)
+			.pipe(take(1))
+			.subscribe(() => this._progress.next(100));
 	}
 
 	public get jump$() {
@@ -129,7 +132,7 @@ export class ReportService {
 	}
 
 	public get suspect$() {
-		return this._suspectId.asObservable().pipe(switchMap(id => of(this._results.value.find(item => item.id === id))));
+		return this._suspectId.asObservable().pipe(switchMap(id => (id ? this.findResultById$(id) : of(null))));
 	}
 
 	public get completeResult$() {
@@ -229,6 +232,18 @@ export class ReportService {
 		return this._results.value.find(res => res.id === id);
 	}
 
+	/**
+	 * Get an observable of some result by id
+	 * The observable completes after emitting the result
+	 * @param id the result id
+	 */
+	public findResultById$(id: string) {
+		return this._results.pipe(
+			map(results => results.find(res => res.id === id)),
+			truthy(),
+			take(1)
+		);
+	}
 	/**
 	 * Pushes a new match as the match selected in the suspect text/html
 	 * @param match the selected match

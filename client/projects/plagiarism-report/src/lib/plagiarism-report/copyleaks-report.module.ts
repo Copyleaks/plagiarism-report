@@ -18,7 +18,7 @@ import {
 	MatProgressSpinnerModule,
 } from '@angular/material';
 import { SatPopoverModule } from '@ncstate/sat-popover';
-import { PieChartModule } from '@swimlane/ngx-charts';
+import { PieChartModule, ChartCommonModule } from '@swimlane/ngx-charts';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ExpansionPanelModule } from '../expansion-panel/expansion-panel.module';
 import { PanelModule } from '../panel/panel.module';
@@ -37,7 +37,7 @@ import { PoweredByComponent } from './components/powered-by/powered-by.component
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 
-import { DEFAULT_REPORT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN, DEFAULT_OPTIONS } from './utils/constants';
+import { DEFAULT_REPORT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN } from './utils/constants';
 import { CopyleaksReportConfig } from './models';
 import { OriginalHtmlHelperComponent } from './components/html-helpers/original-html-helper.component';
 import { SourceHtmlHelperComponent } from './components/html-helpers/source-html-helper.component';
@@ -70,6 +70,7 @@ import { MatchComponent } from './components/match/match.component';
 		MatDividerModule,
 		MatButtonModule,
 		FlexLayoutModule,
+		ChartCommonModule,
 		PieChartModule,
 		SatPopoverModule,
 		MatTooltipModule,

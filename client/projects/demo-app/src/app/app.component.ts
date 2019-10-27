@@ -1,7 +1,7 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CopyleaksService } from 'projects/plagiarism-report/src/public-api';
-import { forkJoin, from, zip, interval } from 'rxjs';
-import { delay, retry, tap, take } from 'rxjs/operators';
+import { forkJoin, from, interval, zip } from 'rxjs';
+import { delay, retry, take, tap } from 'rxjs/operators';
 import { ResultsService } from './results.service';
 
 @Component({
@@ -17,6 +17,9 @@ export class AppComponent implements OnInit {
 	constructor(private service: CopyleaksService, private results: ResultsService) {}
 	ngOnInit() {
 		//this.simulateSync();
+
+		//results.pipe(throttle(() => blocker)).subscribe(console.log);
+
 		this.simulateRealtime();
 	}
 
@@ -40,23 +43,29 @@ export class AppComponent implements OnInit {
 		this.results.completeResult(this.scanId).subscribe(({ results }) => {
 			zip(from(results.internet), interval(500).pipe(take(results.internet.length))).subscribe(([item]) => {
 				this.service.pushNewResult({ internet: [item], database: [], batch: [] });
-				setTimeout(() => {
-					this.results.newResult(this.scanId, item.id).subscribe(data => this.service.pushScanResult(item.id, data));
-				}, 1000);
+
+				this.results
+					.newResult(this.scanId, item.id)
+					.pipe(delay(5000))
+					.subscribe(data => this.service.pushScanResult(item.id, data));
 			});
 
 			zip(from(results.database), interval(500).pipe(take(results.database.length))).subscribe(([item]) => {
 				this.service.pushNewResult({ internet: [], database: [item], batch: [] });
-				setTimeout(() => {
-					this.results.newResult(this.scanId, item.id).subscribe(data => this.service.pushScanResult(item.id, data));
-				}, 1000);
+
+				this.results
+					.newResult(this.scanId, item.id)
+					.pipe(delay(5000))
+					.subscribe(data => this.service.pushScanResult(item.id, data));
 			});
 
 			zip(from(results.batch), interval(500).pipe(take(results.batch.length))).subscribe(([item]) => {
 				this.service.pushNewResult({ internet: [], database: [], batch: [item] });
-				setTimeout(() => {
-					this.results.newResult(this.scanId, item.id).subscribe(data => this.service.pushScanResult(item.id, data));
-				}, 1000);
+
+				this.results
+					.newResult(this.scanId, item.id)
+					.pipe(delay(5000))
+					.subscribe(data => this.service.pushScanResult(item.id, data));
 			});
 		});
 	}
