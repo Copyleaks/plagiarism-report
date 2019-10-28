@@ -3,7 +3,7 @@ import { ReportService } from './report.service';
 import { StatisticsService } from './statistics.service';
 import { Match } from '../models';
 
-describe('HighlightService', () => {
+describe('StatisticsService', () => {
 	let service: StatisticsService;
 
 	beforeEach(() => {

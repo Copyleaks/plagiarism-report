@@ -1,6 +1,6 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, of, Subject, Observable } from 'rxjs';
 
 import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 
@@ -53,7 +53,7 @@ export class ReportService {
 	private _options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
 
 	/** user event emitters */
-	private _jump = new Subject<boolean>();
+
 	private _downloadClick = new Subject<ReportDownloadEvent>();
 	private _shareClick = new Subject<ReportShareEvent>();
 	private _sourceSelectedMatch = new Subject<Match>();
@@ -94,8 +94,6 @@ export class ReportService {
 		this._hiddenResults = new BehaviorSubject<string[]>([]);
 		this._options && this._options.complete();
 		this._options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
-		this._jump && this._jump.complete();
-		this._jump = new Subject<boolean>();
 		this._downloadClick && this._downloadClick.complete();
 		this._downloadClick = new Subject<ReportDownloadEvent>();
 		this._shareClick && this._shareClick.complete();
@@ -109,10 +107,6 @@ export class ReportService {
 		combineLatest([this.source$, this.completeResult$])
 			.pipe(take(1))
 			.subscribe(() => this._progress.next(100));
-	}
-
-	public get jump$() {
-		return this._jump.asObservable();
 	}
 
 	public get statistics$() {
@@ -131,7 +125,7 @@ export class ReportService {
 		return this._suspectSelectedMatch.asObservable();
 	}
 
-	public get suspect$() {
+	public get suspect$(): Observable<ResultItem> {
 		return this._suspectId.asObservable().pipe(switchMap(id => (id ? this.findResultById$(id) : of(null))));
 	}
 
@@ -402,13 +396,5 @@ export class ReportService {
 	 */
 	public done() {
 		this._results.complete();
-	}
-
-	/**
-	 * Pushes a new jump into the jump observer, indicating a jump to the `next` or previous match
-	 * @param next `true` if jumping to next match, `false` if jumping to previous match
-	 */
-	public jump(next: boolean) {
-		this._jump.next(next);
 	}
 }

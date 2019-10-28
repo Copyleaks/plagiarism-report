@@ -1,189 +1,120 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
-import { MatchComponent } from '../components/match/match.component';
-import { Match, ViewMode } from '../models';
+import { BehaviorSubject, combineLatest, interval, asyncScheduler } from 'rxjs';
+import { distinctUntilChanged, filter, skip, take, takeUntil, withLatestFrom, throttleTime, tap } from 'rxjs/operators';
+import { Match, ResultItem, CopyleaksReportOptions, ScanSource, SlicedMatch } from '../models';
+import * as helpers from '../utils/match-helpers';
+import { truthy } from '../utils/operators';
 import { ReportService } from './report.service';
 
-export interface TextMatchClickEvent {
-	match: MatchComponent;
-	broadcast: boolean;
-}
-
-export interface HtmlMatchClickEvent {
-	match: Match;
-	isSource: boolean;
-	broadcast: boolean;
-}
-
-@Injectable({ providedIn: 'root' })
+/**
+ * Service that calculates the matches highlight positions with respect to the view and content mode.
+ * It exposes some observable streams that you can subscribe to and get the newest relevant calculations.
+ */
+@Injectable({
+	providedIn: 'root',
+})
 export class MatchService {
 	constructor(private reportService: ReportService) {
-		this.oneToManyTextMatchClick$.subscribe(event => this.onOneToManyTextMatchClick(event));
-		this.oneToOneTextMatchClick$.subscribe(event => this.onOneToOneTextMatchClick(event));
-		this.originalText$.pipe(pairwise()).subscribe(([prev, next]) => this.onTextMatchChange(prev, next));
+		const { source$, filteredResults$, options$ } = reportService;
+		// listen to suspect changes and process one-to-one matches
+		this.onSuspectChange$
+			.pipe(withLatestFrom(options$, source$))
+			.subscribe(params => this.processOneToOneMatches(...params));
+
+		// listen to changes in settings and filtered results
+		const throttledResults$ = filteredResults$.pipe(
+			throttleTime(5000, asyncScheduler, { leading: false, trailing: true })
+		);
+		combineLatest([throttledResults$, options$, source$]).subscribe(params => {
+			this.processOneToManyMatches(...params);
+		});
 	}
-	private readonly _jump = new Subject<boolean>();
-
-	/** Unused  at the moment */
-	private readonly _clear = new Subject<ViewMode>();
-
-	private readonly _textMatchClicked = new Subject<TextMatchClickEvent>();
-	private readonly _htmlMatchClicked = new Subject<HtmlMatchClickEvent>();
-
-	public readonly _originalText = new BehaviorSubject<MatchComponent>(null);
-	public readonly _sourceText = new BehaviorSubject<MatchComponent>(null);
-	public readonly _suspectText = new BehaviorSubject<MatchComponent>(null);
-
-	private readonly _originalHtml = new BehaviorSubject<Match>(null);
-	private readonly _sourceHtml = new BehaviorSubject<Match>(null);
-	private readonly _suspectHtml = new BehaviorSubject<Match>(null);
-
-	public readonly jump$ = this._jump.asObservable();
-	public readonly clear$ = this._clear.asObservable();
-
-	public readonly oneToManyTextMatchClick$ = this._textMatchClicked.asObservable().pipe(
-		withLatestFrom(this.reportService.viewMode$),
-		filter(([, mode]) => mode === 'one-to-many'),
-		map(([event]) => event)
-	);
-
-	public readonly oneToOneTextMatchClick$ = this._textMatchClicked.asObservable().pipe(
-		withLatestFrom(this.reportService.viewMode$),
-		filter(([, mode]) => mode === 'one-to-one'),
-		map(([event]) => event)
-	);
-
-	public readonly oneToManyHtmlMatchClick$ = this._htmlMatchClicked.asObservable().pipe(
-		withLatestFrom(this.reportService.viewMode$),
-		filter(([, mode]) => mode === 'one-to-many'),
-		map(([event]) => event)
-	);
-
-	public readonly oneToOneHtmlMatchClick$ = this._htmlMatchClicked.asObservable().pipe(
-		withLatestFrom(this.reportService.viewMode$),
-		filter(([, mode]) => mode === 'one-to-one'),
-		map(([event]) => event)
-	);
-
-	public readonly originalText$ = this._originalText.asObservable();
-	public readonly sourceText$ = this._sourceText.asObservable();
-	public readonly suspectText$ = this._suspectText.asObservable();
-
-	public readonly originalHtml$ = this._originalHtml.asObservable();
-	public readonly sourceHtml$ = this._sourceHtml.asObservable();
-	public readonly suspectHtml$ = this._suspectHtml.asObservable();
-
-	/**
-	 * Pushes a new `TextMatchClickEvent` to the text match click observer
-	 * @param match The match component that was clicked
-	 */
-	public textMatchClicked(match: MatchComponent) {
-		this._textMatchClicked.next({ match, broadcast: true });
+	private get onFirstTextMode$() {
+		return this.reportService.contentMode$.pipe(
+			filter(mode => mode === 'text'),
+			take(1)
+		);
 	}
-	/**
-	 * Pushes a new `HtmlMatchClickEvent` to the html match click observer
-	 * @param match the match data of the clicked element
-	 * @param isSource `true` if the match comes from the `source` and `false` if it comes from the `suspect`
-	 */
-	public htmlMatchClicked(match: Match, isSource: boolean) {
-		this._htmlMatchClicked.next({ match, isSource, broadcast: true });
+	private get onFirstHtmlMode$() {
+		return this.reportService.contentMode$.pipe(
+			filter(mode => mode === 'html'),
+			take(1)
+		);
 	}
-	/**
-	 * Pushes the match that should be marked to the original text match observer
-	 * This will mark/unmark the text match in the original component while in `one-to-many` view mode
-	 * @param match The match to mark/unmark
-	 */
-	public setOriginalTextMatch(match: MatchComponent) {
-		this._originalText.next(match);
+	private get onSuspectChange$() {
+		return this.reportService.suspect$.pipe(
+			truthy(),
+			distinctUntilChanged()
+		);
+	}
+	private get onNewSuspect$() {
+		return this.onSuspectChange$.pipe(skip(1));
 	}
 
-	/**
-	 * Pushes the match that should be marked to the source text match observer
-	 * This will mark/unmark the text match in the original component while in `one-to-one` view mode
-	 * @param match The match to mark/unmark
-	 */
-	public setSourceTextMatch(match: MatchComponent) {
-		this._sourceText.next(match);
-	}
-	/**
-	 * Pushes the match that should be marked to the suspect text match observer
-	 * This will mark/unmark the text match in the suspect component while in `one-to-one` view mode
-	 * @param match The match to mark/unmark
-	 */
-	public setSuspectTextMatch(match: MatchComponent) {
-		this._suspectText.next(match);
-	}
+	// using behavior subject for state management
+	private _sourceTextMatches = new BehaviorSubject<SlicedMatch[][]>(null);
+	private _sourceHtmlMatches = new BehaviorSubject<Match[]>(null);
+	private _suspectTextMatches = new BehaviorSubject<SlicedMatch[][]>(null);
+	private _suspectHtmlMatches = new BehaviorSubject<Match[]>(null);
+	private _originalTextMatches = new BehaviorSubject<SlicedMatch[][]>(null);
+	private _originalHtmlMatches = new BehaviorSubject<Match[]>(null);
 
-	/**
-	 * Pushes the match that should be marked to the original html match observer
-	 * This will mark/unmark the html match in the original component while in `one-to-many` view mode
-	 * @param match The match to mark/unmark
-	 */
-	public setOriginalHtmlMatch(match: Match) {
-		this._originalHtml.next(match);
-	}
-	/**
-	 * Pushes the match that should be marked to the source html match observer
-	 * This will mark/unmark the html match in the original component while in `one-to-one` view mode
-	 * @param match The match to mark/unmark
-	 */
-	public setSourceHtmlMatch(match: Match) {
-		this._sourceHtml.next(match);
-	}
-	/**
-	 * Pushes the match that should be marked to the suspect html match observer
-	 * This will mark/unmark the html match in the suspect component while in `one-to-one` view mode
-	 * @param match The match to mark/unmark
-	 */
-	public setSuspectHtmlMatch(match: Match) {
-		this._suspectHtml.next(match);
-	}
+	/* Emits matches that are relevant to source text one-to-one mode */
+	public sourceTextMatches$ = this._sourceTextMatches.asObservable().pipe(truthy());
+	/* Emits matches that are relevant to source html one-to-one mode */
+	public sourceHtmlMatches$ = this._sourceHtmlMatches.asObservable().pipe(truthy());
+	/* Emits matches that are relevant to suspect text one-to-one mode */
+	public suspectTextMatches$ = this._suspectTextMatches.asObservable().pipe(truthy());
+	/* Emits matches that are relevant to suspect html one-to-one mode */
+	public suspectHtmlMatches$ = this._suspectHtmlMatches.asObservable().pipe(truthy());
+	/* Emits matches that are relevant to source text one-to-many mode */
+	public originalTextMatches$ = this._originalTextMatches.asObservable().pipe(truthy());
+	/* Emits matches that are relevant to source html one-to-many mode */
+	public originalHtmlMatches$ = this._originalHtmlMatches.asObservable().pipe(truthy());
 
-	/**
-	 * Push a new jump event to the jump observer
-	 *
-	 * @param next `true` to jump to the next match and `false` to jump to the previous match
-	 */
-	public jump(next: boolean) {
-		this._jump.next(next);
-	}
+	private processOneToOneMatches = (result: ResultItem, settings: CopyleaksReportOptions, source: ScanSource) => {
+		this.onFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
+			setTimeout(() => {
+				const text = helpers.processSourceText(result, settings, source);
+				if (text) {
+					this._sourceTextMatches.next(text);
+				}
+			});
+			setTimeout(() => {
+				const text = helpers.processSuspectText(result, settings);
+				if (text) {
+					this._suspectTextMatches.next(text);
+				}
+			});
+		});
+		this.onFirstHtmlMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
+			setTimeout(() => {
+				const html = helpers.processSourceHtml(result, settings, source);
+				if (html) {
+					this._sourceHtmlMatches.next(html);
+				}
+			});
+			setTimeout(() => {
+				const html = helpers.processSuspectHtml(result, settings);
+				if (html) {
+					this._suspectHtmlMatches.next(html);
+				}
+			});
+		});
+	};
 
-	/**
-	 * Mark/Unmark the next match component based on the previously marked component
-	 * @param prev the previously marked/unmarked match
-	 * @param next the match to mark/unmark next
-	 */
-	private onTextMatchChange(prev: MatchComponent, next: MatchComponent) {
-		if (next) {
-			if (prev && prev !== next) {
-				prev.focused = false;
+	private processOneToManyMatches = (results: ResultItem[], settings: CopyleaksReportOptions, source: ScanSource) => {
+		this.onFirstTextMode$.subscribe(() => {
+			const text = helpers.processSourceText(results, settings, source);
+			if (text) {
+				this._originalTextMatches.next(text);
 			}
-			next.focused = !next.focused;
-		} else {
-			if (prev) {
-				prev.focused = false;
+		});
+		this.onFirstHtmlMode$.subscribe(() => {
+			const html = helpers.processSourceHtml(results, settings, source);
+			if (html) {
+				this._originalHtmlMatches.next(html);
 			}
-		}
-	}
-
-	/**
-	 * Executes when a `text` match component is clicked in `one-to-one` view
-	 * @param event information about
-	 */
-	private onOneToOneTextMatchClick(event: TextMatchClickEvent) {
-		if (event.match.isSource) {
-			this.setSourceTextMatch(event.match);
-		} else {
-			this.setSuspectTextMatch(event.match);
-		}
-	}
-
-	/**
-	 * Executes when a `text` match component is clicked in `one-to-many` view
-	 * @param event the match click event object
-	 */
-	private onOneToManyTextMatchClick(event: TextMatchClickEvent) {
-		this.setOriginalTextMatch(event.match);
-	}
+		});
+	};
 }

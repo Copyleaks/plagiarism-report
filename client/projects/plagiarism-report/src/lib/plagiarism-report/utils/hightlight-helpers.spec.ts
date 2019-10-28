@@ -1,6 +1,6 @@
 import { ComparisonCollection } from '../models';
-import { Match, MatchType } from '../models/Highlight';
-import * as helper from './mark-helpers';
+import { Match, MatchType } from '../models/Matches';
+import * as helper from './highlight-helpers';
 
 describe('MarkService', () => {
 	describe('findRespectivePage', () => {

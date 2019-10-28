@@ -46,7 +46,7 @@ function ready() {
 				handleBroadcastMatchSelect(event);
 				break;
 			case 'match-jump':
-				// 	handleMatchJump(event);
+				handleMatchJump(event);
 				break;
 			default:
 				console.error('unknown event in source frame', nativeEvent);

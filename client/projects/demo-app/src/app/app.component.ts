@@ -10,17 +10,15 @@ import { ResultsService } from './results.service';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-	readonly scanId = 'martina';
+	readonly scanId = 'feline-friends';
 	progress = 0;
 	public show = true;
 
 	constructor(private service: CopyleaksService, private results: ResultsService) {}
 	ngOnInit() {
-		//this.simulateSync();
+		this.simulateSync();
 
-		//results.pipe(throttle(() => blocker)).subscribe(console.log);
-
-		this.simulateRealtime();
+		//this.simulateRealtime();
 	}
 
 	simulateRealtime() {

@@ -2,13 +2,14 @@ import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/co
 import { filter, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchJumpEvent, MatchSelectEvent, MatchType } from '../../models';
-import { HighlightService } from '../../services/highlight.service';
 import { MatchService } from '../../services/match.service';
+import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
-import { findRespectiveStart } from '../../utils/highlight-helpers';
+import { findRespectiveStart } from '../../utils/match-helpers';
 import { truthy } from '../../utils/operators';
 import { HtmlHelperBase } from './HtmlHelperBase';
 import iframeScript from './one-to-one-iframe-logic';
+import { combineLatest } from 'rxjs';
 
 @Component({
 	selector: 'iframe[cr-source-html-helper]',
@@ -20,8 +21,8 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 		renderer: Renderer2,
 		element: ElementRef<HTMLIFrameElement>,
 		private reportService: ReportService,
-		private matchService: MatchService,
-		private highlightService: HighlightService
+		private highlightService: HighlightService,
+		private matchService: MatchService
 	) {
 		super(renderer, element);
 		const js = renderer.createElement('script') as HTMLScriptElement;
@@ -34,7 +35,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 	 * @param event the event object
 	 */
 	handleMatchSelect(event: MatchSelectEvent) {
-		this.matchService.setSourceHtmlMatch(event.index !== -1 ? this.matches[event.index] : null);
+		this.highlightService.setSourceHtmlMatch(event.index !== -1 ? this.matches[event.index] : null);
 	}
 
 	/**
@@ -52,9 +53,9 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 	 * - jump events
 	 */
 	ngOnInit() {
-		const { source$, viewMode$, suspect$ } = this.reportService;
-		const { suspectHtml$, jump$ } = this.matchService;
-		const { sourceHtmlMatches$ } = this.highlightService;
+		const { source$, viewMode$, suspect$, contentMode$ } = this.reportService;
+		const { suspectHtml$, jump$ } = this.highlightService;
+		const { sourceHtmlMatches$ } = this.matchService;
 		source$
 			.pipe(
 				untilDestroy(this),
@@ -62,11 +63,12 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 			)
 			.subscribe(source => (this.html = source.html && source.html.value));
 		sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => this.renderMatches(matches));
+
 		jump$
 			.pipe(
 				untilDestroy(this),
-				withLatestFrom(viewMode$),
-				filter(([, mode]) => mode === 'one-to-one')
+				withLatestFrom(viewMode$, contentMode$),
+				filter(([, view, content]) => view === 'one-to-one' && content === 'html')
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
 

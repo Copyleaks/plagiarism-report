@@ -3,8 +3,8 @@ import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchJumpEvent, MatchSelectEvent } from '../../models';
-import { HighlightService } from '../../services/highlight.service';
 import { MatchService } from '../../services/match.service';
+import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import { truthy } from '../../utils/operators';
 import { HtmlHelperBase } from './HtmlHelperBase';
@@ -25,8 +25,8 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 		renderer: Renderer2,
 		element: ElementRef<HTMLIFrameElement>,
 		private reportService: ReportService,
-		private matchService: MatchService,
-		private highlightService: HighlightService
+		private highlightService: HighlightService,
+		private matchService: MatchService
 	) {
 		super(renderer, element);
 		const js = renderer.createElement('script') as HTMLScriptElement;
@@ -38,7 +38,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * handle match selection
 	 */
 	handleMatchSelect(event: MatchSelectEvent) {
-		this.matchService.setOriginalHtmlMatch(event.index !== -1 ? this.matches[event.index] : null);
+		this.highlightService.setOriginalHtmlMatch(event.index !== -1 ? this.matches[event.index] : null);
 	}
 
 	/**
@@ -50,8 +50,9 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * - jump events
 	 */
 	ngOnInit() {
-		const { source$, viewMode$, jump$ } = this.reportService;
-		const { originalHtmlMatches$ } = this.highlightService;
+		const { source$, viewMode$, contentMode$ } = this.reportService;
+		const { jump$ } = this.highlightService;
+		const { originalHtmlMatches$ } = this.matchService;
 		source$.pipe(truthy()).subscribe(source => {
 			this.html = source.html.value;
 			this.setHtml(this.html);
@@ -62,12 +63,12 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 				this.matches = matches;
 				this.renderMatches(matches);
 			});
-		const onOneToManyJump$ = combineLatest([jump$, viewMode$]).pipe(
+		const onOneToManyHtmlJump$ = combineLatest([jump$, viewMode$, contentMode$]).pipe(
 			untilDestroy(this),
-			filter(([, mode]) => mode === 'one-to-many'),
+			filter(([, view, content]) => view === 'one-to-many' && content === 'html'),
 			map(([forward]) => forward)
 		);
-		onOneToManyJump$.subscribe(forward => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
+		onOneToManyHtmlJump$.subscribe(forward => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
 	}
 
 	/**

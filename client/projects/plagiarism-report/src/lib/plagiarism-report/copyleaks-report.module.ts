@@ -43,6 +43,9 @@ import { OriginalHtmlHelperComponent } from './components/html-helpers/original-
 import { SourceHtmlHelperComponent } from './components/html-helpers/source-html-helper.component';
 import { SuspectHtmlHelperComponent } from './components/html-helpers/suspect-html-helper.component';
 import { MatchComponent } from './components/match/match.component';
+import { OriginalTextHelperDirective } from './components/text-helpers/original-text-helper.directive';
+import { SuspectTextHelperDirective } from './components/text-helpers/suspect-text-helper.directive';
+import { SourceTextHelperDirective } from './components/text-helpers/source-text-helper.directive';
 
 @NgModule({
 	declarations: [
@@ -59,6 +62,9 @@ import { MatchComponent } from './components/match/match.component';
 		OriginalHtmlHelperComponent,
 		SourceHtmlHelperComponent,
 		SuspectHtmlHelperComponent,
+		OriginalTextHelperDirective,
+		SourceTextHelperDirective,
+		SuspectTextHelperDirective,
 	],
 	imports: [
 		CommonModule,

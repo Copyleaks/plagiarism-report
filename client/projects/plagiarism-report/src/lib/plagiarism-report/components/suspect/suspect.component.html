@@ -46,8 +46,8 @@
 				<ng-container *ngTemplateOutlet="!suspect ? skeleton__body:null">
 				</ng-container>
 				<!-- text for one-to-one -->
-				<div cr-suspect-text-helper
-						 [fxShow]="suspect && !(hasHtml && isHtml)"
+				<div [fxShow]="suspect && !(hasHtml && isHtml)"
+						 crSuspectTextHelper
 						 text-container
 						 [ngStyle]="{ 'font-size': zoom + 'em' }"
 						 [dir]="direction">
@@ -56,7 +56,7 @@
 							<span *ngIf="partial.match.type === MatchType.none">{{partial.content}}</span>
 							<span *ngIf="partial.match.type !== MatchType.none"
 										[cr-match]="partial.match"
-										[isSource]="false">{{partial.content}}</span>
+										origin="suspect">{{partial.content}}</span>
 						</ng-container>
 					</ng-container>
 				</div>
@@ -71,6 +71,8 @@
 				</iframe>
 			</div>
 		</div>
+
+
 		<div content-footer
 				 fxLayoutAlign="space-between center"
 				 fxLayout="row-reverse nowrap">

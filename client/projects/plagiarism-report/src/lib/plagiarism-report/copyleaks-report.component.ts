@@ -5,6 +5,7 @@ import { ViewMode } from './models/CopyleaksReportConfig';
 import { LayoutMediaQueryService } from './services/layout-media-query.service';
 import { ReportService } from './services/report.service';
 import { expandAnimation, fadeIn } from './utils/animations';
+import { HighlightService } from './services/highlight.service';
 
 @Component({
 	selector: 'cr-copyleaks-report',
@@ -13,7 +14,11 @@ import { expandAnimation, fadeIn } from './utils/animations';
 	animations: [expandAnimation, fadeIn],
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy {
-	constructor(private reportService: ReportService, private layoutService: LayoutMediaQueryService) {}
+	constructor(
+		private reportService: ReportService,
+		private layoutService: LayoutMediaQueryService,
+		highlight: HighlightService
+	) {}
 	@HostBinding('class.one-to-one') get isOneToOne() {
 		return this.view === 'one-to-one';
 	}

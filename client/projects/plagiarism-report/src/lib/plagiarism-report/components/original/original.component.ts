@@ -3,11 +3,11 @@ import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { logoSvg } from '../../assets/images';
 import { CompleteResult, ExcludeReason, Match, MatchType, ScanSource, SlicedMatch } from '../../models';
 import { ContentMode, DirectionMode, ViewMode } from '../../models/CopyleaksReportConfig';
-import { HighlightService } from '../../services/highlight.service';
-import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { MatchService } from '../../services/match.service';
+import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
+import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
-import { TextMarkService } from '../../services/text-mark.service';
+
 import { fadeIn } from '../../utils/animations';
 import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { MatchComponent } from '../match/match.component';
@@ -22,9 +22,8 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
-		private highlightService: HighlightService,
 		private matchService: MatchService,
-		private markService: TextMarkService
+		private highlightService: HighlightService
 	) {}
 	get pages(): number[] {
 		return this.source && this.source.text.pages.startPosition;
@@ -106,8 +105,6 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 */
 	toggleContent() {
 		this.reportService.setContentMode(this.isHtml ? 'text' : 'html');
-		this.matchService.setSourceHtmlMatch(null);
-		this.matchService.setSourceTextMatch(null);
 	}
 
 	/**
@@ -115,13 +112,15 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * @param next if `true` jump to next match, otherwise jumpt to previous match
 	 */
 	onJumpToNextMatchClick(next: boolean = true) {
-		if (!this.isHtml) {
-			this.markService.jump(next);
-		} else {
-			this.reportService.jump(next);
-		}
+		this.highlightService.jump(next);
 	}
 
+	/**
+	 * executes when a `MatPaginationComponent` emits the page event
+	 */
+	onPage() {
+		this.highlightService.clear();
+	}
 	/**
 	 * Life-cycle method
 	 * subscribe to:
@@ -132,12 +131,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		const { completeResult$: metadata$, source$, viewMode$, contentMode$ } = this.reportService;
-		const {
-			originalTextMatches$,
-			sourceTextMatches$,
-			originalHtmlMatches$,
-			sourceHtmlMatches$,
-		} = this.highlightService;
+		const { originalTextMatches$, sourceTextMatches$, originalHtmlMatches$, sourceHtmlMatches$ } = this.matchService;
 
 		metadata$.pipe(untilDestroy(this)).subscribe(val => (this.metadata = val));
 		source$.pipe(untilDestroy(this)).subscribe(val => (this.source = val));

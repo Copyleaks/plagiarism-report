@@ -1,7 +1,16 @@
-import { AfterContentInit, ElementRef, HostBinding, HostListener, Input, Renderer2, Component } from '@angular/core';
+import {
+	AfterContentInit,
+	Component,
+	ElementRef,
+	HostBinding,
+	HostListener,
+	Input,
+	Renderer2,
+	ChangeDetectorRef,
+} from '@angular/core';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { MatchService } from '../../services/match.service';
 import { Match } from '../../models';
+import { HighlightService, ReportOrigin } from '../../services/highlight.service';
 
 @Component({
 	selector: 'span[cr-match]',
@@ -12,13 +21,15 @@ export class MatchComponent implements AfterContentInit {
 	constructor(
 		public element: ElementRef<HTMLElement>,
 		private renderer: Renderer2,
-		private matchService: MatchService
+		private highlightService: HighlightService
 	) {}
 
 	// tslint:disable-next-line:no-input-rename
-	@Input('cr-match') public match: Match;
+	@Input('cr-match')
+	public match: Match;
 
-	@Input() public isSource = true;
+	@Input()
+	public readonly origin: ReportOrigin;
 
 	private _focused = false;
 	/** focused flag, if set to `true` the element will be highlighted */
@@ -42,7 +53,7 @@ export class MatchComponent implements AfterContentInit {
 	 */
 	@HostListener('click')
 	public click() {
-		this.matchService.textMatchClicked(this);
+		this.highlightService.textMatchClicked({ elem: this, broadcast: true, origin: this.origin });
 	}
 
 	/**
