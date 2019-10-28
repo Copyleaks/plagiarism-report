@@ -41,8 +41,6 @@ export class ResultCardComponent implements OnInit {
 					take(1)
 				)
 				.subscribe(({ result }) => (this.result = result) && (this.loading = false));
-		} else {
-			console.log('eh?');
 		}
 	}
 }

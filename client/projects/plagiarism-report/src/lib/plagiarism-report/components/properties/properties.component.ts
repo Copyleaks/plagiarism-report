@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ReportStatistics } from '../../models';
 import { CompleteResult } from '../../models/api-models/CompleteResult';
@@ -7,7 +8,6 @@ import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
 import { fadeIn } from '../../utils/animations';
 import { truthy } from '../../utils/operators';
-import { distinctUntilChanged, tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-properties',

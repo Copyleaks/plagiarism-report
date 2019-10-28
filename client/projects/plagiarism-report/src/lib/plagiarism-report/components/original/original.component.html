@@ -51,8 +51,8 @@
 				</ng-container>
 
 				<!-- text for one-to-many -->
-				<div cr-original-text-helper
-						 [fxShow]="source && !(hasHtml && isHtml) && isOneToMany"
+				<div [fxShow]="source && !(hasHtml && isHtml) && isOneToMany"
+						 crOriginalTextHelper
 						 text-container
 						 [ngStyle]="{ 'font-size': zoom + 'em' }"
 						 [dir]="direction">
@@ -60,7 +60,8 @@
 						<ng-container *ngFor="let partial of textMatches[currentPage-1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{partial.content}}</span>
 							<span *ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
-										[cr-match]="partial.match">{{partial.content}}</span>
+										[cr-match]="partial.match"
+										origin="original">{{partial.content}}</span>
 							<i *ngIf="partial.match.type === MatchType.excluded"
 								 [title]="EXCLUDE_MESSAGE[partial.match.reason]">{{partial.content}}</i>
 						</ng-container>
@@ -68,8 +69,8 @@
 				</div>
 
 				<!-- text for one-to-one -->
-				<div cr-source-text-helper
-						 [fxShow]="source && !(hasHtml && isHtml) && !isOneToMany"
+				<div [fxShow]="source && !(hasHtml && isHtml) && !isOneToMany"
+						 crSourceTextHelper
 						 text-container
 						 [ngStyle]="{ 'font-size': zoom + 'em' }"
 						 [dir]="direction">
@@ -79,7 +80,8 @@
 							<i *ngIf="partial.match.type === MatchType.excluded"
 								 [title]="EXCLUDE_MESSAGE[partial.match.reason]">{{partial.content}}</i>
 							<span *ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
-										[cr-match]="partial.match">{{partial.content}}</span>
+										[cr-match]="partial.match"
+										origin="source">{{partial.content}}</span>
 						</ng-container>
 					</ng-container>
 				</div>
@@ -111,6 +113,7 @@
 			<cr-mat-pagination [hidden]="hasHtml && isHtml"
 												 [(currentPage)]="currentPage"
 												 showFirstLastButtons
+												 (page)="onPage()"
 												 [totalPages]="pages?.length || 1">
 			</cr-mat-pagination>
 
@@ -174,6 +177,7 @@
 <ng-template #menu__next_match>
 	<button mat-button
 					(click)="onJumpToNextMatchClick()"
+					[disabled]="!textMatches"
 					matTooltip="Go to next match">
 		<mat-icon>arrow_downward</mat-icon>
 	</button>
@@ -181,7 +185,8 @@
 <ng-template #menu__prev_match>
 	<button mat-button
 					(click)="onJumpToNextMatchClick(false)"
-					matTooltip="Go to next match">
+					[disabled]="!textMatches"
+					matTooltip="Go to previous match">
 		<mat-icon>arrow_upward</mat-icon>
 	</button>
 </ng-template>

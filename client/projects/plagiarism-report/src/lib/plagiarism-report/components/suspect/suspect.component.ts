@@ -1,15 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchType, SlicedMatch } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { ContentMode, DirectionMode } from '../../models/CopyleaksReportConfig';
-import { HighlightService } from '../../services/highlight.service';
+import { MatchService } from '../../services/match.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
 import { truthy } from '../../utils/operators';
 import { TEXT_FONT_SIZE_UNIT, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM } from '../../utils/constants';
-import { MatchService } from '../../services/match.service';
+import { HighlightService } from '../../services/highlight.service';
+import * as highlight from '../../utils/highlight-helpers';
+import { filter } from 'rxjs/operators';
+import { MatchComponent } from '../match/match.component';
 
 @Component({
 	selector: 'cr-suspect',
@@ -21,8 +24,8 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
-		private matchService: MatchService,
-		private highlightService: HighlightService
+		private highlightService: HighlightService,
+		private matchService: MatchService
 	) {}
 	readonly MatchType = MatchType;
 	public isMobile = false;
@@ -57,10 +60,6 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 */
 	goBack() {
 		this.reportService.setSuspectId(null);
-		this.matchService.setSourceTextMatch(null);
-		this.matchService.setSourceHtmlMatch(null);
-		this.matchService.setSuspectTextMatch(null);
-		this.matchService.setSuspectHtmlMatch(null);
 		this.reportService.setViewMode('one-to-many');
 	}
 
@@ -98,9 +97,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			.subscribe(item => (this.suspect = item.result));
 		contentMode$.pipe(untilDestroy(this)).subscribe(mode => (this.content = mode));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
-		this.highlightService.suspectTextMatches$
-			.pipe(untilDestroy(this))
-			.subscribe(matches => (this.textMatches = matches));
+		this.matchService.suspectTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.textMatches = matches));
 	}
 	/**
 	 * life-cycle method

@@ -5,6 +5,6 @@ export * from './CopyleaksReportConfig';
 export * from './ReportEvents';
 export * from './ResultsSettings';
 export * from './api-models/ScanResult';
-export * from './Highlight';
+export * from './Matches';
 export * from './HtmlHelper';
 export * from './ReportStatistics';

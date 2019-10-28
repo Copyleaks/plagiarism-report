@@ -1,10 +1,18 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import {
+	Component,
+	HostBinding,
+	OnDestroy,
+	OnInit,
+	AfterViewInit,
+	ChangeDetectorRef,
+	ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { Match, ResultPreview } from '../../models';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
-import { MatchService } from '../../services/match.service';
+import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import { fadeIn, listFade } from '../../utils/animations';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
@@ -21,7 +29,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private reportService: ReportService,
 		private dialogService: MatDialog,
 		private layoutService: LayoutMediaQueryService,
-		private matchService: MatchService
+		private highlightService: HighlightService,
+		private cd: ChangeDetectorRef
 	) {}
 
 	@HostBinding('class.active') isActive = false;
@@ -59,14 +68,17 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		const { filteredPreviews$, hiddenResults$, contentMode$ } = this.reportService;
-		const { originalText$, originalHtml$ } = this.matchService;
-		filteredPreviews$
-			.pipe(untilDestroy(this))
-			.subscribe(previews => (this.previews = previews.sort((a, b) => b.matchedWords - a.matchedWords)));
-
+		const { originalText$, originalHtml$ } = this.highlightService;
 		combineLatest([originalText$, originalHtml$, contentMode$])
 			.pipe(untilDestroy(this))
-			.subscribe(([text, html, mode]) => (this.focusedMatch = mode === 'text' ? text && text.match : html));
+			.subscribe(([text, html, mode]) => {
+				this.focusedMatch = mode === 'text' ? text && text.match : html;
+				this.cd.detectChanges();
+			});
+
+		filteredPreviews$.pipe(untilDestroy(this)).subscribe(previews => {
+			this.previews = previews.sort((a, b) => b.matchedWords - a.matchedWords);
+		});
 
 		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => (this.hiddenResults = ids));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(isMobile => (this.isMobile = isMobile));
@@ -76,8 +88,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Removes the focus of the currently focused match
 	 */
 	clearFocusedMatch() {
-		this.matchService.setSourceHtmlMatch(null);
-		this.matchService.setSourceTextMatch(null);
+		this.highlightService.setOriginalTextMatch(null);
 	}
 
 	/**

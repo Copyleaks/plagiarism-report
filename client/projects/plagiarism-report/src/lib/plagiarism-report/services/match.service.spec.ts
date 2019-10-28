@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { HighlightService } from './highlight.service';
+import { MatchService } from './match.service';
 import { ReportService } from './report.service';
-import { MatchType, Match } from '../models/Highlight';
-import { mergeMatches, fillMissingGaps } from '../utils/highlight-helpers';
+import { MatchType, Match } from '../models/Matches';
+import { mergeMatches, fillMissingGaps } from '../utils/match-helpers';
 
-describe('HighlightService', () => {
+describe('MatchService', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
-			providers: [HighlightService, ReportService],
+			providers: [MatchService, ReportService],
 		});
 	});
 
