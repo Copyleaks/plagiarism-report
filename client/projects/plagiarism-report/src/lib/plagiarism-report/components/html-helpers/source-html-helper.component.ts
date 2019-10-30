@@ -9,7 +9,6 @@ import { findRespectiveStart } from '../../utils/match-helpers';
 import { truthy } from '../../utils/operators';
 import { HtmlHelperBase } from './HtmlHelperBase';
 import iframeScript from './one-to-one-iframe-logic';
-import { combineLatest } from 'rxjs';
 
 @Component({
 	selector: 'iframe[cr-source-html-helper]',

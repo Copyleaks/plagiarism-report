@@ -7,6 +7,8 @@
 		"declaration": false,
 		"downlevelIteration": true,
 		"experimentalDecorators": true,
+		"noUnusedParameters": true,
+		"noUnusedLocals": true,
 		"module": "esnext",
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,

@@ -27,7 +27,7 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * @param suspect the suspected scan result
 	 */
 	handleBroadcast(elem: MatchComponent, suspect: ScanResult) {
-		const [_, start] = helpers.findRespectiveMatch(elem.match, suspect.text.comparison, true);
+		const [, start] = helpers.findRespectiveMatch(elem.match, suspect.text.comparison, true);
 		const page = helpers.findRespectivePage(elem.match.start, this.host.pages);
 		if (page === this.host.currentPage) {
 			const comp = this.children.find(item => item.match.start === start);

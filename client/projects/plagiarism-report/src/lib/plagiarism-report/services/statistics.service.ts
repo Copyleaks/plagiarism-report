@@ -132,34 +132,53 @@ const findNests = (matches: Match[]): Match[][] => {
 	providedIn: 'root',
 })
 export class StatisticsService {
-	private readonly _statistics = new BehaviorSubject<ReportStatistics>(undefined);
+	private _statistics;
 	private completeResultStats = null;
-	public statistics$ = this._statistics.asObservable();
 
-	constructor(reportService: ReportService) {
-		const { completeResult$, results$, filteredResults$, suspectId$, suspect$ } = reportService;
+	constructor(private reportService: ReportService) {}
+	public get statistics$() {
+		return this._statistics.asObservable();
+	}
+
+	/** An initialization method for reseting the state */
+	public initialize() {
+		this._statistics && this._statistics.complete();
+		this._statistics = new BehaviorSubject<ReportStatistics>(undefined);
+		this.completeResultStats = null;
+		const { completeResult$, results$, filteredResults$, suspectId$, suspect$ } = this.reportService;
 		suspectId$
 			.pipe(
 				switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)),
 				withLatestFrom(completeResult$, results$)
 			)
-			.subscribe(([filtered, meta, results]) => {
-				const { batch, internet, database } = meta.results;
-				const totalResults = batch.length + internet.length + database.length;
-				if (results.length < totalResults || totalResults === filtered.length) {
-					this.completeResultStats = this.completeResultStats || {
-						identical: meta.results.score.identicalWords,
-						relatedMeaning: meta.results.score.relatedMeaningWords,
-						minorChanges: meta.results.score.minorChangedWords,
-						omittedWords: meta.scannedDocument.totalExcluded,
-						total: meta.scannedDocument.totalWords,
-					};
-					this._statistics.next(this.completeResultStats);
-				} else {
-					this._statistics.next(this.calculateStatistics(meta, filtered));
-				}
-			});
+			.subscribe(([filtered, meta, results]) => this.retreiveStatistics(results, filtered, meta));
 	}
+
+	/**
+	 * Reterieve the statistics for the currently visible results,
+	 * if all results are visible use the statistic section from the `completeResult`
+	 * otherwise calculate the statistics using `filteredResults`
+	 * @param results all the scan results
+	 * @param filteredResults the currently visible results
+	 * @param completeResult the complete result
+	 */
+	retreiveStatistics(results: ResultItem[], filteredResults: ResultItem[], completeResult: CompleteResult) {
+		const { batch, internet, database } = completeResult.results;
+		const totalResults = batch.length + internet.length + database.length;
+		if (results.length < totalResults || totalResults === filteredResults.length) {
+			this.completeResultStats = this.completeResultStats || {
+				identical: completeResult.results.score.identicalWords,
+				relatedMeaning: completeResult.results.score.relatedMeaningWords,
+				minorChanges: completeResult.results.score.minorChangedWords,
+				omittedWords: completeResult.scannedDocument.totalExcluded,
+				total: completeResult.scannedDocument.totalWords,
+			};
+			this._statistics.next(this.completeResultStats);
+		} else {
+			this._statistics.next(this.calculateStatistics(completeResult, filteredResults));
+		}
+	}
+
 	/**
 	 * calculate statistics out of a list of the currently visible `results`
 	 * @param metadata the report metadata

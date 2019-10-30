@@ -1,13 +1,4 @@
-import {
-	AfterContentInit,
-	Component,
-	ElementRef,
-	HostBinding,
-	HostListener,
-	Input,
-	Renderer2,
-	ChangeDetectorRef,
-} from '@angular/core';
+import { AfterContentInit, Component, ElementRef, HostBinding, HostListener, Input, Renderer2 } from '@angular/core';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { Match } from '../../models';
 import { HighlightService, ReportOrigin } from '../../services/highlight.service';

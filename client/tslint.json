@@ -21,6 +21,7 @@
 				"order": ["static-field", "instance-field", "static-method", "instance-method"]
 			}
 		],
+
 		"only-arrow-functions": true,
 		"completed-docs": [true, "functions", "methods", "variables"],
 		"no-consecutive-blank-lines": true,

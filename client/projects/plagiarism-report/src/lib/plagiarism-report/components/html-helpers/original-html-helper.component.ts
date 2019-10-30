@@ -59,7 +59,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 		});
 		combineLatest([source$.pipe(truthy()), originalHtmlMatches$])
 			.pipe(untilDestroy(this))
-			.subscribe(([source, matches]) => {
+			.subscribe(([, matches]) => {
 				this.matches = matches;
 				this.renderMatches(matches);
 			});

@@ -1,27 +1,21 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-
-import { BehaviorSubject, combineLatest, of, Subject, Observable } from 'rxjs';
-
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
-
 import {
 	CompleteResult,
 	ContentMode,
 	CopyleaksReportConfig,
-	Match,
+	CopyleaksReportOptions,
 	ReportDownloadEvent,
 	ReportShareEvent,
 	ReportStatistics,
 	ResultItem,
 	ResultPreview,
-	CopyleaksReportOptions,
 	ScanResult,
 	ScanSource,
 	ViewMode,
 } from '../models';
-
-import { COPYLEAKS_CONFIG_INJECTION_TOKEN, REPORT_SERVICE, DEFAULT_REPORT_CONFIG } from '../utils/constants';
-
+import { COPYLEAKS_CONFIG_INJECTION_TOKEN, DEFAULT_REPORT_CONFIG, REPORT_SERVICE } from '../utils/constants';
 import { truthy } from '../utils/operators';
 
 /**
@@ -34,40 +28,34 @@ const settingsFromLocalStorage = JSON.parse(localStorage.getItem(REPORT_SERVICE.
 })
 export class ReportService {
 	/** scans api items state */
-	private _completeResult = new BehaviorSubject<CompleteResult>(null);
-	private _source = new BehaviorSubject<ScanSource>(null);
-	private _previews = new BehaviorSubject<ResultPreview[]>([]);
-	private _results = new BehaviorSubject<ResultItem[]>([]);
+	private _completeResult: BehaviorSubject<CompleteResult>;
+	private _source: BehaviorSubject<ScanSource>;
+	private _previews: BehaviorSubject<ResultPreview[]>;
+	private _results: BehaviorSubject<ResultItem[]>;
 
 	/** report display state */
-	private _viewMode = new BehaviorSubject<ViewMode>(this.config.viewMode);
-	private _contentMode = new BehaviorSubject<ContentMode>(this.config.contentMode);
-	private _suspectId = new BehaviorSubject<string>(null);
-	private _share = new BehaviorSubject<boolean>(this.config.share);
-	private _download = new BehaviorSubject<boolean>(this.config.download);
-	private _progress = new BehaviorSubject<number>(0);
-	private _statistics = new BehaviorSubject<ReportStatistics>(null);
+	private _viewMode: BehaviorSubject<ViewMode>;
+	private _contentMode: BehaviorSubject<ContentMode>;
+	private _suspectId: BehaviorSubject<string>;
+	private _share: BehaviorSubject<boolean>;
+	private _download: BehaviorSubject<boolean>;
+	private _progress: BehaviorSubject<number>;
+	private _statistics: BehaviorSubject<ReportStatistics>;
 
 	/** settings state */
-	private _hiddenResults = new BehaviorSubject<string[]>([]);
-	private _options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
+	private _hiddenResults: BehaviorSubject<string[]>;
+	private _options: BehaviorSubject<CopyleaksReportOptions>;
 
 	/** user event emitters */
-
 	private _downloadClick = new Subject<ReportDownloadEvent>();
 	private _shareClick = new Subject<ReportShareEvent>();
-	private _sourceSelectedMatch = new Subject<Match>();
-	private _suspectSelectedMatch = new Subject<Match>();
-	private _originalSelectedMatch = new Subject<Match>();
 
-	constructor(@Optional() @Inject(COPYLEAKS_CONFIG_INJECTION_TOKEN) private _config?: CopyleaksReportConfig) {
-		this.reset();
-	}
+	constructor(@Optional() @Inject(COPYLEAKS_CONFIG_INJECTION_TOKEN) private _config?: CopyleaksReportConfig) {}
 
 	/**
-	 * Resets the current state of the report service
+	 * An initialization method for reseting the state
 	 */
-	public reset() {
+	public initialize() {
 		this._completeResult && this._completeResult.complete();
 		this._completeResult = new BehaviorSubject<CompleteResult>(null);
 		this._source && this._source.complete();
@@ -76,6 +64,7 @@ export class ReportService {
 		this._previews = new BehaviorSubject<ResultPreview[]>([]);
 		this._results && this._results.complete();
 		this._results = new BehaviorSubject<ResultItem[]>([]);
+
 		this._viewMode && this._viewMode.complete();
 		this._viewMode = new BehaviorSubject<ViewMode>(this.config.viewMode);
 		this._contentMode && this._contentMode.complete();
@@ -90,20 +79,12 @@ export class ReportService {
 		this._progress = new BehaviorSubject<number>(null);
 		this._statistics && this._statistics.complete();
 		this._statistics = new BehaviorSubject<ReportStatistics>(null);
+
 		this._hiddenResults && this._hiddenResults.complete();
 		this._hiddenResults = new BehaviorSubject<string[]>([]);
 		this._options && this._options.complete();
 		this._options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
-		this._downloadClick && this._downloadClick.complete();
-		this._downloadClick = new Subject<ReportDownloadEvent>();
-		this._shareClick && this._shareClick.complete();
-		this._shareClick = new Subject<ReportShareEvent>();
-		this._sourceSelectedMatch && this._sourceSelectedMatch.complete();
-		this._sourceSelectedMatch = new Subject<Match>();
-		this._suspectSelectedMatch && this._suspectSelectedMatch.complete();
-		this._suspectSelectedMatch = new Subject<Match>();
-		this._originalSelectedMatch && this._originalSelectedMatch.complete();
-		this._originalSelectedMatch = new Subject<Match>();
+
 		combineLatest([this.source$, this.completeResult$])
 			.pipe(take(1))
 			.subscribe(() => this._progress.next(100));
@@ -111,18 +92,6 @@ export class ReportService {
 
 	public get statistics$() {
 		return this._statistics.asObservable();
-	}
-
-	public get originalSelectedMatch$() {
-		return this._originalSelectedMatch.asObservable();
-	}
-
-	public get sourceSelectedMatch$() {
-		return this._sourceSelectedMatch.asObservable();
-	}
-
-	public get suspectSelectedMatch$() {
-		return this._suspectSelectedMatch.asObservable();
 	}
 
 	public get suspect$(): Observable<ResultItem> {
@@ -211,14 +180,6 @@ export class ReportService {
 	}
 
 	/**
-	 * Pushes a new match as the match selected in the source text/html
-	 * @param match the selected match
-	 */
-	public setSourceSelectedMatch(match: Match) {
-		this._sourceSelectedMatch.next(match);
-	}
-
-	/**
 	 * Retrieves the result item with the given id
 	 * @param id the result id to find
 	 */
@@ -237,21 +198,6 @@ export class ReportService {
 			truthy(),
 			take(1)
 		);
-	}
-	/**
-	 * Pushes a new match as the match selected in the suspect text/html
-	 * @param match the selected match
-	 */
-	public setSuspectSelectedMatch(match: Match) {
-		this._suspectSelectedMatch.next(match);
-	}
-
-	/**
-	 * Pushes a new match as the match selected in the original text/html
-	 * @param match the selected match
-	 */
-	public setOriginalSelectedMatch(match: Match) {
-		this._originalSelectedMatch.next(match);
 	}
 
 	/**

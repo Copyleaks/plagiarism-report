@@ -1,12 +1,12 @@
-import { AfterContentInit, ContentChildren, Directive, OnInit, QueryList, Host, OnDestroy } from '@angular/core';
-import { MatchComponent } from '../match/match.component';
-import { HighlightService } from '../../services/highlight.service';
-import { OriginalComponent } from '../original/original.component';
-import { filter, withLatestFrom, take, tap } from 'rxjs/operators';
-import * as helpers from '../../utils/highlight-helpers';
-import { ReportService } from '../../services/report.service';
+import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
+import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ScanResult } from '../../models';
+import { HighlightService } from '../../services/highlight.service';
+import { ReportService } from '../../services/report.service';
+import * as helpers from '../../utils/highlight-helpers';
+import { MatchComponent } from '../match/match.component';
+import { OriginalComponent } from '../original/original.component';
 @Directive({
 	selector: '[crSourceTextHelper]',
 })
@@ -53,7 +53,7 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * @param suspect the suspected scan result
 	 */
 	handleBroadcast(elem: MatchComponent, suspect: ScanResult) {
-		const [_, start] = helpers.findRespectiveMatch(elem.match, suspect.text.comparison, false);
+		const [, start] = helpers.findRespectiveMatch(elem.match, suspect.text.comparison, false);
 		const page = helpers.findRespectivePage(elem.match.start, this.host.pages);
 		if (page === this.host.currentPage) {
 			const comp = this.children.find(item => item.match.start === start);

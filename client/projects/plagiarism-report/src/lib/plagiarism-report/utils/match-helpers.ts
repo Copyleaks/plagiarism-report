@@ -58,27 +58,6 @@ export const fillMissingGaps = (intervals: Match[], length: number): Match[] => 
 };
 
 /**
- * TODO
- */
-const mergeMathchesInNestFast = (matches: Match[]): Match[] => {
-	const uniqueMatches = matches.slice(1).reduce(
-		(prev: Match[], curr: Match) => {
-			const last = prev[prev.length - 1];
-			if (last.start === curr.start && last.end === curr.end) {
-				last.type = Math.min(last.type, curr.type);
-				last.ids = [...new Set([...curr.ids, ...last.ids])];
-			} else {
-				prev.push(curr);
-			}
-			return prev;
-		},
-		[matches[0]]
-	);
-	if (uniqueMatches.length === 1) {
-		return uniqueMatches;
-	}
-};
-/**
  * divide a list of `matches` into nests of none distinct ranges
  * @param matches the base `matches` to process
  */

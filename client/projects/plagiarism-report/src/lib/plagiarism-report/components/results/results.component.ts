@@ -1,18 +1,10 @@
-import {
-	Component,
-	HostBinding,
-	OnDestroy,
-	OnInit,
-	AfterViewInit,
-	ChangeDetectorRef,
-	ChangeDetectionStrategy,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { Match, ResultPreview } from '../../models';
-import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { HighlightService } from '../../services/highlight.service';
+import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { fadeIn, listFade } from '../../utils/animations';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';

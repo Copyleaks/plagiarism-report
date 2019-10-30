@@ -1,18 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchType, SlicedMatch } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { ContentMode, DirectionMode } from '../../models/CopyleaksReportConfig';
-import { MatchService } from '../../services/match.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
+import { MatchService } from '../../services/match.service';
 import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
+import { MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
-import { TEXT_FONT_SIZE_UNIT, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM } from '../../utils/constants';
-import { HighlightService } from '../../services/highlight.service';
-import * as highlight from '../../utils/highlight-helpers';
-import { filter } from 'rxjs/operators';
-import { MatchComponent } from '../match/match.component';
 
 @Component({
 	selector: 'cr-suspect',
@@ -24,7 +20,6 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
-		private highlightService: HighlightService,
 		private matchService: MatchService
 	) {}
 	readonly MatchType = MatchType;

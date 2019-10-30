@@ -78,7 +78,6 @@ export class CopyleaksService {
 	}
 
 	// Simple object validation
-
 	private isCompleteResult = (o: CompleteResult) => o && !!o.scannedDocument && !!o.results;
 	private isScanSource = (o: ScanSource) => o && !!o.metadata && !!o.text && !!o.version;
 	private isScanResult = (o: ScanResult) => o && !!o.text && !!o.statistics && !!o.version;

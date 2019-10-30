@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, map, pairwise, withLatestFrom } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { MatchComponent } from '../components/match/match.component';
-import { Match, ViewMode, ContentMode } from '../models';
-import { ReportService } from './report.service';
+import { ContentMode, Match, ViewMode } from '../models';
 import * as helpers from '../utils/highlight-helpers';
+import { ReportService } from './report.service';
 
 export type ReportOrigin = 'original' | 'source' | 'suspect';
 export interface TextMatchHighlightEvent {
@@ -37,25 +37,41 @@ export class HighlightService {
 		});
 	}
 
+	/** Subjects as events */
+	private readonly _textMatchClick = new Subject<TextMatchHighlightEvent>();
+	private readonly _htmlMatchClick = new Subject<HtmlMatchClickEvent>();
 	private readonly _jump = new Subject<boolean>();
-
-	/** Unused  at the moment */
 	private readonly _clear = new Subject<ViewMode>();
 
-	/** event bus */
-	private readonly _textMatchClick = new Subject<TextMatchHighlightEvent>();
+	private _originalText: BehaviorSubject<MatchComponent>;
+	private _sourceText: BehaviorSubject<MatchComponent>;
+	private _suspectText: BehaviorSubject<MatchComponent>;
+	private _originalHtml: BehaviorSubject<Match>;
+	private _sourceHtml: BehaviorSubject<Match>;
+	private _suspectHtml: BehaviorSubject<Match>;
 
-	private readonly _originalText = new BehaviorSubject<MatchComponent>(null);
-	private readonly _sourceText = new BehaviorSubject<MatchComponent>(null);
-	private readonly _suspectText = new BehaviorSubject<MatchComponent>(null);
+	/** An initialization method for reseting the state */
+	public initialize() {
+		this._originalText && this._originalText.complete();
+		this._originalText = new BehaviorSubject<MatchComponent>(null);
+		this._sourceText && this._sourceText.complete();
+		this._sourceText = new BehaviorSubject<MatchComponent>(null);
+		this._suspectText && this._suspectText.complete();
+		this._suspectText = new BehaviorSubject<MatchComponent>(null);
+		this._originalHtml && this._originalHtml.complete();
+		this._originalHtml = new BehaviorSubject<Match>(null);
+		this._sourceHtml && this._sourceHtml.complete();
+		this._sourceHtml = new BehaviorSubject<Match>(null);
+		this._suspectHtml && this._suspectHtml.complete();
+		this._suspectHtml = new BehaviorSubject<Match>(null);
+	}
 
-	private readonly _htmlMatchClicked = new Subject<HtmlMatchClickEvent>();
-	private readonly _originalHtml = new BehaviorSubject<Match>(null);
-	private readonly _sourceHtml = new BehaviorSubject<Match>(null);
-	private readonly _suspectHtml = new BehaviorSubject<Match>(null);
-
-	public readonly jump$ = this._jump.asObservable();
-	public readonly clear$ = this._clear.asObservable();
+	public get jump$() {
+		return this._jump.asObservable();
+	}
+	public get clear$() {
+		return this._clear.asObservable();
+	}
 
 	public get oneToManyTextMatchClick$() {
 		return this.textMatchClick$.pipe(filter(ev => ev.origin === 'original'));
@@ -65,7 +81,7 @@ export class HighlightService {
 	}
 
 	public get oneToManyHtmlMatchClick$() {
-		return this._htmlMatchClicked.asObservable().pipe(
+		return this._htmlMatchClick.asObservable().pipe(
 			withLatestFrom(this.reportService.viewMode$),
 			filter(([, mode]) => mode === 'one-to-many'),
 			map(([event]) => event)
@@ -73,7 +89,7 @@ export class HighlightService {
 	}
 
 	public get oneToOneHtmlMatchClick$() {
-		return this._htmlMatchClicked.asObservable().pipe(
+		return this._htmlMatchClick.asObservable().pipe(
 			withLatestFrom(this.reportService.viewMode$),
 			filter(([, mode]) => mode === 'one-to-one'),
 			map(([event]) => event)
@@ -133,7 +149,7 @@ export class HighlightService {
 	 * @param isSource `true` if the match comes from the `source` and `false` if it comes from the `suspect`
 	 */
 	public htmlMatchClicked(match: Match, isSource: boolean) {
-		this._htmlMatchClicked.next({ match, isSource, broadcast: true });
+		this._htmlMatchClick.next({ match, isSource, broadcast: true });
 	}
 	/**
 	 * Pushes the match that should be marked to the original text match observer
