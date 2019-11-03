@@ -1,4 +1,4 @@
-import { AfterContentInit, ContentChildren, Directive, QueryList, Host, OnDestroy } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, QueryList, Host, OnDestroy, Optional } from '@angular/core';
 import { MatchComponent } from '../match/match.component';
 import { HighlightService } from '../../services/highlight.service';
 import * as helpers from '../../utils/highlight-helpers';
@@ -15,7 +15,7 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 	constructor(
 		@Host() private host: SuspectComponent,
 		private highlightService: HighlightService,
-		private reportService: ReportService
+		@Optional() private reportService: ReportService
 	) {}
 
 	@ContentChildren(MatchComponent)

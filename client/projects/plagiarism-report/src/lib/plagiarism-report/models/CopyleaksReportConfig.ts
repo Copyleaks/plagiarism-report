@@ -16,8 +16,12 @@ export interface CopyleaksReportConfig {
 	share?: boolean;
 	/** Flag to display the download button */
 	download?: boolean;
-	/** Angular Material Dialog config override */
-	dialogConfig?: MatDialogConfig<any>;
+	/** Angular Material Dialog config override for share */
+	filterDialogConfig?: MatDialogConfig<any>;
+	/** Angular Material Dialog config override for download */
+	resultsDialogConfig?: MatDialogConfig<any>;
 	/** time in milliseconds to throttle incoming results to prevent calculation */
 	throttleResults?: number;
+	/** current suspect to focus on */
+	suspectId?: string;
 }

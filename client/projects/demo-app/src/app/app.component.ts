@@ -1,8 +1,13 @@
-import { Component, OnInit, HostListener, ViewChildren, AfterViewChecked, ElementRef } from '@angular/core';
-import { CopyleaksService, CopyleaksReportComponent } from 'projects/plagiarism-report/src/public-api';
-import { forkJoin, from, interval, zip, fromEvent } from 'rxjs';
-import { delay, retry, take, tap, takeUntil } from 'rxjs/operators';
+import { AfterViewChecked, Component, HostListener, OnInit, ViewChildren } from '@angular/core';
+import {
+	CopyleaksReportComponent,
+	CopyleaksService,
+	CopyleaksReportConfig,
+} from 'projects/plagiarism-report/src/public-api';
+import { forkJoin, from, interval, zip } from 'rxjs';
+import { delay, map, retry, take, takeUntil } from 'rxjs/operators';
 import { ResultsService } from './results.service';
+
 /* tslint:disable */
 
 @Component({
@@ -14,7 +19,15 @@ export class AppComponent implements OnInit, AfterViewChecked {
 	public scanIds = ['feline-friends', 'martina'];
 	public show = true;
 
-	constructor(private el: ElementRef, private service: CopyleaksService, private results: ResultsService) {}
+	constructor(private service: CopyleaksService, private results: ResultsService) {}
+
+	config: CopyleaksReportConfig = {
+		share: false,
+		download: false,
+		viewMode: 'one-to-one',
+		contentMode: 'html',
+		suspectId: '0d580af5ea',
+	};
 
 	@HostListener('dblclick')
 	changeReport() {
@@ -22,26 +35,29 @@ export class AppComponent implements OnInit, AfterViewChecked {
 		this.scanIds = this.scanIds.reverse();
 		setTimeout(() => {
 			this.show = true;
-			this.simulateRealtime(this.currentScanId);
+			this.simulateSync(this.currentScanId);
 		}, 2000);
 	}
+
 	public get currentScanId() {
 		return this.scanIds[1];
 	}
+
 	@ViewChildren(CopyleaksReportComponent)
 	report: CopyleaksReportComponent;
 
 	ngOnInit() {
-		this.simulateRealtime(this.currentScanId);
+		this.simulateSync(this.currentScanId);
 	}
+
 	ngAfterViewChecked(): void {}
+
 	simulateRealtime(scanId: string) {
-		const dblClick$ = fromEvent(this.el.nativeElement, 'dblclick');
+		const { destroy$ } = this.service;
 		this.results
 			.downloadedSource(scanId)
 			.pipe(
-				takeUntil(dblClick$),
-				delay(1000),
+				takeUntil(destroy$),
 				retry(3)
 			)
 			.subscribe(source => this.service.pushDownloadedSource(source));
@@ -49,7 +65,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
 		this.results
 			.completeResult(scanId)
 			.pipe(
-				takeUntil(dblClick$),
+				takeUntil(destroy$),
 				delay(5000),
 				retry(3)
 			)
@@ -57,60 +73,46 @@ export class AppComponent implements OnInit, AfterViewChecked {
 
 		this.results
 			.completeResult(scanId)
-			.pipe(takeUntil(dblClick$))
+			.pipe(takeUntil(destroy$))
 			.subscribe(({ results }) => {
-				zip(
-					from(results.internet),
-					interval(500).pipe(
-						takeUntil(dblClick$),
+				zip(from(results.internet), interval(500))
+					.pipe(
+						takeUntil(destroy$),
 						take(results.internet.length)
 					)
-				).subscribe(([item]) => {
-					this.service.pushNewResult({ internet: [item], database: [], batch: [] });
-					this.results
-						.newResult(scanId, item.id)
-						.pipe(
-							takeUntil(dblClick$),
-							delay(5000)
-						)
-						.subscribe(data => this.service.pushScanResult(item.id, data));
-				});
+					.subscribe(([item]) => {
+						this.service.pushNewResult({ internet: [item], database: [], batch: [] });
+						this.results
+							.newResult(scanId, item.id)
+							.pipe(takeUntil(destroy$))
+							.subscribe(data => this.service.pushScanResult(item.id, data));
+					});
 
-				zip(
-					from(results.database),
-					interval(500).pipe(
-						takeUntil(dblClick$),
+				zip(from(results.database), interval(500))
+					.pipe(
+						takeUntil(destroy$),
 						take(results.database.length)
 					)
-				).subscribe(([item]) => {
-					this.service.pushNewResult({ internet: [], database: [item], batch: [] });
+					.subscribe(([item]) => {
+						this.service.pushNewResult({ internet: [], database: [item], batch: [] });
+						this.results
+							.newResult(scanId, item.id)
+							.pipe(takeUntil(destroy$))
+							.subscribe(data => this.service.pushScanResult(item.id, data));
+					});
 
-					this.results
-						.newResult(scanId, item.id)
-						.pipe(
-							takeUntil(dblClick$),
-							delay(5000)
-						)
-						.subscribe(data => this.service.pushScanResult(item.id, data));
-				});
-
-				zip(
-					from(results.batch),
-					interval(500).pipe(
-						takeUntil(dblClick$),
+				zip(from(results.batch), interval(500))
+					.pipe(
+						takeUntil(destroy$),
 						take(results.batch.length)
 					)
-				).subscribe(([item]) => {
-					this.service.pushNewResult({ internet: [], database: [], batch: [item] });
-
-					this.results
-						.newResult(scanId, item.id)
-						.pipe(
-							takeUntil(dblClick$),
-							delay(5000)
-						)
-						.subscribe(data => this.service.pushScanResult(item.id, data));
-				});
+					.subscribe(([item]) => {
+						this.service.pushNewResult({ internet: [], database: [], batch: [item] });
+						this.results
+							.newResult(scanId, item.id)
+							.pipe(takeUntil(destroy$))
+							.subscribe(data => this.service.pushScanResult(item.id, data));
+					});
 			});
 	}
 	/**
@@ -120,13 +122,13 @@ export class AppComponent implements OnInit, AfterViewChecked {
 	 * - tell service youre done
 	 */
 	simulateSync(scanId: string) {
-		const dblClick$ = fromEvent(this.el.nativeElement, 'dblclick');
+		const { destroy$ } = this.service;
 		const completeResult$ = this.results.completeResult(scanId).pipe(
-			takeUntil(dblClick$),
+			takeUntil(destroy$),
 			retry(3)
 		);
 		const downloadedSource$ = this.results.downloadedSource(scanId).pipe(
-			takeUntil(dblClick$),
+			takeUntil(destroy$),
 			retry(3)
 		);
 		downloadedSource$.subscribe(source => this.service.pushDownloadedSource(source));
@@ -135,11 +137,9 @@ export class AppComponent implements OnInit, AfterViewChecked {
 			const { internet, database, batch } = meta.results;
 			const requests = [...internet, ...database, ...batch].map(item =>
 				this.results.newResult(meta.scannedDocument.scanId, item.id).pipe(
-					takeUntil(dblClick$),
+					takeUntil(destroy$),
 					retry(5),
-					tap(result => {
-						this.service.pushScanResult(item.id, result);
-					})
+					map(result => this.service.pushScanResult(item.id, result))
 				)
 			);
 			forkJoin(requests).subscribe();

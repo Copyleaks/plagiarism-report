@@ -1,4 +1,4 @@
-import { Component, ContentChildren, OnDestroy, OnInit, QueryList } from '@angular/core';
+import { Component, ContentChildren, OnDestroy, OnInit, QueryList, Optional } from '@angular/core';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { logoSvg } from '../../assets/images';
 import { CompleteResult, ExcludeReason, Match, MatchType, ScanSource, SlicedMatch } from '../../models';
@@ -20,7 +20,7 @@ import { MatchComponent } from '../match/match.component';
 })
 export class OriginalComponent implements OnInit, OnDestroy {
 	constructor(
-		private reportService: ReportService,
+		@Optional() private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService,
 		private highlightService: HighlightService

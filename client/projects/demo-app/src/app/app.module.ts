@@ -15,7 +15,7 @@ import { CopyleaksReportModule } from 'projects/plagiarism-report/src/public-api
 		BrowserAnimationsModule,
 		HttpClientModule,
 		FlexLayoutModule,
-		CopyleaksReportModule.forChild({ contentMode: 'text', share: true, download: false }),
+		CopyleaksReportModule.forRoot({ contentMode: 'text', share: true, download: false }),
 	],
 	providers: [],
 	bootstrap: [AppComponent],

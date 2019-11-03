@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, Optional } from '@angular/core';
 import { map, take } from 'rxjs/operators';
 import { ResultPreview } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
@@ -17,7 +17,7 @@ export class ResultCardComponent implements OnInit {
 	public preview: ResultPreview;
 	public result: ScanResult;
 	public loading = true;
-	constructor(private reportService: ReportService) {}
+	constructor(@Optional() private reportService: ReportService) {}
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode

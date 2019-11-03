@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { MatchComponent } from '../components/match/match.component';
 import { ContentMode, Match, ViewMode } from '../models';
 import * as helpers from '../utils/highlight-helpers';
 import { ReportService } from './report.service';
+import { untilDestroy } from '../../shared/operators/untilDestroy';
 
 export type ReportOrigin = 'original' | 'source' | 'suspect';
 export interface TextMatchHighlightEvent {
@@ -19,10 +20,21 @@ export interface HtmlMatchClickEvent {
 	broadcast: boolean;
 }
 
-@Injectable({ providedIn: 'root' })
-export class HighlightService {
+@Injectable()
+export class HighlightService implements OnDestroy {
+	private readonly _originalText = new BehaviorSubject<MatchComponent>(null);
+	private readonly _sourceText = new BehaviorSubject<MatchComponent>(null);
+	private readonly _suspectText = new BehaviorSubject<MatchComponent>(null);
+	private readonly _originalHtml = new BehaviorSubject<Match>(null);
+	private readonly _sourceHtml = new BehaviorSubject<Match>(null);
+	private readonly _suspectHtml = new BehaviorSubject<Match>(null);
+	private readonly _textMatchClick = new Subject<TextMatchHighlightEvent>();
+	private readonly _htmlMatchClick = new Subject<HtmlMatchClickEvent>();
+	private readonly _jump = new Subject<boolean>();
+	private readonly _clear = new Subject<ViewMode>();
+
 	constructor(private reportService: ReportService) {
-		this.textMatchClick$.subscribe(event => {
+		this.textMatchClick$.pipe(untilDestroy(this)).subscribe(event => {
 			switch (event.origin) {
 				case 'original':
 					this.setOriginalTextMatch(event.elem);
@@ -37,38 +49,10 @@ export class HighlightService {
 		});
 	}
 
-	/** Subjects as events */
-	private readonly _textMatchClick = new Subject<TextMatchHighlightEvent>();
-	private readonly _htmlMatchClick = new Subject<HtmlMatchClickEvent>();
-	private readonly _jump = new Subject<boolean>();
-	private readonly _clear = new Subject<ViewMode>();
-
-	private _originalText: BehaviorSubject<MatchComponent>;
-	private _sourceText: BehaviorSubject<MatchComponent>;
-	private _suspectText: BehaviorSubject<MatchComponent>;
-	private _originalHtml: BehaviorSubject<Match>;
-	private _sourceHtml: BehaviorSubject<Match>;
-	private _suspectHtml: BehaviorSubject<Match>;
-
-	/** An initialization method for reseting the state */
-	public initialize() {
-		this._originalText && this._originalText.complete();
-		this._originalText = new BehaviorSubject<MatchComponent>(null);
-		this._sourceText && this._sourceText.complete();
-		this._sourceText = new BehaviorSubject<MatchComponent>(null);
-		this._suspectText && this._suspectText.complete();
-		this._suspectText = new BehaviorSubject<MatchComponent>(null);
-		this._originalHtml && this._originalHtml.complete();
-		this._originalHtml = new BehaviorSubject<Match>(null);
-		this._sourceHtml && this._sourceHtml.complete();
-		this._sourceHtml = new BehaviorSubject<Match>(null);
-		this._suspectHtml && this._suspectHtml.complete();
-		this._suspectHtml = new BehaviorSubject<Match>(null);
-	}
-
 	public get jump$() {
 		return this._jump.asObservable();
 	}
+
 	public get clear$() {
 		return this._clear.asObservable();
 	}
@@ -76,6 +60,7 @@ export class HighlightService {
 	public get oneToManyTextMatchClick$() {
 		return this.textMatchClick$.pipe(filter(ev => ev.origin === 'original'));
 	}
+
 	public get oneToOneTextMatchClick$() {
 		return this.textMatchClick$.pipe(filter(ev => ev.origin === 'source' || ev.origin === 'suspect'));
 	}
@@ -164,7 +149,6 @@ export class HighlightService {
 		setTimeout(() => {
 			helpers.onTextMatchChange([prev, next]);
 		});
-
 		this._originalText.next(next);
 	}
 
@@ -231,5 +215,20 @@ export class HighlightService {
 	 */
 	public jump(next: boolean) {
 		this._jump.next(next);
+	}
+
+	/** dtor */
+	ngOnDestroy() {
+		this._originalText && this._originalText.complete();
+		this._sourceText && this._sourceText.complete();
+		this._suspectText && this._suspectText.complete();
+		this._originalHtml && this._originalHtml.complete();
+		this._sourceHtml && this._sourceHtml.complete();
+		this._suspectHtml && this._suspectHtml.complete();
+		this._jump && this._jump.complete();
+		this._textMatchClick && this._textMatchClick.complete();
+		this._htmlMatchClick && this._htmlMatchClick.complete();
+		this._jump && this._jump.complete();
+		this._clear && this._clear.complete();
 	}
 }

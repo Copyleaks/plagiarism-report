@@ -1,94 +1,68 @@
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import {
 	CompleteResult,
 	ContentMode,
-	CopyleaksReportConfig,
 	CopyleaksReportOptions,
 	ReportDownloadEvent,
 	ReportShareEvent,
 	ReportStatistics,
 	ResultItem,
 	ResultPreview,
-	ScanResult,
 	ScanSource,
 	ViewMode,
+	CopyleaksReportConfig,
 } from '../models';
-import { COPYLEAKS_CONFIG_INJECTION_TOKEN, DEFAULT_REPORT_CONFIG, REPORT_SERVICE } from '../utils/constants';
+import { DEFAULT_REPORT_CONFIG, REPORT_SERVICE_CONSTANTS } from '../utils/constants';
 import { truthy } from '../utils/operators';
+import { untilDestroy } from '../../shared/operators/untilDestroy';
+import { CopyleaksService } from './copyleaks.service';
 
 /**
  * Get the user's report options from localstorage
  */
-const settingsFromLocalStorage = JSON.parse(localStorage.getItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY));
+const settingsFromLocalStorage = JSON.parse(localStorage.getItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY));
 
-@Injectable({
-	providedIn: 'root',
-})
-export class ReportService {
+@Injectable()
+export class ReportService implements OnDestroy {
+	private _config: CopyleaksReportConfig = null;
+	constructor(private copyleaksService: CopyleaksService) {
+		const { complete$, preview$, progress$, result$, source$, config$ } = copyleaksService;
+		complete$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
+		preview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
+		progress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
+		result$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResult(resultItem));
+		source$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
+		config$.pipe(untilDestroy(this)).subscribe(config => this.applyConfig(config));
+		combineLatest([this.source$, this.completeResult$])
+			.pipe(
+				untilDestroy(this),
+				take(1)
+			)
+			.subscribe(() => this._progress.next(100));
+	}
 	/** scans api items state */
-	private _completeResult: BehaviorSubject<CompleteResult>;
-	private _source: BehaviorSubject<ScanSource>;
-	private _previews: BehaviorSubject<ResultPreview[]>;
-	private _results: BehaviorSubject<ResultItem[]>;
+	private _completeResult = new BehaviorSubject<CompleteResult>(null);
+	private _source = new BehaviorSubject<ScanSource>(null);
+	private _previews = new BehaviorSubject<ResultPreview[]>([]);
+	private _results = new BehaviorSubject<ResultItem[]>([]);
 
 	/** report display state */
-	private _viewMode: BehaviorSubject<ViewMode>;
-	private _contentMode: BehaviorSubject<ContentMode>;
-	private _suspectId: BehaviorSubject<string>;
-	private _share: BehaviorSubject<boolean>;
-	private _download: BehaviorSubject<boolean>;
-	private _progress: BehaviorSubject<number>;
-	private _statistics: BehaviorSubject<ReportStatistics>;
+	private _viewMode = new BehaviorSubject<ViewMode>(this.config.viewMode);
+	private _contentMode = new BehaviorSubject<ContentMode>(this.config.contentMode);
+	private _suspectId = new BehaviorSubject<string>(null);
+	private _share = new BehaviorSubject<boolean>(this.config.share);
+	private _download = new BehaviorSubject<boolean>(this.config.download);
+	private _progress = new BehaviorSubject<number>(null);
+	private _statistics = new BehaviorSubject<ReportStatistics>(null);
 
 	/** settings state */
-	private _hiddenResults: BehaviorSubject<string[]>;
-	private _options: BehaviorSubject<CopyleaksReportOptions>;
-
+	private _hiddenResults = new BehaviorSubject<string[]>([]);
+	private _options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
 	/** user event emitters */
 	private _downloadClick = new Subject<ReportDownloadEvent>();
 	private _shareClick = new Subject<ReportShareEvent>();
-
-	constructor(@Optional() @Inject(COPYLEAKS_CONFIG_INJECTION_TOKEN) private _config?: CopyleaksReportConfig) {}
-
-	/**
-	 * An initialization method for reseting the state
-	 */
-	public initialize() {
-		this._completeResult && this._completeResult.complete();
-		this._completeResult = new BehaviorSubject<CompleteResult>(null);
-		this._source && this._source.complete();
-		this._source = new BehaviorSubject<ScanSource>(null);
-		this._previews && this._previews.complete();
-		this._previews = new BehaviorSubject<ResultPreview[]>([]);
-		this._results && this._results.complete();
-		this._results = new BehaviorSubject<ResultItem[]>([]);
-
-		this._viewMode && this._viewMode.complete();
-		this._viewMode = new BehaviorSubject<ViewMode>(this.config.viewMode);
-		this._contentMode && this._contentMode.complete();
-		this._contentMode = new BehaviorSubject<ContentMode>(this.config.contentMode);
-		this._suspectId && this._suspectId.complete();
-		this._suspectId = new BehaviorSubject<string>(null);
-		this._share && this._share.complete();
-		this._share = new BehaviorSubject<boolean>(this.config.share);
-		this._download && this._download.complete();
-		this._download = new BehaviorSubject<boolean>(this.config.download);
-		this._progress && this._progress.complete();
-		this._progress = new BehaviorSubject<number>(null);
-		this._statistics && this._statistics.complete();
-		this._statistics = new BehaviorSubject<ReportStatistics>(null);
-
-		this._hiddenResults && this._hiddenResults.complete();
-		this._hiddenResults = new BehaviorSubject<string[]>([]);
-		this._options && this._options.complete();
-		this._options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
-
-		combineLatest([this.source$, this.completeResult$])
-			.pipe(take(1))
-			.subscribe(() => this._progress.next(100));
-	}
 
 	public get statistics$() {
 		return this._statistics.asObservable();
@@ -275,9 +249,9 @@ export class ReportService {
 	 */
 	public setOptions(options: CopyleaksReportOptions) {
 		if (options.setAsDefault) {
-			localStorage.setItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY, JSON.stringify(options));
+			localStorage.setItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY, JSON.stringify(options));
 		} else {
-			localStorage.removeItem(REPORT_SERVICE.RESULTS_SETTINGS_KEY);
+			localStorage.removeItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY);
 		}
 
 		this._options.next(options);
@@ -330,10 +304,21 @@ export class ReportService {
 	 * @param id the id of the result
 	 * @param result the result
 	 */
-	public addDownloadedResult(id: string, result: ScanResult) {
-		if (!this._results.value.find(r => r.id === id)) {
-			this._results.next([...this._results.value, { id, result }]);
+	public addDownloadedResult(resultItem: ResultItem) {
+		if (!this._results.value.find(r => r.id === resultItem.id)) {
+			this._results.next([...this._results.value, resultItem]);
 		}
+	}
+
+	/** apply the config */
+	applyConfig(config: CopyleaksReportConfig) {
+		this.setOptions(config.options);
+		this.setShare(config.share);
+		this.setDownload(config.download);
+		this.setContentMode(config.contentMode);
+		this.setViewMode(config.viewMode);
+		config.suspectId && this.setSuspectId(config.suspectId);
+		this._config = config;
 	}
 
 	/**
@@ -342,5 +327,31 @@ export class ReportService {
 	 */
 	public done() {
 		this._results.complete();
+	}
+
+	/** Completes all observables to prevent memory leak */
+	public reset() {
+		this._completeResult && this._completeResult.complete();
+		this._source && this._source.complete();
+		this._previews && this._previews.complete();
+		this._results && this._results.complete();
+		this._viewMode && this._viewMode.complete();
+		this._contentMode && this._contentMode.complete();
+		this._suspectId && this._suspectId.complete();
+		this._share && this._share.complete();
+		this._download && this._download.complete();
+		this._progress && this._progress.complete();
+		this._statistics && this._statistics.complete();
+		this._hiddenResults && this._hiddenResults.complete();
+		this._options && this._options.complete();
+		this._statistics && this._statistics.complete();
+		this._downloadClick && this._downloadClick.complete();
+		this._shareClick && this._shareClick.complete();
+	}
+
+	/** dtor */
+	ngOnDestroy() {
+		this.reset();
+		this.copyleaksService.notifyDestroy();
 	}
 }

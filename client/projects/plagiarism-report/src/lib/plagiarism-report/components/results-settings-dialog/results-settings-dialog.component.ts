@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { take } from 'rxjs/operators';
 import { CopyleaksReportOptions } from '../../models/ResultsSettings';
@@ -10,7 +10,10 @@ import { truthy } from '../../utils/operators';
 	styleUrls: ['./results-settings-dialog.component.scss'],
 })
 export class ResultsSettingsDialogComponent implements OnInit, OnDestroy {
-	constructor(private dialogRef: MatDialogRef<ResultsSettingsDialogComponent>, private reportService: ReportService) {}
+	constructor(
+		private dialogRef: MatDialogRef<ResultsSettingsDialogComponent>,
+		@Optional() private reportService: ReportService
+	) {}
 	public settings: CopyleaksReportOptions;
 	/**
 	 * Closes the dialog while indicating whether to save changes or not.

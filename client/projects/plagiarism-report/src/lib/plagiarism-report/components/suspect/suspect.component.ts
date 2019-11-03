@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchType, SlicedMatch } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
@@ -18,7 +18,7 @@ import { truthy } from '../../utils/operators';
 })
 export class SuspectComponent implements OnInit, OnDestroy {
 	constructor(
-		private reportService: ReportService,
+		@Optional() private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService
 	) {}

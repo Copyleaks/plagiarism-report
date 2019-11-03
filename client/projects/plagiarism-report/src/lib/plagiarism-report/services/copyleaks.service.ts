@@ -1,19 +1,64 @@
 import { Injectable } from '@angular/core';
-import { CompleteResult, NewResult, ScanResult, ScanSource } from '../models';
+import {
+	CompleteResult,
+	NewResult,
+	ScanResult,
+	ScanSource,
+	ResultPreview,
+	ResultItem,
+	CopyleaksReportConfig,
+} from '../models';
 import {
 	COMPLETE_RESULT_VALIDATION_ERROR,
 	NEW_RESULT_VALIDATION_ERROR,
 	SCAN_RESULT_VALIDATION_ERROR,
 	SCAN_SOURCE_VALIDATION_ERROR,
 	VERSION_VALIDATION_ERROR,
+	DEFAULT_REPORT_CONFIG,
 } from '../utils/constants';
-import { ReportService } from './report.service';
+
+import { Subject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class CopyleaksService {
-	constructor(private reportService: ReportService) {}
+	private readonly _complete = new Subject<CompleteResult>();
+	private readonly _preview = new Subject<ResultPreview>();
+	private readonly _source = new Subject<ScanSource>();
+	private readonly _result = new Subject<ResultItem>();
+	private readonly _progress = new Subject<number>();
+	private readonly _config = new Subject<CopyleaksReportConfig>();
+
+	private readonly _destroy = new Subject();
+	public get destroy$() {
+		return this._destroy.asObservable();
+	}
+
+	public get complete$() {
+		return this._complete.asObservable();
+	}
+
+	public get preview$() {
+		return this._preview.asObservable();
+	}
+
+	public get source$() {
+		return this._source.asObservable();
+	}
+
+	public get result$() {
+		return this._result.asObservable();
+	}
+
+	public get progress$() {
+		return this._progress.asObservable();
+	}
+
+	public get config$() {
+		return this._config.asObservable();
+	}
+
 	/**
 	 * Insert the completion result of a scan to the report.
 	 * @see https://api.copyleaks.com/documentation/v3/webhooks/completed
@@ -23,7 +68,7 @@ export class CopyleaksService {
 		if (!this.isCompleteResult(result)) {
 			throw new Error(COMPLETE_RESULT_VALIDATION_ERROR);
 		}
-		this.reportService.setCompleteResult(result);
+		this._complete.next(result);
 	}
 
 	/**
@@ -35,7 +80,7 @@ export class CopyleaksService {
 		if (!this.isNewResult(result)) {
 			throw new Error(NEW_RESULT_VALIDATION_ERROR);
 		}
-		this.reportService.addPreview(result.internet[0] || result.database[0] || result.batch[0]);
+		this._preview.next(result.internet[0] || result.database[0] || result.batch[0]);
 	}
 
 	/**
@@ -50,7 +95,7 @@ export class CopyleaksService {
 		if (!this.isScanSource(source)) {
 			throw new Error(SCAN_SOURCE_VALIDATION_ERROR);
 		}
-		this.reportService.setSource(source);
+		this._source.next(source);
 	}
 	/**
 	 * Insert a downloaded scan result to the report.
@@ -65,16 +110,31 @@ export class CopyleaksService {
 		if (!this.isScanResult(result)) {
 			throw new Error(SCAN_RESULT_VALIDATION_ERROR);
 		}
-		this.reportService.addDownloadedResult(id, result);
+		this._result.next({ id, result });
 	}
 
 	/**
-	 * TODO
 	 * Change the progress percentage in the report manualy
 	 * @param progress an integer between 0 ~ 100
 	 */
 	setProgress(progress: number) {
-		this.reportService.setProgress(progress);
+		this._progress.next(progress);
+	}
+
+	/**
+	 * change the report's configuration
+	 * allows passing partial configuration that will be complemented by the default configuration
+	 * @param config the complete/partial configuration object
+	 */
+	setConfig(config: CopyleaksReportConfig) {
+		this._config.next({ ...DEFAULT_REPORT_CONFIG, ...config });
+	}
+
+	/**
+	 * TODO
+	 */
+	notifyDestroy() {
+		this._destroy.next();
 	}
 
 	// Simple object validation

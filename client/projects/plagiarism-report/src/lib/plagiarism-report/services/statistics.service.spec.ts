@@ -1,21 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ReportService } from './report.service';
-import { StatisticsService } from './statistics.service';
+
 import { Match } from '../models';
-
+import * as helpers from '../utils/statistics';
 describe('StatisticsService', () => {
-	let service: StatisticsService;
-
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			providers: [ReportService],
-		});
-		service = new StatisticsService(new ReportService());
-	});
-
-	describe('Initialization', () => {
-		it('should be created', () => {
-			expect(service).toBeTruthy();
 		});
 	});
 
@@ -29,7 +20,7 @@ describe('StatisticsService', () => {
 				{ start: 136, end: 137, type: 1 },
 				{ start: 136, end: 137, type: 1 },
 			];
-			result = service.mergeWords(data);
+			result = helpers.mergeWords(data);
 			expect(result[0]).toEqual({ start: 136, end: 137, type: 0 });
 
 			data = [
@@ -43,7 +34,7 @@ describe('StatisticsService', () => {
 				{ start: 148, end: 153, type: 0 },
 				{ start: 149, end: 153, type: 0 },
 			];
-			result = service.mergeWords(data);
+			result = helpers.mergeWords(data);
 			expect(result[0]).toEqual({ start: 138, end: 147, type: 0 });
 			expect(result[1]).toEqual({ start: 147, end: 148, type: 2 });
 			expect(result[2]).toEqual({ start: 148, end: 153, type: 0 });
@@ -74,7 +65,7 @@ describe('StatisticsService', () => {
 				{ start: 296, end: 297, type: 1 },
 				{ start: 296, end: 297, type: 1 },
 			];
-			result = service.mergeWords(data);
+			result = helpers.mergeWords(data);
 			expect(result[0]).toEqual({ start: 260, end: 261, type: 0 });
 			expect(result[1]).toEqual({ start: 261, end: 262, type: 1 });
 			expect(result[2]).toEqual({ start: 262, end: 297, type: 0 });
@@ -118,7 +109,7 @@ describe('StatisticsService', () => {
 				{ start: 223, end: 224, type: 2 },
 				{ start: 224, end: 225, type: 2 },
 			];
-			result = service.mergeWords(data);
+			result = helpers.mergeWords(data);
 			expect(result[0]).toEqual({ start: 161, end: 162, type: 1 });
 			expect(result[1]).toEqual({ start: 162, end: 181, type: 0 });
 			expect(result[2]).toEqual({ start: 181, end: 182, type: 2 });

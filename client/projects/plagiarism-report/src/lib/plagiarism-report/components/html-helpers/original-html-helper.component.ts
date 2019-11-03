@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, Optional } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -24,7 +24,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	constructor(
 		renderer: Renderer2,
 		element: ElementRef<HTMLIFrameElement>,
-		private reportService: ReportService,
+		@Optional() private reportService: ReportService,
 		private highlightService: HighlightService,
 		private matchService: MatchService
 	) {

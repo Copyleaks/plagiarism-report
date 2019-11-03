@@ -11,60 +11,48 @@ import {
 } from '@angular/core';
 import { untilDestroy } from '../shared/operators/untilDestroy';
 import { ReportDownloadEvent, ReportShareEvent } from './models';
-import { ViewMode } from './models/CopyleaksReportConfig';
-import { LayoutMediaQueryService } from './services/layout-media-query.service';
-import { ReportService } from './services/report.service';
-import { expandAnimation, fadeIn } from './utils/animations';
-import { StatisticsService } from './services/statistics.service';
-import { MatchService } from './services/match.service';
+import { ViewMode, CopyleaksReportConfig } from './models/CopyleaksReportConfig';
 import { HighlightService } from './services/highlight.service';
+import { LayoutMediaQueryService } from './services/layout-media-query.service';
+import { MatchService } from './services/match.service';
+import { ReportService } from './services/report.service';
+import { StatisticsService } from './services/statistics.service';
+import { expandAnimation, fadeIn } from './utils/animations';
+import { CopyleaksService } from './services/copyleaks.service';
 
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
 	styleUrls: ['./copyleaks-report.component.scss'],
 	animations: [expandAnimation, fadeIn],
+	providers: [ReportService, StatisticsService, MatchService, HighlightService],
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
-	constructor(
-		private reportService: ReportService,
-		private statisticsService: StatisticsService,
-		private matchService: MatchService,
-		private highlightService: HighlightService,
-		private layoutService: LayoutMediaQueryService
-	) {}
-
 	@HostBinding('class.one-to-one') get isOneToOne() {
 		return this.view === 'one-to-one';
 	}
 	@HostBinding('class.one-to-many') get isOneToMany() {
 		return this.view === 'one-to-many';
 	}
+
 	public isMobile: boolean;
-	public zoom = 2;
 	public view: ViewMode;
+	public resultsActive = false;
 
 	@Input()
-	public scanId: string;
+	public config: CopyleaksReportConfig;
 
-	@Output() download = new EventEmitter<ReportDownloadEvent>();
-	@Output() share = new EventEmitter<ReportShareEvent>();
+	@Output()
+	public download = new EventEmitter<ReportDownloadEvent>();
 
-	resultsActive = false;
+	@Output()
+	public share = new EventEmitter<ReportShareEvent>();
 
-	/**
-	 * Life-cycle method
-	 * Check if scanId changed and reset services state
-	 * @param changes changes of the component
-	 */
-	ngOnChanges(changes: SimpleChanges) {
-		if (changes.scanId && changes.scanId.currentValue) {
-			this.reportService.initialize();
-			this.statisticsService.initialize();
-			this.matchService.initialize();
-			this.highlightService.initialize();
-		}
-	}
+	constructor(
+		private reportService: ReportService,
+		private layoutService: LayoutMediaQueryService,
+		private copyleaksService: CopyleaksService
+	) {}
 
 	/**
 	 * life-cycle method
@@ -79,9 +67,15 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	}
 	/**
 	 * Life-cycle method
+	 * Handles `changes` for input properties
+	 * @param changes the changes
+	 */
+	ngOnChanges(changes: SimpleChanges) {
+		this.copyleaksService.setConfig(changes.config.currentValue);
+	}
+	/**
+	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {
-		this.reportService.initialize();
-	}
+	ngOnDestroy() {}
 }

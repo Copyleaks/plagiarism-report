@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit, Optional } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -18,7 +18,7 @@ import { ResultsSettingsDialogComponent } from '../results-settings-dialog/resul
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 	constructor(
-		private reportService: ReportService,
+		@Optional() private reportService: ReportService,
 		private dialogService: MatDialog,
 		private layoutService: LayoutMediaQueryService,
 		private highlightService: HighlightService,
@@ -40,14 +40,14 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Displays the results filter dialog modal
 	 */
 	openFilterDialog() {
-		this.dialogService.open(ResultsFilterDialogComponent, this.reportService.config.dialogConfig);
+		this.dialogService.open(ResultsFilterDialogComponent, this.reportService.config.filterDialogConfig);
 	}
 
 	/**
 	 * Displays the settings dialog modal
 	 */
 	openSettingsDialog() {
-		this.dialogService.open(ResultsSettingsDialogComponent, this.reportService.config.dialogConfig);
+		this.dialogService.open(ResultsSettingsDialogComponent, this.reportService.config.resultsDialogConfig);
 	}
 
 	/**

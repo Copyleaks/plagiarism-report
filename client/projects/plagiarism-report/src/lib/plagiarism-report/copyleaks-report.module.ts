@@ -46,6 +46,7 @@ import { MatchComponent } from './components/match/match.component';
 import { OriginalTextHelperDirective } from './components/text-helpers/original-text-helper.directive';
 import { SuspectTextHelperDirective } from './components/text-helpers/suspect-text-helper.directive';
 import { SourceTextHelperDirective } from './components/text-helpers/source-text-helper.directive';
+import { CopyleaksService } from './services/copyleaks.service';
 
 @NgModule({
 	declarations: [
@@ -94,7 +95,7 @@ import { SourceTextHelperDirective } from './components/text-helpers/source-text
 		ScrollingModule,
 		ExperimentalScrollingModule,
 	],
-	providers: [],
+	providers: [CopyleaksService],
 	entryComponents: [ResultsSettingsDialogComponent, ResultsFilterDialogComponent],
 	exports: [CopyleaksReportComponent],
 })

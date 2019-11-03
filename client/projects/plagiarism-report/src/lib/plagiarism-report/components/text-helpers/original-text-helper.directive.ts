@@ -1,4 +1,4 @@
-import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList, Optional } from '@angular/core';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { HighlightService } from '../../services/highlight.service';
@@ -13,7 +13,7 @@ import { OriginalComponent } from '../original/original.component';
 export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy {
 	constructor(
 		@Host() private host: OriginalComponent,
-		private reportService: ReportService,
+		@Optional() private reportService: ReportService,
 		private highlightService: HighlightService
 	) {}
 
