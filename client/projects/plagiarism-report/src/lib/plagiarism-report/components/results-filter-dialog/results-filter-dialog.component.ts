@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -17,7 +17,10 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	hidden: string[] = [];
 	hiddenSubscription: Subscription;
 	results: ResultPreview[];
-	constructor(private dialogRef: MatDialogRef<ResultsFilterDialogComponent>, private reportSerivce: ReportService) {}
+	constructor(
+		private dialogRef: MatDialogRef<ResultsFilterDialogComponent>,
+		@Inject(MAT_DIALOG_DATA) private reportSerivce: ReportService
+	) {}
 
 	/**
 	 * Checks whether the hidden results contain a `result`

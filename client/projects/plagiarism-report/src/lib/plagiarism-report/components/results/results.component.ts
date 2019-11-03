@@ -40,14 +40,18 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Displays the results filter dialog modal
 	 */
 	openFilterDialog() {
-		this.dialogService.open(ResultsFilterDialogComponent, this.reportService.config.filterDialogConfig);
+		this.dialogService.open<ResultsFilterDialogComponent, ReportService>(ResultsFilterDialogComponent, {
+			data: this.reportService,
+		});
 	}
 
 	/**
 	 * Displays the settings dialog modal
 	 */
 	openSettingsDialog() {
-		this.dialogService.open(ResultsSettingsDialogComponent, this.reportService.config.resultsDialogConfig);
+		this.dialogService.open<ResultsSettingsDialogComponent, ReportService>(ResultsSettingsDialogComponent, {
+			data: this.reportService,
+		});
 	}
 
 	/**

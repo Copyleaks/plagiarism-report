@@ -24,9 +24,9 @@ export class AppComponent implements OnInit, AfterViewChecked {
 	config: CopyleaksReportConfig = {
 		share: false,
 		download: false,
-		viewMode: 'one-to-one',
+		viewMode: 'one-to-many',
 		contentMode: 'html',
-		suspectId: '0d580af5ea',
+		//suspectId: '0d580af5ea',
 	};
 
 	@HostListener('dblclick')
