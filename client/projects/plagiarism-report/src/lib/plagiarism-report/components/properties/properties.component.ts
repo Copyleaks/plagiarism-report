@@ -81,9 +81,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));
 		this.statistics.statistics$
 			.pipe(
-				untilDestroy(this),
 				distinctUntilChanged(),
-				truthy()
+				truthy(),
+				untilDestroy(this)
 			)
 			.subscribe(value => {
 				this.stats = value;

@@ -182,7 +182,9 @@ export class ReportService implements OnDestroy {
 		const { internet, database, batch } = completeResult.results;
 		const previews = [...internet, ...database, ...batch];
 		previews.sort((a, b) => a.matchedWords - b.matchedWords).forEach(preview => this.addPreview(preview));
+		console.log('add the rest of the previews');
 		this._previews.next(previews);
+		console.log('add complete');
 		this._completeResult.next(completeResult);
 	}
 
@@ -191,6 +193,7 @@ export class ReportService implements OnDestroy {
 	 * @param source the scanned document source
 	 */
 	public setSource(source: ScanSource) {
+		console.log('add source');
 		this._source.next(source);
 
 		/** Switch to text in case no html exists */
@@ -295,6 +298,7 @@ export class ReportService implements OnDestroy {
 	 */
 	public addPreview(preview: ResultPreview) {
 		if (!this._completeResult.value && !this._previews.value.find(p => p.id === preview.id)) {
+			console.log('add preview');
 			this._previews.next([...this._previews.value, preview]);
 		}
 	}
@@ -306,6 +310,7 @@ export class ReportService implements OnDestroy {
 	 */
 	public addDownloadedResult(resultItem: ResultItem) {
 		if (!this._results.value.find(r => r.id === resultItem.id)) {
+			console.log('add result');
 			this._results.next([...this._results.value, resultItem]);
 		}
 	}
@@ -319,14 +324,6 @@ export class ReportService implements OnDestroy {
 		this.setViewMode(config.viewMode);
 		config.suspectId && this.setSuspectId(config.suspectId);
 		this._config = config;
-	}
-
-	/**
-	 * This method should be called when feeding report objects is complete.
-	 * it will basically complete the source and results observers
-	 */
-	public done() {
-		this._results.complete();
 	}
 
 	/** Completes all observables to prevent memory leak */
