@@ -1,6 +1,19 @@
 <cr-expansion-panel expanded="true">
 	<cr-expansion-panel-title>SCAN PROPERTIES </cr-expansion-panel-title>
-	<ng-container *ngTemplateOutlet="expansionMenu"></ng-container>
+	<cr-expansion-panel-menu>
+		<cr-expansion-panel-menu-item *ngIf="share">
+			<button mat-button
+							(click)="shareClicked()">
+				<mat-icon>share</mat-icon>
+			</button>
+		</cr-expansion-panel-menu-item>
+		<cr-expansion-panel-menu-item *ngIf="download">
+			<button mat-button
+							(click)="downloadClicked()">
+				<mat-icon>save_alt</mat-icon>
+			</button>
+		</cr-expansion-panel-menu-item>
+	</cr-expansion-panel-menu>
 	<cr-expansion-panel-body fxLayout="row nowrap">
 		<!-- <div progress>
 			<ng-container *ngIf="metadata;else skeleton__prop">
@@ -134,22 +147,6 @@
 		</div>
 	</cr-expansion-panel-body>
 </cr-expansion-panel>
-<ng-template #expansionMenu>
-	<cr-expansion-panel-menu>
-		<cr-expansion-panel-menu-item *ngIf="share">
-			<button mat-button
-							(click)="shareClicked()">
-				<mat-icon>share</mat-icon>
-			</button>
-		</cr-expansion-panel-menu-item>
-		<cr-expansion-panel-menu-item *ngIf="download">
-			<button mat-button
-							(click)="downloadClicked()">
-				<mat-icon>save_alt</mat-icon>
-			</button>
-		</cr-expansion-panel-menu-item>
-	</cr-expansion-panel-menu>
-</ng-template>
 
 <ng-template #skeleton__prop>
 	<ngx-skeleton-loader [theme]="{height:'3em',width:'95px',margin:'0.5em'}"></ngx-skeleton-loader>

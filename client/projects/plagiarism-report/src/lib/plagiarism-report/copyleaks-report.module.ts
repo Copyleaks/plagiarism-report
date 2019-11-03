@@ -100,10 +100,21 @@ import { SourceTextHelperDirective } from './components/text-helpers/source-text
 })
 export class CopyleaksReportModule {
 	/**
-	 * Modify the config that is added to the module providers
+	 * Modify the config that is added to the root module providers
 	 * @param config the modified config
 	 */
 	static forRoot(config: CopyleaksReportConfig): ModuleWithProviders {
+		return {
+			ngModule: CopyleaksReportModule,
+			providers: [{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } }],
+		};
+	}
+
+	/**
+	 * Modify the config that is added to the child module providers
+	 * @param config the modified config
+	 */
+	static forChild(config: CopyleaksReportConfig): ModuleWithProviders {
 		return {
 			ngModule: CopyleaksReportModule,
 			providers: [{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } }],

@@ -24,6 +24,7 @@ $panel-border: 1px solid #e6e6e6;
 :host(cr-expansion-panel-menu) {
   display: flex;
   flex-flow: row nowrap;
+  height: 100%;
 }
 
 :host(cr-expansion-panel-menu-item) {
