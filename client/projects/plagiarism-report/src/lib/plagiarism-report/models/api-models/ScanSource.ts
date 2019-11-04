@@ -1,7 +1,7 @@
 export interface ScanSource {
 	metadata: SourceMetadataSection;
 	text: SourceTextSection;
-	html?: SourceHtmlSection;
+	html: SourceHtmlSection;
 	version?: number;
 }
 

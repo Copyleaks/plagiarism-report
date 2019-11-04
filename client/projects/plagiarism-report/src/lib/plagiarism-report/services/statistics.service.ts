@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { CompleteResult, ReportStatistics, ResultItem } from '../models';
 import { ReportService } from './report.service';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
@@ -11,12 +11,9 @@ export class StatisticsService implements OnDestroy {
 	private completeResultStats = null;
 	constructor(reportService: ReportService) {
 		const { completeResult$, results$, filteredResults$, suspectId$, suspect$ } = reportService;
-		suspectId$
-			.pipe(
-				untilDestroy(this),
-				switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)),
-				withLatestFrom(completeResult$, results$)
-			)
+		const suspectOrResults$ = suspectId$.pipe(switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)));
+		combineLatest([suspectOrResults$, completeResult$, results$])
+			.pipe(untilDestroy(this))
 			.subscribe(([filtered, meta, results]) => this.retreiveStatistics(results, filtered, meta));
 	}
 

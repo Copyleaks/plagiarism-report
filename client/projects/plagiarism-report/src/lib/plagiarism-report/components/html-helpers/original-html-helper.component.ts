@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, Optional } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchJumpEvent, MatchSelectEvent } from '../../models';
-import { MatchService } from '../../services/match.service';
 import { HighlightService } from '../../services/highlight.service';
+import { MatchService } from '../../services/match.service';
 import { ReportService } from '../../services/report.service';
 import { truthy } from '../../utils/operators';
 import { HtmlHelperBase } from './HtmlHelperBase';
@@ -24,7 +24,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	constructor(
 		renderer: Renderer2,
 		element: ElementRef<HTMLIFrameElement>,
-		@Optional() private reportService: ReportService,
+		private reportService: ReportService,
 		private highlightService: HighlightService,
 		private matchService: MatchService
 	) {

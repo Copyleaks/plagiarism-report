@@ -3,12 +3,14 @@
 	<cr-expansion-panel-menu>
 		<cr-expansion-panel-menu-item *ngIf="share">
 			<button mat-button
+							matTooltip="Share"
 							(click)="shareClicked()">
 				<mat-icon>share</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="download">
 			<button mat-button
+							matTooltip="Download"
 							(click)="downloadClicked()">
 				<mat-icon>save_alt</mat-icon>
 			</button>

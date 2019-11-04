@@ -7,7 +7,6 @@ import {
 	CopyleaksReportOptions,
 	ReportDownloadEvent,
 	ReportShareEvent,
-	ReportStatistics,
 	ResultItem,
 	ResultPreview,
 	ScanSource,
@@ -55,7 +54,6 @@ export class ReportService implements OnDestroy {
 	private _share = new BehaviorSubject<boolean>(this.config.share);
 	private _download = new BehaviorSubject<boolean>(this.config.download);
 	private _progress = new BehaviorSubject<number>(null);
-	private _statistics = new BehaviorSubject<ReportStatistics>(null);
 
 	/** settings state */
 	private _hiddenResults = new BehaviorSubject<string[]>([]);
@@ -63,10 +61,6 @@ export class ReportService implements OnDestroy {
 	/** user event emitters */
 	private _downloadClick = new Subject<ReportDownloadEvent>();
 	private _shareClick = new Subject<ReportShareEvent>();
-
-	public get statistics$() {
-		return this._statistics.asObservable();
-	}
 
 	public get suspect$(): Observable<ResultItem> {
 		return this._suspectId.asObservable().pipe(switchMap(id => (id ? this.findResultById$(id) : of(null))));
@@ -182,9 +176,7 @@ export class ReportService implements OnDestroy {
 		const { internet, database, batch } = completeResult.results;
 		const previews = [...internet, ...database, ...batch];
 		previews.sort((a, b) => a.matchedWords - b.matchedWords).forEach(preview => this.addPreview(preview));
-		console.log('add the rest of the previews');
 		this._previews.next(previews);
-		console.log('add complete');
 		this._completeResult.next(completeResult);
 	}
 
@@ -193,7 +185,6 @@ export class ReportService implements OnDestroy {
 	 * @param source the scanned document source
 	 */
 	public setSource(source: ScanSource) {
-		console.log('add source');
 		this._source.next(source);
 
 		/** Switch to text in case no html exists */
@@ -298,7 +289,6 @@ export class ReportService implements OnDestroy {
 	 */
 	public addPreview(preview: ResultPreview) {
 		if (!this._completeResult.value && !this._previews.value.find(p => p.id === preview.id)) {
-			console.log('add preview');
 			this._previews.next([...this._previews.value, preview]);
 		}
 	}
@@ -310,7 +300,6 @@ export class ReportService implements OnDestroy {
 	 */
 	public addDownloadedResult(resultItem: ResultItem) {
 		if (!this._results.value.find(r => r.id === resultItem.id)) {
-			console.log('add result');
 			this._results.next([...this._results.value, resultItem]);
 		}
 	}
@@ -338,10 +327,8 @@ export class ReportService implements OnDestroy {
 		this._share && this._share.complete();
 		this._download && this._download.complete();
 		this._progress && this._progress.complete();
-		this._statistics && this._statistics.complete();
 		this._hiddenResults && this._hiddenResults.complete();
 		this._options && this._options.complete();
-		this._statistics && this._statistics.complete();
 		this._downloadClick && this._downloadClick.complete();
 		this._shareClick && this._shareClick.complete();
 	}

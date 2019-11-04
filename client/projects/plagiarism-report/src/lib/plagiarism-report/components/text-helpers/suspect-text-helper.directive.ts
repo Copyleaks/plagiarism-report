@@ -1,12 +1,12 @@
-import { AfterContentInit, ContentChildren, Directive, QueryList, Host, OnDestroy, Optional } from '@angular/core';
-import { MatchComponent } from '../match/match.component';
-import { HighlightService } from '../../services/highlight.service';
-import * as helpers from '../../utils/highlight-helpers';
+import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
-import { SuspectComponent } from '../suspect/suspect.component';
-import { ReportService } from '../../services/report.service';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ScanResult } from '../../models';
+import { HighlightService } from '../../services/highlight.service';
+import { ReportService } from '../../services/report.service';
+import * as helpers from '../../utils/highlight-helpers';
+import { MatchComponent } from '../match/match.component';
+import { SuspectComponent } from '../suspect/suspect.component';
 
 @Directive({
 	selector: '[crSuspectTextHelper]',
@@ -15,7 +15,7 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 	constructor(
 		@Host() private host: SuspectComponent,
 		private highlightService: HighlightService,
-		@Optional() private reportService: ReportService
+		private reportService: ReportService
 	) {}
 
 	@ContentChildren(MatchComponent)

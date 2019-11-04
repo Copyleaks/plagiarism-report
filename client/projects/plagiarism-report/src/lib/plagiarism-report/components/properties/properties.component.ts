@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ReportStatistics } from '../../models';
@@ -17,7 +17,7 @@ import { truthy } from '../../utils/operators';
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
 	constructor(
-		@Optional() private reportService: ReportService,
+		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private statistics: StatisticsService
 	) {}

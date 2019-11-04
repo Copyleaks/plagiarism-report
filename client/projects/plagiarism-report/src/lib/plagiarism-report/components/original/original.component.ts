@@ -1,13 +1,12 @@
-import { Component, ContentChildren, OnDestroy, OnInit, QueryList, Optional } from '@angular/core';
+import { Component, ContentChildren, OnDestroy, OnInit, QueryList } from '@angular/core';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { logoSvg } from '../../assets/images';
 import { CompleteResult, ExcludeReason, Match, MatchType, ScanSource, SlicedMatch } from '../../models';
 import { ContentMode, DirectionMode, ViewMode } from '../../models/CopyleaksReportConfig';
-import { MatchService } from '../../services/match.service';
-import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { HighlightService } from '../../services/highlight.service';
+import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
+import { MatchService } from '../../services/match.service';
 import { ReportService } from '../../services/report.service';
-
 import { fadeIn } from '../../utils/animations';
 import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { MatchComponent } from '../match/match.component';
@@ -20,7 +19,7 @@ import { MatchComponent } from '../match/match.component';
 })
 export class OriginalComponent implements OnInit, OnDestroy {
 	constructor(
-		@Optional() private reportService: ReportService,
+		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService,
 		private highlightService: HighlightService

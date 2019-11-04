@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit, Optional } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -18,7 +18,7 @@ import { ResultsSettingsDialogComponent } from '../results-settings-dialog/resul
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 	constructor(
-		@Optional() private reportService: ReportService,
+		private reportService: ReportService,
 		private dialogService: MatDialog,
 		private layoutService: LayoutMediaQueryService,
 		private highlightService: HighlightService,

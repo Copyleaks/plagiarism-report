@@ -1,4 +1,4 @@
-import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList, Optional } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ScanResult } from '../../models';
@@ -14,7 +14,7 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 	constructor(
 		@Host() private host: OriginalComponent,
 		private highlightService: HighlightService,
-		@Optional() private reportService: ReportService
+		private reportService: ReportService
 	) {}
 
 	@ContentChildren(MatchComponent)

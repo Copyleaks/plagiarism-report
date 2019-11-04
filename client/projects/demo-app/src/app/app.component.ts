@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
 		this.scanIds = this.scanIds.reverse();
 		setTimeout(() => {
 			this.show = true;
-			this.simulateSync(this.currentScanId);
+			this.simulateRealtime(this.currentScanId);
 		}, 2000);
 	}
 
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
 	report: CopyleaksReportComponent;
 
 	ngOnInit() {
-		this.simulateSync(this.currentScanId);
+		this.simulateRealtime(this.currentScanId);
 	}
 
 	ngAfterViewChecked(): void {}

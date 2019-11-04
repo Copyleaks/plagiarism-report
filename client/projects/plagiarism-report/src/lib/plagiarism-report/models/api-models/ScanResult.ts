@@ -13,10 +13,13 @@ interface Statistics {
 
 interface ResultBase {
 	comparison: ComparisonCollection;
-	value: string;
+	value?: string;
 }
-export type ResultHtmlSection = ResultBase;
+export interface ResultHtmlSection extends ResultBase {
+	value?: string;
+}
 export interface ResultTextSection extends ResultBase {
+	value: string;
 	pages: {
 		startPosition: number[];
 	};
