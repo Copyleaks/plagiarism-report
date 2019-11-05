@@ -1,31 +1,53 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { untilDestroy } from '../../shared/operators/untilDestroy';
 import {
 	CompleteResult,
-	ContentMode,
-	CopyleaksReportOptions,
+	CopyleaksReportConfig,
+	InternalCopyleaksReportConfig,
+	OneToOneProp,
 	ReportDownloadEvent,
 	ReportShareEvent,
 	ResultItem,
 	ResultPreview,
 	ScanSource,
-	ViewMode,
-	CopyleaksReportConfig,
 } from '../models';
-import { DEFAULT_REPORT_CONFIG, REPORT_SERVICE_CONSTANTS } from '../utils/constants';
+import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
 import { truthy } from '../utils/operators';
-import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { CopyleaksService } from './copyleaks.service';
+
+/** type guard */
+export const isOneToOneProp = <T>(prop: T | OneToOneProp<T>): prop is OneToOneProp<T> => {
+	return prop === null || (prop as OneToOneProp<T>).source !== undefined;
+};
+
+/** convert to one-to-one property */
+export const coerceOneToOneProp = <T>(prop: T | OneToOneProp<T>): OneToOneProp<T> =>
+	isOneToOneProp(prop) ? prop : { source: prop, suspect: prop };
 
 /**
  * Get the user's report options from localstorage
  */
-const settingsFromLocalStorage = JSON.parse(localStorage.getItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY));
+// const settingsFromLocalStorage = JSON.parse(localStorage.getItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY));
 
 @Injectable()
 export class ReportService implements OnDestroy {
-	private _config: CopyleaksReportConfig = null;
+	// * scans API items
+	private _completeResult = new BehaviorSubject<CompleteResult>(null);
+	private _source = new BehaviorSubject<ScanSource>(null);
+	private _previews = new BehaviorSubject<ResultPreview[]>([]);
+	private _results = new BehaviorSubject<ResultItem[]>([]);
+
+	// * configurable state
+	private _config = new BehaviorSubject<InternalCopyleaksReportConfig>(DEFAULT_REPORT_CONFIG);
+	private _progress = new BehaviorSubject<number>(null);
+	private _hiddenResults = new BehaviorSubject<string[]>([]); // TODO handle localstorage
+
+	// * Event emitters
+	private _downloadClick = new Subject<ReportDownloadEvent>();
+	private _shareClick = new Subject<ReportShareEvent>();
+
 	constructor(private copyleaksService: CopyleaksService) {
 		const { complete$, preview$, progress$, result$, source$, config$ } = copyleaksService;
 		complete$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
@@ -33,7 +55,8 @@ export class ReportService implements OnDestroy {
 		progress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
 		result$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResult(resultItem));
 		source$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
-		config$.pipe(untilDestroy(this)).subscribe(config => this.applyConfig(config));
+		config$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
+
 		combineLatest([this.source$, this.completeResult$])
 			.pipe(
 				untilDestroy(this),
@@ -41,119 +64,41 @@ export class ReportService implements OnDestroy {
 			)
 			.subscribe(() => this._progress.next(100));
 	}
-	/** scans api items state */
-	private _completeResult = new BehaviorSubject<CompleteResult>(null);
-	private _source = new BehaviorSubject<ScanSource>(null);
-	private _previews = new BehaviorSubject<ResultPreview[]>([]);
-	private _results = new BehaviorSubject<ResultItem[]>([]);
 
-	/** report display state */
-	private _viewMode = new BehaviorSubject<ViewMode>(this.config.viewMode);
-	private _contentMode = new BehaviorSubject<ContentMode>(this.config.contentMode);
-	private _suspectId = new BehaviorSubject<string>(null);
-	private _share = new BehaviorSubject<boolean>(this.config.share);
-	private _download = new BehaviorSubject<boolean>(this.config.download);
-	private _progress = new BehaviorSubject<number>(null);
+	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(
+		truthy(),
+		take(1)
+	);
 
-	/** settings state */
-	private _hiddenResults = new BehaviorSubject<string[]>([]);
-	private _options = new BehaviorSubject<CopyleaksReportOptions>(settingsFromLocalStorage || this.config.options);
-	/** user event emitters */
-	private _downloadClick = new Subject<ReportDownloadEvent>();
-	private _shareClick = new Subject<ReportShareEvent>();
+	public source$ = this._source.asObservable().pipe(
+		truthy(),
+		take(1)
+	);
+	public progress$ = this._progress.asObservable();
 
-	public get suspect$(): Observable<ResultItem> {
-		return this._suspectId.asObservable().pipe(switchMap(id => (id ? this.findResultById$(id) : of(null))));
-	}
-
-	public get completeResult$() {
-		return this._completeResult.asObservable().pipe(
-			truthy(),
-			take(1)
-		);
-	}
-
-	public get source$() {
-		return this._source.asObservable().pipe(
-			truthy(),
-			take(1)
-		);
-	}
-
-	public get suspectId$() {
-		return this._suspectId.asObservable();
-	}
-
-	public get progress$() {
-		return this._progress.asObservable();
-	}
-
-	public get viewMode$() {
-		return this._viewMode.asObservable().pipe(distinctUntilChanged());
-	}
-
-	public get contentMode$() {
-		return this._contentMode.asObservable().pipe(distinctUntilChanged());
-	}
-
-	public get hiddenResults$() {
-		return this._hiddenResults.asObservable().pipe(distinctUntilChanged());
-	}
-
-	public get options$() {
-		return this._options.asObservable().pipe(truthy());
-	}
-
-	public get download$() {
-		return this._download.asObservable().pipe(distinctUntilChanged());
-	}
-
-	public get share$() {
-		return this._share.asObservable().pipe(distinctUntilChanged());
-	}
-
-	public get downloadClick$() {
-		return this._downloadClick.asObservable();
-	}
-
-	public get shareClick$() {
-		return this._shareClick.asObservable();
-	}
-
-	public get results$() {
-		return this._results.asObservable();
-	}
-
-	public get previews$() {
-		return this._previews.asObservable();
-	}
-
-	public get filteredPreviews$() {
-		return combineLatest([this.previews$, this.hiddenResults$]).pipe(
-			map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
-		);
-	}
-
-	public get filteredResults$() {
-		return combineLatest([this.results$, this.hiddenResults$]).pipe(
-			map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
-		);
-	}
-
-	/**
-	 * Get the report config, can be a config provided by client, or a default config.
-	 */
-	public get config() {
-		return this._config || DEFAULT_REPORT_CONFIG;
-	}
-
-	/**
-	 * Retrieves the result item with the given id
-	 * @param id the result id to find
-	 */
-	public findResultById(id: string) {
-		return this._results.value.find(res => res.id === id);
-	}
+	/** config observable */
+	public config$ = this._config.asObservable();
+	/** sub config observeables */
+	public contentMode$ = this.config$.pipe(map(x => x.contentMode));
+	public viewMode$ = this.config$.pipe(map(x => x.viewMode));
+	public suspectId$ = this.config$.pipe(map(x => x.suspectId));
+	public download$ = this.config$.pipe(map(x => x.download));
+	public share$ = this.config$.pipe(map(x => x.share));
+	public options$ = this.config$.pipe(map(x => x.options));
+	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(
+		switchMap(id => (id ? this.findResultById$(id) : of(null)))
+	);
+	public downloadClick$ = this._downloadClick.asObservable();
+	public shareClick$ = this._shareClick.asObservable();
+	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
+	public results$ = this._results.asObservable().pipe(debounceTime(3000));
+	public previews$ = this._previews.asObservable();
+	public filteredPreviews$ = combineLatest([this.previews$, this.hiddenResults$]).pipe(
+		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
+	);
+	public filteredResults$ = combineLatest([this.results$, this.hiddenResults$]).pipe(
+		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
+	);
 
 	/**
 	 * Get an observable of some result by id
@@ -161,7 +106,7 @@ export class ReportService implements OnDestroy {
 	 * @param id the result id
 	 */
 	public findResultById$(id: string) {
-		return this._results.pipe(
+		return this.results$.pipe(
 			map(results => results.find(res => res.id === id)),
 			truthy(),
 			take(1)
@@ -186,19 +131,11 @@ export class ReportService implements OnDestroy {
 	 */
 	public setSource(source: ScanSource) {
 		this._source.next(source);
-
+		// TODO
 		/** Switch to text in case no html exists */
-		if (source && !source.html && this._contentMode.value === 'html') {
-			this._contentMode.next('text');
+		if (source && !source.html.value && this._config.value.contentMode.source === 'html') {
+			this.configure({ contentMode: { source: 'text' } });
 		}
-	}
-
-	/**
-	 * Pushes a new `id` to the suspect id observer
-	 * @param id the suspect result id
-	 */
-	public setSuspectId(id: string) {
-		this._suspectId.next(id);
 	}
 
 	/**
@@ -213,58 +150,11 @@ export class ReportService implements OnDestroy {
 	}
 
 	/**
-	 * Pushes a new `mode` to the view mode observer
-	 * @param mode the view mode to display
-	 */
-	public setViewMode(mode: ViewMode) {
-		this._viewMode.next(mode);
-	}
-
-	/**
-	 * Pushes a new `mode` to the content mode observer
-	 * @param mode the content mode to present
-	 */
-	public setContentMode(mode: ContentMode) {
-		this._contentMode.next(mode);
-	}
-
-	/**
 	 * Pushes a new list of `ids` to the hidden results observer
 	 * @param ids the ids to hide
 	 */
 	public setHiddenResults(ids: string[]) {
 		this._hiddenResults.next(ids);
-	}
-
-	/**
-	 * Pushes new `options` to the options observer.
-	 * if `setAsDefault` is set to true, these options will be saved to localStorage
-	 * @param options the updated options
-	 */
-	public setOptions(options: CopyleaksReportOptions) {
-		if (options.setAsDefault) {
-			localStorage.setItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY, JSON.stringify(options));
-		} else {
-			localStorage.removeItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY);
-		}
-
-		this._options.next(options);
-	}
-
-	/**
-	 * Sets whether the download button should be visible or not
-	 * @param visible if `true` share button will be visible
-	 */
-	public setDownload(visible: boolean) {
-		this._download.next(visible);
-	}
-
-	/**
-	 * Sets whether the share button should be visible or not
-	 * @param visible if `true` share button will be visible
-	 */
-	public setShare(visible: boolean) {
-		this._share.next(visible);
 	}
 
 	/**
@@ -305,30 +195,27 @@ export class ReportService implements OnDestroy {
 	}
 
 	/** apply the config */
-	applyConfig(config: CopyleaksReportConfig) {
-		this.setOptions(config.options);
-		this.setShare(config.share);
-		this.setDownload(config.download);
-		this.setContentMode(config.contentMode);
-		this.setViewMode(config.viewMode);
-		config.suspectId && this.setSuspectId(config.suspectId);
-		this._config = config;
+	configure(config: CopyleaksReportConfig) {
+		const currentConfig = this._config.value;
+		if (config.contentMode) {
+			config.contentMode = { ...currentConfig.contentMode, ...coerceOneToOneProp(config.contentMode) };
+		}
+		if (config.page) {
+			config.page = { ...currentConfig.page, ...coerceOneToOneProp(config.page) };
+		}
+		this._config.next({ ...currentConfig, ...(config as InternalCopyleaksReportConfig) });
 	}
+	/**  */
 
 	/** Completes all observables to prevent memory leak */
 	public reset() {
+		this._config && this._config.complete();
 		this._completeResult && this._completeResult.complete();
 		this._source && this._source.complete();
 		this._previews && this._previews.complete();
 		this._results && this._results.complete();
-		this._viewMode && this._viewMode.complete();
-		this._contentMode && this._contentMode.complete();
-		this._suspectId && this._suspectId.complete();
-		this._share && this._share.complete();
-		this._download && this._download.complete();
 		this._progress && this._progress.complete();
 		this._hiddenResults && this._hiddenResults.complete();
-		this._options && this._options.complete();
 		this._downloadClick && this._downloadClick.complete();
 		this._shareClick && this._shareClick.complete();
 	}

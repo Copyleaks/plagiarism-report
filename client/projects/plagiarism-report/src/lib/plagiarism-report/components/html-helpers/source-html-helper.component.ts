@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter, withLatestFrom, map } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchJumpEvent, MatchSelectEvent, MatchType } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
@@ -53,7 +53,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 	 */
 	ngOnInit() {
 		const { source$, viewMode$, suspect$, contentMode$ } = this.reportService;
-		const { suspectHtml$, jump$ } = this.highlightService;
+		const { suspectHtml$, jump$, textMatchClick$ } = this.highlightService;
 		const { sourceHtmlMatches$ } = this.matchService;
 		source$
 			.pipe(
@@ -67,14 +67,34 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content === 'html')
+				filter(([, view, content]) => view === 'one-to-one' && content.source === 'html')
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
+
+		textMatchClick$
+			.pipe(
+				untilDestroy(this),
+				filter(ev => ev.origin === 'suspect' && ev.broadcast),
+				map(ev => ev.elem),
+				withLatestFrom(suspect$, contentMode$),
+				filter(([, , content]) => content.suspect === 'html')
+			)
+			.subscribe(([elem, suspect]) => {
+				if (elem) {
+					const comparison = suspect.result.html.comparison[MatchType[elem.match.type]];
+					const [start] = findRespectiveStart(elem.match.start, comparison, false);
+					const found = this.matches.findIndex(m => m.start === start);
+					this.markSingleMatchInFrame(found);
+				} else {
+					this.markSingleMatchInFrame(-1);
+				}
+			});
 
 		suspectHtml$
 			.pipe(
 				untilDestroy(this),
-				withLatestFrom(suspect$)
+				withLatestFrom(suspect$, contentMode$),
+				filter(([, , content]) => content.suspect === 'html')
 			)
 			.subscribe(([match, suspect]) => {
 				if (match) {

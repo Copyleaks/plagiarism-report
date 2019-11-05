@@ -223,33 +223,33 @@ const extractExcluded = (content: ContentKey) => (source: ScanSource) => {
 	);
 };
 /** A function to extract `identical` matches from the `text` of a `source` document */
-export const extractIdenticalFromSourceText = extractMatches('identical', 'text', 'source');
+export const sourceTextIdentical = extractMatches('identical', 'text', 'source');
 /** A function to extract `relatedMeaning` matches from the `text` of a `source` document */
-export const extractRelatedMeaningFromSourceText = extractMatches('relatedMeaning', 'text', 'source');
+export const sourceTextRelatedMeaning = extractMatches('relatedMeaning', 'text', 'source');
 /** A function to extract `minorChanges` matches from the `text` of a `source` document */
-export const extractMinorChangesFromSourceText = extractMatches('minorChanges', 'text', 'source');
+export const sourceTextMinorChanges = extractMatches('minorChanges', 'text', 'source');
 /** A function to extract `identical` matches from the `html` of a `source` document */
-export const extractIdenticalFromSourceHtml = extractMatches('identical', 'html', 'source');
+export const sourceHtmlIdentical = extractMatches('identical', 'html', 'source');
 /** A function to extract `relatedMeaning` matches from the `html` of a `source` document */
-export const extractRelatedMeaningFromSourceHtml = extractMatches('relatedMeaning', 'html', 'source');
+export const sourceHtmlRelatedMeaning = extractMatches('relatedMeaning', 'html', 'source');
 /** A function to extract `minorChanges` matches from the `html` of a `source` document */
-export const extractMinorChangesFromSourceHtml = extractMatches('minorChanges', 'html', 'source');
+export const sourceHtmlMinorChanges = extractMatches('minorChanges', 'html', 'source');
 /** A function to extract `identical` matches from the `text` of a `suspect` document */
-export const extractIdenticalFromSuspectText = extractMatches('identical', 'text', 'suspected');
+export const suspectTextIdentical = extractMatches('identical', 'text', 'suspected');
 /** A function to extract `relatedMeaning` matches from the `text` of a `suspect` document */
-export const extractRelatedMeaningFromSuspectText = extractMatches('relatedMeaning', 'text', 'suspected');
+export const suspectTextRelatedMeaning = extractMatches('relatedMeaning', 'text', 'suspected');
 /** A function to extract `minorChanges` matches from the `text` of a `suspect` document */
-export const extractMinorChangesFromSuspectText = extractMatches('minorChanges', 'text', 'suspected');
+export const suspectTextMinorChanges = extractMatches('minorChanges', 'text', 'suspected');
 /** A function to extract `identical` matches from the `html` of a `suspect` document */
-export const extractIdenticalFromSuspectHtml = extractMatches('identical', 'html', 'suspected');
+export const suspectHtmlIdentical = extractMatches('identical', 'html', 'suspected');
 /** A function to extract `relatedMeaning` matches from the `html` of a `suspect` document */
-export const extractRelatedMeaningFromSuspectHtml = extractMatches('relatedMeaning', 'html', 'suspected');
+export const suspectHtmlRelatedMeaning = extractMatches('relatedMeaning', 'html', 'suspected');
 /** A function to extract `minorChanges` matches from the `html` of a `suspect` document */
-export const extractMinorChangesFromSuspectHtml = extractMatches('minorChanges', 'html', 'suspected');
+export const suspectHtmlMinorChanges = extractMatches('minorChanges', 'html', 'suspected');
 /** A function to extract `excluded` matches from the `text` of a `source` document */
-export const extractExcludedFromSourceText = extractExcluded('text');
+export const sourceTextExcluded = extractExcluded('text');
 /** A function to extract `excluded` matches from the `html` of a `source` document */
-export const extractExcludedFromSourceHtml = extractExcluded('html');
+export const sourceHtmlExcluded = extractExcluded('html');
 
 /**
  * Locate the respective match start index for a given index in the given comparison.
@@ -274,26 +274,28 @@ export const findRespectiveStart = (index: number, comparison: Comparison, fromS
  * @param results one or more result item on which the calculation will be based on
  * @param settings the current user settings
  * @param source the scan source
+ * @param text `true` if calculation should base on text comparison, `false` for html
  */
 export const processSourceText = (
 	results: ResultItem | ResultItem[],
 	settings: CopyleaksReportOptions,
-	source: ScanSource
+	source: ScanSource,
+	text: boolean = true
 ) => {
-	if (!source || !source.text) {
-		return null;
-	}
+	// if (!source || !source.text) {
+	// 	return null;
+	// }
 	const items = [].concat(results);
 	const identical = settings.showIdentical
-		? items.reduce((acc, res) => acc.concat(extractIdenticalFromSourceText(res)), [])
+		? items.reduce((acc, res) => acc.concat((text ? sourceTextIdentical : sourceHtmlIdentical)(res)), [])
 		: [];
 	const minor = settings.showMinorChanges
-		? items.reduce((acc, res) => acc.concat(extractMinorChangesFromSourceText(res)), [])
+		? items.reduce((acc, res) => acc.concat((text ? sourceTextMinorChanges : sourceHtmlMinorChanges)(res)), [])
 		: [];
 	const related = settings.showRelated
-		? items.reduce((acc, res) => acc.concat(extractRelatedMeaningFromSourceText(res)), [])
+		? items.reduce((acc, res) => acc.concat((text ? sourceTextRelatedMeaning : sourceHtmlRelatedMeaning)(res)), [])
 		: [];
-	const excluded = extractExcludedFromSourceText(source);
+	const excluded = sourceTextExcluded(source);
 	const grouped = mergeMatches([...identical, ...minor, ...related, ...excluded]);
 	const filled = fillMissingGaps(grouped, source.text.value.length);
 	return paginateMatches(source.text.value, source.text.pages.startPosition, filled);
@@ -301,48 +303,45 @@ export const processSourceText = (
 
 /**
  * This function will process one result and generate a list of match intervals that will help
- * highlight the suspect text with respect to user settings and match type priority
+ * highlight the suspect text with respect to user options and match type priority
  * @param suspect the suspect result item
- * @param settings the current user settings
+ * @param options the current user options
+ * @param text `true` if calculation should base on text comparison, `false` for html
  */
-export const processSuspectText = (suspect: ResultItem, settings: CopyleaksReportOptions): SlicedMatch[][] => {
-	if (!suspect) {
-		return null;
-	}
-	const identical = settings.showIdentical ? extractIdenticalFromSuspectText(suspect) : [];
-	const minor = settings.showMinorChanges ? extractMinorChangesFromSuspectText(suspect) : [];
-	const related = settings.showRelated ? extractRelatedMeaningFromSuspectText(suspect) : [];
+export const processSuspectText = (
+	suspect: ResultItem,
+	options: CopyleaksReportOptions,
+	text: boolean = true
+): SlicedMatch[][] => {
+	const identical = options.showIdentical ? (text ? suspectTextIdentical : suspectHtmlIdentical)(suspect) : [];
+	const minor = options.showMinorChanges ? (text ? suspectTextMinorChanges : suspectHtmlMinorChanges)(suspect) : [];
+	const related = options.showRelated ? (text ? suspectTextRelatedMeaning : suspectHtmlRelatedMeaning)(suspect) : [];
 	const grouped = mergeMatches([...identical, ...minor, ...related]);
 	const filled = fillMissingGaps(grouped, suspect.result.text.value.length);
-	return paginateMatches(suspect.result.text.value, suspect.result.text.pages.startPosition, filled);
+	const final = paginateMatches(suspect.result.text.value, suspect.result.text.pages.startPosition, filled);
+	return final;
 };
 
 /**
  * This function will process one or more results and generate a list of match intervals that will help
- * highlight the source html with respect to user settings and match type priority
+ * highlight the source html with respect to user options and match type priority
  * @param results one or more result item on which the calculation will be based on
- * @param settings the current user settings
+ * @param options the current user options
  * @param source the scan source
  */
 export const processSourceHtml = (
 	results: ResultItem | ResultItem[],
-	settings: CopyleaksReportOptions,
+	options: CopyleaksReportOptions,
 	source: ScanSource
 ) => {
 	if (!source || !source.html) {
 		return null;
 	}
 	const items = [].concat(results);
-	const identical = settings.showIdentical
-		? items.reduce((acc, res) => acc.concat(extractIdenticalFromSourceHtml(res)), [])
-		: [];
-	const minor = settings.showMinorChanges
-		? items.reduce((acc, res) => acc.concat(extractMinorChangesFromSourceHtml(res)), [])
-		: [];
-	const related = settings.showRelated
-		? items.reduce((acc, res) => acc.concat(extractRelatedMeaningFromSourceHtml(res)), [])
-		: [];
-	const excluded = extractExcludedFromSourceHtml(source);
+	const identical = options.showIdentical ? items.reduce((acc, res) => acc.concat(sourceHtmlIdentical(res)), []) : [];
+	const minor = options.showMinorChanges ? items.reduce((acc, res) => acc.concat(sourceHtmlMinorChanges(res)), []) : [];
+	const related = options.showRelated ? items.reduce((acc, res) => acc.concat(sourceHtmlRelatedMeaning(res)), []) : [];
+	const excluded = sourceHtmlExcluded(source);
 	const grouped = mergeMatches([...identical, ...minor, ...related, ...excluded]);
 	const final = fillMissingGaps(grouped, source.html.value.length);
 	return final;
@@ -350,17 +349,17 @@ export const processSourceHtml = (
 
 /**
  * This function will process one result and generate a list of match intervals that
- * will help highlight the suspect html with respect to user settings and match type priority
+ * will help highlight the suspect html with respect to user options and match type priority
  * @param suspect the suspect result item
- * @param settings the current user settings
+ * @param options the current user options
  */
-export const processSuspectHtml = (suspect: ResultItem, settings: CopyleaksReportOptions): Match[] => {
+export const processSuspectHtml = (suspect: ResultItem, options: CopyleaksReportOptions): Match[] => {
 	if (!suspect || !suspect.result.html) {
 		return null;
 	}
-	const identical = settings.showIdentical ? extractIdenticalFromSuspectHtml(suspect) : [];
-	const minor = settings.showMinorChanges ? extractMinorChangesFromSuspectHtml(suspect) : [];
-	const related = settings.showRelated ? extractRelatedMeaningFromSuspectHtml(suspect) : [];
+	const identical = options.showIdentical ? suspectHtmlIdentical(suspect) : [];
+	const minor = options.showMinorChanges ? suspectHtmlMinorChanges(suspect) : [];
+	const related = options.showRelated ? suspectHtmlRelatedMeaning(suspect) : [];
 	const grouped = mergeMatches([...identical, ...minor, ...related]);
 	return fillMissingGaps(grouped, suspect.result.html.value.length);
 };

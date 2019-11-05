@@ -109,6 +109,7 @@ function ready() {
 	 * @param event the match select event
 	 */
 	function handleBroadcastMatchSelect(event: MatchSelectEvent) {
+		console.log('handle!');
 		const elem = document.querySelector<HTMLSpanElement>(`span[match][data-index='${event.index}']`);
 		if (!elem && event.index !== -1) {
 			messageParent({ type: 'match-warn' });

@@ -38,7 +38,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	matchItems: QueryList<MatchComponent>;
 	mqPriority: number;
 	viewMode: ViewMode;
-	metadata: CompleteResult;
+	completeResult: CompleteResult;
 	source: ScanSource;
 	contentMode: ContentMode;
 	activeMediaQueries: string[] = [];
@@ -103,7 +103,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * toggles between `text` and `html` content mode
 	 */
 	toggleContent() {
-		this.reportService.setContentMode(this.isHtml ? 'text' : 'html');
+		this.reportService.configure({ contentMode: this.isHtml ? 'text' : 'html' });
 	}
 
 	/**
@@ -129,18 +129,18 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { completeResult$: metadata$, source$, viewMode$, contentMode$ } = this.reportService;
+		const { completeResult$, source$, viewMode$, contentMode$ } = this.reportService;
 		const { originalTextMatches$, sourceTextMatches$, originalHtmlMatches$, sourceHtmlMatches$ } = this.matchService;
 
-		metadata$.pipe(untilDestroy(this)).subscribe(val => (this.metadata = val));
-		source$.pipe(untilDestroy(this)).subscribe(val => (this.source = val));
-		viewMode$.pipe(untilDestroy(this)).subscribe(val => (this.viewMode = val));
-		contentMode$.pipe(untilDestroy(this)).subscribe(val => (this.contentMode = val));
-		originalTextMatches$.pipe(untilDestroy(this)).subscribe(val => (this.originalTextMatches = val));
-		sourceTextMatches$.pipe(untilDestroy(this)).subscribe(val => (this.sourceTextMatches = val));
-		originalHtmlMatches$.pipe(untilDestroy(this)).subscribe(val => (this.originalHtmlMatches = val));
-		sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(val => (this.sourceHtmlMatches = val));
-		this.layoutService.mediaAliases$.pipe(untilDestroy(this)).subscribe(val => (this.activeMediaQueries = val));
+		completeResult$.pipe(untilDestroy(this)).subscribe(completeResult => (this.completeResult = completeResult));
+		source$.pipe(untilDestroy(this)).subscribe(source => (this.source = source));
+		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
+		contentMode$.pipe(untilDestroy(this)).subscribe(content => (this.contentMode = content.source));
+		originalTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.originalTextMatches = matches));
+		sourceTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.sourceTextMatches = matches));
+		originalHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.originalHtmlMatches = matches));
+		sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.sourceHtmlMatches = matches));
+		this.layoutService.mediaAliases$.pipe(untilDestroy(this)).subscribe(queries => (this.activeMediaQueries = queries));
 	}
 
 	/**

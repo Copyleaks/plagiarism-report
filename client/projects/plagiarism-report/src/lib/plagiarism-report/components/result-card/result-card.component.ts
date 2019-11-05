@@ -23,8 +23,7 @@ export class ResultCardComponent implements OnInit {
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
 	 */
 	onTitleClick() {
-		this.reportService.setSuspectId(this.preview.id);
-		this.reportService.setViewMode('one-to-one');
+		this.reportService.configure({ viewMode: 'one-to-one', suspectId: this.preview.id });
 	}
 
 	/**

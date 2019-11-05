@@ -71,7 +71,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * @param changes the changes
 	 */
 	ngOnChanges(changes: SimpleChanges) {
-		this.copyleaksService.setConfig(changes.config.currentValue);
+		this.copyleaksService.setConfig({ ...changes.config.currentValue });
 	}
 	/**
 	 * Life-cycle method

@@ -65,18 +65,25 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content === 'html')
+				filter(([, view, content]) => view === 'one-to-one' && content.suspect === 'html')
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
-		sourceHtml$.pipe(withLatestFrom(suspect$)).subscribe(([match, suspect]) => {
-			if (match && suspect) {
-				const comparison = suspect.result.html.comparison[MatchType[match.type]];
-				const [start] = findRespectiveStart(match.start, comparison, true);
-				const found = this.matches.findIndex(m => m.start === start);
-				this.markSingleMatchInFrame(found);
-			} else {
-				this.markSingleMatchInFrame(-1);
-			}
-		});
+
+		sourceHtml$
+			.pipe(
+				withLatestFrom(suspect$, contentMode$),
+				filter(([, , content]) => content.source === 'html'),
+				filter(([, suspect]) => suspect && !!suspect.result.html.value)
+			)
+			.subscribe(([match, suspect]) => {
+				if (match && suspect) {
+					const comparison = suspect.result.html.comparison[MatchType[match.type]];
+					const [start] = findRespectiveStart(match.start, comparison, true);
+					const found = this.matches.findIndex(m => m.start === start);
+					this.markSingleMatchInFrame(found);
+				} else {
+					this.markSingleMatchInFrame(-1);
+				}
+			});
 	}
 }

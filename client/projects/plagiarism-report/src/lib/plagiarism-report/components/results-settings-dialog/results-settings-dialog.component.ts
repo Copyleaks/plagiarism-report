@@ -16,7 +16,7 @@ export class ResultsSettingsDialogComponent implements OnInit, OnDestroy {
 		@Inject(MAT_DIALOG_DATA) public reportService: ReportService
 	) {}
 
-	public settings: CopyleaksReportOptions;
+	public options: CopyleaksReportOptions;
 	/**
 	 * Closes the dialog while indicating whether to save changes or not.
 	 */
@@ -35,11 +35,11 @@ export class ResultsSettingsDialogComponent implements OnInit, OnDestroy {
 				untilDestroy(this),
 				take(1)
 			)
-			.subscribe(settings => (this.settings = { ...settings }));
+			.subscribe(options => (this.options = { ...options }));
 		this.dialogRef
 			.beforeClosed()
 			.pipe(truthy())
-			.subscribe(() => this.reportService.setOptions(this.settings));
+			.subscribe(() => this.reportService.configure({ options: this.options }));
 	}
 	/**
 	 * Life-cycle method

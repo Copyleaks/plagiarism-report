@@ -67,8 +67,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		const { originalText$, originalHtml$ } = this.highlightService;
 		combineLatest([originalText$, originalHtml$, contentMode$])
 			.pipe(untilDestroy(this))
-			.subscribe(([text, html, mode]) => {
-				this.focusedMatch = mode === 'text' ? text && text.match : html;
+			.subscribe(([text, html, content]) => {
+				this.focusedMatch = content.source === 'text' ? text && text.match : html;
 				this.cd.detectChanges();
 			});
 

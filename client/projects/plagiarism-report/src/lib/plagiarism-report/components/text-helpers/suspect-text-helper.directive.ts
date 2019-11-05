@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { ScanResult } from '../../models';
+import { ScanResult, Match, ContentMode } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import * as helpers from '../../utils/highlight-helpers';
@@ -26,9 +26,9 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * @param elem the broadcasted element
 	 * @param suspect the suspected scan result
 	 */
-	handleBroadcast(elem: MatchComponent, suspect: ScanResult) {
-		const [, start] = helpers.findRespectiveMatch(elem.match, suspect.text.comparison, true);
-		const page = helpers.findRespectivePage(elem.match.start, this.host.pages);
+	handleBroadcast(match: Match, suspect: ScanResult, contentMode: ContentMode) {
+		const [, start] = helpers.findRespectiveMatch(match, suspect[contentMode].comparison, true);
+		const page = helpers.findRespectivePage(start, suspect.text.pages.startPosition);
 		if (page === this.host.currentPage) {
 			const comp = this.children.find(item => item.match.start === start);
 			if (comp === null) {
@@ -52,13 +52,23 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * - listen to text match clicks from `source`
 	 */
 	ngAfterContentInit() {
-		this.highlightService.textMatchClick$
+		const { suspect$, contentMode$ } = this.reportService;
+		const { textMatchClick$, sourceHtml$ } = this.highlightService;
+		textMatchClick$
 			.pipe(
 				untilDestroy(this),
 				filter(ev => ev.origin === 'source' && ev.broadcast),
-				withLatestFrom(this.reportService.suspect$)
+				withLatestFrom(suspect$)
 			)
-			.subscribe(([{ elem }, { result }]) => this.handleBroadcast(elem, result));
+			.subscribe(([{ elem }, { result }]) => this.handleBroadcast(elem.match, result, 'text'));
+
+		sourceHtml$
+			.pipe(
+				withLatestFrom(suspect$, contentMode$),
+				filter(([, , content]) => content.source === 'html'),
+				filter(([, suspect]) => suspect && !suspect.result.html.value)
+			)
+			.subscribe(([match, suspect]) => this.handleBroadcast(match, suspect.result, 'html'));
 	}
 	/**
 	 * Life-cycle method

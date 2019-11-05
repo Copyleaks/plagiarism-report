@@ -9,6 +9,7 @@ import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
 import { MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
+import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-suspect',
@@ -29,14 +30,14 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	public currentPage = 1;
 	public textMatches: SlicedMatch[][];
 	public suspect: ScanResult;
-	public content: ContentMode;
+	public contentMode: ContentMode;
 
 	public get hasHtml(): boolean {
 		return this.suspect && this.suspect.html && !!this.suspect.html.value;
 	}
 
 	public get isHtml(): boolean {
-		return this.content === 'html';
+		return this.contentMode === 'html';
 	}
 
 	get pages(): number[] {
@@ -47,15 +48,14 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * toggles between `text` and `html` content mode
 	 */
 	toggleContent() {
-		this.reportService.setContentMode(this.isHtml ? 'text' : 'html');
+		this.reportService.configure({ contentMode: this.isHtml ? 'text' : 'html' });
 	}
 
 	/**
 	 * exits one-to-one mode and goes to one-to-many mode
 	 */
 	goBack() {
-		this.reportService.setSuspectId(null);
-		this.reportService.setViewMode('one-to-many');
+		this.reportService.configure({ viewMode: 'one-to-many', suspectId: null });
 	}
 
 	/**
@@ -90,7 +90,14 @@ export class SuspectComponent implements OnInit, OnDestroy {
 				truthy()
 			)
 			.subscribe(item => (this.suspect = item.result));
-		contentMode$.pipe(untilDestroy(this)).subscribe(mode => (this.content = mode));
+		contentMode$
+			.pipe(
+				untilDestroy(this),
+				withLatestFrom(suspect$)
+			)
+			.subscribe(
+				([mode, suspect]) => (this.contentMode = mode.suspect === 'html' && suspect.result.html.value ? 'html' : 'text')
+			);
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 		this.matchService.suspectTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.textMatches = matches));
 	}
