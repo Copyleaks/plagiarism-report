@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { asyncScheduler, BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, filter, skip, take, takeUntil, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, skip, take, takeUntil, throttleTime, withLatestFrom, map } from 'rxjs/operators';
 import { CopyleaksReportOptions, Match, ResultItem, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/match-helpers';
 import { truthy } from '../utils/operators';
@@ -40,22 +40,49 @@ export class MatchService implements OnDestroy {
 			.subscribe(params => this.processOneToManyMatches(...params));
 	}
 
-	private get onFirstTextMode$() {
+	private get onSourceFirstTextMode$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			filter(mode => mode === 'text'),
+			filter(content => content.source === 'text'),
 			take(1)
 		);
 	}
 
-	private get onFirstHtmlMode$() {
+	private get onSourceFirstHtmlMode$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			filter(mode => mode === 'html'),
+			filter(content => content.source === 'html'),
 			take(1)
 		);
 	}
-
+	private get onSourceContentModeChange$() {
+		return this.reportService.contentMode$.pipe(
+			untilDestroy(this),
+			map(content => content.source),
+			distinctUntilChanged()
+		);
+	}
+	private get onSuspectContentModeChange$() {
+		return this.reportService.contentMode$.pipe(
+			untilDestroy(this),
+			map(content => content.suspect),
+			distinctUntilChanged()
+		);
+	}
+	private get onSuspectFirstTextMode$() {
+		return this.reportService.contentMode$.pipe(
+			untilDestroy(this),
+			filter(content => content.suspect === 'text'),
+			take(1)
+		);
+	}
+	private get onSuspectFirstHtmlMode$() {
+		return this.reportService.contentMode$.pipe(
+			untilDestroy(this),
+			filter(content => content.suspect === 'html'),
+			take(1)
+		);
+	}
 	private get onSuspectChange$() {
 		return this.reportService.suspect$.pipe(
 			untilDestroy(this),
@@ -124,37 +151,57 @@ export class MatchService implements OnDestroy {
 	 * @param source  the scan source
 	 */
 	private processOneToOneMatches(item: ResultItem, settings: CopyleaksReportOptions, source: ScanSource) {
-		this.onFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
-			setTimeout(() => {
+		if (source.html.value && !item.result.html.value) {
+			// case where source has html but suspect doesnt
+			this.onSourceFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 				const text = helpers.processSourceText(item, settings, source);
-				if (text) {
-					this._sourceTextMatches.next(text);
-				}
+				this._sourceTextMatches.next(text);
 			});
-			setTimeout(() => {
-				const text = helpers.processSuspectText(item, settings);
-				if (text) {
-					this._suspectTextMatches.next(text);
-				}
-			});
-		});
-		this.onFirstHtmlMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
-			setTimeout(() => {
+			this.onSourceFirstHtmlMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 				const html = helpers.processSourceHtml(item, settings, source);
-				if (html) {
-					this._sourceHtmlMatches.next(html);
-				}
+				this._sourceHtmlMatches.next(html);
 			});
-			setTimeout(() => {
-				if (!item.result.html.value) {
-					return;
-				}
+
+			this.onSuspectContentModeChange$.pipe(takeUntil(this.onNewSuspect$)).subscribe(mode => {
+				const text = helpers.processSuspectText(item, settings, mode === 'text');
+				this._suspectTextMatches.next(text);
+			});
+		} else if (!source.html.value && item.result.html.value) {
+			// case where suspect has html but source doesnt
+			this.onSuspectFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
+				const text = helpers.processSuspectText(item, settings);
+				this._suspectTextMatches.next(text);
+			});
+			this.onSuspectFirstHtmlMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 				const html = helpers.processSuspectHtml(item, settings);
-				if (html) {
-					this._suspectHtmlMatches.next(html);
-				}
+				this._suspectHtmlMatches.next(html);
 			});
-		});
+			this.onSourceContentModeChange$.pipe(takeUntil(this.onNewSuspect$)).subscribe(mode => {
+				const text = helpers.processSourceText(item, settings, source, mode === 'text');
+				this._sourceTextMatches.next(text);
+			});
+		} else {
+			this.onSourceFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
+				setTimeout(() => {
+					const text = helpers.processSourceText(item, settings, source);
+					this._sourceTextMatches.next(text);
+				});
+				setTimeout(() => {
+					const text = helpers.processSuspectText(item, settings);
+					this._suspectTextMatches.next(text);
+				});
+			});
+			this.onSourceFirstHtmlMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
+				setTimeout(() => {
+					const html = helpers.processSourceHtml(item, settings, source);
+					this._sourceHtmlMatches.next(html);
+				});
+				setTimeout(() => {
+					const html = helpers.processSuspectHtml(item, settings);
+					this._suspectHtmlMatches.next(html);
+				});
+			});
+		}
 	}
 
 	/**
@@ -165,13 +212,13 @@ export class MatchService implements OnDestroy {
 	 * @param source  the scan source
 	 */
 	private processOneToManyMatches(results: ResultItem[], settings: CopyleaksReportOptions, source: ScanSource) {
-		this.onFirstTextMode$.subscribe(() => {
+		this.onSourceFirstTextMode$.subscribe(() => {
 			const text = helpers.processSourceText(results, settings, source);
 			if (text) {
 				this._originalTextMatches.next(text);
 			}
 		});
-		this.onFirstHtmlMode$.subscribe(() => {
+		this.onSourceFirstHtmlMode$.subscribe(() => {
 			const html = helpers.processSourceHtml(results, settings, source);
 			if (html) {
 				this._originalHtmlMatches.next(html);

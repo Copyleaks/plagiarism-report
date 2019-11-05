@@ -1,8 +1,8 @@
-import { AfterViewChecked, Component, HostListener, OnInit, ViewChildren } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChildren } from '@angular/core';
 import {
 	CopyleaksReportComponent,
-	CopyleaksService,
 	CopyleaksReportConfig,
+	CopyleaksService,
 } from 'projects/plagiarism-report/src/public-api';
 import { forkJoin, from, interval, zip } from 'rxjs';
 import { delay, map, retry, take, takeUntil } from 'rxjs/operators';
@@ -24,20 +24,20 @@ export class AppComponent implements OnInit, AfterViewChecked {
 	config: CopyleaksReportConfig = {
 		share: false,
 		download: false,
-		viewMode: 'one-to-many',
-		contentMode: 'html',
-		//suspectId: '0d580af5ea',
+		viewMode: 'one-to-one',
+		contentMode: 'text',
+		suspectId: '0d580af5ea',
 	};
 
-	@HostListener('dblclick')
-	changeReport() {
-		this.show = false;
-		this.scanIds = this.scanIds.reverse();
-		setTimeout(() => {
-			this.show = true;
-			this.simulateRealtime(this.currentScanId);
-		}, 2000);
-	}
+	// @HostListener('dblclick')
+	// changeReport() {
+	// 	this.show = false;
+	// 	this.scanIds = this.scanIds.reverse();
+	// 	setTimeout(() => {
+	// 		this.show = true;
+	// 		this.simulateRealtime(this.currentScanId);
+	// 	}, 2000);
+	// }
 
 	public get currentScanId() {
 		return this.scanIds[1];
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
 	report: CopyleaksReportComponent;
 
 	ngOnInit() {
-		this.simulateRealtime(this.currentScanId);
+		this.simulateSync(this.currentScanId);
 	}
 
 	ngAfterViewChecked(): void {}

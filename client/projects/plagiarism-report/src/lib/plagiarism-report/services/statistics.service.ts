@@ -1,10 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CompleteResult, ReportStatistics, ResultItem } from '../models';
-import { ReportService } from './report.service';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
+import { CompleteResult, ReportStatistics, ResultItem } from '../models';
 import * as helpers from '../utils/statistics';
+import { ReportService } from './report.service';
 @Injectable()
 export class StatisticsService implements OnDestroy {
 	private _statistics = new BehaviorSubject<ReportStatistics>(undefined);
@@ -12,9 +12,11 @@ export class StatisticsService implements OnDestroy {
 	constructor(reportService: ReportService) {
 		const { completeResult$, results$, filteredResults$, suspectId$, suspect$ } = reportService;
 		const suspectOrResults$ = suspectId$.pipe(switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)));
-		combineLatest([suspectOrResults$, completeResult$, results$])
+		combineLatest([suspectOrResults$, completeResult$, results$, suspectId$])
 			.pipe(untilDestroy(this))
-			.subscribe(([filtered, meta, results]) => this.retreiveStatistics(results, filtered, meta));
+			.subscribe(([filtered, meta, results, suspectId]) =>
+				this.retreiveStatistics(results, filtered, meta, !!suspectId)
+			);
 	}
 
 	public get statistics$() {
@@ -29,7 +31,12 @@ export class StatisticsService implements OnDestroy {
 	 * @param filteredResults the currently visible results
 	 * @param completeResult the complete result
 	 */
-	retreiveStatistics(results: ResultItem[], filteredResults: ResultItem[], completeResult: CompleteResult) {
+	retreiveStatistics(
+		results: ResultItem[],
+		filteredResults: ResultItem[],
+		completeResult: CompleteResult,
+		suspect: boolean
+	) {
 		const { batch, internet, database } = completeResult.results;
 		const totalResults = batch.length + internet.length + database.length;
 		if (results.length < totalResults || totalResults === filteredResults.length) {
@@ -40,7 +47,9 @@ export class StatisticsService implements OnDestroy {
 				omittedWords: completeResult.scannedDocument.totalExcluded,
 				total: completeResult.scannedDocument.totalWords,
 			};
-			this._statistics.next(this.completeResultStats);
+			if (!suspect) {
+				this._statistics.next(this.completeResultStats);
+			}
 		} else {
 			this._statistics.next(helpers.calculateStatistics(completeResult, filteredResults));
 		}

@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { ScanResult } from '../../models';
+import { ContentMode, Match, ScanResult, ScanSource } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import * as helpers from '../../utils/highlight-helpers';
@@ -28,33 +28,42 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * - subscribe to the source text selected match
 	 */
 	ngAfterContentInit() {
-		const { contentMode$, viewMode$ } = this.reportService;
-		const { textMatchClick$, jump$, sourceText$ } = this.highlightService;
+		const { contentMode$, viewMode$, source$, suspect$ } = this.reportService;
+		const { textMatchClick$, jump$, sourceText$, suspectHtml$ } = this.highlightService;
 		sourceText$.pipe(untilDestroy(this)).subscribe(value => (this.current = value));
 		textMatchClick$
 			.pipe(
 				untilDestroy(this),
 				filter(ev => ev.origin === 'suspect' && ev.broadcast),
-				withLatestFrom(this.reportService.suspect$)
+				withLatestFrom(source$, suspect$, contentMode$),
+				filter(([, , , content]) => content.suspect === 'text')
 			)
-			.subscribe(([{ elem }, { result }]) => this.handleBroadcast(elem, result));
+			.subscribe(([{ elem }, source, suspect]) => this.handleBroadcast(elem.match, source, suspect.result, 'text'));
 
 		jump$
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content === 'text')
+				filter(([, view, content]) => view === 'one-to-one' && content.source === 'text')
 			)
 			.subscribe(([forward]) => this.handleJump(forward));
+
+		suspectHtml$
+			.pipe(
+				withLatestFrom(source$, suspect$, contentMode$),
+				filter(([, , , content]) => content.source === 'html'),
+				filter(([, source]) => !source.html || !source.html.value)
+			)
+			.subscribe(([match, source, suspect]) => this.handleBroadcast(match, source, suspect.result, 'html'));
 	}
 	/**
 	 * Handle a match click that was broadcasted by the suspect text helper
 	 * @param elem the broadcasted element
 	 * @param suspect the suspected scan result
 	 */
-	handleBroadcast(elem: MatchComponent, suspect: ScanResult) {
-		const [, start] = helpers.findRespectiveMatch(elem.match, suspect.text.comparison, false);
-		const page = helpers.findRespectivePage(elem.match.start, this.host.pages);
+	handleBroadcast(match: Match, source: ScanSource, suspect: ScanResult, contentMode: ContentMode) {
+		const [, start] = helpers.findRespectiveMatch(match, suspect[contentMode].comparison, false);
+		const page = helpers.findRespectivePage(start, source.text.pages.startPosition);
 		if (page === this.host.currentPage) {
 			const comp = this.children.find(item => item.match.start === start);
 			if (comp === null) {

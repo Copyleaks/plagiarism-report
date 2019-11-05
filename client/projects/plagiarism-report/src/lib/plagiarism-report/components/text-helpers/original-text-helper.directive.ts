@@ -70,7 +70,7 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-many' && content === 'text')
+				filter(([, view, content]) => view === 'one-to-many' && content.source === 'text')
 			)
 			.subscribe(([forward]) => this.handleJump(forward));
 	}

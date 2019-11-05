@@ -65,7 +65,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 			});
 		const onOneToManyHtmlJump$ = combineLatest([jump$, viewMode$, contentMode$]).pipe(
 			untilDestroy(this),
-			filter(([, view, content]) => view === 'one-to-many' && content === 'html'),
+			filter(([, view, content]) => view === 'one-to-many' && content.source === 'html'),
 			map(([forward]) => forward)
 		);
 		onOneToManyHtmlJump$.subscribe(forward => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));

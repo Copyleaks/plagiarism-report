@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { ReportStatistics } from '../../models';
+import { ReportStatistics, ViewMode } from '../../models';
 import { CompleteResult } from '../../models/api-models/CompleteResult';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
@@ -35,6 +35,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	progress?: number = null;
 	previewCount = 0;
 	metadata: CompleteResult;
+	viewMode: ViewMode;
 	identical: number;
 	minor: number;
 	related: number;
@@ -73,12 +74,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { share$, download$, completeResult$, progress$, previews$ } = this.reportService;
+		const { share$, download$, completeResult$, progress$, previews$, viewMode$ } = this.reportService;
 		completeResult$.pipe(untilDestroy(this)).subscribe(meta => (this.metadata = meta));
 		previews$.subscribe(({ length }) => (this.previewCount = length));
 		share$.pipe(untilDestroy(this)).subscribe(share => (this.share = share));
 		download$.pipe(untilDestroy(this)).subscribe(download => (this.download = download));
 		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));
+		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		this.statistics.statistics$
 			.pipe(
 				distinctUntilChanged(),
