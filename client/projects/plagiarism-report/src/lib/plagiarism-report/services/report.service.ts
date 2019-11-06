@@ -122,6 +122,9 @@ export class ReportService implements OnDestroy {
 		const previews = [...internet, ...database, ...batch];
 		previews.sort((a, b) => a.matchedWords - b.matchedWords).forEach(preview => this.addPreview(preview));
 		this._previews.next(previews);
+		if (!completeResult.scannedDocument.creationTime.endsWith('Z')) {
+			completeResult.scannedDocument.creationTime += 'Z';
+		}
 		this._completeResult.next(completeResult);
 	}
 
