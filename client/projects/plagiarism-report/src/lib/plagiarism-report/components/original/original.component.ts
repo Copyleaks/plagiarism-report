@@ -135,7 +135,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		completeResult$.pipe(untilDestroy(this)).subscribe(completeResult => (this.completeResult = completeResult));
 		source$.pipe(untilDestroy(this)).subscribe(source => (this.source = source));
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
-		contentMode$.pipe(untilDestroy(this)).subscribe(content => (this.contentMode = content.source));
+		contentMode$.pipe(untilDestroy(this)).subscribe(content => (this.contentMode = content));
 		originalTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.originalTextMatches = matches));
 		sourceTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.sourceTextMatches = matches));
 		originalHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.originalHtmlMatches = matches));

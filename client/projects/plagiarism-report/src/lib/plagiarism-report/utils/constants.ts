@@ -18,7 +18,7 @@ export const DEFAULT_OPTIONS: CopyleaksReportOptions = {
 };
 /** The default config of the report component. */
 export const DEFAULT_REPORT_CONFIG: InternalCopyleaksReportConfig = {
-	contentMode: { source: 'html', suspect: 'html' },
+	contentMode: 'html',
 	page: { source: 1, suspect: 1 },
 	download: false,
 	options: DEFAULT_OPTIONS,

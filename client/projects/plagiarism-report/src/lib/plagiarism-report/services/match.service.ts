@@ -43,7 +43,7 @@ export class MatchService implements OnDestroy {
 	private get onSourceFirstTextMode$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			filter(content => content.source === 'text'),
+			filter(content => content === 'text'),
 			take(1)
 		);
 	}
@@ -51,35 +51,35 @@ export class MatchService implements OnDestroy {
 	private get onSourceFirstHtmlMode$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			filter(content => content.source === 'html'),
+			filter(content => content === 'html'),
 			take(1)
 		);
 	}
 	private get onSourceContentModeChange$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			map(content => content.source),
+			map(content => content),
 			distinctUntilChanged()
 		);
 	}
 	private get onSuspectContentModeChange$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			map(content => content.suspect),
+			map(content => content),
 			distinctUntilChanged()
 		);
 	}
 	private get onSuspectFirstTextMode$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			filter(content => content.suspect === 'text'),
+			filter(content => content === 'text'),
 			take(1)
 		);
 	}
 	private get onSuspectFirstHtmlMode$() {
 		return this.reportService.contentMode$.pipe(
 			untilDestroy(this),
-			filter(content => content.suspect === 'html'),
+			filter(content => content === 'html'),
 			take(1)
 		);
 	}

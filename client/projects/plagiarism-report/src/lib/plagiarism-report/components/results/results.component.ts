@@ -68,7 +68,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		combineLatest([originalText$, originalHtml$, contentMode$])
 			.pipe(untilDestroy(this))
 			.subscribe(([text, html, content]) => {
-				this.focusedMatch = content.source === 'text' ? text && text.match : html;
+				this.focusedMatch = content === 'text' ? text && text.match : html;
 				this.cd.detectChanges();
 			});
 

@@ -58,7 +58,8 @@ async function downloadResults(metaPath) {
 }
 const args = process.argv.slice(2);
 if (args.length !== 1) {
-	throw new Error("Program should have exactly one argument which is a scan-id");
+	console.error("Error: Download should take exactly one argument which is a scan-id");
+	process.exit(1);
 }
 const completePath = `scans/${args[0]}/complete.json`;
 if (!fs.existsSync(completePath)) {
