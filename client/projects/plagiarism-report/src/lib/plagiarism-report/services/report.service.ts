@@ -5,8 +5,6 @@ import { untilDestroy } from '../../shared/operators/untilDestroy';
 import {
 	CompleteResult,
 	CopyleaksReportConfig,
-	InternalCopyleaksReportConfig,
-	OneToOneProp,
 	ReportDownloadEvent,
 	ReportShareEvent,
 	ResultItem,
@@ -16,15 +14,6 @@ import {
 import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
 import { truthy } from '../utils/operators';
 import { CopyleaksService } from './copyleaks.service';
-
-/** type guard */
-export const isOneToOneProp = <T>(prop: T | OneToOneProp<T>): prop is OneToOneProp<T> => {
-	return prop === null || (prop as OneToOneProp<T>).source !== undefined;
-};
-
-/** convert to one-to-one property */
-export const coerceOneToOneProp = <T>(prop: T | OneToOneProp<T>): OneToOneProp<T> =>
-	isOneToOneProp(prop) ? prop : { source: prop, suspect: prop };
 
 /**
  * Get the user's report options from localstorage
@@ -40,23 +29,31 @@ export class ReportService implements OnDestroy {
 	private _results = new BehaviorSubject<ResultItem[]>([]);
 
 	// * configurable state
-	private _config = new BehaviorSubject<InternalCopyleaksReportConfig>(DEFAULT_REPORT_CONFIG);
+	private _config = new BehaviorSubject<CopyleaksReportConfig>(DEFAULT_REPORT_CONFIG);
 	private _progress = new BehaviorSubject<number>(null);
 	private _hiddenResults = new BehaviorSubject<string[]>([]); // TODO handle localstorage
 
 	// * Event emitters
 	private _downloadClick = new Subject<ReportDownloadEvent>();
 	private _shareClick = new Subject<ReportShareEvent>();
+	private _configChange = new Subject<CopyleaksReportConfig>();
 
 	constructor(private copyleaksService: CopyleaksService) {
-		const { complete$, preview$, progress$, result$, source$, config$ } = copyleaksService;
+		const {
+			onCompleteResult$: complete$,
+			onResultPreview$: preview$,
+			onProgress$: progress$,
+			onResultItem$: result$,
+			onScanSource$: source$,
+			onReportConfig$: config$,
+		} = copyleaksService;
 		complete$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
 		preview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
 		progress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
 		result$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResult(resultItem));
 		source$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
 		config$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
-
+		this.config$.pipe(untilDestroy(this)).subscribe(config => this._configChange.next(config));
 		combineLatest([this.source$, this.completeResult$])
 			.pipe(
 				untilDestroy(this),
@@ -88,8 +85,6 @@ export class ReportService implements OnDestroy {
 	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(
 		switchMap(id => (id ? this.findResultById$(id) : of(null)))
 	);
-	public downloadClick$ = this._downloadClick.asObservable();
-	public shareClick$ = this._shareClick.asObservable();
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
 	public results$ = this._results.asObservable().pipe(debounceTime(3000));
 	public previews$ = this._previews.asObservable();
@@ -99,6 +94,10 @@ export class ReportService implements OnDestroy {
 	public filteredResults$ = combineLatest([this.results$, this.hiddenResults$]).pipe(
 		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
 	);
+
+	public downloadClick$ = this._downloadClick.asObservable();
+	public shareClick$ = this._shareClick.asObservable();
+	public configChange$ = this._configChange.asObservable();
 
 	/**
 	 * Get an observable of some result by id
@@ -198,11 +197,7 @@ export class ReportService implements OnDestroy {
 
 	/** apply the config */
 	configure(config: CopyleaksReportConfig) {
-		const currentConfig = this._config.value;
-		if (config.page) {
-			config.page = { ...currentConfig.page, ...coerceOneToOneProp(config.page) };
-		}
-		this._config.next({ ...currentConfig, ...(config as InternalCopyleaksReportConfig) });
+		this._config.next({ ...this._config.value, ...config });
 	}
 	/**  */
 
@@ -217,6 +212,7 @@ export class ReportService implements OnDestroy {
 		this._hiddenResults && this._hiddenResults.complete();
 		this._downloadClick && this._downloadClick.complete();
 		this._shareClick && this._shareClick.complete();
+		this._configChange && this._configChange.complete();
 	}
 
 	/** dtor */

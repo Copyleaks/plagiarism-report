@@ -43,6 +43,9 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public config: CopyleaksReportConfig;
 
 	@Output()
+	public configChange = new EventEmitter<CopyleaksReportConfig>();
+
+	@Output()
 	public download = new EventEmitter<ReportDownloadEvent>();
 
 	@Output()
@@ -59,12 +62,15 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Initialize the component view mode
 	 */
 	ngOnInit() {
-		const { viewMode$, downloadClick$, shareClick$ } = this.reportService;
+		console.log('init');
+		const { viewMode$, downloadClick$, shareClick$, configChange$ } = this.reportService;
 		viewMode$.pipe(untilDestroy(this)).subscribe(value => (this.view = value));
 		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
 		shareClick$.pipe(untilDestroy(this)).subscribe(data => this.share.emit(data));
+		configChange$.pipe(untilDestroy(this)).subscribe(config => this.configChange.emit(config));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 	}
+
 	/**
 	 * Life-cycle method
 	 * Handles `changes` for input properties
@@ -73,6 +79,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	ngOnChanges(changes: SimpleChanges) {
 		this.copyleaksService.setConfig({ ...changes.config.currentValue });
 	}
+
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator

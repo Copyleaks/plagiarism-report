@@ -11,7 +11,8 @@
 		"scroll-into-view-if-needed": "^2.0.0",
 		"@ncstate/sat-popover": "^4.0.0",
 		"@swimlane/ngx-charts": "^12.0.0",
-		"ngx-skeleton-loader": "^1.2.0"
+		"ngx-skeleton-loader": "^1.2.0",
+		"lodash.isequal":"^4.0.0"
 	},
 	"peerDependencies": {
 		"@angular/common": "^8.0.0",

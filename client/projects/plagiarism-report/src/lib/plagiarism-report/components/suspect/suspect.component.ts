@@ -96,7 +96,8 @@ export class SuspectComponent implements OnInit, OnDestroy {
 				withLatestFrom(suspect$)
 			)
 			.subscribe(
-				([mode, suspect]) => (this.contentMode = mode === 'html' && suspect.result.html.value ? 'html' : 'text')
+				([mode, suspect]) =>
+					(this.contentMode = mode === 'html' && suspect && suspect.result.html.value ? 'html' : 'text')
 			);
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 		this.matchService.suspectTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.textMatches = matches));
