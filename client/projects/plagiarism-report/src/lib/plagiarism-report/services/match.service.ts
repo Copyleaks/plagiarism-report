@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { asyncScheduler, BehaviorSubject } from 'rxjs';
+import { asyncScheduler, BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter, skip, take, takeUntil, throttleTime, withLatestFrom, map } from 'rxjs/operators';
 import { CopyleaksReportOptions, Match, ResultItem, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/match-helpers';
@@ -49,9 +49,10 @@ export class MatchService implements OnDestroy {
 	}
 
 	private get onSourceFirstHtmlMode$() {
-		return this.reportService.contentMode$.pipe(
+		const { contentMode$, source$ } = this.reportService;
+		return combineLatest([contentMode$, source$]).pipe(
 			untilDestroy(this),
-			filter(content => content === 'html'),
+			filter(([content, source]) => content === 'html' && !!source.html.value),
 			take(1)
 		);
 	}
@@ -77,9 +78,10 @@ export class MatchService implements OnDestroy {
 		);
 	}
 	private get onSuspectFirstHtmlMode$() {
-		return this.reportService.contentMode$.pipe(
+		const { contentMode$, suspect$ } = this.reportService;
+		return combineLatest([contentMode$, suspect$]).pipe(
 			untilDestroy(this),
-			filter(content => content === 'html'),
+			filter(([content, suspect]) => content === 'html' && suspect && !!suspect.result.html.value),
 			take(1)
 		);
 	}

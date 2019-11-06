@@ -98,6 +98,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 			)
 			.subscribe(([match, suspect]) => {
 				if (match) {
+					console.log(this);
 					const comparison = suspect.result.html.comparison[MatchType[match.type]];
 					const [start] = findRespectiveStart(match.start, comparison, false);
 					const found = this.matches.findIndex(m => m.start === start);

@@ -31,13 +31,13 @@ export class CopyleaksService {
 	private readonly _config = new Subject<CopyleaksReportConfig>();
 	private readonly _destroy = new Subject();
 
-	public readonly complete$ = this._complete.asObservable();
-	public readonly preview$ = this._preview.asObservable();
-	public readonly source$ = this._source.asObservable();
-	public readonly result$ = this._result.asObservable();
-	public readonly progress$ = this._progress.asObservable();
-	public readonly config$ = this._config.asObservable();
-	public readonly destroy$ = this._destroy.asObservable();
+	public readonly onCompleteResult$ = this._complete.asObservable();
+	public readonly onResultPreview$ = this._preview.asObservable();
+	public readonly onScanSource$ = this._source.asObservable();
+	public readonly onResultItem$ = this._result.asObservable();
+	public readonly onProgress$ = this._progress.asObservable();
+	public readonly onReportConfig$ = this._config.asObservable();
+	public readonly onDestroy$ = this._destroy.asObservable();
 
 	/**
 	 * Insert the completion result of a scan to the report.

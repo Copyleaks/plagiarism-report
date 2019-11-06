@@ -1,4 +1,6 @@
-import { filter, scan } from 'rxjs/operators';
+import { filter, scan, distinctUntilChanged } from 'rxjs/operators';
+import isEqual from 'lodash.isequal';
+
 /**
  * An rxjs operator that filters any value that is evaluated to true.
  */
@@ -18,3 +20,8 @@ export const notEmpty = <T extends { length: number }>() => filter<T>(value => !
  * An rxjs operator that will accumulate items to an array
  */
 export const accumulate = <T>() => scan<T, T[]>((acc: T[], curr: T | T[]) => acc.concat(curr), []);
+
+/**
+ * An rxjs operator that will filter deeply equal sequential items
+ */
+export const distinct = <T>() => distinctUntilChanged<T>(isEqual);

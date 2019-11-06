@@ -4,21 +4,14 @@ export type ViewMode = 'one-to-many' | 'one-to-one';
 export type ContentMode = 'text' | 'html';
 export type DirectionMode = 'rtl' | 'ltr';
 
-export interface OneToOneProp<T> {
-	source?: T;
-	suspect?: T;
-}
-
 export interface CopyleaksReportConfig {
 	contentMode?: ContentMode;
-	page?: number | OneToOneProp<number>;
+	sourcePage?: number;
+	suspectPage?: number;
 	viewMode?: ViewMode;
 	options?: CopyleaksReportOptions;
 	share?: boolean;
 	download?: boolean;
+	scanId?: string;
 	suspectId?: string;
-}
-
-export interface InternalCopyleaksReportConfig extends CopyleaksReportConfig {
-	page: OneToOneProp<number>;
 }
