@@ -29,35 +29,15 @@ export class CopyleaksService {
 	private readonly _result = new Subject<ResultItem>();
 	private readonly _progress = new Subject<number>();
 	private readonly _config = new Subject<CopyleaksReportConfig>();
-
 	private readonly _destroy = new Subject();
-	public get destroy$() {
-		return this._destroy.asObservable();
-	}
 
-	public get complete$() {
-		return this._complete.asObservable();
-	}
-
-	public get preview$() {
-		return this._preview.asObservable();
-	}
-
-	public get source$() {
-		return this._source.asObservable();
-	}
-
-	public get result$() {
-		return this._result.asObservable();
-	}
-
-	public get progress$() {
-		return this._progress.asObservable();
-	}
-
-	public get config$() {
-		return this._config.asObservable();
-	}
+	public readonly complete$ = this._complete.asObservable();
+	public readonly preview$ = this._preview.asObservable();
+	public readonly source$ = this._source.asObservable();
+	public readonly result$ = this._result.asObservable();
+	public readonly progress$ = this._progress.asObservable();
+	public readonly config$ = this._config.asObservable();
+	public readonly destroy$ = this._destroy.asObservable();
 
 	/**
 	 * Insert the completion result of a scan to the report.
@@ -131,7 +111,7 @@ export class CopyleaksService {
 	}
 
 	/**
-	 * TODO
+	 * This method will cause the `destroy$` observable to emit
 	 */
 	notifyDestroy() {
 		this._destroy.next();

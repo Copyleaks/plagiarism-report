@@ -131,10 +131,9 @@ export class ReportService implements OnDestroy {
 	 */
 	public setSource(source: ScanSource) {
 		this._source.next(source);
-		// TODO
 		/** Switch to text in case no html exists */
-		if (source && !source.html.value && this._config.value.contentMode.source === 'html') {
-			this.configure({ contentMode: { source: 'text' } });
+		if (source && !source.html.value && this._config.value.contentMode === 'html') {
+			this.configure({ contentMode: 'text' });
 		}
 	}
 
@@ -197,9 +196,6 @@ export class ReportService implements OnDestroy {
 	/** apply the config */
 	configure(config: CopyleaksReportConfig) {
 		const currentConfig = this._config.value;
-		if (config.contentMode) {
-			config.contentMode = { ...currentConfig.contentMode, ...coerceOneToOneProp(config.contentMode) };
-		}
 		if (config.page) {
 			config.page = { ...currentConfig.page, ...coerceOneToOneProp(config.page) };
 		}

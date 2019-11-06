@@ -10,7 +10,7 @@ export interface OneToOneProp<T> {
 }
 
 export interface CopyleaksReportConfig {
-	contentMode?: ContentMode | OneToOneProp<ContentMode>;
+	contentMode?: ContentMode;
 	page?: number | OneToOneProp<number>;
 	viewMode?: ViewMode;
 	options?: CopyleaksReportOptions;
@@ -20,6 +20,5 @@ export interface CopyleaksReportConfig {
 }
 
 export interface InternalCopyleaksReportConfig extends CopyleaksReportConfig {
-	contentMode: OneToOneProp<ContentMode>;
 	page: OneToOneProp<number>;
 }

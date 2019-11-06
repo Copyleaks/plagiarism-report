@@ -67,7 +67,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content.source === 'html')
+				filter(([, view, content]) => view === 'one-to-one' && content === 'html')
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
 
@@ -77,7 +77,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 				filter(ev => ev.origin === 'suspect' && ev.broadcast),
 				map(ev => ev.elem),
 				withLatestFrom(suspect$, contentMode$),
-				filter(([, , content]) => content.suspect === 'html')
+				filter(([, , content]) => content === 'html')
 			)
 			.subscribe(([elem, suspect]) => {
 				if (elem) {
@@ -94,7 +94,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(suspect$, contentMode$),
-				filter(([, , content]) => content.suspect === 'html')
+				filter(([, , content]) => content === 'html')
 			)
 			.subscribe(([match, suspect]) => {
 				if (match) {

@@ -65,14 +65,14 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content.suspect === 'html')
+				filter(([, view, content]) => view === 'one-to-one' && content === 'html')
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
 
 		sourceHtml$
 			.pipe(
 				withLatestFrom(suspect$, contentMode$),
-				filter(([, , content]) => content.source === 'html'),
+				filter(([, , content]) => content === 'html'),
 				filter(([, suspect]) => suspect && !!suspect.result.html.value)
 			)
 			.subscribe(([match, suspect]) => {

@@ -36,7 +36,7 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 				untilDestroy(this),
 				filter(ev => ev.origin === 'suspect' && ev.broadcast),
 				withLatestFrom(source$, suspect$, contentMode$),
-				filter(([, , , content]) => content.suspect === 'text')
+				filter(([, , , content]) => content === 'text')
 			)
 			.subscribe(([{ elem }, source, suspect]) => this.handleBroadcast(elem.match, source, suspect.result, 'text'));
 
@@ -44,14 +44,14 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content.source === 'text')
+				filter(([, view, content]) => view === 'one-to-one' && content === 'text')
 			)
 			.subscribe(([forward]) => this.handleJump(forward));
 
 		suspectHtml$
 			.pipe(
 				withLatestFrom(source$, suspect$, contentMode$),
-				filter(([, , , content]) => content.source === 'html'),
+				filter(([, , , content]) => content === 'html'),
 				filter(([, source]) => !source.html || !source.html.value)
 			)
 			.subscribe(([match, source, suspect]) => this.handleBroadcast(match, source, suspect.result, 'html'));
