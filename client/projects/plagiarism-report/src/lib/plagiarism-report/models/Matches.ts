@@ -9,8 +9,11 @@ export interface ResultItem {
 	result: ScanResult;
 }
 
+/** Simple range type */
 export interface Range {
+	/** The start of the range */
 	start: number;
+	/** The end of the range */
 	end: number;
 }
 
@@ -19,21 +22,13 @@ export interface Range {
  * @extends Range
  */
 export interface Match extends Range {
-	/**
-	 * The suspicion type associated with this suspected match
-	 */
+	/** The suspicion type associated with this suspected match */
 	type: MatchType;
-	/**
-	 * The scan ids that are associated with this suspected match
-	 */
+	/** The scan ids that are associated with this suspected match */
 	ids?: string[];
-	/**
-	 * associated group id - relevant to **html** content
-	 */
+	/** associated group id - relevant to **html** content */
 	gid?: number;
-	/**
-	 * associated exclude reason - relevant to **excluded** match type
-	 */
+	/** associated exclude reason - relevant to **excluded** match type */
 	reason?: ExcludeReason;
 }
 
@@ -80,7 +75,11 @@ export interface MatchEndpoint extends Endpoint {
 	gid?: number;
 	reason?: ExcludeReason;
 }
+/** possible key options for results origin */
 export type SubjectResultKey = 'source' | 'suspected';
+/** possible key options for results match type */
 export type ComparisonKey = 'identical' | 'minorChanges' | 'relatedMeaning';
+/** possible key options for results content */
 export type ContentKey = 'text' | 'html';
+/** possible key options for results ranges */
 export type MatchUnit = 'chars' | 'words';
