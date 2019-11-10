@@ -3,7 +3,6 @@ export * from './api-models/NewResult';
 export * from './api-models/ScanSource';
 export * from './api-models/ScanResult';
 export * from './CopyleaksReportConfig';
-export * from './ReportEvents';
 export * from './ResultsSettings';
 export * from './Matches';
 export * from './HtmlHelper';
