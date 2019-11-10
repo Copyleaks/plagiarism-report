@@ -28,7 +28,7 @@
 				<mat-icon>more_vert</mat-icon>
 			</button>
 		</cr-panel-action>
-		<cr-panel-action>
+		<cr-panel-action *ngIf="!disableBackButton">
 			<ng-container *ngTemplateOutlet="menu__show_results"></ng-container>
 		</cr-panel-action>
 
@@ -80,7 +80,8 @@
 			<ng-container *ngIf="suspect ;else skeleton__pagination">
 				<cr-mat-pagination *ngIf="!hasHtml || !isHtml"
 													 showFirstLastButtons
-													 [(currentPage)]="currentPage"
+													 [currentPage]="currentPage"
+													 (page)="onPage($event)"
 													 [totalPages]="pages.length"></cr-mat-pagination>
 			</ng-container>
 			<cr-powered-by></cr-powered-by>

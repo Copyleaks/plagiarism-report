@@ -14,14 +14,14 @@
 			 fxLayoutGap.gt-sm="1em">
 
 		<cr-original></cr-original>
-		<cr-suspect [fxShow]="view === 'one-to-one'"> </cr-suspect>
+		<cr-suspect [fxShow]="viewMode === 'one-to-one'"> </cr-suspect>
 
 		<ng-container *ngTemplateOutlet="isMobile ? null:results"></ng-container>
 	</div>
 	<ng-container *ngTemplateOutlet="isMobile ? results:null"></ng-container>
 	<ng-template #results>
 		<cr-results fxFlex.lt-md
-								[fxShow]="view === 'one-to-many'">
+								[fxShow]="viewMode === 'one-to-many'">
 		</cr-results>
 	</ng-template>
 </div>

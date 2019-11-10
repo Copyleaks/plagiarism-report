@@ -10,7 +10,6 @@ import {
 	SimpleChanges,
 } from '@angular/core';
 import { untilDestroy } from '../shared/operators/untilDestroy';
-import { ReportDownloadEvent, ReportShareEvent } from './models';
 import { ViewMode, CopyleaksReportConfig } from './models/CopyleaksReportConfig';
 import { HighlightService } from './services/highlight.service';
 import { LayoutMediaQueryService } from './services/layout-media-query.service';
@@ -29,14 +28,14 @@ import { CopyleaksService } from './services/copyleaks.service';
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	@HostBinding('class.one-to-one') get isOneToOne() {
-		return this.view === 'one-to-one';
+		return this.viewMode === 'one-to-one';
 	}
 	@HostBinding('class.one-to-many') get isOneToMany() {
-		return this.view === 'one-to-many';
+		return this.viewMode === 'one-to-many';
 	}
 
 	public isMobile: boolean;
-	public view: ViewMode;
+	public viewMode: ViewMode;
 	public resultsActive = false;
 
 	@Input()
@@ -46,10 +45,10 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public configChange = new EventEmitter<CopyleaksReportConfig>();
 
 	@Output()
-	public download = new EventEmitter<ReportDownloadEvent>();
+	public download = new EventEmitter<MouseEvent>();
 
 	@Output()
-	public share = new EventEmitter<ReportShareEvent>();
+	public share = new EventEmitter<MouseEvent>();
 
 	constructor(
 		private reportService: ReportService,
@@ -62,9 +61,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Initialize the component view mode
 	 */
 	ngOnInit() {
-		console.log('init');
 		const { viewMode$, downloadClick$, shareClick$, configChange$ } = this.reportService;
-		viewMode$.pipe(untilDestroy(this)).subscribe(value => (this.view = value));
+		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
 		shareClick$.pipe(untilDestroy(this)).subscribe(data => this.share.emit(data));
 		configChange$.pipe(untilDestroy(this)).subscribe(config => this.configChange.emit(config));

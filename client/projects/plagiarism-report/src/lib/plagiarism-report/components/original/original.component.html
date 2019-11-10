@@ -111,9 +111,9 @@
 				 fxLayoutAlign="space-between center">
 
 			<cr-mat-pagination [hidden]="hasHtml && isHtml"
-												 [(currentPage)]="currentPage"
+												 [currentPage]="currentPage"
 												 showFirstLastButtons
-												 (page)="onPage()"
+												 (page)="onPage($event)"
 												 [totalPages]="pages?.length || 1">
 			</cr-mat-pagination>
 
