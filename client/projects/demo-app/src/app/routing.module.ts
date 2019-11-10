@@ -6,16 +6,13 @@ import { ReportComponent } from './report.component';
 /** Routes for router module */
 const routes: Routes = [
 	{
-		path: ':scanId/:suspectId',
-		component: ReportComponent,
-	},
-	{
 		path: ':scanId',
 		component: ReportComponent,
 	},
 	{
 		path: '',
-		component: ReportComponent,
+		pathMatch: 'full',
+		redirectTo: 'martina',
 	},
 ];
 

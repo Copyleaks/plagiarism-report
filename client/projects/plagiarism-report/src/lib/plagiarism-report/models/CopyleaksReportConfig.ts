@@ -12,6 +12,7 @@ export interface CopyleaksReportConfig {
 	options?: CopyleaksReportOptions;
 	share?: boolean;
 	download?: boolean;
+	disableSuspectBackButton?: boolean;
 	scanId?: string;
 	suspectId?: string;
 }

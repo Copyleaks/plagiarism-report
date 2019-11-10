@@ -1,16 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
-import {
-	CompleteResult,
-	CopyleaksReportConfig,
-	ReportDownloadEvent,
-	ReportShareEvent,
-	ResultItem,
-	ResultPreview,
-	ScanSource,
-} from '../models';
+import { CompleteResult, CopyleaksReportConfig, ResultItem, ResultPreview, ScanSource } from '../models';
 import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
 import { truthy } from '../utils/operators';
 import { CopyleaksService } from './copyleaks.service';
@@ -34,8 +26,8 @@ export class ReportService implements OnDestroy {
 	private _hiddenResults = new BehaviorSubject<string[]>([]); // TODO handle localstorage
 
 	// * Event emitters
-	private _downloadClick = new Subject<ReportDownloadEvent>();
-	private _shareClick = new Subject<ReportShareEvent>();
+	private _downloadClick = new Subject<MouseEvent>();
+	private _shareClick = new Subject<MouseEvent>();
 	private _configChange = new Subject<CopyleaksReportConfig>();
 
 	constructor(private copyleaksService: CopyleaksService) {
@@ -82,11 +74,14 @@ export class ReportService implements OnDestroy {
 	public download$ = this.config$.pipe(map(x => x.download));
 	public share$ = this.config$.pipe(map(x => x.share));
 	public options$ = this.config$.pipe(map(x => x.options));
+	public onlyOneToOne$ = this.config$.pipe(map(x => x.disableSuspectBackButton));
+	public sourcePage$ = this.config$.pipe(map(x => x.sourcePage));
+	public suspectPage$ = this.config$.pipe(map(x => x.suspectPage));
 	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(
 		switchMap(id => (id ? this.findResultById$(id) : of(null)))
 	);
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
-	public results$ = this._results.asObservable().pipe(debounceTime(3000));
+	public results$ = this._results.asObservable().pipe();
 	public previews$ = this._previews.asObservable();
 	public filteredPreviews$ = combineLatest([this.previews$, this.hiddenResults$]).pipe(
 		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
@@ -162,7 +157,7 @@ export class ReportService implements OnDestroy {
 	 * Pushes a new `event` to the download-click observer, indicating the download button was clicked
 	 * @param event the download click event
 	 */
-	public downloadBtnClicked(event: ReportDownloadEvent) {
+	public downloadBtnClicked(event: MouseEvent) {
 		this._downloadClick.next(event);
 	}
 
@@ -170,7 +165,7 @@ export class ReportService implements OnDestroy {
 	 * Pushes a new `event` to the share-click observer, indicating the share button was clicked
 	 * @param event the share click event
 	 */
-	public shareBtnClicked(event: ReportShareEvent) {
+	public shareBtnClicked(event: MouseEvent) {
 		this._shareClick.next(event);
 	}
 
@@ -185,6 +180,7 @@ export class ReportService implements OnDestroy {
 	}
 
 	/**
+	 * TODO FIX DOCS
 	 * Pushes a new `result` to the results observer
 	 * @param id the id of the result
 	 * @param result the result
@@ -195,24 +191,26 @@ export class ReportService implements OnDestroy {
 		}
 	}
 
-	/** apply the config */
+	/**
+	 * TODO FIX DOCS
+	 * @param config the config object or part of it
+	 */
 	configure(config: CopyleaksReportConfig) {
 		this._config.next({ ...this._config.value, ...config });
 	}
-	/**  */
 
 	/** Completes all observables to prevent memory leak */
 	public reset() {
-		this._config && this._config.complete();
-		this._completeResult && this._completeResult.complete();
-		this._source && this._source.complete();
-		this._previews && this._previews.complete();
-		this._results && this._results.complete();
-		this._progress && this._progress.complete();
-		this._hiddenResults && this._hiddenResults.complete();
-		this._downloadClick && this._downloadClick.complete();
-		this._shareClick && this._shareClick.complete();
-		this._configChange && this._configChange.complete();
+		this._config.complete();
+		this._completeResult.complete();
+		this._source.complete();
+		this._previews.complete();
+		this._results.complete();
+		this._progress.complete();
+		this._hiddenResults.complete();
+		this._downloadClick.complete();
+		this._shareClick.complete();
+		this._configChange.complete();
 	}
 
 	/** dtor */

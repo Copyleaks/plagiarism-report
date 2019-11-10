@@ -10,6 +10,7 @@ import { fadeIn } from '../../utils/animations';
 import { MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
 import { withLatestFrom } from 'rxjs/operators';
+import { PageChangeEvent } from '../../../mat-pagination/mat-pagination.component';
 
 @Component({
 	selector: 'cr-suspect',
@@ -31,7 +32,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	public textMatches: SlicedMatch[][];
 	public suspect: ScanResult;
 	public contentMode: ContentMode;
-
+	public disableBackButton = true;
 	public get hasHtml(): boolean {
 		return this.suspect && this.suspect.html && !!this.suspect.html.value;
 	}
@@ -74,6 +75,10 @@ export class SuspectComponent implements OnInit, OnDestroy {
 		this.zoom = Math.min(this.zoom + amount, MAX_TEXT_ZOOM);
 	}
 
+	/** TODO DOC */
+	onPage(event: PageChangeEvent) {
+		this.reportService.configure({ suspectPage: event.currentPage });
+	}
 	/**
 	 * life-cycle method
 	 * Subscribe to:
@@ -83,13 +88,16 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * - mobile layout changes
 	 */
 	ngOnInit() {
-		const { suspect$, contentMode$ } = this.reportService;
+		const { suspect$, contentMode$, suspectPage$, onlyOneToOne$ } = this.reportService;
 		suspect$
 			.pipe(
 				untilDestroy(this),
 				truthy()
 			)
-			.subscribe(item => (this.suspect = item.result));
+			.subscribe(item => {
+				this.suspect = item.result;
+				suspectPage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = page));
+			});
 		contentMode$
 			.pipe(
 				untilDestroy(this),
@@ -99,6 +107,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 				([mode, suspect]) =>
 					(this.contentMode = mode === 'html' && suspect && suspect.result.html.value ? 'html' : 'text')
 			);
+		onlyOneToOne$.pipe(untilDestroy(this)).subscribe(disable => (this.disableBackButton = disable));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 		this.matchService.suspectTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.textMatches = matches));
 	}

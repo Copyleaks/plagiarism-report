@@ -19,12 +19,14 @@ export const DEFAULT_OPTIONS: CopyleaksReportOptions = {
 /** The default config of the report component. */
 export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
 	contentMode: 'html',
-	sourcePage: 1,
-	suspectPage: 1,
 	download: false,
+	disableSuspectBackButton: false,
 	options: DEFAULT_OPTIONS,
+	scanId: null,
 	share: false,
+	sourcePage: 1,
 	suspectId: null,
+	suspectPage: 1,
 	viewMode: 'one-to-many',
 };
 
@@ -40,7 +42,7 @@ export const MIN_TEXT_ZOOM = 0.5;
 /** User messages for text exclusion cases */
 
 export const EXCLUDE_MESSAGE = {
-	1: 'Quotation are omitted according to your settings',
+	1: 'Quotations are omitted according to your settings',
 	2: 'References are omitted according to your settings',
 	5: 'HTML templates are omitted according to your settings',
 	6: 'Tables of content are omitted according to your settings',

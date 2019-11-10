@@ -1,4 +1,5 @@
 import { Component, ContentChildren, OnDestroy, OnInit, QueryList } from '@angular/core';
+import { PageChangeEvent } from '../../../mat-pagination/mat-pagination.component';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { logoSvg } from '../../assets/images';
 import { CompleteResult, ExcludeReason, Match, MatchType, ScanSource, SlicedMatch } from '../../models';
@@ -117,7 +118,8 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	/**
 	 * executes when a `MatPaginationComponent` emits the page event
 	 */
-	onPage() {
+	onPage(event: PageChangeEvent) {
+		this.reportService.configure({ sourcePage: event.currentPage });
 		this.highlightService.clear();
 	}
 	/**
@@ -129,11 +131,14 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { completeResult$, source$, viewMode$, contentMode$ } = this.reportService;
+		const { completeResult$, source$, viewMode$, contentMode$, sourcePage$ } = this.reportService;
 		const { originalTextMatches$, sourceTextMatches$, originalHtmlMatches$, sourceHtmlMatches$ } = this.matchService;
-
 		completeResult$.pipe(untilDestroy(this)).subscribe(completeResult => (this.completeResult = completeResult));
-		source$.pipe(untilDestroy(this)).subscribe(source => (this.source = source));
+		source$.pipe(untilDestroy(this)).subscribe(source => {
+			this.source = source;
+			sourcePage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = page));
+		});
+
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		contentMode$.pipe(untilDestroy(this)).subscribe(content => (this.contentMode = content));
 		originalTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.originalTextMatches = matches));

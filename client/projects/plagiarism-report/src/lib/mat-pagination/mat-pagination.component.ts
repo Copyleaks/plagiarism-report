@@ -14,6 +14,7 @@ export interface PageChangeEvent {
 	encapsulation: ViewEncapsulation.None,
 })
 export class MatPaginationComponent {
+	constructor() {}
 	@Input() totalPages = 1;
 
 	@Output() page = new EventEmitter<PageChangeEvent>();

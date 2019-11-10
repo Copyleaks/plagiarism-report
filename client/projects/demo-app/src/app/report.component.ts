@@ -1,20 +1,22 @@
-import { Component, ViewChildren } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-	CopyleaksService,
 	CopyleaksReportComponent,
 	CopyleaksReportConfig,
+	CopyleaksService,
 } from 'projects/plagiarism-report/src/public-api';
+import { forkJoin, from, interval, zip } from 'rxjs';
+import { delay, map, retry, take, takeUntil } from 'rxjs/operators';
 import { ResultsService } from './results.service';
-import { takeUntil, retry, take, map, delay } from 'rxjs/operators';
-
-import { zip, from, interval, forkJoin } from 'rxjs';
-import { Location } from '@angular/common';
 
 @Component({
 	selector: 'app-report',
 	template: `
-		<cr-copyleaks-report [config]="config" (configChange)="onConfigChange($event)"></cr-copyleaks-report>
+		<cr-copyleaks-report
+			[config]="config"
+			(download)="log($event)"
+			(configChange)="onConfigChange($event)"
+		></cr-copyleaks-report>
 	`,
 	styles: [
 		`
@@ -29,62 +31,81 @@ import { Location } from '@angular/common';
 		`,
 	],
 })
-export class ReportComponent {
+/**
+ * TODO FIX DOCS
+ */
+export class ReportComponent implements OnInit {
 	constructor(
-		private location: Location,
-		private route: ActivatedRoute,
-		private service: CopyleaksService,
-		private results: ResultsService
-	) {
-		this.route.params.subscribe(({ scanId, suspectId }) => {
-			console.log('hey');
-			if (suspectId) {
-				this.config.viewMode = 'one-to-one';
-				this.config.suspectId = suspectId;
-			}
-			if (scanId) {
-				this.config.scanId = scanId;
-				this.simulateSync(scanId);
-			}
-		});
-	}
+		private router: Router,
+		private activatedRoute: ActivatedRoute,
+		private copyleaksService: CopyleaksService,
+		private resultsService: ResultsService,
+		private cd: ChangeDetectorRef
+	) {}
 
+	log = console.log;
 	@ViewChildren(CopyleaksReportComponent)
 	report: CopyleaksReportComponent;
 
 	config: CopyleaksReportConfig = {
-		share: false,
-		download: false,
+		share: true,
+		download: true,
+		disableSuspectBackButton: false,
 		contentMode: 'text',
 	};
 
-	/** on config change handler */
+	/**
+	 * on config change handler
+	 */
 	onConfigChange(config: CopyleaksReportConfig) {
-		if (this.config.suspectId !== config.suspectId) {
-			this.location.go(`${config.scanId}/${config.suspectId || ''}`);
+		console.log(config);
+		this.router.navigate([], {
+			queryParams: {
+				suspectId: config.suspectId,
+				sourcePage: config.sourcePage,
+				suspectPage: config.suspectPage,
+				contentMode: config.contentMode,
+				viewMode: config.viewMode,
+			},
+		});
+	}
+
+	ngOnInit() {
+		const config = {} as any;
+		for (const key in this.activatedRoute.snapshot.queryParams) {
+			config[key] = this.activatedRoute.snapshot.queryParams[key];
 		}
+		if (this.activatedRoute.snapshot.params.scanId) {
+			config.scanId = this.activatedRoute.snapshot.params.scanId;
+		}
+		if (this.activatedRoute.snapshot.queryParams.suspectId) {
+			config.viewMode = 'one-to-one';
+		}
+		this.config = { ...this.config, ...config };
+		this.cd.detectChanges();
+		this.simulateSync(config.scanId);
 	}
 	/** simulate a real time feed of scan results for a given scan id */
 	simulateRealtime(scanId: string) {
-		const { onDestroy$: destroy$ } = this.service;
-		this.results
+		const { onDestroy$: destroy$ } = this.copyleaksService;
+		this.resultsService
 			.downloadedSource(scanId)
 			.pipe(
 				takeUntil(destroy$),
 				retry(3)
 			)
-			.subscribe(source => this.service.pushDownloadedSource(source));
+			.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 
-		this.results
+		this.resultsService
 			.completeResult(scanId)
 			.pipe(
 				takeUntil(destroy$),
 				delay(5000),
 				retry(3)
 			)
-			.subscribe(result => this.service.pushCompletedResult(result));
+			.subscribe(result => this.copyleaksService.pushCompletedResult(result));
 
-		this.results
+		this.resultsService
 			.completeResult(scanId)
 			.pipe(takeUntil(destroy$))
 			.subscribe(({ results }) => {
@@ -94,11 +115,11 @@ export class ReportComponent {
 						take(results.internet.length)
 					)
 					.subscribe(([item]) => {
-						this.service.pushNewResult({ internet: [item], database: [], batch: [] });
-						this.results
+						this.copyleaksService.pushNewResult({ internet: [item], database: [], batch: [] });
+						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.service.pushScanResult(item.id, data));
+							.subscribe(data => this.copyleaksService.pushScanResult(item.id, data));
 					});
 
 				zip(from(results.database), interval(500))
@@ -107,11 +128,11 @@ export class ReportComponent {
 						take(results.database.length)
 					)
 					.subscribe(([item]) => {
-						this.service.pushNewResult({ internet: [], database: [item], batch: [] });
-						this.results
+						this.copyleaksService.pushNewResult({ internet: [], database: [item], batch: [] });
+						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.service.pushScanResult(item.id, data));
+							.subscribe(data => this.copyleaksService.pushScanResult(item.id, data));
 					});
 
 				zip(from(results.batch), interval(500))
@@ -120,11 +141,11 @@ export class ReportComponent {
 						take(results.batch.length)
 					)
 					.subscribe(([item]) => {
-						this.service.pushNewResult({ internet: [], database: [], batch: [item] });
-						this.results
+						this.copyleaksService.pushNewResult({ internet: [], database: [], batch: [item] });
+						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.service.pushScanResult(item.id, data));
+							.subscribe(data => this.copyleaksService.pushScanResult(item.id, data));
 					});
 			});
 	}
@@ -136,24 +157,24 @@ export class ReportComponent {
 	 * - tell service youre done
 	 */
 	simulateSync(scanId: string) {
-		const { onDestroy$: destroy$ } = this.service;
-		const completeResult$ = this.results.completeResult(scanId).pipe(
+		const { onDestroy$: destroy$ } = this.copyleaksService;
+		const completeResult$ = this.resultsService.completeResult(scanId).pipe(
 			takeUntil(destroy$),
 			retry(3)
 		);
-		const downloadedSource$ = this.results.downloadedSource(scanId).pipe(
+		const downloadedSource$ = this.resultsService.downloadedSource(scanId).pipe(
 			takeUntil(destroy$),
 			retry(3)
 		);
-		downloadedSource$.subscribe(source => this.service.pushDownloadedSource(source));
+		downloadedSource$.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 		completeResult$.subscribe(meta => {
-			this.service.pushCompletedResult(meta);
+			this.copyleaksService.pushCompletedResult(meta);
 			const { internet, database, batch } = meta.results;
 			const requests = [...internet, ...database, ...batch].map(item =>
-				this.results.newResult(meta.scannedDocument.scanId, item.id).pipe(
+				this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 					takeUntil(destroy$),
 					retry(5),
-					map(result => this.service.pushScanResult(item.id, result))
+					map(result => this.copyleaksService.pushScanResult(item.id, result))
 				)
 			);
 			forkJoin(requests).subscribe();

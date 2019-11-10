@@ -16,52 +16,54 @@ import { truthy } from '../../utils/operators';
 	animations: [fadeIn],
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
-	constructor(
-		private reportService: ReportService,
-		private layoutService: LayoutMediaQueryService,
-		private statistics: StatisticsService
-	) {}
-	get done() {
-		return this.progress === 100;
-	}
-	get total(): number {
-		return this.metadata.scannedDocument.totalWords;
-	}
-
 	@HostBinding('class.mobile') isMobile: boolean;
 
 	public stats: ReportStatistics;
-
-	progress?: number = null;
-	previewCount = 0;
-	metadata: CompleteResult;
-	viewMode: ViewMode;
-	identical: number;
-	minor: number;
-	related: number;
-	customColors = [
+	public progress?: number = null;
+	public share: boolean;
+	public download: boolean;
+	public previewCount = 0;
+	public metadata: CompleteResult;
+	public viewMode: ViewMode;
+	public identical: number;
+	public minor: number;
+	public related: number;
+	public customColors = [
 		{ name: 'identical', value: '#ff6666' },
 		{ name: 'minor changes', value: '#ff9a9a' },
 		{ name: 'related meaning', value: '#ffd9b0' },
 		{ name: 'original', value: '#f7f7f7' },
 	];
+	public chartData = [];
 
-	chartData = [];
-	public share: boolean;
-	public download: boolean;
+	constructor(
+		private reportService: ReportService,
+		private layoutService: LayoutMediaQueryService,
+		private statistics: StatisticsService
+	) {}
 
-	/**
-	 * Download button click handler
-	 */
-	downloadClicked() {
-		this.reportService.downloadBtnClicked({});
+	get done() {
+		return this.progress === 100;
+	}
+
+	get total(): number {
+		return this.metadata.scannedDocument.totalWords;
 	}
 
 	/**
+	 * TODO FIX DOCS
+	 * Download button click handler
+	 */
+	downloadClicked(event: MouseEvent) {
+		this.reportService.downloadBtnClicked(event);
+	}
+
+	/**
+	 * TODO FIX DOCS
 	 * Share button click handler
 	 */
-	shareClicked() {
-		this.reportService.shareBtnClicked({});
+	shareClicked(event: MouseEvent) {
+		this.reportService.shareBtnClicked(event);
 	}
 
 	/**

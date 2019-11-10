@@ -4,14 +4,14 @@
 		<cr-expansion-panel-menu-item *ngIf="share">
 			<button mat-button
 							matTooltip="Share"
-							(click)="shareClicked()">
+							(click)="shareClicked($event)">
 				<mat-icon>share</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="download">
 			<button mat-button
 							matTooltip="Download"
-							(click)="downloadClicked()">
+							(click)="downloadClicked($event)">
 				<mat-icon>save_alt</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
@@ -31,8 +31,13 @@
 				<div fxLayout="row nowrap"
 						 fxLayoutAlign="center center"
 						 fxLayoutGap="1em">
-					<mat-spinner *ngIf="!done"
-											 [diameter]="40"></mat-spinner>
+					<div fxLayout="row nowrap"
+							 fxLayoutAlign="center center">
+						<label>&zwnj;</label>
+						<mat-spinner *ngIf="!done"
+												 [diameter]="40"></mat-spinner>
+					</div>
+
 					<label>
 						<ng-container *ngIf="!done && progress !== null">
 
