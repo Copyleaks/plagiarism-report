@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take, skip } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { CompleteResult, CopyleaksReportConfig, ResultItem, ResultPreview, ScanSource } from '../models';
 import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
@@ -8,10 +8,8 @@ import { truthy } from '../utils/operators';
 import { CopyleaksService } from './copyleaks.service';
 
 /**
- * Get the user's report options from localstorage
+ * @todo implement saving options localstorage
  */
-// const settingsFromLocalStorage = JSON.parse(localStorage.getItem(REPORT_SERVICE_CONSTANTS.RESULTS_SETTINGS_KEY));
-
 @Injectable()
 export class ReportService implements OnDestroy {
 	// * scans API items
@@ -23,7 +21,7 @@ export class ReportService implements OnDestroy {
 	// * configurable state
 	private _config = new BehaviorSubject<CopyleaksReportConfig>(DEFAULT_REPORT_CONFIG);
 	private _progress = new BehaviorSubject<number>(null);
-	private _hiddenResults = new BehaviorSubject<string[]>([]); // TODO handle localstorage
+	private _hiddenResults = new BehaviorSubject<string[]>([]);
 
 	// * Event emitters
 	private _downloadClick = new Subject<MouseEvent>();
@@ -81,8 +79,8 @@ export class ReportService implements OnDestroy {
 		switchMap(id => (id ? this.findResultById$(id) : of(null)))
 	);
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
-	public results$ = this._results.asObservable().pipe();
-	public previews$ = this._previews.asObservable();
+	public results$ = this._results.asObservable();
+	public previews$ = this._previews.asObservable().pipe(skip(1));
 	public filteredPreviews$ = combineLatest([this.previews$, this.hiddenResults$]).pipe(
 		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
 	);
@@ -180,10 +178,8 @@ export class ReportService implements OnDestroy {
 	}
 
 	/**
-	 * TODO FIX DOCS
 	 * Pushes a new `result` to the results observer
-	 * @param id the id of the result
-	 * @param result the result
+	 * @param resultItem an object containing an id and a result
 	 */
 	public addDownloadedResult(resultItem: ResultItem) {
 		if (!this._results.value.find(r => r.id === resultItem.id)) {
@@ -192,15 +188,15 @@ export class ReportService implements OnDestroy {
 	}
 
 	/**
-	 * TODO FIX DOCS
-	 * @param config the config object or part of it
+	 * Edit the current state of the report using either a full or partial configuration object
+	 * @param config the configuration object
 	 */
 	configure(config: CopyleaksReportConfig) {
 		this._config.next({ ...this._config.value, ...config });
 	}
 
-	/** Completes all observables to prevent memory leak */
-	public reset() {
+	/** Completes all subjects to prevent memory leak */
+	public cleanup() {
 		this._config.complete();
 		this._completeResult.complete();
 		this._source.complete();
@@ -213,9 +209,9 @@ export class ReportService implements OnDestroy {
 		this._configChange.complete();
 	}
 
-	/** dtor */
+	/** Clean all subjects and notify that the report has been destroyed */
 	ngOnDestroy() {
-		this.reset();
+		this.cleanup();
 		this.copyleaksService.notifyDestroy();
 	}
 }

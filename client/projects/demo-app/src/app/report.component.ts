@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { ChangeDetectorRef, Component, OnInit, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -15,6 +16,7 @@ import { ResultsService } from './results.service';
 		<cr-copyleaks-report
 			[config]="config"
 			(download)="log($event)"
+			(share)="log($event)"
 			(configChange)="onConfigChange($event)"
 		></cr-copyleaks-report>
 	`,
@@ -31,9 +33,6 @@ import { ResultsService } from './results.service';
 		`,
 	],
 })
-/**
- * TODO FIX DOCS
- */
 export class ReportComponent implements OnInit {
 	constructor(
 		private router: Router,
@@ -44,6 +43,7 @@ export class ReportComponent implements OnInit {
 	) {}
 
 	log = console.log;
+
 	@ViewChildren(CopyleaksReportComponent)
 	report: CopyleaksReportComponent;
 
@@ -54,9 +54,6 @@ export class ReportComponent implements OnInit {
 		contentMode: 'text',
 	};
 
-	/**
-	 * on config change handler
-	 */
 	onConfigChange(config: CopyleaksReportConfig) {
 		console.log(config);
 		this.router.navigate([], {
@@ -83,15 +80,19 @@ export class ReportComponent implements OnInit {
 		}
 		this.config = { ...this.config, ...config };
 		this.cd.detectChanges();
-		this.simulateSync(config.scanId);
+		this.simulateRealtime(config.scanId);
 	}
-	/** simulate a real time feed of scan results for a given scan id */
+
+	/**
+	 * simulate a real time feed of scan results for a given scan id
+	 */
 	simulateRealtime(scanId: string) {
 		const { onDestroy$: destroy$ } = this.copyleaksService;
 		this.resultsService
 			.downloadedSource(scanId)
 			.pipe(
 				takeUntil(destroy$),
+				delay(5000),
 				retry(3)
 			)
 			.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
@@ -107,7 +108,10 @@ export class ReportComponent implements OnInit {
 
 		this.resultsService
 			.completeResult(scanId)
-			.pipe(takeUntil(destroy$))
+			.pipe(
+				takeUntil(destroy$),
+				delay(5000)
+			)
 			.subscribe(({ results }) => {
 				zip(from(results.internet), interval(500))
 					.pipe(

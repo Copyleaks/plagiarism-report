@@ -75,7 +75,11 @@ export class SuspectComponent implements OnInit, OnDestroy {
 		this.zoom = Math.min(this.zoom + amount, MAX_TEXT_ZOOM);
 	}
 
-	/** TODO DOC */
+	/**
+	 * Handle a page event from `cr-mat-paginator` component
+	 * Pass the `PageChangeEvent` to `ReportService`
+	 * @param event the page event containing page data
+	 */
 	onPage(event: PageChangeEvent) {
 		this.reportService.configure({ suspectPage: event.currentPage });
 	}

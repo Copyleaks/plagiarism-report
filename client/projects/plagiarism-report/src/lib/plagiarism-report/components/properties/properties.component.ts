@@ -51,16 +51,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * TODO FIX DOCS
 	 * Download button click handler
+	 * Pass the click event to `ReportService`
 	 */
 	downloadClicked(event: MouseEvent) {
 		this.reportService.downloadBtnClicked(event);
 	}
 
 	/**
-	 * TODO FIX DOCS
 	 * Share button click handler
+	 * Pass the click event to `ReportService`
 	 */
 	shareClicked(event: MouseEvent) {
 		this.reportService.shareBtnClicked(event);
