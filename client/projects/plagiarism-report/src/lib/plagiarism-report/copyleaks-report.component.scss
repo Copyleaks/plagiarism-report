@@ -9,9 +9,16 @@
 
 }
 
+[vertical-spacer] {
+  min-width: 1em;
+}
+
+[horizontal-spacer] {
+  min-height: 1em;
+}
 
 [wrapper] {
-  flex: 1;
+
   display: flex;
   flex-flow: column nowrap;
   max-height: 100%;
@@ -19,8 +26,8 @@
   min-width: 320px;
   min-height: 480px;
   position: relative;
-  overflow: hidden;
-  place-content: center center;
+  overflow-y: auto;
+  place-content: center start;
 }
 
 [properties-wrapper] {
@@ -33,7 +40,7 @@
 }
 
 [main-wrapper] {
-  flex: 1;
+  flex: 1 0 100%;
   overflow: auto;
 
   @include lt-md {
@@ -44,9 +51,7 @@
 
 }
 
-cr-properties {
-  flex: 1;
-}
+
 
 cr-original {
   flex: 1;

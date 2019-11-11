@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { asyncScheduler, BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, filter, skip, take, takeUntil, throttleTime, withLatestFrom, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, skip, take, takeUntil, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { CopyleaksReportOptions, Match, ResultItem, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/match-helpers';
 import { truthy } from '../utils/operators';
 import { ReportService } from './report.service';
-import { untilDestroy } from '../../shared/operators/untilDestroy';
 
 /**
  * Service that calculates the matches highlight positions with respect to the view and content mode.
@@ -31,13 +31,16 @@ export class MatchService implements OnDestroy {
 			.subscribe(params => this.processOneToOneMatches(...params));
 
 		// listen to changes in settings and filtered results
-		filteredResults$
+		const throttledResults$ = filteredResults$.pipe(
+			untilDestroy(this),
+			throttleTime(5000, asyncScheduler, { leading: true, trailing: true })
+		);
+		combineLatest([throttledResults$, options$, source$])
 			.pipe(
 				untilDestroy(this),
-				throttleTime(5000, asyncScheduler, { leading: false, trailing: true }),
-				withLatestFrom(options$, source$)
+				throttleTime(100, asyncScheduler, { leading: false, trailing: true })
 			)
-			.subscribe(params => this.processOneToManyMatches(...params));
+			.subscribe(([results, options, source]) => this.processOneToManyMatches(results, options, source));
 	}
 
 	private get onSourceFirstTextMode$() {

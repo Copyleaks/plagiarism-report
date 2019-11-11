@@ -2,6 +2,7 @@
 
 :host {
   background-color: $background-color;
+  overflow: hidden;
 }
 
 
@@ -13,6 +14,7 @@ cr-panel {
 
 cr-result-card {
   margin: 1em;
+
 }
 
 cr-panel-body {

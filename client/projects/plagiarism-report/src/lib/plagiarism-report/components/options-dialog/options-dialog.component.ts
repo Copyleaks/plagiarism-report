@@ -5,14 +5,15 @@ import { CopyleaksReportOptions } from '../../models/ResultsSettings';
 import { ReportService } from '../../services/report.service';
 import { truthy } from '../../utils/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
+
 @Component({
-	selector: 'cr-results-settings-dialog',
-	templateUrl: './results-settings-dialog.component.html',
-	styleUrls: ['./results-settings-dialog.component.scss'],
+	selector: 'cr-options-dialog',
+	templateUrl: './options-dialog.component.html',
+	styleUrls: ['./options-dialog.component.scss'],
 })
-export class ResultsSettingsDialogComponent implements OnInit, OnDestroy {
+export class OptionsDialogComponent implements OnInit, OnDestroy {
 	constructor(
-		private dialogRef: MatDialogRef<ResultsSettingsDialogComponent>,
+		private dialogRef: MatDialogRef<OptionsDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public reportService: ReportService
 	) {}
 

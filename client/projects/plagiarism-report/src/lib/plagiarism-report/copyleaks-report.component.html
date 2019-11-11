@@ -1,19 +1,22 @@
 <div wrapper>
-	<div properties-wrapper
+	<!-- <div properties-wrapper
 			 fxLayout="row"
 			 fxLayoutAlign="start stretch"
 			 fxLayoutGap="1em">
 		<cr-properties></cr-properties>
-	</div>
+	</div> -->
+	<cr-properties></cr-properties>
+	<div horizontal-spacer></div>
 	<div main-wrapper
 			 matchMarker
 			 fxLayout="row nowrap"
 			 fxLayout.lt-md="column nowrap"
 			 fxLayoutAlign="start stretch"
-			 fxLayoutGap.lt-md="-1px"
-			 fxLayoutGap.gt-sm="1em">
+			 fxLayoutGap.lt-md="-1px">
 
 		<cr-original></cr-original>
+		<div vertical-spacer></div>
+
 		<cr-suspect [fxShow]="viewMode === 'one-to-one'"> </cr-suspect>
 
 		<ng-container *ngTemplateOutlet="isMobile ? null:results"></ng-container>

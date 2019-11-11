@@ -6,6 +6,7 @@ import {
 	MatchType,
 	CompleteResult,
 	ReportStatistics,
+	CopyleaksReportOptions,
 } from '../models';
 
 /**
@@ -137,11 +138,19 @@ export const mergeWords = (matches: Match[]): Match[] => {
  * @param completeResult the report's complete result
  * @param results the results to calculate statistics from
  */
-export const calculateStatistics = (completeResult: CompleteResult, results: ResultItem[]): ReportStatistics => {
+export const calculateStatistics = (
+	completeResult: CompleteResult,
+	results: ResultItem[],
+	options: CopyleaksReportOptions
+): ReportStatistics => {
 	const { totalWords, totalExcluded } = completeResult.scannedDocument;
-	const identical = results.flatMap(createWordIntervalsFrom('identical', 'source'));
-	const minorChanges = results.flatMap(createWordIntervalsFrom('minorChanges', 'source'));
-	const relatedMeaning = results.flatMap(createWordIntervalsFrom('relatedMeaning', 'source'));
+	const identical = options.showIdentical ? results.flatMap(createWordIntervalsFrom('identical', 'source')) : [];
+	const minorChanges = options.showMinorChanges
+		? results.flatMap(createWordIntervalsFrom('minorChanges', 'source'))
+		: [];
+	const relatedMeaning = options.showRelated
+		? results.flatMap(createWordIntervalsFrom('relatedMeaning', 'source'))
+		: [];
 	const withOutoverlaps = mergeWords([...relatedMeaning, ...minorChanges, ...identical]);
 	const identicalCount = withOutoverlaps
 		.filter(match => match.type === MatchType.identical)

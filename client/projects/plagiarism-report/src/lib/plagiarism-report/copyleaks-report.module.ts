@@ -27,15 +27,12 @@ import { OriginalComponent } from './components/original/original.component';
 import { PropertiesComponent } from './components/properties/properties.component';
 import { ResultCardComponent } from './components/result-card/result-card.component';
 import { ResultsFilterDialogComponent } from './components/results-filter-dialog/results-filter-dialog.component';
-import { ResultsSettingsDialogComponent } from './components/results-settings-dialog/results-settings-dialog.component';
+import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component';
 import { ResultsComponent } from './components/results/results.component';
 import { SuspectComponent } from './components/suspect/suspect.component';
 import { CopyleaksReportComponent } from './copyleaks-report.component';
 import { MatPaginationModule } from '../mat-pagination/mat-pagination.module';
 import { PoweredByComponent } from './components/powered-by/powered-by.component';
-
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { ScrollingModule as ExperimentalScrollingModule } from '@angular/cdk-experimental/scrolling';
 
 import { DEFAULT_REPORT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN } from './utils/constants';
 import { CopyleaksReportConfig } from './models';
@@ -47,7 +44,7 @@ import { OriginalTextHelperDirective } from './components/text-helpers/original-
 import { SuspectTextHelperDirective } from './components/text-helpers/suspect-text-helper.directive';
 import { SourceTextHelperDirective } from './components/text-helpers/source-text-helper.directive';
 import { CopyleaksService } from './services/copyleaks.service';
-
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -56,7 +53,7 @@ import { CopyleaksService } from './services/copyleaks.service';
 		OriginalComponent,
 		ResultCardComponent,
 		SuspectComponent,
-		ResultsSettingsDialogComponent,
+		OptionsDialogComponent,
 		ResultsFilterDialogComponent,
 		PoweredByComponent,
 		MatchComponent,
@@ -92,11 +89,10 @@ import { CopyleaksService } from './services/copyleaks.service';
 		NgxSkeletonLoaderModule,
 		MatPaginationModule,
 		MatProgressSpinnerModule,
-		ScrollingModule,
-		ExperimentalScrollingModule,
+		VirtualScrollerModule,
 	],
 	providers: [CopyleaksService],
-	entryComponents: [ResultsSettingsDialogComponent, ResultsFilterDialogComponent],
+	entryComponents: [OptionsDialogComponent, ResultsFilterDialogComponent],
 	exports: [CopyleaksReportComponent],
 })
 export class CopyleaksReportModule {

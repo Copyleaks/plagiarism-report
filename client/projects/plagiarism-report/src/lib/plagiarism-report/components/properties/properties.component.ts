@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { ReportStatistics, ViewMode } from '../../models';
+import { ReportStatistics, ViewMode, CopyleaksReportOptions } from '../../models';
 import { CompleteResult } from '../../models/api-models/CompleteResult';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
@@ -18,6 +18,7 @@ import { truthy } from '../../utils/operators';
 export class PropertiesComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mobile') isMobile: boolean;
 
+	public options: CopyleaksReportOptions;
 	public stats: ReportStatistics;
 	public progress?: number = null;
 	public share: boolean;
@@ -76,13 +77,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { share$, download$, completeResult$, progress$, previews$, viewMode$ } = this.reportService;
+		const { share$, download$, completeResult$, progress$, previews$, viewMode$, options$ } = this.reportService;
 		completeResult$.pipe(untilDestroy(this)).subscribe(meta => (this.metadata = meta));
 		previews$.subscribe(({ length }) => (this.previewCount = length));
 		share$.pipe(untilDestroy(this)).subscribe(share => (this.share = share));
 		download$.pipe(untilDestroy(this)).subscribe(download => (this.download = download));
 		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
+		options$.pipe(untilDestroy(this)).subscribe(options => (this.options = options));
+
 		this.statistics.statistics$
 			.pipe(
 				distinctUntilChanged(),

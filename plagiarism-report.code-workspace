@@ -15,6 +15,7 @@
 		"files.exclude": {
 			"client/": true,
 			"server/": true
-		}
+		},
+		"prettier.singleQuote": true
 	}
 }

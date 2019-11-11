@@ -26,16 +26,17 @@
 			</ng-container>
 		</div> -->
 
+		<!-- PROGRESS -->
 		<div prop>
 			<ng-container>
 				<div fxLayout="row nowrap"
 						 fxLayoutAlign="center center"
 						 fxLayoutGap="1em">
 					<div fxLayout="row nowrap"
+							 *ngIf="!done"
 							 fxLayoutAlign="center center">
 						<label>&zwnj;</label>
-						<mat-spinner *ngIf="!done"
-												 [diameter]="40"></mat-spinner>
+						<mat-spinner [diameter]="40"></mat-spinner>
 					</div>
 
 					<label>
@@ -61,6 +62,8 @@
 				</div>
 			</ng-container>
 		</div>
+
+		<!-- RESULTS FOUND -->
 		<div prop>
 			<ng-container>
 				<label>{{previewCount}}</label>
@@ -69,6 +72,16 @@
 				</div>
 			</ng-container>
 		</div>
+
+		<!-- # COPIED WORDS -->
+		<div prop>
+			<ng-container *ngIf="stats;else skeleton__prop">
+				<label>{{ stats.identical | shortNumber:1}}</label>
+				<div>coppied words</div>
+			</ng-container>
+		</div>
+
+		<!-- STATS -->
 		<div stats
 				 [fxFlexOrder.lt-md]="-5"
 				 fxLayout="row nowrap"
@@ -88,7 +101,10 @@
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot identical"></div>
-						<div text> Identical</div>
+						<div text
+								 [ngClass]="{'cr-strike-out':  options?.showIdentical !== true}">
+							Identical
+						</div>
 						<span fxFlex></span>
 
 						<div>{{ stats && stats?.identical / stats?.total | percent:"1.0-1"}}</div>
@@ -99,7 +115,10 @@
 							 fxLayoutAlign="center center"
 							 fxLayoutGap="0.5em">
 						<div class="dot minor-changes"></div>
-						<div text> Minor Changes</div>
+						<div text
+								 [ngClass]="{'cr-strike-out': options.showMinorChanges !== true}">
+							Minor Changes
+						</div>
 						<span fxFlex></span>
 						<div>{{ stats && stats?.minorChanges / stats?.total | percent:"1.0-1"}}</div>
 					</div>
@@ -109,13 +128,17 @@
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot related"></div>
-						<div text> Related Meaning </div>
+						<div text
+								 [ngClass]="{'cr-strike-out': options.showRelated !== true}">
+							Related Meaning
+						</div>
 						<span fxFlex></span>
 						<div> {{ stats && stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
-							 fxLayout="row"
+							 fxLayout="
+								 row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot omitted"></div>
@@ -138,6 +161,8 @@
 
 			</ng-container>
 		</div>
+
+		<!-- % MATCH -->
 		<div prop>
 			<ng-container *ngIf="stats;else skeleton__prop">
 				<label>{{ ((stats.identical + stats.relatedMeaning + stats.minorChanges) / stats.total) | percent:"1.0-1"}}</label>
@@ -146,12 +171,6 @@
 		</div>
 
 
-		<div prop>
-			<ng-container *ngIf="stats;else skeleton__prop">
-				<label>{{ stats.identical | shortNumber:1}}</label>
-				<div>coppied words</div>
-			</ng-container>
-		</div>
 	</cr-expansion-panel-body>
 </cr-expansion-panel>
 
