@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take, skip } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, map, skip, switchMap, take } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { CompleteResult, CopyleaksReportConfig, ResultItem, ResultPreview, ScanSource } from '../models';
 import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
@@ -30,19 +30,19 @@ export class ReportService implements OnDestroy {
 
 	constructor(private copyleaksService: CopyleaksService) {
 		const {
-			onCompleteResult$: complete$,
-			onResultPreview$: preview$,
-			onProgress$: progress$,
-			onResultItem$: result$,
-			onScanSource$: source$,
-			onReportConfig$: config$,
+			onCompleteResult$,
+			onResultPreview$,
+			onProgress$,
+			onResultItem$,
+			onScanSource$,
+			onReportConfig$,
 		} = copyleaksService;
-		complete$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
-		preview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
-		progress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
-		result$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResult(resultItem));
-		source$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
-		config$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
+		onCompleteResult$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
+		onResultPreview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
+		onProgress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
+		onResultItem$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResult(resultItem));
+		onScanSource$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
+		onReportConfig$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
 		this.config$.pipe(untilDestroy(this)).subscribe(config => this._configChange.next(config));
 		combineLatest([this.source$, this.completeResult$])
 			.pipe(
@@ -68,7 +68,7 @@ export class ReportService implements OnDestroy {
 	/** sub config observeables */
 	public contentMode$ = this.config$.pipe(map(x => x.contentMode));
 	public viewMode$ = this.config$.pipe(map(x => x.viewMode));
-	public suspectId$ = this.config$.pipe(map(x => x.suspectId));
+	public suspectId$ = this._config.asObservable().pipe(map(x => x.suspectId));
 	public download$ = this.config$.pipe(map(x => x.download));
 	public share$ = this.config$.pipe(map(x => x.share));
 	public options$ = this.config$.pipe(map(x => x.options));
@@ -76,8 +76,10 @@ export class ReportService implements OnDestroy {
 	public sourcePage$ = this.config$.pipe(map(x => x.sourcePage));
 	public suspectPage$ = this.config$.pipe(map(x => x.suspectPage));
 	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(
-		switchMap(id => (id ? this.findResultById$(id) : of(null)))
+		switchMap(id => this.findResultById$(id))
+		// switchMap(id => (id ? this.findResultById$(id) : of(null)))
 	);
+
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
 	public results$ = this._results.asObservable();
 	public previews$ = this._previews.asObservable().pipe(skip(1));

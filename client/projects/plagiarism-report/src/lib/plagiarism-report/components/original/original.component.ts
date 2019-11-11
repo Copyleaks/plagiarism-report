@@ -119,7 +119,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * executes when a `MatPaginationComponent` emits the page event
 	 */
 	onPage(event: PageChangeEvent) {
-		this.reportService.configure({ sourcePage: event.currentPage });
+		this.reportService.configure({ sourcePage: +event.currentPage });
 		this.highlightService.clear();
 	}
 	/**
