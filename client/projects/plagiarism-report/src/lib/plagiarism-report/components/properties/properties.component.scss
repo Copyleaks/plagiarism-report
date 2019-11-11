@@ -49,6 +49,10 @@ cr-expansion-panel-body {
         [text] {
           white-space: nowrap;
         }
+
+        .cr-strike-out {
+          text-decoration: line-through;
+        }
       }
     }
   }

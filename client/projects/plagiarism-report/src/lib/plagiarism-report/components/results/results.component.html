@@ -37,16 +37,16 @@
 	</cr-panel-actions>
 	<cr-panel-body fxLayout="column"
 								 fxFlex="100">
-		<cdk-virtual-scroll-viewport fxFlex
-																 fxLayout="column"
-																 autosize
-																 fxLayoutGap="1em">
-			<ng-container *ngIf="previews ; else skeleton__fakes">
-				<cr-result-card *cdkVirtualFor="let preview of previews | whitelist:'id':focusedMatch?.ids"
+		<virtual-scroller #scroll
+											fxFlex
+											[items]="previews | whitelist:'id':focusedMatch?.ids">
+			<ng-container *ngIf="previews; else skeleton__fakes">
+				<cr-result-card *ngFor="let preview of scroll.viewPortItems"
 												[preview]="preview">
 				</cr-result-card>
 			</ng-container>
-		</cdk-virtual-scroll-viewport>
+
+		</virtual-scroller>
 	</cr-panel-body>
 </cr-panel>
 <ng-template #menu__show_results>

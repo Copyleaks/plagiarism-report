@@ -8,13 +8,13 @@ import { LayoutMediaQueryService } from '../../services/layout-media-query.servi
 import { ReportService } from '../../services/report.service';
 import { fadeIn, listFade } from '../../utils/animations';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
-import { ResultsSettingsDialogComponent } from '../results-settings-dialog/results-settings-dialog.component';
+import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
 
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
 	styleUrls: ['./results.component.scss'],
-	animations: [fadeIn, listFade],
+	animations: [fadeIn, listFade]
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 	constructor(
@@ -41,7 +41,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	openFilterDialog() {
 		this.dialogService.open<ResultsFilterDialogComponent, ReportService>(ResultsFilterDialogComponent, {
-			data: this.reportService,
+			data: this.reportService
 		});
 	}
 
@@ -49,8 +49,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Displays the settings dialog modal
 	 */
 	openSettingsDialog() {
-		this.dialogService.open<ResultsSettingsDialogComponent, ReportService>(ResultsSettingsDialogComponent, {
-			data: this.reportService,
+		this.dialogService.open<OptionsDialogComponent, ReportService>(OptionsDialogComponent, {
+			data: this.reportService
 		});
 	}
 

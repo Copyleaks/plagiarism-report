@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, skip, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { CompleteResult, CopyleaksReportConfig, ResultItem, ResultPreview, ScanSource } from '../models';
 import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
@@ -15,7 +15,7 @@ export class ReportService implements OnDestroy {
 	// * scans API items
 	private _completeResult = new BehaviorSubject<CompleteResult>(null);
 	private _source = new BehaviorSubject<ScanSource>(null);
-	private _previews = new BehaviorSubject<ResultPreview[]>([]);
+	private _previews = new BehaviorSubject<ResultPreview[]>(null);
 	private _results = new BehaviorSubject<ResultItem[]>([]);
 
 	// * configurable state
@@ -68,7 +68,7 @@ export class ReportService implements OnDestroy {
 	/** sub config observeables */
 	public contentMode$ = this.config$.pipe(map(x => x.contentMode));
 	public viewMode$ = this.config$.pipe(map(x => x.viewMode));
-	public suspectId$ = this._config.asObservable().pipe(map(x => x.suspectId));
+	public suspectId$ = this.config$.pipe(map(x => x.suspectId));
 	public download$ = this.config$.pipe(map(x => x.download));
 	public share$ = this.config$.pipe(map(x => x.share));
 	public options$ = this.config$.pipe(map(x => x.options));
@@ -76,13 +76,12 @@ export class ReportService implements OnDestroy {
 	public sourcePage$ = this.config$.pipe(map(x => x.sourcePage));
 	public suspectPage$ = this.config$.pipe(map(x => x.suspectPage));
 	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(
-		switchMap(id => this.findResultById$(id))
-		// switchMap(id => (id ? this.findResultById$(id) : of(null)))
+		switchMap(id => (id ? this.findResultById$(id) : of(null)))
 	);
 
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
-	public results$ = this._results.asObservable();
-	public previews$ = this._previews.asObservable().pipe(skip(1));
+	public results$ = this._results.asObservable().pipe(truthy());
+	public previews$ = this._previews.asObservable().pipe(truthy());
 	public filteredPreviews$ = combineLatest([this.previews$, this.hiddenResults$]).pipe(
 		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
 	);
@@ -171,11 +170,13 @@ export class ReportService implements OnDestroy {
 
 	/**
 	 * Push a new `preview` of a result to the previews observer
+	 * This function does nothing if the complete result is ready
+	 * or if the preview was allready pushed
 	 * @param preview the preview to push next
 	 */
 	public addPreview(preview: ResultPreview) {
-		if (!this._completeResult.value && !this._previews.value.find(p => p.id === preview.id)) {
-			this._previews.next([...this._previews.value, preview]);
+		if (!this._completeResult.value && !(this._previews.value || []).find(p => p.id === preview.id)) {
+			this._previews.next([...(this._previews.value || []), preview]);
 		}
 	}
 

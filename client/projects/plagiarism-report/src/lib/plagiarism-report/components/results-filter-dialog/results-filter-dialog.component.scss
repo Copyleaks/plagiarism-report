@@ -13,6 +13,10 @@ mat-form-field {
 }
 
 [result] {
+  &:hover {
+    background: rgba(0, 0, 0, .04);
+  }
+
   mat-pseudo-checkbox {
     margin-left: 1em;
   }
@@ -22,6 +26,26 @@ mat-form-field {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+}
+
+[button-link] {
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+[check-item] {
+
+
+  cursor: pointer;
+  margin-bottom: 0.5em;
+  white-space: nowrap;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:last-child {
+    margin-top: 0;
   }
 }
 

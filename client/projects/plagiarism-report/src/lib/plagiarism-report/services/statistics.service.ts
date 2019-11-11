@@ -1,24 +1,34 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { debounceTime, map, switchMap } from 'rxjs/operators';
+import { asyncScheduler, BehaviorSubject, combineLatest } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, throttleTime } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
-import { CompleteResult, ReportStatistics, ResultItem } from '../models';
+import { CompleteResult, CopyleaksReportOptions, ReportStatistics, ResultItem } from '../models';
 import * as helpers from '../utils/statistics';
 import { ReportService } from './report.service';
+
 @Injectable()
 export class StatisticsService implements OnDestroy {
 	private _statistics = new BehaviorSubject<ReportStatistics>(undefined);
 	private completeResultStats = null;
 	constructor(reportService: ReportService) {
-		const { completeResult$, results$, filteredResults$, suspectId$, suspect$ } = reportService;
+		const { completeResult$, results$, filteredResults$, suspectId$, suspect$, options$ } = reportService;
+		const importantOptions$ = options$.pipe(
+			untilDestroy(this),
+			distinctUntilChanged(
+				(prev, next) =>
+					prev.showIdentical === next.showIdentical &&
+					prev.showMinorChanges === next.showMinorChanges &&
+					prev.showRelated === next.showRelated
+			)
+		);
 		const suspectOrResults$ = suspectId$.pipe(switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)));
-		combineLatest([suspectOrResults$, completeResult$, results$, suspectId$])
+		combineLatest([suspectOrResults$, completeResult$, results$, suspectId$, importantOptions$])
 			.pipe(
 				untilDestroy(this),
-				debounceTime(200)
+				throttleTime(100, asyncScheduler, { trailing: true, leading: false })
 			)
-			.subscribe(([filtered, meta, results, suspectId]) =>
-				this.retreiveStatistics(results, filtered, meta, !!suspectId)
+			.subscribe(([filtered, meta, results, suspectId, options]) =>
+				this.retreiveStatistics(results, filtered, meta, !!suspectId, options)
 			);
 	}
 
@@ -38,11 +48,13 @@ export class StatisticsService implements OnDestroy {
 		results: ResultItem[],
 		filteredResults: ResultItem[],
 		completeResult: CompleteResult,
-		suspect: boolean
+		suspect: boolean,
+		options: CopyleaksReportOptions
 	) {
 		const { batch, internet, database } = completeResult.results;
 		const totalResults = batch.length + internet.length + database.length;
-		if (results.length < totalResults || totalResults === filteredResults.length) {
+		const showAll = options.showIdentical && options.showMinorChanges && options.showRelated;
+		if (results.length < totalResults || (totalResults === filteredResults.length && showAll)) {
 			this.completeResultStats = this.completeResultStats || {
 				identical: completeResult.results.score.identicalWords,
 				relatedMeaning: completeResult.results.score.relatedMeaningWords,
@@ -54,7 +66,7 @@ export class StatisticsService implements OnDestroy {
 				this._statistics.next(this.completeResultStats);
 			}
 		} else {
-			this._statistics.next(helpers.calculateStatistics(completeResult, filteredResults));
+			this._statistics.next(helpers.calculateStatistics(completeResult, filteredResults, options));
 		}
 	}
 

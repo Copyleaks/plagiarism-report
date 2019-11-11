@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	 */
 	checkAll() {
 		if (this.hidden.length !== this.results.length) {
-			this.hidden.push(...this.results.map(r => r.id));
+			this.hidden = [...this.results.map(r => r.id)];
 		} else {
 			this.hidden = [];
 		}
