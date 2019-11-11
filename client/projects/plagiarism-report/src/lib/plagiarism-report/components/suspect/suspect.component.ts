@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { combineLatest } from 'rxjs';
+import { PageChangeEvent } from '../../../mat-pagination/mat-pagination.component';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchType, SlicedMatch } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
@@ -9,8 +11,6 @@ import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
 import { MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
-import { withLatestFrom } from 'rxjs/operators';
-import { PageChangeEvent } from '../../../mat-pagination/mat-pagination.component';
 
 @Component({
 	selector: 'cr-suspect',
@@ -81,7 +81,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * @param event the page event containing page data
 	 */
 	onPage(event: PageChangeEvent) {
-		this.reportService.configure({ suspectPage: event.currentPage });
+		this.reportService.configure({ suspectPage: +event.currentPage });
 	}
 	/**
 	 * life-cycle method
@@ -102,15 +102,14 @@ export class SuspectComponent implements OnInit, OnDestroy {
 				this.suspect = item.result;
 				suspectPage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = page));
 			});
-		contentMode$
-			.pipe(
-				untilDestroy(this),
-				withLatestFrom(suspect$)
-			)
+
+		combineLatest([contentMode$, suspect$])
+			.pipe(untilDestroy(this))
 			.subscribe(
 				([mode, suspect]) =>
 					(this.contentMode = mode === 'html' && suspect && suspect.result.html.value ? 'html' : 'text')
 			);
+
 		onlyOneToOne$.pipe(untilDestroy(this)).subscribe(disable => (this.disableBackButton = disable));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 		this.matchService.suspectTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.textMatches = matches));

@@ -55,7 +55,6 @@ export class ReportComponent implements OnInit {
 	};
 
 	onConfigChange(config: CopyleaksReportConfig) {
-		console.log(config);
 		this.router.navigate([], {
 			queryParams: {
 				suspectId: config.suspectId,
@@ -68,9 +67,15 @@ export class ReportComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		const config = {} as any;
+		const config = {} as CopyleaksReportConfig;
 		for (const key in this.activatedRoute.snapshot.queryParams) {
 			config[key] = this.activatedRoute.snapshot.queryParams[key];
+		}
+		if (config.sourcePage) {
+			config.sourcePage = Number(config.sourcePage);
+		}
+		if (config.suspectPage) {
+			config.suspectPage = Number(config.suspectPage);
 		}
 		if (this.activatedRoute.snapshot.params.scanId) {
 			config.scanId = this.activatedRoute.snapshot.params.scanId;
@@ -80,7 +85,7 @@ export class ReportComponent implements OnInit {
 		}
 		this.config = { ...this.config, ...config };
 		this.cd.detectChanges();
-		this.simulateRealtime(config.scanId);
+		this.simulateSync(config.scanId);
 	}
 
 	/**
