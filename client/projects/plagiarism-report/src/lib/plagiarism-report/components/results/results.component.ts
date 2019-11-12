@@ -14,7 +14,7 @@ import { OptionsDialogComponent } from '../options-dialog/options-dialog.compone
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
 	styleUrls: ['./results.component.scss'],
-	animations: [fadeIn, listFade]
+	animations: [fadeIn, listFade],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 	constructor(
@@ -41,7 +41,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	openFilterDialog() {
 		this.dialogService.open<ResultsFilterDialogComponent, ReportService>(ResultsFilterDialogComponent, {
-			data: this.reportService
+			data: this.reportService,
 		});
 	}
 
@@ -50,7 +50,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	openSettingsDialog() {
 		this.dialogService.open<OptionsDialogComponent, ReportService>(OptionsDialogComponent, {
-			data: this.reportService
+			data: this.reportService,
 		});
 	}
 
@@ -85,6 +85,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	clearFocusedMatch() {
 		this.highlightService.setOriginalTextMatch(null);
+		this.highlightService.setOriginalHtmlMatch(null);
 	}
 
 	/**
