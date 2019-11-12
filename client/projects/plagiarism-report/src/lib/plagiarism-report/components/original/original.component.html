@@ -110,7 +110,7 @@
 				 fxLayout="row-reverse nowrap"
 				 fxLayoutAlign="space-between center">
 
-			<cr-mat-pagination [hidden]="hasHtml && isHtml"
+			<cr-mat-pagination [hidden]="(hasHtml && isHtml) || pages?.length === 1"
 												 [currentPage]="currentPage"
 												 showFirstLastButtons
 												 (page)="onPage($event)"

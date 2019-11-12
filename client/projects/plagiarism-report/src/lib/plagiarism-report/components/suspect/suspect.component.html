@@ -78,7 +78,7 @@
 				 fxLayout="row-reverse nowrap">
 
 			<ng-container *ngIf="suspect ;else skeleton__pagination">
-				<cr-mat-pagination *ngIf="!hasHtml || !isHtml"
+				<cr-mat-pagination [hidden]="(hasHtml && isHtml) || pages?.length === 1"
 													 showFirstLastButtons
 													 [currentPage]="currentPage"
 													 (page)="onPage($event)"

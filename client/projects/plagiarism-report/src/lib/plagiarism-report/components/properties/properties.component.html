@@ -55,7 +55,7 @@
 					</ng-container>
 					<ng-container *ngIf="done">
 						<small *ngIf="metadata"
-									 matTooltip="{{metadata?.scannedDocument.creationTime | date:'long'}}">
+									 matTooltip="{{metadata?.scannedDocument.creationTime | date:'medium'}}">
 							Scanned {{ metadata?.scannedDocument.creationTime | timeAgo }}
 						</small>
 					</ng-container>
