@@ -11,22 +11,26 @@
 		<cr-panel-action fxHide.lt-md>
 			<ng-container *ngTemplateOutlet="menu__prev_match"></ng-container>
 		</cr-panel-action>
+
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
+			<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
+			<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
+			<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
+			<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
+		</cr-panel-action>
 		<cr-panel-action fxHide.lt-md>
 			<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
-			<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
-		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
-			<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
-		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
-			<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
-		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
-			<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
-		</cr-panel-action>
-
 		<cr-panel-action fxHide.gt-sm
 										 *ngIf="activeMediaQueries.includes('lt-md')">
 			<button mat-button
@@ -127,6 +131,7 @@
 <!-- menu -->
 <mat-menu #appMenu>
 	<button mat-menu-item
+					[disabled]="!textMatches || textMatches.length === 0"
 					(click)="onJumpToNextMatchClick()"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__next_match">
@@ -134,6 +139,7 @@
 		Next Match
 	</button>
 	<button mat-menu-item
+					[disabled]="!textMatches || textMatches.length === 0"
 					(click)="onJumpToNextMatchClick(false)"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__prev_match">
@@ -148,18 +154,21 @@
 		{{isHtml ? 'Switch to textual mode':'Switch to rich text mode'}}
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_left">
 		</ng-container>
 		Align Left
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_right">
 		</ng-container>
 		Align Right
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					(click)="increaseFontSize()"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_inc">
@@ -167,6 +176,7 @@
 		Increase Font Size
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					(click)="decreaseFontSize()"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_dec">
@@ -177,7 +187,7 @@
 <ng-template #menu__next_match>
 	<button mat-button
 					(click)="onJumpToNextMatchClick()"
-					[disabled]="!textMatches"
+					[disabled]="!textMatches || textMatches.length === 0"
 					matTooltip="Go to next match">
 		<mat-icon>arrow_downward</mat-icon>
 	</button>
@@ -185,7 +195,7 @@
 <ng-template #menu__prev_match>
 	<button mat-button
 					(click)="onJumpToNextMatchClick(false)"
-					[disabled]="!textMatches"
+					[disabled]="!textMatches || textMatches.length === 0"
 					matTooltip="Go to previous match">
 		<mat-icon>arrow_upward</mat-icon>
 	</button>
@@ -195,7 +205,7 @@
 					[matTooltip]=" isHtml ? 'Switch to textual mode':'Switch to rich text mode'"
 					[disabled]="!hasHtml"
 					(click)="toggleContent()">
-		<mat-icon>title</mat-icon>
+		<mat-icon>{{isHtml? 'title':'insert_photo'}}</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_left>

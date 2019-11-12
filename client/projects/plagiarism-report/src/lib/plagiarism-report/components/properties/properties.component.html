@@ -15,6 +15,13 @@
 				<mat-icon>save_alt</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
+		<cr-expansion-panel-menu-item>
+			<button mat-button
+							matTooltip="Settings"
+							(click)="openSettingsDialog()">
+				<mat-icon>settings</mat-icon>
+			</button>
+		</cr-expansion-panel-menu-item>
 	</cr-expansion-panel-menu>
 	<cr-expansion-panel-body fxLayout="row nowrap">
 		<!-- <div progress>
@@ -41,7 +48,6 @@
 
 					<label>
 						<ng-container *ngIf="!done && progress !== null">
-
 							{{ (progress && (progress / 100)) | percent:"1.0" }}
 						</ng-container>
 						<ng-container *ngIf="done">
@@ -65,20 +71,17 @@
 
 		<!-- RESULTS FOUND -->
 		<div prop>
-			<ng-container>
-				<label>{{previewCount}}</label>
-				<div>
-					results found
-				</div>
-			</ng-container>
+			<label>{{previewCount}}</label>
+			<div>
+				results found
+			</div>
 		</div>
 
 		<!-- # COPIED WORDS -->
-		<div prop>
-			<ng-container *ngIf="stats;else skeleton__prop">
-				<label>{{ stats.identical | shortNumber:1}}</label>
-				<div>coppied words</div>
-			</ng-container>
+		<div prop
+				 *ngIf="stats;else skeleton__prop">
+			<label>{{ stats.identical | shortNumber:1}}</label>
+			<div>coppied words</div>
 		</div>
 
 		<!-- STATS -->
@@ -97,20 +100,25 @@
 						 fxFlex
 						 fxLayoutAlign="space-evenly stretch">
 					<div row
+							 (click)="toggleComparison('showIdentical')"
+							 [matTooltip]="options?.showIdentical? null:'Omitted by your configuration. Click to enable'"
 							 fxLayout="row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot identical"></div>
 						<div text
-								 [ngClass]="{'cr-strike-out':  options?.showIdentical !== true}">
+								 [ngClass]="{'cr-strike-out':  !options?.showIdentical }">
 							Identical
 						</div>
 						<span fxFlex></span>
 
-						<div>{{ stats && stats?.identical / stats?.total | percent:"1.0-1"}}</div>
+						<div *ngIf="options.showIdentical && stats.identical > 0">
+							{{ stats && stats?.identical / stats?.total | percent:"1.0-1"}}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
+							 (click)="toggleComparison('showMinorChanges')"
+							 [matTooltip]="options?.showMinorChanges? null:'Omitted by your configuration. Click to enable'"
 							 fxLayout="row"
 							 fxLayoutAlign="center center"
 							 fxLayoutGap="0.5em">
@@ -120,10 +128,13 @@
 							Minor Changes
 						</div>
 						<span fxFlex></span>
-						<div>{{ stats && stats?.minorChanges / stats?.total | percent:"1.0-1"}}</div>
+						<div *ngIf="options.showMinorChanges && stats.minorChanges > 0">
+							{{ stats && stats?.minorChanges / stats?.total | percent:"1.0-1"}}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
+							 (click)="toggleComparison('showRelated')"
+							 [matTooltip]="options?.showRelated? null:'Omitted by your configuration. Click to enable'"
 							 fxLayout="row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
@@ -133,7 +144,8 @@
 							Related Meaning
 						</div>
 						<span fxFlex></span>
-						<div> {{ stats && stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
+						<div *ngIf="options.showRelated && stats.relatedMeaning > 0">
+							{{ stats && stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
@@ -163,11 +175,12 @@
 		</div>
 
 		<!-- % MATCH -->
-		<div prop>
-			<ng-container *ngIf="stats;else skeleton__prop">
-				<label>{{ ((stats.identical + stats.relatedMeaning + stats.minorChanges) / stats.total) | percent:"1.0-1"}}</label>
-				<div>match</div>
-			</ng-container>
+		<div prop
+				 *ngIf="stats; else skeleton__prop"
+				 [ngClass]="{low: score <= 0.1,medium:score > 0.1 && score <= 0.5,high:score > 0.5}">
+			<label>{{ score | percent:"1.0-1"}}</label>
+			<div [matTooltip]="isShowingPartialStats? 'Some matches are ommited according to your settings':null">
+				match{{isShowingPartialStats? '*':''}}</div>
 		</div>
 
 
@@ -175,8 +188,10 @@
 </cr-expansion-panel>
 
 <ng-template #skeleton__prop>
-	<ngx-skeleton-loader [theme]="{height:'3em',width:'95px',margin:'0.5em'}"></ngx-skeleton-loader>
-	<ngx-skeleton-loader [theme]="{height:'1em',width:'3em'}"></ngx-skeleton-loader>
+	<div prop>
+		<ngx-skeleton-loader [theme]="{height:'3em',width:'95px',margin:'0.5em'}"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{height:'1em',width:'3em'}"></ngx-skeleton-loader>
+	</div>
 </ng-template>
 
 <ng-template #skeleton__stats>

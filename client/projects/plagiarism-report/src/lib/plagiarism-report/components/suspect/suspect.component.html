@@ -5,20 +5,24 @@
 	</cr-panel-header>
 
 	<cr-panel-actions>
-		<cr-panel-action fxHide.lt-md>
-			<ng-container *ngTemplateOutlet="menu__toggle_html"></ng-container>
-		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
+		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md>
+			<ng-container *ngTemplateOutlet="menu__toggle_html"></ng-container>
 		</cr-panel-action>
 		<cr-panel-action fxHide.gt-sm
 										 *ngIf="isMobile">
@@ -124,18 +128,21 @@
 		{{isHtml ? 'Switch to textual mode':'Switch to rich text mode'}}
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_left">
 		</ng-container>
 		Align Left
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_right">
 		</ng-container>
 		Align Right
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					(click)="increaseFontSize()"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_inc">
@@ -143,6 +150,7 @@
 		Increase Font Size
 	</button>
 	<button mat-menu-item
+					*ngIf="!isHtml"
 					(click)="decreaseFontSize()"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_dec">
@@ -167,7 +175,7 @@
 					[matTooltip]=" isHtml ? 'Switch to textual mode':'Switch to rich text mode'"
 					[disabled]="!hasHtml"
 					(click)="toggleContent()">
-		<mat-icon>title</mat-icon>
+		<mat-icon>{{isHtml? 'title':'insert_photo'}}</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_left>

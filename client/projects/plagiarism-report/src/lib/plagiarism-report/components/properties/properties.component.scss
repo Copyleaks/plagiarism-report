@@ -1,6 +1,7 @@
 @import "../../../styles.scss";
 
 :host {
+  box-sizing: border-box;
   width: 100%;
   background-color: $background-color;
 }
@@ -32,6 +33,21 @@ cr-expansion-panel-body {
     }
   }
 
+  // 0-10%
+  .low {
+    color: #29C44D;
+  }
+
+  // 10.1-50%
+  .medium {
+    color: #F7BC2B;
+  }
+
+  // 50.1-100%
+  .high {
+    color: #ec4f3a;
+  }
+
   [stats] {
     flex: 3;
     max-width: 475px;
@@ -45,6 +61,15 @@ cr-expansion-panel-body {
     [legend] {
       [row] {
         padding: 0 0.5em;
+        flex: 1;
+
+        &:not(:last-child) {
+          cursor: pointer;
+        }
+
+        &:hover {
+          background: rgba(0, 0, 0, .04);
+        }
 
         [text] {
           white-space: nowrap;

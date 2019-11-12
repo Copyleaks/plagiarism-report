@@ -8,8 +8,6 @@ import { LayoutMediaQueryService } from '../../services/layout-media-query.servi
 import { ReportService } from '../../services/report.service';
 import { fadeIn, listFade } from '../../utils/animations';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
-import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
-
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -41,15 +39,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	openFilterDialog() {
 		this.dialogService.open<ResultsFilterDialogComponent, ReportService>(ResultsFilterDialogComponent, {
-			data: this.reportService,
-		});
-	}
-
-	/**
-	 * Displays the settings dialog modal
-	 */
-	openSettingsDialog() {
-		this.dialogService.open<OptionsDialogComponent, ReportService>(OptionsDialogComponent, {
 			data: this.reportService,
 		});
 	}

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { asyncScheduler, BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, filter, map, skip, take, takeUntil, throttleTime, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, skip, take, takeUntil, throttleTime } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { CopyleaksReportOptions, Match, ResultItem, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/match-helpers';
@@ -23,12 +23,9 @@ export class MatchService implements OnDestroy {
 	constructor(private reportService: ReportService) {
 		const { source$, filteredResults$, options$ } = this.reportService;
 		// listen to suspect changes and process one-to-one matches
-		this.onSuspectChange$
-			.pipe(
-				untilDestroy(this),
-				withLatestFrom(options$, source$)
-			)
-			.subscribe(params => this.processOneToOneMatches(...params));
+		combineLatest([this.onSuspectChange$, options$, source$])
+			.pipe(untilDestroy(this))
+			.subscribe(([result, options, source]) => this.processOneToOneMatches(result, options, source));
 
 		// listen to changes in settings and filtered results
 		const throttledResults$ = filteredResults$.pipe(
