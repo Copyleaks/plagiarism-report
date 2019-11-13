@@ -1,14 +1,30 @@
 :host {
-  width: 100%;
-  height: 100%;
   display: flex;
-  padding: 1em;
-  box-sizing: border-box;
-  position: relative;
+  flex-flow: column nowrap;
+  height: 100%;
 }
 
-cr-copyleaks-report {
-  &.blur {
-    filter: blur(5px)
-  }
+nav {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 5em;
+  width: 100%;
+}
+
+main {
+  flex: 9;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+
+[left] {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+[right] {
+  height: 100%;
+  overflow-y: auto;
+  flex: 9;
 }

@@ -23,11 +23,8 @@ import { ResultsService } from './results.service';
 	styles: [
 		`
 			:host {
-				width: 100%;
-				max-height: 100%;
-				overflow-y: auto;
-				display: flex;
-				position: relative;
+				min-height: 100%;
+				display: contents;
 			}
 		`,
 	],
