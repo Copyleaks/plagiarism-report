@@ -13,4 +13,4 @@ export * from './lib/plagiarism-report/models';
 
 export * from './lib/plagiarism-report/utils/validation';
 
-export { COPYLEAKS_CONFIG_INJECTION_TOKEN } from './lib/plagiarism-report/utils/constants';
+export { DEFAULT_REPORT_CONFIG, DEFAULT_OPTIONS } from './lib/plagiarism-report/utils/constants';

@@ -1,24 +1,21 @@
 /* tslint:disable */
-import { ChangeDetectorRef, Component, OnInit, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
+import deepEqual from 'deep-equal';
+import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
 import {
-	CopyleaksReportComponent,
 	CopyleaksReportConfig,
 	CopyleaksService,
+	DEFAULT_REPORT_CONFIG,
 } from 'projects/plagiarism-report/src/public-api';
 import { forkJoin, from, interval, zip } from 'rxjs';
-import { delay, map, retry, take, takeUntil } from 'rxjs/operators';
+import { delay, distinctUntilChanged, map, retry, take, takeUntil } from 'rxjs/operators';
 import { ResultsService } from './results.service';
 
 @Component({
 	selector: 'app-report',
 	template: `
-		<cr-copyleaks-report
-			[config]="config"
-			(download)="log($event)"
-			(share)="log($event)"
-			(configChange)="onConfigChange($event)"
-		></cr-copyleaks-report>
+		<cr-copyleaks-report [config]="config" (configChange)="onConfigChange($event)"></cr-copyleaks-report>
 	`,
 	styles: [
 		`
@@ -29,61 +26,71 @@ import { ResultsService } from './results.service';
 		`,
 	],
 })
-export class ReportComponent implements OnInit {
-	constructor(
-		private router: Router,
-		private activatedRoute: ActivatedRoute,
-		private copyleaksService: CopyleaksService,
-		private resultsService: ResultsService,
-		private cd: ChangeDetectorRef
-	) {}
-
-	log = console.log;
-
-	@ViewChildren(CopyleaksReportComponent)
-	report: CopyleaksReportComponent;
-
-	config: CopyleaksReportConfig = {
+export class ReportComponent implements OnInit, OnDestroy {
+	public config: CopyleaksReportConfig = {
 		share: true,
 		download: true,
 		disableSuspectBackButton: false,
 		contentMode: 'text',
 	};
 
-	onConfigChange(config: CopyleaksReportConfig) {
+	constructor(
+		private router: Router,
+		private activatedRoute: ActivatedRoute,
+		private copyleaksService: CopyleaksService,
+		private resultsService: ResultsService
+	) {
+		const config = this.configFromQuery(this.activatedRoute.snapshot.queryParamMap);
+		const query = this.queryFromConfig(config);
 		this.router.navigate([], {
-			queryParams: {
-				suspectId: config.suspectId,
-				sourcePage: config.sourcePage,
-				suspectPage: config.suspectPage,
-				contentMode: config.contentMode,
-				viewMode: config.viewMode,
-			},
+			queryParams: query,
+			replaceUrl: true,
 		});
 	}
 
 	ngOnInit() {
+		this.activatedRoute.queryParamMap
+			.pipe(
+				untilDestroy(this),
+				distinctUntilChanged(deepEqual)
+			)
+			.subscribe(params => this.onQueryChange(params));
+
+		this.simulateSync(this.activatedRoute.snapshot.paramMap.get('scanId'));
+	}
+	onQueryChange(params: ParamMap) {
+		const config = this.configFromQuery(params);
+		if (!deepEqual(config, this.config)) {
+			this.config = config;
+		}
+	}
+	onConfigChange(config: CopyleaksReportConfig) {
+		if (deepEqual(this.config, config)) {
+			return;
+		}
+		const query = this.queryFromConfig(config);
+		this.router.navigate([], {
+			queryParams: query,
+			queryParamsHandling: 'merge',
+		});
+	}
+	configFromQuery(queryParamMap: ParamMap): CopyleaksReportConfig {
+		const keys = ['suspectId', 'viewMode', 'contentMode', 'sourcePage', 'suspectPage'];
 		const config = {} as CopyleaksReportConfig;
-		for (const key in this.activatedRoute.snapshot.queryParams) {
-			config[key] = this.activatedRoute.snapshot.queryParams[key];
+		for (const key of keys) {
+			config[key] = queryParamMap.get(key) || config[key];
 		}
-		if (config.sourcePage) {
-			config.sourcePage = Number(config.sourcePage);
-		}
-		if (config.suspectPage) {
-			config.suspectPage = Number(config.suspectPage);
-		}
-		if (this.activatedRoute.snapshot.params.scanId) {
-			config.scanId = this.activatedRoute.snapshot.params.scanId;
-		}
-		if (this.activatedRoute.snapshot.queryParams.suspectId) {
-			config.viewMode = 'one-to-one';
-		}
-		this.config = { ...this.config, ...config };
-		this.cd.detectChanges();
-		this.simulateSync(config.scanId);
+		return { ...this.config, ...config };
 	}
 
+	queryFromConfig(config: CopyleaksReportConfig): Params {
+		const keys = ['suspectId', 'viewMode', 'contentMode', 'sourcePage', 'suspectPage'];
+		const query = {};
+		for (const key of keys) {
+			query[key] = config[key] || DEFAULT_REPORT_CONFIG[key];
+		}
+		return query;
+	}
 	/**
 	 * simulate a real time feed of scan results for a given scan id
 	 */
@@ -185,4 +192,6 @@ export class ReportComponent implements OnInit {
 			forkJoin(requests).subscribe();
 		});
 	}
+
+	ngOnDestroy() {}
 }
