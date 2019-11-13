@@ -113,7 +113,7 @@
 						<span fxFlex></span>
 
 						<div *ngIf="options.showIdentical && stats.identical > 0">
-							{{ stats && stats?.identical / stats?.total | percent:"1.0-1"}}</div>
+							{{  stats?.identical / stats?.total | percent:"1.0-1"}}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
@@ -128,8 +128,8 @@
 							Minor Changes
 						</div>
 						<span fxFlex></span>
-						<div *ngIf="options.showMinorChanges && stats.minorChanges > 0">
-							{{ stats && stats?.minorChanges / stats?.total | percent:"1.0-1"}}</div>
+						<div *ngIf="options.showMinorChanges || stats.minorChanges > 0">
+							{{  stats?.minorChanges / stats?.total | percent:"1.0-1"}}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
@@ -145,7 +145,7 @@
 						</div>
 						<span fxFlex></span>
 						<div *ngIf="options.showRelated && stats.relatedMeaning > 0">
-							{{ stats && stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
+							{{ stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
