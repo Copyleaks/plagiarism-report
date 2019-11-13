@@ -24,7 +24,8 @@ import { ResultsService } from './results.service';
 		`
 			:host {
 				width: 100%;
-				height: 100%;
+				max-height: 100%;
+				overflow-y: auto;
 				display: flex;
 				position: relative;
 			}

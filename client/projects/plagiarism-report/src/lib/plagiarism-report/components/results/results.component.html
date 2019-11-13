@@ -1,10 +1,9 @@
 <cr-panel fxFlex>
 	<cr-panel-header>
-		Results {{ previews?.length }}
+		Results
 		<ng-container *ngIf="focusedMatch">
 			({{visibleResults.length}} of {{previews?.length }})
 		</ng-container>
-
 	</cr-panel-header>
 	<cr-panel-actions>
 		<cr-panel-action *ngIf="focusedMatch">
@@ -26,14 +25,6 @@
 				<mat-icon>filter_list</mat-icon>
 			</button>
 		</cr-panel-action>
-		<cr-panel-action *ngIf="!isMobile || isActive">
-			<button mat-button
-							matTooltip="Results settings"
-							(click)="openSettingsDialog()">
-				<mat-icon>settings</mat-icon>
-			</button>
-		</cr-panel-action>
-
 	</cr-panel-actions>
 	<cr-panel-body fxLayout="column"
 								 fxFlex="100">

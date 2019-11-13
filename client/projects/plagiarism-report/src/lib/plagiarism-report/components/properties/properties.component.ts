@@ -1,13 +1,15 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { ReportStatistics, ViewMode, CopyleaksReportOptions } from '../../models';
+import { CopyleaksReportOptions, ReportStatistics, ViewMode } from '../../models';
 import { CompleteResult } from '../../models/api-models/CompleteResult';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
 import { fadeIn } from '../../utils/animations';
 import { truthy } from '../../utils/operators';
+import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
 
 @Component({
 	selector: 'cr-properties',
@@ -40,6 +42,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
+		private dialogService: MatDialog,
 		private statistics: StatisticsService
 	) {}
 
@@ -49,6 +52,34 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 	get total(): number {
 		return this.metadata.scannedDocument.totalWords;
+	}
+	get score() {
+		return (this.stats.identical + this.stats.relatedMeaning + this.stats.minorChanges) / this.stats.total;
+	}
+	get severity() {
+		if (this.score <= 0.1) {
+			return 'low';
+		}
+		if (this.score <= 0.5) {
+			return 'medium';
+		}
+		return 'high';
+	}
+
+	get isShowingPartialStats() {
+		if (!this.options || !this.stats) {
+			return false;
+		}
+		if (!this.options.showIdentical && this.metadata.results.score.identicalWords > 0) {
+			return true;
+		}
+		if (!this.options.showMinorChanges && this.metadata.results.score.minorChangedWords > 0) {
+			return true;
+		}
+		if (!this.options.showRelated && this.metadata.results.score.relatedMeaningWords > 0) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -67,6 +98,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		this.reportService.shareBtnClicked(event);
 	}
 
+	/** Toggle a comparison */
+	toggleComparison(type: keyof CopyleaksReportOptions) {
+		const options = { ...this.options };
+		options[type] = !options[type];
+		this.reportService.configure({ options });
+	}
 	/**
 	 * Life-cycle method
 	 * subscribe to:
@@ -103,6 +140,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 				];
 			});
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
+	}
+
+	/**
+	 * Displays the settings dialog modal
+	 */
+	openSettingsDialog() {
+		this.dialogService.open<OptionsDialogComponent, ReportService>(OptionsDialogComponent, {
+			data: this.reportService,
+		});
 	}
 	/**
 	 * Life-cycle method

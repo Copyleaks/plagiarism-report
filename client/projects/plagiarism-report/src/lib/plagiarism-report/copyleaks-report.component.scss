@@ -1,12 +1,10 @@
 @import "../styles.scss";
 
 :host {
-  width: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  display: grid;
+  display: flex;
+  flex-flow: column nowrap;
   position: relative;
-
+  width: 100%;
 }
 
 [vertical-spacer] {
@@ -18,21 +16,16 @@
 }
 
 [wrapper] {
-
   display: flex;
   flex-flow: column nowrap;
   //max-height: 100%;
-  max-width: 100%;
-  min-width: 320px;
-  min-height: 480px;
   position: relative;
   //overflow-y: auto;
   place-content: center start;
 }
 
-[properties-wrapper] {
+cr-properties {
   width: 100%;
-  margin-bottom: $default-spacing;
 
   @include lt-md {
     margin-bottom: 0px;
@@ -40,7 +33,8 @@
 }
 
 [main-wrapper] {
-  flex: 1 0 100%;
+
+  flex: 1 0 calc(100%);
   overflow: auto;
 
   @include lt-md {
