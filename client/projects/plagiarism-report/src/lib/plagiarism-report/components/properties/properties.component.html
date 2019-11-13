@@ -112,7 +112,7 @@
 						</div>
 						<span fxFlex></span>
 
-						<div *ngIf="options.showIdentical && stats.identical > 0">
+						<div *ngIf="options.showIdentical || stats.identical > 0">
 							{{  stats?.identical / stats?.total | percent:"1.0-1"}}</div>
 					</div>
 					<mat-divider></mat-divider>
@@ -144,7 +144,7 @@
 							Related Meaning
 						</div>
 						<span fxFlex></span>
-						<div *ngIf="options.showRelated && stats.relatedMeaning > 0">
+						<div *ngIf="options.showRelated || stats.relatedMeaning > 0">
 							{{ stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
 					</div>
 					<mat-divider></mat-divider>
