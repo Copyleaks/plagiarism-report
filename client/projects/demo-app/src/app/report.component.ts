@@ -15,7 +15,13 @@ import { ResultsService } from './results.service';
 @Component({
 	selector: 'app-report',
 	template: `
-		<cr-copyleaks-report [config]="config" (configChange)="onConfigChange($event)"></cr-copyleaks-report>
+		<cr-copyleaks-report
+			[config]="config"
+			(configChange)="onConfigChange($event)"
+			(help)="onBtnClick($event)"
+			(share)="onBtnClick($event)"
+			(download)="onBtnClick($event)"
+		></cr-copyleaks-report>
 	`,
 	styles: [
 		`
@@ -29,6 +35,7 @@ import { ResultsService } from './results.service';
 export class ReportComponent implements OnInit, OnDestroy {
 	public config: CopyleaksReportConfig = {
 		share: true,
+		help: true,
 		download: true,
 		disableSuspectBackButton: false,
 		contentMode: 'text',
@@ -39,16 +46,15 @@ export class ReportComponent implements OnInit, OnDestroy {
 		private activatedRoute: ActivatedRoute,
 		private copyleaksService: CopyleaksService,
 		private resultsService: ResultsService
-	) {
+	) {}
+
+	ngOnInit() {
 		const config = this.configFromQuery(this.activatedRoute.snapshot.queryParamMap);
 		const query = this.queryFromConfig(config);
 		this.router.navigate([], {
 			queryParams: query,
 			replaceUrl: true,
 		});
-	}
-
-	ngOnInit() {
 		this.activatedRoute.queryParamMap
 			.pipe(
 				untilDestroy(this),
@@ -192,6 +198,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 			forkJoin(requests).subscribe();
 		});
 	}
-
+	onBtnClick(event: MouseEvent) {
+		console.log((event.target as HTMLElement).textContent);
+	}
 	ngOnDestroy() {}
 }

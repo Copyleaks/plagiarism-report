@@ -100,7 +100,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			)
 			.subscribe(item => {
 				this.suspect = item.result;
-				suspectPage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = page));
+				suspectPage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = +page));
 			});
 
 		combineLatest([contentMode$, suspect$])

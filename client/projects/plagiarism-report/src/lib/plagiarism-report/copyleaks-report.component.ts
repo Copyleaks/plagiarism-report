@@ -2,22 +2,22 @@ import {
 	Component,
 	EventEmitter,
 	HostBinding,
+	Input,
+	OnChanges,
 	OnDestroy,
 	OnInit,
 	Output,
-	Input,
-	OnChanges,
 	SimpleChanges,
 } from '@angular/core';
 import { untilDestroy } from '../shared/operators/untilDestroy';
-import { ViewMode, CopyleaksReportConfig } from './models/CopyleaksReportConfig';
+import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
+import { CopyleaksService } from './services/copyleaks.service';
 import { HighlightService } from './services/highlight.service';
 import { LayoutMediaQueryService } from './services/layout-media-query.service';
 import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
 import { expandAnimation, fadeIn } from './utils/animations';
-import { CopyleaksService } from './services/copyleaks.service';
 
 @Component({
 	selector: 'cr-copyleaks-report',
@@ -45,10 +45,13 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public configChange = new EventEmitter<CopyleaksReportConfig>();
 
 	@Output()
-	public download = new EventEmitter<MouseEvent>();
+	public help = new EventEmitter<MouseEvent>();
 
 	@Output()
 	public share = new EventEmitter<MouseEvent>();
+
+	@Output()
+	public download = new EventEmitter<MouseEvent>();
 
 	constructor(
 		private reportService: ReportService,
@@ -61,10 +64,11 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Initialize the component view mode
 	 */
 	ngOnInit() {
-		const { viewMode$, downloadClick$, shareClick$, configChange$ } = this.reportService;
+		const { viewMode$, helpClick$, shareClick$, downloadClick$, configChange$ } = this.reportService;
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
-		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
+		helpClick$.pipe(untilDestroy(this)).subscribe(data => this.help.emit(data));
 		shareClick$.pipe(untilDestroy(this)).subscribe(data => this.share.emit(data));
+		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
 		configChange$.pipe(untilDestroy(this)).subscribe(config => this.configChange.emit(config));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 	}

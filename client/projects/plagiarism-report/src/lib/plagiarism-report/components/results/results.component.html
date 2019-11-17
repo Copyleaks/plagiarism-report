@@ -28,16 +28,16 @@
 	</cr-panel-actions>
 	<cr-panel-body fxLayout="column"
 								 fxFlex="100">
-		<virtual-scroller #scroll
+		<cr-plagiarism-free *ngIf="previews && previews.length === 0"></cr-plagiarism-free>
+		<virtual-scroller *ngIf="previews; else skeleton__fakes"
+											#scroll
 											fxFlex
 											[items]="previews | whitelist:'id':focusedMatch?.ids">
-			<ng-container *ngIf="previews; else skeleton__fakes">
-				<cr-result-card *ngFor="let preview of scroll.viewPortItems"
-												[preview]="preview">
-				</cr-result-card>
-			</ng-container>
-
+			<cr-result-card *ngFor="let preview of scroll.viewPortItems"
+											[preview]="preview">
+			</cr-result-card>
 		</virtual-scroller>
+
 	</cr-panel-body>
 </cr-panel>
 <ng-template #menu__show_results>

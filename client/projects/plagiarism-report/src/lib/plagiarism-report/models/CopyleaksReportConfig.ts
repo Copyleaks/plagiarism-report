@@ -19,9 +19,11 @@ export interface CopyleaksReportConfig {
 	viewMode?: ViewMode;
 	/** The report results options */
 	options?: CopyleaksReportOptions;
-	/** The visibility state of the share button */
+	/** The visibility state of the help button in properties section */
+	help?: boolean;
+	/** The visibility state of the share button in properties section */
 	share?: boolean;
-	/** The visibility state of the download button */
+	/** The visibility state of the download button in properties section */
 	download?: boolean;
 	/** The visibility state of the back button in `one-to-one` view */
 	disableSuspectBackButton?: boolean;

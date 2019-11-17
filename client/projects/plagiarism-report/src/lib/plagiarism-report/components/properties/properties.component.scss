@@ -13,6 +13,7 @@ cr-expansion-panel {
 
 cr-expansion-panel-menu-item {
 	[mat-button] {
+		border-radius: 0;
 		min-width: 36px;
 		padding: 0;
 	}

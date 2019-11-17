@@ -1,16 +1,16 @@
 import { ComparisonCollection } from '../models';
 import { Match, MatchType } from '../models/Matches';
-import * as helper from './highlight-helpers';
+import * as helpers from './highlight-helpers';
 
-describe('MarkService', () => {
+describe('Highlight Helpers', () => {
 	describe('findRespectivePage', () => {
 		it(`should find the correct page`, () => {
-			expect(helper.findRespectivePage(0, [0, 50, 100])).toBe(1);
-			expect(helper.findRespectivePage(49, [0, 50, 100])).toBe(1);
-			expect(helper.findRespectivePage(50, [0, 50, 100])).toBe(2);
-			expect(helper.findRespectivePage(99, [0, 50, 100])).toBe(2);
-			expect(helper.findRespectivePage(100, [0, 50, 100])).toBe(3);
-			expect(helper.findRespectivePage(500, [0, 50, 100])).toBe(3);
+			expect(helpers.findRespectivePage(0, [0, 50, 100])).toBe(1);
+			expect(helpers.findRespectivePage(49, [0, 50, 100])).toBe(1);
+			expect(helpers.findRespectivePage(50, [0, 50, 100])).toBe(2);
+			expect(helpers.findRespectivePage(99, [0, 50, 100])).toBe(2);
+			expect(helpers.findRespectivePage(100, [0, 50, 100])).toBe(3);
+			expect(helpers.findRespectivePage(500, [0, 50, 100])).toBe(3);
 		});
 	});
 	describe('findPartial', () => {
@@ -25,12 +25,12 @@ describe('MarkService', () => {
 			},
 		} as ComparisonCollection;
 		it(`should find the correct start position`, () => {
-			expect(helper.findPartialMatch({ start: 0, end: 25 } as Match, comparisons)).toBe(0);
-			expect(helper.findPartialMatch({ start: 25, end: 49 } as Match, comparisons)).toBe(0);
-			expect(helper.findPartialMatch({ start: 50, end: 75 } as Match, comparisons)).toBe(50);
-			expect(helper.findPartialMatch({ start: 75, end: 99 } as Match, comparisons)).toBe(50);
-			expect(helper.findPartialMatch({ start: 100, end: 500 } as Match, comparisons)).toBe(100);
-			expect(helper.findPartialMatch({ start: 500, end: 1100 } as Match, comparisons)).toBe(100);
+			expect(helpers.findPartialMatch({ start: 0, end: 25 } as Match, comparisons)).toBe(0);
+			expect(helpers.findPartialMatch({ start: 25, end: 49 } as Match, comparisons)).toBe(0);
+			expect(helpers.findPartialMatch({ start: 50, end: 75 } as Match, comparisons)).toBe(50);
+			expect(helpers.findPartialMatch({ start: 75, end: 99 } as Match, comparisons)).toBe(50);
+			expect(helpers.findPartialMatch({ start: 100, end: 500 } as Match, comparisons)).toBe(100);
+			expect(helpers.findPartialMatch({ start: 500, end: 1100 } as Match, comparisons)).toBe(100);
 		});
 	});
 
@@ -53,13 +53,13 @@ describe('MarkService', () => {
 			},
 		} as ComparisonCollection;
 		it(`should find the correct start position`, () => {
-			expect(helper.findRespectiveMatch({ type, start: 0 } as Match, comparisons, true)).toEqual([0, 70]);
-			expect(helper.findRespectiveMatch({ type, start: 50 } as Match, comparisons, true)).toEqual([50, 20]);
-			expect(helper.findRespectiveMatch({ type, start: 100 } as Match, comparisons, true)).toEqual([100, 120]);
+			expect(helpers.findRespectiveMatch({ type, start: 0 } as Match, comparisons, true)).toEqual([0, 70]);
+			expect(helpers.findRespectiveMatch({ type, start: 50 } as Match, comparisons, true)).toEqual([50, 20]);
+			expect(helpers.findRespectiveMatch({ type, start: 100 } as Match, comparisons, true)).toEqual([100, 120]);
 
-			expect(helper.findRespectiveMatch({ type, start: 20 } as Match, comparisons, false)).toEqual([20, 50]);
-			expect(helper.findRespectiveMatch({ type, start: 70 } as Match, comparisons, false)).toEqual([70, 0]);
-			expect(helper.findRespectiveMatch({ type, start: 120 } as Match, comparisons, false)).toEqual([120, 100]);
+			expect(helpers.findRespectiveMatch({ type, start: 20 } as Match, comparisons, false)).toEqual([20, 50]);
+			expect(helpers.findRespectiveMatch({ type, start: 70 } as Match, comparisons, false)).toEqual([70, 0]);
+			expect(helpers.findRespectiveMatch({ type, start: 120 } as Match, comparisons, false)).toEqual([120, 100]);
 		});
 	});
 });

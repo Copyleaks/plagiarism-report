@@ -45,6 +45,7 @@ import { SuspectTextHelperDirective } from './components/text-helpers/suspect-te
 import { SourceTextHelperDirective } from './components/text-helpers/source-text-helper.directive';
 import { CopyleaksService } from './services/copyleaks.service';
 import { VirtualScrollerModule } from 'ngx-virtual-scroller';
+import { PlagiarismFreeComponent } from './components/plagiarism-free/plagiarism-free.component';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -63,6 +64,7 @@ import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 		OriginalTextHelperDirective,
 		SourceTextHelperDirective,
 		SuspectTextHelperDirective,
+		PlagiarismFreeComponent,
 	],
 	imports: [
 		CommonModule,

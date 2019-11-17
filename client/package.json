@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve demo-app",
     "build": "ng build",
     "lint": "ng lint",
     "lib:test": "ng test plagiarism-report",

@@ -1,6 +1,13 @@
 <cr-expansion-panel expanded="true">
 	<cr-expansion-panel-title>SCAN PROPERTIES </cr-expansion-panel-title>
 	<cr-expansion-panel-menu>
+		<cr-expansion-panel-menu-item *ngIf="help">
+			<button mat-button
+							matTooltip="Help"
+							(click)="helpClicked($event)">
+				<mat-icon>help_outline</mat-icon>
+			</button>
+		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="share">
 			<button mat-button
 							matTooltip="Share"
@@ -71,7 +78,8 @@
 
 		<!-- RESULTS FOUND -->
 		<div prop>
-			<label>{{previewCount}}</label>
+			<label [matTooltip]="previewCount >= 1000 ? ((previewCount | number) +' results'):null">
+				{{previewCount | shortNumber:1}}</label>
 			<div>
 				results found
 			</div>
@@ -80,7 +88,8 @@
 		<!-- # COPIED WORDS -->
 		<div prop
 				 *ngIf="stats;else skeleton__prop">
-			<label>{{ stats.identical | shortNumber:1}}</label>
+			<label [matTooltip]="stats.identical >= 1000 ? ((stats.identical | number)+ ' words'):null">
+				{{ stats.identical | shortNumber:1}}</label>
 			<div>coppied words</div>
 		</div>
 
@@ -94,7 +103,16 @@
 															[customColors]="customColors"
 															[results]='chartData'
 															[view]="[150,150]">
+					<ng-template #tooltipTemplate
+											 let-model="model">
+						<div style="padding:0.5em">
+							<span style="font-size:1em;display: block">{{model.value | number}}</span>
+							<span tooltip-text>{{ model.name }} words </span>
+						</div>
+					</ng-template>
+
 				</ngx-charts-pie-chart>
+
 				<div legend
 						 fxLayout="column"
 						 fxFlex

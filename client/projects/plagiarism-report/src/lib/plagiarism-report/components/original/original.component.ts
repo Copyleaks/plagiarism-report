@@ -1,7 +1,6 @@
 import { Component, ContentChildren, OnDestroy, OnInit, QueryList } from '@angular/core';
 import { PageChangeEvent } from '../../../mat-pagination/mat-pagination.component';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { logoSvg } from '../../assets/images';
 import { CompleteResult, ExcludeReason, Match, MatchType, ScanSource, SlicedMatch } from '../../models';
 import { ContentMode, DirectionMode, ViewMode } from '../../models/CopyleaksReportConfig';
 import { HighlightService } from '../../services/highlight.service';
@@ -31,7 +30,6 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	public readonly MatchType = MatchType;
 	public readonly ExcludeReason = ExcludeReason;
 	public readonly EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
-	public readonly copyleaksB64: string = logoSvg;
 	public zoom = 1;
 	public direction: DirectionMode = 'ltr';
 
@@ -136,7 +134,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		completeResult$.pipe(untilDestroy(this)).subscribe(completeResult => (this.completeResult = completeResult));
 		source$.pipe(untilDestroy(this)).subscribe(source => {
 			this.source = source;
-			sourcePage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = page));
+			sourcePage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = +page));
 		});
 
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));

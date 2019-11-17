@@ -24,8 +24,9 @@ export class ReportService implements OnDestroy {
 	private _hiddenResults = new BehaviorSubject<string[]>([]);
 
 	// * Event emitters
-	private _downloadClick = new Subject<MouseEvent>();
+	private _helpClick = new Subject<MouseEvent>();
 	private _shareClick = new Subject<MouseEvent>();
+	private _downloadClick = new Subject<MouseEvent>();
 	private _configChange = new Subject<CopyleaksReportConfig>();
 
 	constructor(private copyleaksService: CopyleaksService) {
@@ -69,6 +70,7 @@ export class ReportService implements OnDestroy {
 	public contentMode$ = this.config$.pipe(map(x => x.contentMode));
 	public viewMode$ = this.config$.pipe(map(x => x.viewMode));
 	public suspectId$ = this.config$.pipe(map(x => x.suspectId));
+	public help$ = this.config$.pipe(map(x => x.help));
 	public download$ = this.config$.pipe(map(x => x.download));
 	public share$ = this.config$.pipe(map(x => x.share));
 	public options$ = this.config$.pipe(map(x => x.options));
@@ -89,6 +91,7 @@ export class ReportService implements OnDestroy {
 		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
 	);
 
+	public helpClick$ = this._helpClick.asObservable();
 	public downloadClick$ = this._downloadClick.asObservable();
 	public shareClick$ = this._shareClick.asObservable();
 	public configChange$ = this._configChange.asObservable();
@@ -151,21 +154,26 @@ export class ReportService implements OnDestroy {
 	public setHiddenResults(ids: string[]) {
 		this._hiddenResults.next(ids);
 	}
-
 	/**
-	 * Pushes a new `event` to the download-click observer, indicating the download button was clicked
-	 * @param event the download click event
+	 * Pushes a new `event` to the help-click observer, indicating the help button was clicked
+	 * @param event native click event
 	 */
-	public downloadBtnClicked(event: MouseEvent) {
-		this._downloadClick.next(event);
+	public helpBtnClicked(event: MouseEvent) {
+		this._helpClick.next(event);
 	}
-
 	/**
 	 * Pushes a new `event` to the share-click observer, indicating the share button was clicked
-	 * @param event the share click event
+	 * @param event native click event
 	 */
 	public shareBtnClicked(event: MouseEvent) {
 		this._shareClick.next(event);
+	}
+	/**
+	 * Pushes a new `event` to the download-click observer, indicating the download button was clicked
+	 * @param event native click event
+	 */
+	public downloadBtnClicked(event: MouseEvent) {
+		this._downloadClick.next(event);
 	}
 
 	/**
@@ -195,7 +203,7 @@ export class ReportService implements OnDestroy {
 	 * @param config the configuration object
 	 */
 	configure(config: CopyleaksReportConfig) {
-		this._config.next({ ...this._config.value, ...config });
+		this._config.next(Object.assign(this._config.value, config));
 	}
 
 	/** Completes all subjects to prevent memory leak */
