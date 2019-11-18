@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { ScanResult, Match, ContentMode } from '../../models';
+import { ContentMode, Match, ScanResult } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import * as helpers from '../../utils/highlight-helpers';
@@ -25,6 +25,7 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * Handle a match click that was broadcasted by the source text helper
 	 * @param elem the broadcasted element
 	 * @param suspect the suspected scan result
+	 * @param contentMode content mode of the broadcasting match
 	 */
 	handleBroadcast(match: Match, suspect: ScanResult, contentMode: ContentMode) {
 		const [, start] = helpers.findRespectiveMatch(match, suspect[contentMode].comparison, true);
@@ -60,7 +61,7 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 				filter(ev => ev.origin === 'source' && ev.broadcast),
 				withLatestFrom(suspect$)
 			)
-			.subscribe(([{ elem }, { result }]) => this.handleBroadcast(elem.match, result, 'text'));
+			.subscribe(([event, suspect]) => this.handleBroadcast(event.elem.match, suspect.result, 'text'));
 
 		sourceHtml$
 			.pipe(

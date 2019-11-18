@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { filter, withLatestFrom, map } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchJumpEvent, MatchSelectEvent, MatchType } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
@@ -60,8 +60,10 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 				untilDestroy(this),
 				truthy()
 			)
-			.subscribe(source => (this.html = source.html && source.html.value));
-		sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => this.renderMatches(matches));
+			.subscribe(source => {
+				this.html = source.html && source.html.value;
+				sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => this.renderMatches(matches));
+			});
 
 		jump$
 			.pipe(

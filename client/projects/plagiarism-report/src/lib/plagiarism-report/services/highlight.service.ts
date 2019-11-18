@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { MatchComponent } from '../components/match/match.component';
 import { ContentMode, Match, ViewMode } from '../models';
 import * as helpers from '../utils/highlight-helpers';
 import { ReportService } from './report.service';
-import { untilDestroy } from '../../shared/operators/untilDestroy';
 
 export type ReportOrigin = 'original' | 'source' | 'suspect';
 export interface TextMatchHighlightEvent {
@@ -219,16 +219,16 @@ export class HighlightService implements OnDestroy {
 
 	/** dtor */
 	ngOnDestroy() {
-		this._originalText && this._originalText.complete();
-		this._sourceText && this._sourceText.complete();
-		this._suspectText && this._suspectText.complete();
-		this._originalHtml && this._originalHtml.complete();
-		this._sourceHtml && this._sourceHtml.complete();
-		this._suspectHtml && this._suspectHtml.complete();
-		this._jump && this._jump.complete();
-		this._textMatchClick && this._textMatchClick.complete();
-		this._htmlMatchClick && this._htmlMatchClick.complete();
-		this._jump && this._jump.complete();
-		this._clear && this._clear.complete();
+		this._originalText.complete();
+		this._sourceText.complete();
+		this._suspectText.complete();
+		this._originalHtml.complete();
+		this._sourceHtml.complete();
+		this._suspectHtml.complete();
+		this._jump.complete();
+		this._textMatchClick.complete();
+		this._htmlMatchClick.complete();
+		this._jump.complete();
+		this._clear.complete();
 	}
 }

@@ -30,13 +30,17 @@ export class MatchService implements OnDestroy {
 		// listen to changes in settings and filtered results
 		const throttledResults$ = filteredResults$.pipe(
 			untilDestroy(this),
-			throttleTime(5000, asyncScheduler, { leading: true, trailing: true })
+			throttleTime(5000, asyncScheduler, { leading: false, trailing: true })
 		);
+
+		/**
+		 * We want to process oneToMany results when:
+		 * * once the source is ready
+		 * * every time the filteredResults$ observable updates
+		 * * every time the options object has changed
+		 */
 		combineLatest([throttledResults$, options$, source$])
-			.pipe(
-				untilDestroy(this),
-				throttleTime(100, asyncScheduler, { leading: false, trailing: true })
-			)
+			.pipe(untilDestroy(this))
 			.subscribe(([results, options, source]) => this.processOneToManyMatches(results, options, source));
 	}
 

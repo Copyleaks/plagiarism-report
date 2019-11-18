@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { logoSvg } from '../../assets/images';
+import { SVG } from '../../assets/images';
 
 @Component({
 	selector: 'cr-powered-by',
@@ -7,5 +7,5 @@ import { logoSvg } from '../../assets/images';
 	styleUrls: ['./powered-by.component.scss'],
 })
 export class PoweredByComponent {
-	readonly logo = logoSvg;
+	readonly logo = SVG.LOGO;
 }

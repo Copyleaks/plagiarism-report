@@ -1,73 +1,86 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { asyncScheduler, BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, throttleTime } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
-import { CompleteResult, CopyleaksReportOptions, ReportStatistics, ResultItem } from '../models';
+import { ReportStatistics, CompleteResult, ResultItem, CopyleaksReportOptions } from '../models';
 import * as helpers from '../utils/statistics';
 import { ReportService } from './report.service';
+import { distinct } from '../utils/operators';
 
 @Injectable()
 export class StatisticsService implements OnDestroy {
 	private _statistics = new BehaviorSubject<ReportStatistics>(undefined);
-	private completeResultStats = null;
 	constructor(reportService: ReportService) {
-		const { completeResult$, results$, filteredResults$, suspectId$, suspect$, options$ } = reportService;
-		const importantOptions$ = options$.pipe(
-			untilDestroy(this),
-			distinctUntilChanged(
-				(prev, next) =>
-					prev.showIdentical === next.showIdentical &&
-					prev.showMinorChanges === next.showMinorChanges &&
-					prev.showRelated === next.showRelated
-			)
-		);
-		const suspectOrResults$ = suspectId$.pipe(switchMap(id => (id ? suspect$.pipe(map(x => [x])) : filteredResults$)));
-		combineLatest([suspectOrResults$, completeResult$, results$, suspectId$, importantOptions$])
+		const { completeResult$, results$, viewMode$, filteredResults$, suspect$, options$ } = reportService;
+		combineLatest([completeResult$, suspect$, options$, viewMode$])
 			.pipe(
 				untilDestroy(this),
-				throttleTime(100, asyncScheduler, { trailing: true, leading: false })
+				filter(([, suspect, , viewMode]) => viewMode === 'one-to-one' && !!suspect)
 			)
-			.subscribe(([filtered, meta, results, suspectId, options]) =>
-				this.retreiveStatistics(results, filtered, meta, !!suspectId, options)
+			.subscribe(([completeResult, suspect, options]) =>
+				this.retreiveOneToOneStatistics(completeResult, suspect, options)
 			);
+		combineLatest([completeResult$, results$, filteredResults$, options$, viewMode$])
+			.pipe(
+				untilDestroy(this),
+				filter(([, , , , viewMode]) => viewMode === 'one-to-many')
+			)
+			.subscribe(([completeResult, results, filteredResults, options]) => {
+				this.retreieveOneToManyStatistics(completeResult, results, filteredResults, options);
+			});
 	}
 
-	public get statistics$() {
-		return this._statistics.asObservable();
+	public statistics$ = this._statistics.asObservable().pipe(distinct());
+	/**
+	 * Retreive statistics for a one-to-one comparison using the complete result, suspect, and report options
+	 * @param completeResult The complete result - contains the count of total words and excluded words in the document
+	 * @param suspect the currently viewed suspect Result
+	 * @param options the current report options
+	 */
+	retreiveOneToOneStatistics(completeResult: CompleteResult, suspect: ResultItem, options: CopyleaksReportOptions) {
+		this._statistics.next({
+			identical: options.showIdentical ? suspect.result.statistics.identical : 0,
+			relatedMeaning: options.showRelated ? suspect.result.statistics.relatedMeaning : 0,
+			minorChanges: options.showMinorChanges ? suspect.result.statistics.minorChanges : 0,
+			omittedWords: completeResult.scannedDocument.totalExcluded,
+			total: completeResult.scannedDocument.totalWords,
+		});
 	}
 
 	/**
-	 * Reterieve the statistics for the currently visible results,
-	 * if all results are visible use the statistic section from the `completeResult`
-	 * otherwise calculate the statistics using `filteredResults`
-	 * @param results all the scan results
-	 * @param filteredResults the currently visible results
+	 * Retreive statistics for a one-to-many comparison using the complete result, results,filtered results, and report options
 	 * @param completeResult the complete result
+	 * @param results list of result items containing all the results from the current scan
+	 * @param filteredResults list of results filtered by user settings, will be the same as `results` when no filter applied
+	 * @param options the current report options
 	 */
-	retreiveStatistics(
+	retreieveOneToManyStatistics(
+		completeResult: CompleteResult,
 		results: ResultItem[],
 		filteredResults: ResultItem[],
-		completeResult: CompleteResult,
-		suspect: boolean,
 		options: CopyleaksReportOptions
 	) {
-		const { batch, internet, database } = completeResult.results;
-		const totalResults = batch.length + internet.length + database.length;
+		const totalResults =
+			completeResult.results.batch.length +
+			completeResult.results.internet.length +
+			completeResult.results.database.length;
 		const showAll = options.showIdentical && options.showMinorChanges && options.showRelated;
-		if (results.length < totalResults || (totalResults === filteredResults.length && showAll)) {
-			this.completeResultStats = this.completeResultStats || {
+		let stats: ReportStatistics;
+
+		if (results.length !== totalResults || (totalResults === filteredResults.length && showAll)) {
+			// * if results are still loading  or no results are fitlered while all match types are visible
+			// * we can use the complete result stats without heavy calculations
+			stats = {
 				identical: completeResult.results.score.identicalWords,
 				relatedMeaning: completeResult.results.score.relatedMeaningWords,
 				minorChanges: completeResult.results.score.minorChangedWords,
 				omittedWords: completeResult.scannedDocument.totalExcluded,
 				total: completeResult.scannedDocument.totalWords,
 			};
-			if (!suspect) {
-				this._statistics.next(this.completeResultStats);
-			}
 		} else {
-			this._statistics.next(helpers.calculateStatistics(completeResult, filteredResults, options));
+			stats = helpers.calculateStatistics(completeResult, filteredResults, options);
 		}
+		this._statistics.next(stats);
 	}
 
 	/** dtor */

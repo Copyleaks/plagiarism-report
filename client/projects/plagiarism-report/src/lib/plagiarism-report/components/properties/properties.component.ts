@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { distinctUntilChanged } from 'rxjs/operators';
+
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CopyleaksReportOptions, ReportStatistics, ViewMode } from '../../models';
 import { CompleteResult } from '../../models/api-models/CompleteResult';
@@ -23,6 +23,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public options: CopyleaksReportOptions;
 	public stats: ReportStatistics;
 	public progress?: number = null;
+	public help: boolean;
 	public share: boolean;
 	public download: boolean;
 	public previewCount = 0;
@@ -31,11 +32,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public identical: number;
 	public minor: number;
 	public related: number;
+
 	public customColors = [
-		{ name: 'identical', value: '#ff6666' },
-		{ name: 'minor changes', value: '#ff9a9a' },
-		{ name: 'related meaning', value: '#ffd9b0' },
-		{ name: 'original', value: '#f7f7f7' },
+		{ name: 'Identical', value: '#ff6666' },
+		{ name: 'Minor changes', value: '#ff9a9a' },
+		{ name: 'Related meaning', value: '#ffd9b0' },
+		{ name: 'Original', value: '#f7f7f7' },
 	];
 	public chartData = [];
 
@@ -83,19 +85,30 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * Download button click handler
-	 * Pass the click event to `ReportService`
+	 * Help button click handler
+	 * Passes the click event to `ReportService`
+	 * @param event native mouse event
 	 */
-	downloadClicked(event: MouseEvent) {
-		this.reportService.downloadBtnClicked(event);
+	helpClicked(event: MouseEvent) {
+		this.reportService.helpBtnClicked(event);
 	}
 
 	/**
 	 * Share button click handler
-	 * Pass the click event to `ReportService`
+	 * Passes the click event to `ReportService`
+	 * @param event native mouse event
 	 */
 	shareClicked(event: MouseEvent) {
 		this.reportService.shareBtnClicked(event);
+	}
+
+	/**
+	 * Download button click handler
+	 * Passes the click event to `ReportService`
+	 * @param event native mouse event
+	 */
+	downloadClicked(event: MouseEvent) {
+		this.reportService.downloadBtnClicked(event);
 	}
 
 	/** Toggle a comparison */
@@ -114,9 +127,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { share$, download$, completeResult$, progress$, previews$, viewMode$, options$ } = this.reportService;
+		const { help$, share$, download$, completeResult$, progress$, previews$, viewMode$, options$ } = this.reportService;
 		completeResult$.pipe(untilDestroy(this)).subscribe(meta => (this.metadata = meta));
 		previews$.subscribe(({ length }) => (this.previewCount = length));
+		help$.pipe(untilDestroy(this)).subscribe(help => (this.help = help));
 		share$.pipe(untilDestroy(this)).subscribe(share => (this.share = share));
 		download$.pipe(untilDestroy(this)).subscribe(download => (this.download = download));
 		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));
@@ -125,18 +139,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 		this.statistics.statistics$
 			.pipe(
-				distinctUntilChanged(),
-				truthy(),
-				untilDestroy(this)
+				untilDestroy(this),
+				truthy()
 			)
 			.subscribe(value => {
 				this.stats = value;
 				const { identical, minorChanges, relatedMeaning, omittedWords, total } = value;
 				this.chartData = [
-					{ name: 'identical', value: identical },
-					{ name: 'minor changes', value: minorChanges },
-					{ name: 'related meaning', value: relatedMeaning },
-					{ name: 'original', value: total - (identical + minorChanges + relatedMeaning + omittedWords) },
+					{ name: 'Identical', value: identical },
+					{ name: 'Minor changes', value: minorChanges },
+					{ name: 'Related meaning', value: relatedMeaning },
+					{ name: 'Original', value: total - (identical + minorChanges + relatedMeaning + omittedWords) },
 				];
 			});
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));

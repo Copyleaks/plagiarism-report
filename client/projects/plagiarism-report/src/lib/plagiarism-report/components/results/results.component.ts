@@ -8,6 +8,7 @@ import { LayoutMediaQueryService } from '../../services/layout-media-query.servi
 import { ReportService } from '../../services/report.service';
 import { fadeIn, listFade } from '../../utils/animations';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
+import { IMAGES } from '../../assets/images';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -29,7 +30,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	public previews: ResultPreview[];
 	public focusedMatch: Match;
 	public hiddenResults: string[] = [];
-
+	public readonly plagFreeImg = IMAGES.PLAGIARISM_FREE_PNG;
 	public get visibleResults() {
 		return this.focusedMatch.ids.filter(id => !this.hiddenResults.includes(id));
 	}
