@@ -53,10 +53,15 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 		const { source$, viewMode$, contentMode$ } = this.reportService;
 		const { jump$ } = this.highlightService;
 		const { originalHtmlMatches$ } = this.matchService;
-		source$.pipe(truthy()).subscribe(source => {
-			this.html = source.html.value;
-			this.setHtml(this.html);
-		});
+		source$
+			.pipe(
+				truthy(),
+				filter(source => !!source.html)
+			)
+			.subscribe(source => {
+				this.html = source.html.value;
+				this.setHtml(this.html);
+			});
 		combineLatest([source$.pipe(truthy()), originalHtmlMatches$])
 			.pipe(untilDestroy(this))
 			.subscribe(([, matches]) => {

@@ -131,7 +131,7 @@ export class ReportService implements OnDestroy {
 	public setSource(source: ScanSource) {
 		this._source.next(source);
 		/** Switch to text in case no html exists */
-		if (source && !source.html.value && this._config.value.contentMode === 'html') {
+		if (source && (!source.html || !source.html.value) && this._config.value.contentMode === 'html') {
 			this.configure({ contentMode: 'text' });
 		}
 	}
