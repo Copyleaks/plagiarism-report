@@ -157,7 +157,7 @@ export class MatchService implements OnDestroy {
 	 * @param source  the scan source
 	 */
 	private processOneToOneMatches(item: ResultItem, settings: CopyleaksReportOptions, source: ScanSource) {
-		if (source.html.value && !item.result.html.value) {
+		if (source.html && source.html.value && !(item.result.html && item.result.html.value)) {
 			// case where source has html but suspect doesnt
 			this.onSourceFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 				const text = helpers.processSourceText(item, settings, source);
@@ -172,7 +172,7 @@ export class MatchService implements OnDestroy {
 				const text = helpers.processSuspectText(item, settings, mode === 'text');
 				this._suspectTextMatches.next(text);
 			});
-		} else if (!source.html.value && item.result.html.value) {
+		} else if (!(source.html && source.html.value) && (item.result.html && item.result.html.value)) {
 			// case where suspect has html but source doesnt
 			this.onSuspectFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 				const text = helpers.processSuspectText(item, settings);
