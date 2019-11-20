@@ -210,6 +210,9 @@ const extractMatches = (comparison: ComparisonKey, content: ContentKey, subject:
  * @param content name of the content to extract from (text | html)
  */
 const extractExcluded = (content: ContentKey) => (source: ScanSource) => {
+	if (!source[content].exclude) {
+		return [];
+	}
 	const { starts, lengths, groupIds, reasons } = source[content].exclude;
 	return starts.map(
 		(start, i): Match => ({
