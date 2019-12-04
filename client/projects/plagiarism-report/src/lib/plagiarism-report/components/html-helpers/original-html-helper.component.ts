@@ -19,8 +19,6 @@ import iframeScript from './one-to-many-iframe-logic';
 	styleUrls: ['./html-helper.scss'],
 })
 export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnInit, OnDestroy {
-	/** convinient getter for the iframe window object */
-
 	constructor(
 		renderer: Renderer2,
 		element: ElementRef<HTMLIFrameElement>,

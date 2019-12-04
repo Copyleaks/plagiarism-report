@@ -198,8 +198,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 			forkJoin(requests).subscribe();
 		});
 	}
-	onBtnClick(event: MouseEvent) {
-		console.log((event.target as HTMLElement).textContent);
-	}
+	onBtnClick(event: MouseEvent) {}
 	ngOnDestroy() {}
 }

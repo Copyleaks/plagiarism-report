@@ -33,6 +33,7 @@ const extractMatchEndpoints = (acc: MatchEndpoint[], curr: Match): MatchEndpoint
 	});
 	return acc;
 };
+
 /**
  * Takes a list of matches and push the missing gaps as matches with type of MatchType.none
  */
@@ -182,6 +183,7 @@ export const paginateMatches = (content: string, pages: number[], matches: Match
 	}
 	return result;
 };
+
 /**
  * Higher order function that returns a function that extracts Match Intervals from a Result
  * @param comparison name of the comparison type to extract ( identical | minorChanges | relatedMeaning)
@@ -192,6 +194,9 @@ const extractMatches = (comparison: ComparisonKey, content: ContentKey, subject:
 	item: ResultItem
 ) => {
 	const { result, id } = item;
+	if (!result[content] || !result[content].comparison) {
+		return [];
+	}
 	const gids = result[content].comparison[comparison].groupId || [];
 	const { starts, lengths } = result[content].comparison[comparison][subject].chars;
 	return starts.map(
@@ -225,32 +230,46 @@ const extractExcluded = (content: ContentKey) => (source: ScanSource) => {
 		})
 	);
 };
+
 /** A function to extract `identical` matches from the `text` of a `source` document */
 export const sourceTextIdentical = extractMatches('identical', 'text', 'source');
+
 /** A function to extract `relatedMeaning` matches from the `text` of a `source` document */
 export const sourceTextRelatedMeaning = extractMatches('relatedMeaning', 'text', 'source');
+
 /** A function to extract `minorChanges` matches from the `text` of a `source` document */
 export const sourceTextMinorChanges = extractMatches('minorChanges', 'text', 'source');
+
 /** A function to extract `identical` matches from the `html` of a `source` document */
 export const sourceHtmlIdentical = extractMatches('identical', 'html', 'source');
+
 /** A function to extract `relatedMeaning` matches from the `html` of a `source` document */
 export const sourceHtmlRelatedMeaning = extractMatches('relatedMeaning', 'html', 'source');
+
 /** A function to extract `minorChanges` matches from the `html` of a `source` document */
 export const sourceHtmlMinorChanges = extractMatches('minorChanges', 'html', 'source');
+
 /** A function to extract `identical` matches from the `text` of a `suspect` document */
 export const suspectTextIdentical = extractMatches('identical', 'text', 'suspected');
+
 /** A function to extract `relatedMeaning` matches from the `text` of a `suspect` document */
 export const suspectTextRelatedMeaning = extractMatches('relatedMeaning', 'text', 'suspected');
+
 /** A function to extract `minorChanges` matches from the `text` of a `suspect` document */
 export const suspectTextMinorChanges = extractMatches('minorChanges', 'text', 'suspected');
+
 /** A function to extract `identical` matches from the `html` of a `suspect` document */
 export const suspectHtmlIdentical = extractMatches('identical', 'html', 'suspected');
+
 /** A function to extract `relatedMeaning` matches from the `html` of a `suspect` document */
 export const suspectHtmlRelatedMeaning = extractMatches('relatedMeaning', 'html', 'suspected');
+
 /** A function to extract `minorChanges` matches from the `html` of a `suspect` document */
 export const suspectHtmlMinorChanges = extractMatches('minorChanges', 'html', 'suspected');
+
 /** A function to extract `excluded` matches from the `text` of a `source` document */
 export const sourceTextExcluded = extractExcluded('text');
+
 /** A function to extract `excluded` matches from the `html` of a `source` document */
 export const sourceHtmlExcluded = extractExcluded('html');
 

@@ -1,27 +1,19 @@
-import { TestBed } from '@angular/core/testing';
-import { MatchService } from './match.service';
-import { ReportService } from './report.service';
 import { MatchType, Match } from '../models/Matches';
-import { mergeMatches, fillMissingGaps } from '../utils/match-helpers';
-
-describe('MatchService', () => {
-	beforeEach(() => {
-		TestBed.configureTestingModule({
-			providers: [MatchService, ReportService],
-		});
-	});
-
-	describe('mergeCharIntervals', () => {
-		const data: Match[] = [{ start: 0, end: 7, type: 0, ids: ['A'] }, { start: 5, end: 12, type: 1, ids: ['B'] }];
-		it('should group matches correctly', () => {
-			const result: Match[] = mergeMatches(data);
-			expect(result).toEqual(
-				expect.arrayContaining([
-					expect.objectContaining({ start: 0, end: 5, type: 0, ids: expect.arrayContaining(['A']) }),
-					expect.objectContaining({ start: 5, end: 7, type: 0, ids: expect.arrayContaining(['A', 'B']) }),
-					expect.objectContaining({ start: 7, end: 12, type: 1, ids: expect.arrayContaining(['B']) }),
-				])
-			);
+import { mergeMatches, fillMissingGaps } from './match-helpers';
+describe('match-helpers', () => {
+	describe('mergeMatches', () => {
+		describe('for two simple overlaping matches - ', () => {
+			const data: Match[] = [{ start: 0, end: 7, type: 0, ids: ['A'] }, { start: 5, end: 12, type: 1, ids: ['B'] }];
+			it('it should group matches correctly', () => {
+				const result: Match[] = mergeMatches(data);
+				expect(result).toEqual(
+					expect.arrayContaining([
+						expect.objectContaining({ start: 0, end: 5, type: 0, ids: expect.arrayContaining(['A']) }),
+						expect.objectContaining({ start: 5, end: 7, type: 0, ids: expect.arrayContaining(['A', 'B']) }),
+						expect.objectContaining({ start: 7, end: 12, type: 1, ids: expect.arrayContaining(['B']) }),
+					])
+				);
+			});
 		});
 	});
 
