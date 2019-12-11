@@ -6,11 +6,11 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CopyleaksReportModule } from 'projects/plagiarism-report/src/public-api';
-import { ReportComponent } from './report.component';
+import { ReportComponent, EmptyComponent } from './report.component';
 import { RoutingModule } from './routing.module';
 
 @NgModule({
-	declarations: [AppComponent, ReportComponent],
+	declarations: [AppComponent, ReportComponent, EmptyComponent],
 	imports: [
 		CommonModule,
 		BrowserModule,

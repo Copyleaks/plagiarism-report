@@ -201,3 +201,11 @@ export class ReportComponent implements OnInit, OnDestroy {
 	onBtnClick() {}
 	ngOnDestroy() {}
 }
+
+@Component({
+	selector: 'app-empty',
+	template: ``,
+})
+export class EmptyComponent {
+	constructor() {}
+}

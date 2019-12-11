@@ -19,7 +19,7 @@ export class ReportService implements OnDestroy {
 	private _results = new BehaviorSubject<ResultItem[]>([]);
 
 	// * configurable state
-	private _config = new BehaviorSubject<CopyleaksReportConfig>(DEFAULT_REPORT_CONFIG);
+	private _config = new BehaviorSubject<CopyleaksReportConfig>({ ...DEFAULT_REPORT_CONFIG });
 	private _progress = new BehaviorSubject<number>(null);
 	private _hiddenResults = new BehaviorSubject<string[]>([]);
 
@@ -30,7 +30,14 @@ export class ReportService implements OnDestroy {
 	private _configChange = new Subject<CopyleaksReportConfig>();
 
 	constructor(private copyleaksService: CopyleaksService) {
-		const { onCompleteResult$, onResultPreview$, onProgress$, onResultItem$, onScanSource$, onReportConfig$ } = copyleaksService;
+		const {
+			onCompleteResult$,
+			onResultPreview$,
+			onProgress$,
+			onResultItem$,
+			onScanSource$,
+			onReportConfig$,
+		} = copyleaksService;
 		onCompleteResult$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
 		onResultPreview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
 		onProgress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
@@ -70,7 +77,9 @@ export class ReportService implements OnDestroy {
 	public onlyOneToOne$ = this.config$.pipe(map(x => x.disableSuspectBackButton));
 	public sourcePage$ = this.config$.pipe(map(x => x.sourcePage));
 	public suspectPage$ = this.config$.pipe(map(x => x.suspectPage));
-	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(switchMap(id => (id ? this.findResultById$(id) : of(null))));
+	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(
+		switchMap(id => (id ? this.findResultById$(id) : of(null)))
+	);
 
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
 	public results$ = this._results.asObservable().pipe(truthy());
