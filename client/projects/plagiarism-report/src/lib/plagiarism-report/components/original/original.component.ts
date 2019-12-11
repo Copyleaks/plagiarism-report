@@ -10,6 +10,8 @@ import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
 import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { MatchComponent } from '../match/match.component';
+import { combineLatest } from 'rxjs';
+import { switchMapTo, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-original',
@@ -138,6 +140,18 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		});
 
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
+		viewMode$
+			.pipe(
+				untilDestroy(this),
+				distinctUntilChanged(),
+				switchMapTo(source$)
+			)
+			.subscribe(source => {
+				if (!source.html || !source.html.value) {
+					this.reportService.configure({ contentMode: 'text' });
+				}
+			});
+
 		contentMode$.pipe(untilDestroy(this)).subscribe(content => (this.contentMode = content));
 		originalTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.originalTextMatches = matches));
 		sourceTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.sourceTextMatches = matches));

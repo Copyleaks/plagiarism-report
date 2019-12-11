@@ -145,28 +145,19 @@ export const calculateStatistics = (
 ): ReportStatistics => {
 	const { totalWords, totalExcluded } = completeResult.scannedDocument;
 	const identical = options.showIdentical ? results.flatMap(createWordIntervalsFrom('identical', 'source')) : [];
-	const minorChanges = options.showMinorChanges
-		? results.flatMap(createWordIntervalsFrom('minorChanges', 'source'))
-		: [];
-	const relatedMeaning = options.showRelated
-		? results.flatMap(createWordIntervalsFrom('relatedMeaning', 'source'))
-		: [];
+	const minorChanges = options.showMinorChanges ? results.flatMap(createWordIntervalsFrom('minorChanges', 'source')) : [];
+	const relatedMeaning = options.showRelated ? results.flatMap(createWordIntervalsFrom('relatedMeaning', 'source')) : [];
 	const withOutoverlaps = mergeWords([...relatedMeaning, ...minorChanges, ...identical]);
 	const identicalCount = withOutoverlaps
 		.filter(match => match.type === MatchType.identical)
-		.reduce((total, elem) => {
-			return total + (elem.end - elem.start);
-		}, 0);
+		.reduce((total, elem) => total + (elem.end - elem.start), 0);
 	const minorChangesCount = withOutoverlaps
 		.filter(match => match.type === MatchType.minorChanges)
-		.reduce((total, elem) => {
-			return total + (elem.end - elem.start);
-		}, 0);
+		.reduce((total, elem) => total + (elem.end - elem.start), 0);
 	const relatedMeaningCount = withOutoverlaps
 		.filter(match => match.type === MatchType.relatedMeaning)
-		.reduce((total, elem) => {
-			return total + (elem.end - elem.start);
-		}, 0);
+		.reduce((total, elem) => total + (elem.end - elem.start), 0);
+
 	return {
 		identical: identicalCount,
 		relatedMeaning: relatedMeaningCount,

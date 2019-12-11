@@ -31,15 +31,6 @@
 		</cr-expansion-panel-menu-item>
 	</cr-expansion-panel-menu>
 	<cr-expansion-panel-body fxLayout="row nowrap">
-		<!-- <div progress>
-			<ng-container *ngIf="metadata;else skeleton__prop">
-				<span fxLayout="row"
-							fxLayoutGap="1em">
-					<mat-icon>check_circle</mat-icon>{{progress | percent:"1.0" }}
-				</span>
-			</ng-container>
-		</div> -->
-
 		<!-- PROGRESS -->
 		<div prop>
 			<ng-container>
@@ -64,11 +55,11 @@
 				</div>
 				<div>
 					<ng-container *ngIf="!done">
-						working...
+						scanning...
 					</ng-container>
 					<ng-container *ngIf="done">
 						<small *ngIf="metadata"
-									 matTooltip="{{metadata?.scannedDocument.creationTime | date:'medium'}}">
+									 [matTooltip]="metadata?.scannedDocument.creationTime | date:'MMMM d, y, h:mm:ss a'">
 							Scanned {{ metadata?.scannedDocument.creationTime | timeAgo }}
 						</small>
 					</ng-container>
@@ -88,9 +79,9 @@
 		<!-- # COPIED WORDS -->
 		<div prop
 				 *ngIf="stats;else skeleton__prop">
-			<label [matTooltip]="stats.identical >= 1000 ? ((stats.identical | number)+ ' words'):null">
-				{{ stats.identical | shortNumber:1}}</label>
-			<div>coppied words</div>
+			<label [matTooltip]="combined >= 1000 ? ((combined | number)+ ' words'):null">
+				{{ combined | shortNumber:1}}</label>
+			<div>similar words</div>
 		</div>
 
 		<!-- STATS -->

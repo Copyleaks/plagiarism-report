@@ -131,7 +131,7 @@
 <!-- menu -->
 <mat-menu #appMenu>
 	<button mat-menu-item
-					[disabled]="!textMatches || textMatches.length === 0"
+					[disabled]="(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))"
 					(click)="onJumpToNextMatchClick()"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__next_match">
@@ -139,7 +139,7 @@
 		Next Match
 	</button>
 	<button mat-menu-item
-					[disabled]="!textMatches || textMatches.length === 0"
+					[disabled]="(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))"
 					(click)="onJumpToNextMatchClick(false)"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__prev_match">
@@ -187,7 +187,7 @@
 <ng-template #menu__next_match>
 	<button mat-button
 					(click)="onJumpToNextMatchClick()"
-					[disabled]="!textMatches || textMatches.length === 0"
+					[disabled]="(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))"
 					matTooltip="Go to next match">
 		<mat-icon>arrow_downward</mat-icon>
 	</button>
@@ -195,7 +195,7 @@
 <ng-template #menu__prev_match>
 	<button mat-button
 					(click)="onJumpToNextMatchClick(false)"
-					[disabled]="!textMatches || textMatches.length === 0"
+					[disabled]="(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))"
 					matTooltip="Go to previous match">
 		<mat-icon>arrow_upward</mat-icon>
 	</button>

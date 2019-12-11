@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { filter, withLatestFrom } from 'rxjs/operators';
+import { filter, withLatestFrom, map } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchJumpEvent, MatchSelectEvent, MatchType } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
@@ -52,7 +52,7 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 	 */
 	ngOnInit() {
 		const { suspect$, viewMode$, contentMode$ } = this.reportService;
-		const { sourceHtml$, jump$ } = this.highlightService;
+		const { sourceHtml$, textMatchClick$, jump$ } = this.highlightService;
 		const { suspectHtmlMatches$ } = this.matchService;
 		suspect$
 			.pipe(
@@ -69,17 +69,35 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 			)
 			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
 
+		textMatchClick$
+			.pipe(
+				untilDestroy(this),
+				filter(ev => ev.origin === 'source' && ev.broadcast),
+				map(ev => ev.elem),
+				withLatestFrom(suspect$, suspectHtmlMatches$, contentMode$),
+				filter(([, , matches, content]) => content === 'html' && !!matches)
+			)
+			.subscribe(([elem, suspect, matches]) => {
+				if (elem) {
+					const comparison = suspect.result.html.comparison[MatchType[elem.match.type]];
+					const [start] = findRespectiveStart(elem.match.start, comparison, true);
+					const found = matches.findIndex(m => m.start === start);
+					this.markSingleMatchInFrame(found);
+				} else {
+					this.markSingleMatchInFrame(-1);
+				}
+			});
 		sourceHtml$
 			.pipe(
-				withLatestFrom(suspect$, contentMode$),
-				filter(([, , content]) => content === 'html'),
+				withLatestFrom(suspect$, suspectHtmlMatches$, contentMode$),
+				filter(([, , matches, content]) => content === 'html' && !!matches),
 				filter(([, suspect]) => suspect && !!suspect.result.html.value)
 			)
-			.subscribe(([match, suspect]) => {
+			.subscribe(([match, suspect, matches]) => {
 				if (match && suspect) {
 					const comparison = suspect.result.html.comparison[MatchType[match.type]];
 					const [start] = findRespectiveStart(match.start, comparison, true);
-					const found = this.matches.findIndex(m => m.start === start);
+					const found = matches.findIndex(m => m.start === start);
 					this.markSingleMatchInFrame(found);
 				} else {
 					this.markSingleMatchInFrame(-1);

@@ -17,9 +17,7 @@ export class StatisticsService implements OnDestroy {
 				untilDestroy(this),
 				filter(([, suspect, , viewMode]) => viewMode === 'one-to-one' && !!suspect)
 			)
-			.subscribe(([completeResult, suspect, options]) =>
-				this.retreiveOneToOneStatistics(completeResult, suspect, options)
-			);
+			.subscribe(([completeResult, suspect, options]) => this.retreiveOneToOneStatistics(completeResult, suspect, options));
 		combineLatest([completeResult$, results$, filteredResults$, options$, viewMode$])
 			.pipe(
 				untilDestroy(this),
@@ -61,13 +59,11 @@ export class StatisticsService implements OnDestroy {
 		options: CopyleaksReportOptions
 	) {
 		const totalResults =
-			completeResult.results.batch.length +
-			completeResult.results.internet.length +
-			completeResult.results.database.length;
+			completeResult.results.batch.length + completeResult.results.internet.length + completeResult.results.database.length;
 		const showAll = options.showIdentical && options.showMinorChanges && options.showRelated;
+		const missingAggregated = totalResults !== 0 && completeResult.results.score.aggregatedScore === 0;
 		let stats: ReportStatistics;
-
-		if (results.length !== totalResults || (totalResults === filteredResults.length && showAll)) {
+		if (results.length !== totalResults || (totalResults === filteredResults.length && showAll && !missingAggregated)) {
 			// * if results are still loading  or no results are fitlered while all match types are visible
 			// * we can use the complete result stats without heavy calculations
 			stats = {

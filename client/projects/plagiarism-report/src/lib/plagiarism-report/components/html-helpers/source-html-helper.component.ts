@@ -78,14 +78,14 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 				untilDestroy(this),
 				filter(ev => ev.origin === 'suspect' && ev.broadcast),
 				map(ev => ev.elem),
-				withLatestFrom(suspect$, contentMode$),
-				filter(([, , content]) => content === 'html')
+				withLatestFrom(suspect$, sourceHtmlMatches$, contentMode$),
+				filter(([, , matches, content]) => content === 'html' && !!matches)
 			)
-			.subscribe(([elem, suspect]) => {
+			.subscribe(([elem, suspect, matches]) => {
 				if (elem) {
 					const comparison = suspect.result.html.comparison[MatchType[elem.match.type]];
 					const [start] = findRespectiveStart(elem.match.start, comparison, false);
-					const found = this.matches.findIndex(m => m.start === start);
+					const found = matches.findIndex(m => m.start === start);
 					this.markSingleMatchInFrame(found);
 				} else {
 					this.markSingleMatchInFrame(-1);
@@ -95,14 +95,14 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 		suspectHtml$
 			.pipe(
 				untilDestroy(this),
-				withLatestFrom(suspect$, contentMode$),
-				filter(([, , content]) => content === 'html')
+				withLatestFrom(suspect$, sourceHtmlMatches$, contentMode$),
+				filter(([, , matches, content]) => content === 'html' && !!matches)
 			)
-			.subscribe(([match, suspect]) => {
+			.subscribe(([match, suspect, matches]) => {
 				if (match) {
 					const comparison = suspect.result.html.comparison[MatchType[match.type]];
 					const [start] = findRespectiveStart(match.start, comparison, false);
-					const found = this.matches.findIndex(m => m.start === start);
+					const found = matches.findIndex(m => m.start === start);
 					this.markSingleMatchInFrame(found);
 				} else {
 					this.markSingleMatchInFrame(-1);

@@ -1,14 +1,4 @@
-import {
-	Component,
-	EventEmitter,
-	HostBinding,
-	Input,
-	OnChanges,
-	OnDestroy,
-	OnInit,
-	Output,
-	SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { untilDestroy } from '../shared/operators/untilDestroy';
 import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
 import { CopyleaksService } from './services/copyleaks.service';
