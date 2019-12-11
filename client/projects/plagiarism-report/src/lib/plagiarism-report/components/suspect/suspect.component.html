@@ -1,7 +1,6 @@
 <cr-panel fxFlex>
-
 	<cr-panel-header>
-		<label> Suspect </label>
+		<label>Suspect</label>
 	</cr-panel-header>
 
 	<cr-panel-actions>
@@ -35,7 +34,6 @@
 		<cr-panel-action *ngIf="!disableBackButton">
 			<ng-container *ngTemplateOutlet="menu__show_results"></ng-container>
 		</cr-panel-action>
-
 	</cr-panel-actions>
 
 	<cr-panel-body fxLayout="column nowrap">
@@ -47,8 +45,7 @@
 					 class="mat-elevation-z3"
 					 fxLayout="column">
 				<!-- skeleton placeholder -->
-				<ng-container *ngTemplateOutlet="!suspect ? skeleton__body:null">
-				</ng-container>
+				<ng-container *ngTemplateOutlet="!suspect ? skeleton__body : null"></ng-container>
 				<!-- text for one-to-one -->
 				<div [fxShow]="suspect && !(hasHtml && isHtml)"
 						 crSuspectTextHelper
@@ -56,32 +53,31 @@
 						 [ngStyle]="{ 'font-size': zoom + 'em' }"
 						 [dir]="direction">
 					<ng-container *ngIf="textMatches; else clean">
-						<ng-container *ngFor="let partial of textMatches[currentPage-1]">
-							<span *ngIf="partial.match.type === MatchType.none">{{partial.content}}</span>
+						<ng-container *ngFor="let partial of textMatches[currentPage - 1]">
+							<span *ngIf="partial.match.type === MatchType.none">{{ partial.content }}</span>
 							<span *ngIf="partial.match.type !== MatchType.none"
 										[cr-match]="partial.match"
-										origin="suspect">{{partial.content}}</span>
+										origin="suspect">
+								{{ partial.content }}
+							</span>
 						</ng-container>
 					</ng-container>
 				</div>
 				<!-- text without match highlighting -->
 				<ng-template #clean>
-					{{ suspect && (suspect.text.value | slice:pages[currentPage-1]:pages[currentPage]) }}
+					{{ suspect && (suspect.text.value | slice: pages[currentPage - 1]:pages[currentPage]) }}
 				</ng-template>
 
 				<iframe fxFlex
 								[fxShow]="hasHtml && isHtml"
-								cr-suspect-html-helper>
-				</iframe>
+								cr-suspect-html-helper></iframe>
 			</div>
 		</div>
-
 
 		<div content-footer
 				 fxLayoutAlign="space-between center"
 				 fxLayout="row-reverse nowrap">
-
-			<ng-container *ngIf="suspect ;else skeleton__pagination">
+			<ng-container *ngIf="suspect; else skeleton__pagination">
 				<cr-mat-pagination [hidden]="(hasHtml && isHtml) || pages?.length === 1"
 													 showFirstLastButtons
 													 [currentPage]="currentPage"
@@ -97,11 +93,11 @@
 	<div fxLayout="row nowrap"
 			 fxLayoutGap="0.5em"
 			 fxLayoutAlign="start stretch">
-		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
-		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
-		<ngx-skeleton-loader [theme]="{width:'200px',height:'36px'}"></ngx-skeleton-loader>
-		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
-		<ngx-skeleton-loader [theme]="{width:'36px',height:'36px'}"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ width: '36px', height: '36px' }"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ width: '36px', height: '36px' }"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ width: '200px', height: '36px' }"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ width: '36px', height: '36px' }"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ width: '36px', height: '36px' }"></ngx-skeleton-loader>
 	</div>
 </ng-template>
 
@@ -111,50 +107,44 @@
 <mat-menu #appMenu>
 	<button mat-menu-item
 					crClickStopPropagation>
-		<ng-container *ngTemplateOutlet="menu__next_match">
-		</ng-container>
+		<ng-container *ngTemplateOutlet="menu__next_match"></ng-container>
 		Next Match
 	</button>
 	<button mat-menu-item
 					crClickStopPropagation>
-		<ng-container *ngTemplateOutlet="menu__prev_match">
-		</ng-container>
+		<ng-container *ngTemplateOutlet="menu__prev_match"></ng-container>
 		Previous Match
 	</button>
 	<button mat-menu-item
 					(click)="toggleContent()"
 					crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__toggle_html"></ng-container>
-		{{isHtml ? 'Switch to textual mode':'Switch to rich text mode'}}
+		{{ isHtml ? 'Switch to textual mode' : 'Switch to rich text mode' }}
 	</button>
 	<button mat-menu-item
 					*ngIf="!isHtml"
 					crClickStopPropagation>
-		<ng-container *ngTemplateOutlet="menu__align_left">
-		</ng-container>
+		<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
 		Align Left
 	</button>
 	<button mat-menu-item
 					*ngIf="!isHtml"
 					crClickStopPropagation>
-		<ng-container *ngTemplateOutlet="menu__align_right">
-		</ng-container>
+		<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
 		Align Right
 	</button>
 	<button mat-menu-item
 					*ngIf="!isHtml"
 					(click)="increaseFontSize()"
 					crClickStopPropagation>
-		<ng-container *ngTemplateOutlet="menu__font_inc">
-		</ng-container>
+		<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
 		Increase Font Size
 	</button>
 	<button mat-menu-item
 					*ngIf="!isHtml"
 					(click)="decreaseFontSize()"
 					crClickStopPropagation>
-		<ng-container *ngTemplateOutlet="menu__font_dec">
-		</ng-container>
+		<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
 		Decrease Font Size
 	</button>
 </mat-menu>
@@ -172,10 +162,10 @@
 </ng-template>
 <ng-template #menu__toggle_html>
 	<button mat-button
-					[matTooltip]=" isHtml ? 'Switch to textual mode':'Switch to rich text mode'"
+					[matTooltip]="isHtml ? 'Switch to textual mode' : 'Switch to rich text mode'"
 					[disabled]="!hasHtml"
 					(click)="toggleContent()">
-		<mat-icon>{{isHtml? 'title':'insert_photo'}}</mat-icon>
+		<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_left>
@@ -214,7 +204,6 @@
 	</button>
 </ng-template>
 
-
 <!-- skeletons -->
 <ng-template #skeleton__body>
 	<div fxFlex
@@ -224,7 +213,6 @@
 			 style="overflow: hidden;margin:1em"
 			 skeleton__body>
 		<ngx-skeleton-loader [theme]="{ height: '100%' }"
-												 *ngFor="let item of 20 | array; index as i">
-		</ngx-skeleton-loader>
+												 *ngFor="let item of 20 | array; index as i"></ngx-skeleton-loader>
 	</div>
 </ng-template>

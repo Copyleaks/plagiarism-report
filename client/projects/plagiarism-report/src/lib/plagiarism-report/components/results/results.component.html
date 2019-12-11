@@ -1,9 +1,7 @@
 <cr-panel fxFlex>
 	<cr-panel-header>
 		Results
-		<ng-container *ngIf="focusedMatch">
-			({{visibleResults.length}} of {{previews?.length }})
-		</ng-container>
+		<ng-container *ngIf="focusedMatch">({{ visibleResults.length }} of {{ previews?.length }})</ng-container>
 	</cr-panel-header>
 	<cr-panel-actions>
 		<cr-panel-action *ngIf="focusedMatch">
@@ -13,14 +11,14 @@
 			<button mat-button
 							[disabled]="!previews"
 							(click)="isActive = !isActive">
-				<mat-icon>{{ isActive ? 'arrow_downward':'arrow_upward'}}</mat-icon>
+				<mat-icon>{{ isActive ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
 			</button>
 		</cr-panel-action>
 		<cr-panel-action *ngIf="!isMobile || isActive">
 			<button mat-button
-							[ngClass]="{'mat-stroked-button mat-warn': hiddenResults.length}"
+							[ngClass]="{ 'mat-stroked-button mat-warn': hiddenResults.length }"
 							[disabled]="!previews"
-							[matTooltip]="hiddenResults.length  ? hiddenResults.length + ' results  are hidden':'Filter results'"
+							[matTooltip]="hiddenResults.length ? hiddenResults.length + ' results  are hidden' : 'Filter results'"
 							(click)="openFilterDialog()">
 				<mat-icon>filter_list</mat-icon>
 			</button>
@@ -32,17 +30,15 @@
 		<virtual-scroller *ngIf="previews"
 											#scroll
 											fxFlex
-											[items]="previews | whitelist:'id':focusedMatch?.ids">
+											[items]="previews | whitelist: 'id':focusedMatch?.ids">
 			<cr-result-card *ngFor="let preview of scroll.viewPortItems"
-											[preview]="preview">
-			</cr-result-card>
+											[preview]="preview"></cr-result-card>
 		</virtual-scroller>
 		<virtual-scroller *ngIf="!previews"
 											#scroll
 											fxFlex
-											[items]="[1,2,3]">
+											[items]="[1, 2, 3]">
 			<cr-result-card *ngFor="let preview of scroll.viewPortItems"></cr-result-card>
-
 		</virtual-scroller>
 	</cr-panel-body>
 </cr-panel>

@@ -10,7 +10,8 @@
     "lib:lint": "ng lint plagiarism-report",
     "lib:version": "cd projects/plagiarism-report && npm version prerelease --preid=alpha",
     "lib:build": "ng build plagiarism-report",
-    "lib:publish": "cd dist/plagiarism-report && npm publish --tag=next ",
+		"lib:publish": "cd dist/plagiarism-report && npm publish --tag=next ",
+		"prettier": "prettier --write **/*.{ts,js,css,scss,html}",
     "script:tag": "node scripts/tag.js",
     "package": "npm run lib:test && npm run lib:lint && npm run lib:version && npm run lib:build && npm run lib:publish"
   },

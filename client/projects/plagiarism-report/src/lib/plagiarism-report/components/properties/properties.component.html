@@ -1,5 +1,5 @@
 <cr-expansion-panel expanded="true">
-	<cr-expansion-panel-title>SCAN PROPERTIES </cr-expansion-panel-title>
+	<cr-expansion-panel-title>SCAN PROPERTIES</cr-expansion-panel-title>
 	<cr-expansion-panel-menu>
 		<cr-expansion-panel-menu-item *ngIf="help">
 			<button mat-button
@@ -46,7 +46,7 @@
 
 					<label>
 						<ng-container *ngIf="!done && progress !== null">
-							{{ (progress && (progress / 100)) | percent:"1.0" }}
+							{{ progress && progress / 100 | percent: '1.0' }}
 						</ng-container>
 						<ng-container *ngIf="done">
 							done
@@ -59,7 +59,7 @@
 					</ng-container>
 					<ng-container *ngIf="done">
 						<small *ngIf="metadata"
-									 [matTooltip]="metadata?.scannedDocument.creationTime | date:'MMMM d, y, h:mm:ss a'">
+									 [matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
 							Scanned {{ metadata?.scannedDocument.creationTime | timeAgo }}
 						</small>
 					</ng-container>
@@ -69,8 +69,9 @@
 
 		<!-- RESULTS FOUND -->
 		<div prop>
-			<label [matTooltip]="previewCount >= 1000 ? ((previewCount | number) +' results'):null">
-				{{previewCount | shortNumber:1}}</label>
+			<label [matTooltip]="previewCount >= 1000 ? (previewCount | number) + ' results' : null">
+				{{ previewCount | shortNumber: 1 }}
+			</label>
 			<div>
 				results found
 			</div>
@@ -78,9 +79,10 @@
 
 		<!-- # COPIED WORDS -->
 		<div prop
-				 *ngIf="stats;else skeleton__prop">
-			<label [matTooltip]="combined >= 1000 ? ((combined | number)+ ' words'):null">
-				{{ combined | shortNumber:1}}</label>
+				 *ngIf="stats; else skeleton__prop">
+			<label [matTooltip]="combined >= 1000 ? (combined | number) + ' words' : null">
+				{{ combined | shortNumber: 1 }}
+			</label>
 			<div>similar words</div>
 		</div>
 
@@ -92,16 +94,15 @@
 			<ng-container *ngIf="stats; else skeleton__stats">
 				<ngx-charts-pie-chart fxHide.lt-md
 															[customColors]="customColors"
-															[results]='chartData'
-															[view]="[150,150]">
+															[results]="chartData"
+															[view]="[150, 150]">
 					<ng-template #tooltipTemplate
 											 let-model="model">
 						<div style="padding:0.5em">
-							<span style="font-size:1em;display: block">{{model.value | number}}</span>
-							<span tooltip-text>{{ model.name }} words </span>
+							<span style="font-size:1em;display: block">{{ model.value | number }}</span>
+							<span tooltip-text>{{ model.name }} words</span>
 						</div>
 					</ng-template>
-
 				</ngx-charts-pie-chart>
 
 				<div legend
@@ -110,51 +111,54 @@
 						 fxLayoutAlign="space-evenly stretch">
 					<div row
 							 (click)="toggleComparison('showIdentical')"
-							 [matTooltip]="options?.showIdentical? null:'Omitted by your configuration. Click to enable'"
+							 [matTooltip]="options?.showIdentical ? null : 'Omitted by your configuration. Click to enable'"
 							 fxLayout="row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot identical"></div>
 						<div text
-								 [ngClass]="{'cr-strike-out':  !options?.showIdentical }">
+								 [ngClass]="{ 'cr-strike-out': !options?.showIdentical }">
 							Identical
 						</div>
 						<span fxFlex></span>
 
 						<div *ngIf="options.showIdentical || stats.identical > 0">
-							{{  stats?.identical / stats?.total | percent:"1.0-1"}}</div>
+							{{ stats?.identical / stats?.total | percent: '1.0-1' }}
+						</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
 							 (click)="toggleComparison('showMinorChanges')"
-							 [matTooltip]="options?.showMinorChanges? null:'Omitted by your configuration. Click to enable'"
+							 [matTooltip]="options?.showMinorChanges ? null : 'Omitted by your configuration. Click to enable'"
 							 fxLayout="row"
 							 fxLayoutAlign="center center"
 							 fxLayoutGap="0.5em">
 						<div class="dot minor-changes"></div>
 						<div text
-								 [ngClass]="{'cr-strike-out': options.showMinorChanges !== true}">
+								 [ngClass]="{ 'cr-strike-out': options.showMinorChanges !== true }">
 							Minor Changes
 						</div>
 						<span fxFlex></span>
 						<div *ngIf="options.showMinorChanges || stats.minorChanges > 0">
-							{{  stats?.minorChanges / stats?.total | percent:"1.0-1"}}</div>
+							{{ stats?.minorChanges / stats?.total | percent: '1.0-1' }}
+						</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
 							 (click)="toggleComparison('showRelated')"
-							 [matTooltip]="options?.showRelated? null:'Omitted by your configuration. Click to enable'"
+							 [matTooltip]="options?.showRelated ? null : 'Omitted by your configuration. Click to enable'"
 							 fxLayout="row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot related"></div>
 						<div text
-								 [ngClass]="{'cr-strike-out': options.showRelated !== true}">
+								 [ngClass]="{ 'cr-strike-out': options.showRelated !== true }">
 							Related Meaning
 						</div>
 						<span fxFlex></span>
 						<div *ngIf="options.showRelated || stats.relatedMeaning > 0">
-							{{ stats?.relatedMeaning/ stats?.total | percent:"1.0-1" }}</div>
+							{{ stats?.relatedMeaning / stats?.total | percent: '1.0-1' }}
+						</div>
 					</div>
 					<mat-divider></mat-divider>
 					<div row
@@ -163,11 +167,11 @@
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot omitted"></div>
-						<div text> Omitted Words </div>
+						<div text>Omitted Words</div>
 						<span fxFlex></span>
 
 						<div>
-							{{ stats && metadata.scannedDocument.totalExcluded / stats?.total  | percent:"1.0-1" }}
+							{{ stats && metadata.scannedDocument.totalExcluded / stats?.total | percent: '1.0-1' }}
 						</div>
 					</div>
 				</div>
@@ -175,57 +179,51 @@
 				<ng-template #statsSpinner>
 					<mat-spinner *ngIf="!stats"
 											 [diameter]="16"
-											 style="display: inline-block;">
-					</mat-spinner>
+											 style="display: inline-block;"></mat-spinner>
 				</ng-template>
-
-
 			</ng-container>
 		</div>
 
 		<!-- % MATCH -->
 		<div prop
 				 *ngIf="stats; else skeleton__prop"
-				 [ngClass]="{low: score <= 0.1,medium:score > 0.1 && score <= 0.5,high:score > 0.5}">
-			<label>{{ score | percent:"1.0-1"}}</label>
-			<div [matTooltip]="isShowingPartialStats? 'Some matches are ommited according to your settings':null">
-				match{{isShowingPartialStats? '*':''}}</div>
+				 [ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }">
+			<label>{{ score | percent: '1.0-1' }}</label>
+			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
+				match{{ isShowingPartialStats ? '*' : '' }}
+			</div>
 		</div>
-
-
 	</cr-expansion-panel-body>
 </cr-expansion-panel>
 
 <ng-template #skeleton__prop>
 	<div prop>
-		<ngx-skeleton-loader [theme]="{height:'3em',width:'95px',margin:'0.5em'}"></ngx-skeleton-loader>
-		<ngx-skeleton-loader [theme]="{height:'1em',width:'3em'}"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ height: '3em', width: '95px', margin: '0.5em' }"></ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ height: '1em', width: '3em' }"></ngx-skeleton-loader>
 	</div>
 </ng-template>
 
 <ng-template #skeleton__stats>
 	<div fxLayout="column">
-		<ngx-skeleton-loader [theme]="{width:'118px',height:'113px',margin:'1em'}"
-												 appearance="circle">
-		</ngx-skeleton-loader>
+		<ngx-skeleton-loader [theme]="{ width: '118px', height: '113px', margin: '1em' }"
+												 appearance="circle"></ngx-skeleton-loader>
 	</div>
 
 	<div fxLayout="column"
 			 fxFlex
 			 fxLayoutAlign="space-evenly stretch">
-		<ng-container *ngFor="let x  of 4 | array; let last = last">
+		<ng-container *ngFor="let x of 4 | array; let last = last">
 			<div fxLayout="row"
 					 fxLayoutGap="1em"
 					 style="padding:0em 0.5em"
 					 fxLayoutAlign="center center">
 				<ngx-skeleton-loader appearance="circle"
-														 [theme]="{width:'1.75em',height:'1.75em',margin:'0px'}"></ngx-skeleton-loader>
-				<ngx-skeleton-loader [theme]="{margin:'0',width:'5em'}"></ngx-skeleton-loader>
+														 [theme]="{ width: '1.75em', height: '1.75em', margin: '0px' }"></ngx-skeleton-loader>
+				<ngx-skeleton-loader [theme]="{ margin: '0', width: '5em' }"></ngx-skeleton-loader>
 				<span fxFlex></span>
-				<ngx-skeleton-loader [theme]="{margin:'0',width:'3em'}"></ngx-skeleton-loader>
+				<ngx-skeleton-loader [theme]="{ margin: '0', width: '3em' }"></ngx-skeleton-loader>
 			</div>
 			<mat-divider *ngIf="!last"></mat-divider>
 		</ng-container>
 	</div>
-
 </ng-template>

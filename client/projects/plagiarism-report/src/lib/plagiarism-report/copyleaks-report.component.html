@@ -5,12 +5,11 @@
 		 fxLayoutAlign="start stretch"
 		 fxLayoutGap.lt-md="-1px">
 	<cr-original></cr-original>
-	<cr-suspect [fxShow]="viewMode === 'one-to-one'"> </cr-suspect>
-	<ng-container *ngTemplateOutlet="isMobile ? null:results"></ng-container>
+	<cr-suspect [fxShow]="viewMode === 'one-to-one'"></cr-suspect>
+	<ng-container *ngTemplateOutlet="isMobile ? null : results"></ng-container>
 </div>
-<ng-container *ngTemplateOutlet="isMobile ? results:null"></ng-container>
+<ng-container *ngTemplateOutlet="isMobile ? results : null"></ng-container>
 <ng-template #results>
 	<cr-results fxFlex.lt-md
-							[fxShow]="viewMode === 'one-to-many'">
-	</cr-results>
+							[fxShow]="viewMode === 'one-to-many'"></cr-results>
 </ng-template>
