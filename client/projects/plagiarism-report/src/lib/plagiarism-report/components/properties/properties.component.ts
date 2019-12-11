@@ -55,8 +55,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	get total(): number {
 		return this.metadata.scannedDocument.totalWords;
 	}
+	get combined() {
+		return this.stats.identical + this.stats.relatedMeaning + this.stats.minorChanges;
+	}
 	get score() {
-		return (this.stats.identical + this.stats.relatedMeaning + this.stats.minorChanges) / this.stats.total;
+		return Math.min(1, this.combined / this.stats.total);
 	}
 	get severity() {
 		if (this.score <= 0.1) {
