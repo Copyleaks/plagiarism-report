@@ -11,7 +11,11 @@ import { OriginalComponent } from '../original/original.component';
 	selector: '[crOriginalTextHelper]',
 })
 export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy {
-	constructor(@Host() private host: OriginalComponent, private reportService: ReportService, private highlightService: HighlightService) {}
+	constructor(
+		@Host() private host: OriginalComponent,
+		private reportService: ReportService,
+		private highlightService: HighlightService
+	) {}
 
 	@ContentChildren(MatchComponent)
 	private children: QueryList<MatchComponent>;
@@ -28,7 +32,10 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 			console.log(components);
 			this.highlightService.textMatchClicked({ elem: components[nextIndex], broadcast: true, origin: 'original' });
 		} else {
-			const page = (forward ? helpers.findNextPageWithMatch : helpers.findPrevPageWithMatch)(this.host.textMatches, this.host.currentPage);
+			const page = (forward ? helpers.findNextPageWithMatch : helpers.findPrevPageWithMatch)(
+				this.host.textMatches,
+				this.host.currentPage
+			);
 			if (this.host.currentPage !== page) {
 				this.children.changes.pipe(take(1)).subscribe(() => {
 					const comp = forward ? this.children.first : this.children.last;

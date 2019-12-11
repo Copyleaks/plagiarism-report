@@ -8,15 +8,15 @@
 </mat-form-field>
 <mat-dialog-content>
 	<div result
-			 *ngFor="let result of results | search:'title,id':query"
+			 *ngFor="let result of results | search: 'title,id':query"
 			 fxLayout="row"
 			 fxLayoutAlign="space-between center"
 			 (click)="toggleResult(result)"
 			 matRipple>
 		<span check-item>
-			{{result.title }}
+			{{ result.title }}
 		</span>
-		<mat-pseudo-checkbox [state]="isHidden(result)? 'unchecked':'checked'"></mat-pseudo-checkbox>
+		<mat-pseudo-checkbox [state]="isHidden(result) ? 'unchecked' : 'checked'"></mat-pseudo-checkbox>
 	</div>
 </mat-dialog-content>
 <div fxLayout="row"
@@ -24,7 +24,9 @@
 		 style="padding-top:1em">
 	<a button-link
 		 href="javascript:void(0)"
-		 (click)="checkAll()"> {{ hidden.length === results.length ? '':'un'}}check all</a>
+		 (click)="checkAll()">
+		{{ hidden.length === results.length ? '' : 'un' }}check all
+	</a>
 
 	<button mat-raised-button
 					(click)="close(true)"

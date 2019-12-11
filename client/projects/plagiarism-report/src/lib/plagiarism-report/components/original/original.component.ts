@@ -10,7 +10,7 @@ import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
 import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { MatchComponent } from '../match/match.component';
-import { combineLatest } from 'rxjs';
+
 import { switchMapTo, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({

@@ -5,8 +5,7 @@
 		<mat-spinner style="zoom:0.2"
 								 *ngIf="loading"></mat-spinner>
 
-		{{preview.title}}
-
+		{{ preview.title }}
 	</div>
 
 	<p body>
@@ -15,19 +14,17 @@
 
 	<div url>
 		<a [href]="preview.url"
-			 target="_blank">{{preview.url}}</a>
+			 target="_blank">{{ preview.url }}</a>
 	</div>
 	<mat-divider></mat-divider>
 	<div footer
 			 fxLayout="row"
 			 fxLayoutAlign="space-between stretch">
-		<div [ngClass]="{'text-identical': true}">
-			{{ preview.matchedWords | shortNumber:2 }} similar words
-		</div>
+		<div [ngClass]="{ 'text-identical': true }">{{ preview.matchedWords | shortNumber: 2 }} similar words</div>
 		<div fxLayout="row"
 				 fxLayoutGap="1em"
 				 style="height: 28px"
-				 [satPopoverAnchor]='popover'
+				 [satPopoverAnchor]="popover"
 				 satPopoverHover>
 			<span class="dot identical"></span>
 			<span class="dot minor-changes"></span>
@@ -39,18 +36,11 @@
 		<div fxLayout="column nowrap"
 				 fxLayoutAlign="start start"
 				 class="sat-tooltip">
-			<div class="text-identical">
-				identical - {{  result?.statistics.identical | number }} words
-			</div>
-			<div class="text-minor-changes">
-				minor changes - {{ result?.statistics.minorChanges | number}} words
-			</div>
-			<div class="text-related">
-				related - {{result?.statistics.relatedMeaning | number}} words
-			</div>
+			<div class="text-identical">identical - {{ result?.statistics.identical | number }} words</div>
+			<div class="text-minor-changes">minor changes - {{ result?.statistics.minorChanges | number }} words</div>
+			<div class="text-related">related - {{ result?.statistics.relatedMeaning | number }} words</div>
 		</div>
 	</sat-popover>
-
 </ng-container>
 
 <ng-template #skeleton__card>
@@ -68,19 +58,15 @@
 			 fxLayout="row"
 			 fxLayoutAlign="space-between stretch">
 		<ngx-skeleton-loader fxFlex="30"
-												 [theme]="{height:'28px',margin:0}">
-		</ngx-skeleton-loader>
+												 [theme]="{ height: '28px', margin: 0 }"></ngx-skeleton-loader>
 		<div fxLayout="row"
 				 fxLayoutGap="1em">
-			<ngx-skeleton-loader [theme]="{ height:'28px',width:'28px',margin:0}"
-													 appearance="circle">
-			</ngx-skeleton-loader>
-			<ngx-skeleton-loader [theme]="{ height:'28px',width:'28px',margin:0}"
-													 appearance="circle">
-			</ngx-skeleton-loader>
-			<ngx-skeleton-loader [theme]="{ height:'28px',width:'28px',margin:0}"
-													 appearance="circle">
-			</ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+													 appearance="circle"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+													 appearance="circle"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+													 appearance="circle"></ngx-skeleton-loader>
 		</div>
 	</div>
 </ng-template>

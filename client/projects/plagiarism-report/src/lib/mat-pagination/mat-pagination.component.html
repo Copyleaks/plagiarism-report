@@ -3,7 +3,7 @@
 					mat-button
 					matTooltip="First page"
 					(click)="currentPage = 1"
-					[disabled]="!hasPages ||  isFirstPage || disabled">
+					[disabled]="!hasPages || isFirstPage || disabled">
 		<mat-icon>first_page</mat-icon>
 	</button>
 	<button mat-button
@@ -19,10 +19,10 @@
 					 [max]="totalPages"
 					 autocomplete="off"
 					 type="number"
-					 [ngModelOptions]="{updateOn:'blur'}"
+					 [ngModelOptions]="{ updateOn: 'blur' }"
 					 [(ngModel)]="currentPage"
-					 [disabled]="!hasPages || disabled">
-		<span matSuffix> of {{ totalPages }} </span>
+					 [disabled]="!hasPages || disabled" />
+		<span matSuffix>of {{ totalPages }}</span>
 	</mat-form-field>
 	<button mat-button
 					matTooltip="Next page"
