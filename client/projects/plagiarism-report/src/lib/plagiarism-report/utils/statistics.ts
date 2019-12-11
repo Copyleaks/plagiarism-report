@@ -145,8 +145,12 @@ export const calculateStatistics = (
 ): ReportStatistics => {
 	const { totalWords, totalExcluded } = completeResult.scannedDocument;
 	const identical = options.showIdentical ? results.flatMap(createWordIntervalsFrom('identical', 'source')) : [];
-	const minorChanges = options.showMinorChanges ? results.flatMap(createWordIntervalsFrom('minorChanges', 'source')) : [];
-	const relatedMeaning = options.showRelated ? results.flatMap(createWordIntervalsFrom('relatedMeaning', 'source')) : [];
+	const minorChanges = options.showMinorChanges
+		? results.flatMap(createWordIntervalsFrom('minorChanges', 'source'))
+		: [];
+	const relatedMeaning = options.showRelated
+		? results.flatMap(createWordIntervalsFrom('relatedMeaning', 'source'))
+		: [];
 	const withOutoverlaps = mergeWords([...relatedMeaning, ...minorChanges, ...identical]);
 	const identicalCount = withOutoverlaps
 		.filter(match => match.type === MatchType.identical)

@@ -11,7 +11,11 @@ import { OriginalComponent } from '../original/original.component';
 	selector: '[crSourceTextHelper]',
 })
 export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
-	constructor(@Host() private host: OriginalComponent, private highlightService: HighlightService, private reportService: ReportService) {}
+	constructor(
+		@Host() private host: OriginalComponent,
+		private highlightService: HighlightService,
+		private reportService: ReportService
+	) {}
 
 	@ContentChildren(MatchComponent)
 	private children: QueryList<MatchComponent>;
@@ -88,7 +92,10 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 			const nextIndex = this.current ? components.indexOf(this.current) + (forward ? 1 : -1) : 0;
 			this.highlightService.textMatchClicked({ elem: components[nextIndex], broadcast: true, origin: 'source' });
 		} else {
-			const page = (forward ? helpers.findNextPageWithMatch : helpers.findPrevPageWithMatch)(this.host.textMatches, this.host.currentPage);
+			const page = (forward ? helpers.findNextPageWithMatch : helpers.findPrevPageWithMatch)(
+				this.host.textMatches,
+				this.host.currentPage
+			);
 			if (this.host.currentPage !== page) {
 				this.highlightService.textMatchClicked({ elem: this.current, broadcast: true, origin: 'source' });
 				this.children.changes.pipe(take(1)).subscribe(() => {
