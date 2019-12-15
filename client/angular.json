@@ -24,10 +24,7 @@
 						"tsConfig": "projects/demo-app/tsconfig.app.json",
 						"aot": false,
 						"assets": ["projects/demo-app/src/favicon.ico", "projects/demo-app/src/assets"],
-						"styles": [
-							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-							"projects/demo-app/src/styles.scss"
-						],
+						"styles": ["projects/demo-app/src/material-theme.scss", "projects/demo-app/src/styles.scss"],
 						"scripts": []
 					},
 					"configurations": {
@@ -83,10 +80,7 @@
 						"tsConfig": "projects/demo-app/tsconfig.spec.json",
 						"karmaConfig": "projects/demo-app/karma.conf.js",
 						"assets": ["projects/demo-app/src/favicon.ico", "projects/demo-app/src/assets"],
-						"styles": [
-							"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-							"projects/demo-app/src/styles.scss"
-						],
+						"styles": ["projects/demo-app/src/material-theme.scss", "projects/demo-app/src/styles.scss"],
 						"scripts": []
 					}
 				},
