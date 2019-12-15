@@ -1,4 +1,3 @@
-import * as statistics from './statistics';
 import { CompleteResult, ResultItem, CopyleaksReportOptions } from '../models';
 
 describe('calculateStatistics', () => {
@@ -167,9 +166,5 @@ describe('calculateStatistics', () => {
 				},
 			} as ResultItem,
 		];
-		it(`should find the correct page`, () => {
-			const result = statistics.calculateStatistics(complete, results, options);
-			console.log(result);
-		});
 	});
 });

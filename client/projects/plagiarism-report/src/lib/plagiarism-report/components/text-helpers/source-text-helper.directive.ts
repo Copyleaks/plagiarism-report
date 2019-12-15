@@ -44,8 +44,7 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 			.pipe(
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content === 'text'),
-				tap(x => console.log('jump$ source', x))
+				filter(([, view, content]) => view === 'one-to-one' && content === 'text')
 			)
 			.subscribe(([forward]) => this.handleJump(forward));
 

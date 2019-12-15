@@ -29,7 +29,6 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 		if (this.canJumpInCurrentPage(forward)) {
 			const components = this.children.toArray();
 			const nextIndex = this.current ? components.indexOf(this.current) + (forward ? 1 : -1) : 0;
-			console.log(components);
 			this.highlightService.textMatchClicked({ elem: components[nextIndex], broadcast: true, origin: 'original' });
 		} else {
 			const page = (forward ? helpers.findNextPageWithMatch : helpers.findPrevPageWithMatch)(
@@ -64,7 +63,6 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 	 * - subscribe to original text selected match state
 	 */
 	ngAfterContentInit() {
-		console.log(this);
 		const { contentMode$, viewMode$ } = this.reportService;
 		const { jump$, originalText$ } = this.highlightService;
 		originalText$.pipe(untilDestroy(this)).subscribe(value => (this.current = value));
