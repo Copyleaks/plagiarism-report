@@ -17,6 +17,7 @@
 # Copyleaks plagiarism report
 
 [![npm:badge]][npm:page]
+
 Allow [Copyleaks API][api] users to view the plagiarism report using their downloaded data and present it on their platform. You can view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the report's data after a few months). Use this report to have access to your Copyleaks report anytime without having to build your own UI to present the data.
 
 ## [Live demo][demo]
@@ -162,7 +163,7 @@ export class SomeComponent {
 }
 ```
 
-### progress
+### Progress (optional)
 
 While you are downloading the results for the report component, you can display a percentage indicating your progress in doing so.
 
