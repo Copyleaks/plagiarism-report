@@ -104,7 +104,6 @@ As mentioned above, your server must store that data, so your front end could ac
 - Endpoint to get the [Source][api:source] of a scan by `scan id`
 - Endpoint to get a specific [Result][api:result] of a scan by `scan id` and a `result id`
 - (optional) Endpoint to download the [Pdf][api:pdf] of a scan by `scan id`
-  Provide the data with `CopyleaksService` after downloading it from your server.
 
 **Example for the endpoints mentioned above:**
 
@@ -112,6 +111,8 @@ As mentioned above, your server must store that data, so your front end could ac
 - `yourwebsite.com/copyleaks/{scanId}/source`
 - `yourwebsite.com/copyleaks/{scanId}/results/{resultId}`
 - `yourwebsite.com/copyleaks/{scanId}/pdf`
+
+Provide the data with `CopyleaksService` after downloading it from your server.
 
 ```ts
 @Component({
@@ -121,14 +122,20 @@ export class SomeComponent {
   constructor(private copyleaksService: CopyleaksService, private http: HttpClient) {
     const scanId = "some-scan-id";
     // download the source
+    // TODO:
+    // USE YOUR SOURCE ENDPOINT
     http
       .get<ScanSource>(`/copyleaks/${scanId}/source`)
       .subscribe(source => copyleaksService.pushDownloadedSource(source));
 
     // download the complete result
+    // TODO:
+    // USE YOUR COMPLETE RESULT ENDPOINT
     http.get<CompleteResult>(`/copyleaks/${scanId}/complete`).subscribe(completeResult => {
       copyleaksService.pushCompletedResult(completeResult);
       // download each scan result
+      // TODO:
+      // USE YOUR RESULT ENDPOINT
       const { internet, database, batch } = completeResult.results;
       for (const result of internet) {
         http
@@ -136,12 +143,15 @@ export class SomeComponent {
           .subscribe(scanResult => copyleaksService.pushScanResult(result.id, scanResult));
       }
 
+      // TODO:
+      // USE YOUR RESULT ENDPOINT
       for (const result of database) {
         http
           .get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`)
           .subscribe(scanResult => copyleaksService.pushScanResult(result.id, scanResult));
       }
-
+      // TODO:
+      // USE YOUR RESULT ENDPOINT
       for (const result of batch) {
         http
           .get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`)
@@ -164,40 +174,50 @@ export class SomeComponent {
   constructor(private copyleaksService: CopyleaksService, private http: HttpClient) {
     let downloadedResults = 0;
     let totalResults = 0;
+    const scanId = "some-scan-id";
+
+    // download the source
+    // TODO:
+    // USE YOUR SOURCE ENDPOINT
     http
-      .get<ScanSource>("/assets/example-scan/scan-source.json")
+      .get<ScanSource>(`/copyleaks/${scanId}/source`)
       .subscribe(source => copyleaksService.pushDownloadedSource(source));
-    http
-      .get<CompleteResult>("/assets/example-scan/complete-result.json")
-      .subscribe(completeResult => {
-        copyleaksService.pushCompletedResult(completeResult);
-        const { internet, database, batch } = completeResult.results;
-        totalResults = internet.length + database.length + batch.length;
-        for (const result of internet) {
-          http
-            .get<ScanResult>(`/assets/example-scan/results/${result.id}.json`)
-            .subscribe(scanResult => {
-              copyleaksService.pushScanResult(result.id, scanResult);
-              copyleaksService.setProgress((++downloadedResults / totalResults) * 100);
-            });
-        }
-        for (const result of database) {
-          http
-            .get<ScanResult>(`/assets/example-scan/results/${result.id}.json`)
-            .subscribe(scanResult => {
-              copyleaksService.pushScanResult(result.id, scanResult);
-              copyleaksService.setProgress((++downloadedResults / totalResults) * 100);
-            });
-        }
-        for (const result of batch) {
-          http
-            .get<ScanResult>(`/assets/example-scan/results/${result.id}.json`)
-            .subscribe(scanResult => {
-              copyleaksService.pushScanResult(result.id, scanResult);
-              copyleaksService.setProgress((++downloadedResults / totalResults) * 100);
-            });
-        }
-      });
+
+    // download the complete result
+    // TODO:
+    // USE YOUR COMPLETE RESULT ENDPOINT
+    http.get<CompleteResult>(`/copyleaks/${scanId}/complete`).subscribe(completeResult => {
+      copyleaksService.pushCompletedResult(completeResult);
+
+      // download each scan result
+      const { internet, database, batch } = completeResult.results;
+      totalResults = internet.length + database.length + batch.length;
+
+      // TODO:
+      // USE YOUR RESULT ENDPOINT
+      for (const result of internet) {
+        http.get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`).subscribe(scanResult => {
+          copyleaksService.pushScanResult(result.id, scanResult);
+          copyleaksService.setProgress((++downloadedResults / totalResults) * 100);
+        });
+      }
+      // TODO:
+      // USE YOUR RESULT ENDPOINT
+      for (const result of database) {
+        http.get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`).subscribe(scanResult => {
+          copyleaksService.pushScanResult(result.id, scanResult);
+          copyleaksService.setProgress((++downloadedResults / totalResults) * 100);
+        });
+      }
+      // TODO:
+      // USE YOUR RESULT ENDPOINT
+      for (const result of batch) {
+        http.get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`).subscribe(scanResult => {
+          copyleaksService.pushScanResult(result.id, scanResult);
+          copyleaksService.setProgress((++downloadedResults / totalResults) * 100);
+        });
+      }
+    });
   }
 }
 ```

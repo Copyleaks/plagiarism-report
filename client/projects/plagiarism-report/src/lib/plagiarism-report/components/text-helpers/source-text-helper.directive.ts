@@ -1,5 +1,5 @@
 import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
-import { filter, take, withLatestFrom, tap } from 'rxjs/operators';
+import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ContentMode, Match, ScanResult, ScanSource } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
