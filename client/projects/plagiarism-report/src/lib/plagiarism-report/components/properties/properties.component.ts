@@ -7,7 +7,6 @@ import { CompleteResult } from '../../models/api-models/CompleteResult';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
-import { fadeIn } from '../../utils/animations';
 import { truthy } from '../../utils/operators';
 import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
 
@@ -15,7 +14,7 @@ import { OptionsDialogComponent } from '../options-dialog/options-dialog.compone
 	selector: 'cr-properties',
 	templateUrl: './properties.component.html',
 	styleUrls: ['./properties.component.scss'],
-	animations: [fadeIn],
+	animations: [],
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mobile') isMobile: boolean;

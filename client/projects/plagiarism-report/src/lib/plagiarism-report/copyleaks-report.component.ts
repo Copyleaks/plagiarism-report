@@ -13,46 +13,44 @@ import { untilDestroy } from '../shared/operators/untilDestroy';
 import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
 import { CopyleaksService } from './services/copyleaks.service';
 import { HighlightService } from './services/highlight.service';
-import { LayoutMediaQueryService } from './services/layout-media-query.service';
 import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
-import { expandAnimation, fadeIn } from './utils/animations';
+import { LayoutMediaQueryService } from './services/layout-media-query.service';
 
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
 	styleUrls: ['./copyleaks-report.component.scss'],
-	animations: [expandAnimation, fadeIn],
+	animations: [],
 	providers: [ReportService, StatisticsService, MatchService, HighlightService],
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
+	@HostBinding('class.mat-typography')
+	public readonly typography = true;
+
 	@HostBinding('class.one-to-one') get isOneToOne() {
 		return this.viewMode === 'one-to-one';
 	}
+
 	@HostBinding('class.one-to-many') get isOneToMany() {
 		return this.viewMode === 'one-to-many';
 	}
 
-	public isMobile: boolean;
-	public viewMode: ViewMode;
-	public resultsActive = false;
-
 	@Input()
 	public config: CopyleaksReportConfig;
-
 	@Output()
 	public configChange = new EventEmitter<CopyleaksReportConfig>();
-
 	@Output()
 	public help = new EventEmitter<MouseEvent>();
-
 	@Output()
 	public share = new EventEmitter<MouseEvent>();
-
 	@Output()
 	public download = new EventEmitter<MouseEvent>();
 
+	public viewMode: ViewMode;
+	public resultsActive = false;
+	public isMobile: boolean;
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
