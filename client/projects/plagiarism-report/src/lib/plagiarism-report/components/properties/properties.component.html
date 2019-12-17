@@ -40,28 +40,29 @@
 					<div fxLayout="row nowrap"
 							 *ngIf="!done"
 							 fxLayoutAlign="center center">
-						<label>&zwnj;</label>
+						<div header>&zwnj;</div>
 						<mat-spinner [diameter]="40"></mat-spinner>
 					</div>
-
-					<label>
-						<ng-container *ngIf="!done && progress !== null">
-							{{ progress && progress / 100 | percent: '1.0' }}
-						</ng-container>
-						<ng-container *ngIf="done">
-							done
-						</ng-container>
-					</label>
+					<div>
+						<div header>
+							<ng-container *ngIf="!done && progress !== null">
+								{{ progress && progress / 100 | percent: '1.0' }}
+							</ng-container>
+							<ng-container *ngIf="done">
+								done
+							</ng-container>
+						</div>
+					</div>
 				</div>
 				<div>
 					<ng-container *ngIf="!done">
 						scanning...
 					</ng-container>
 					<ng-container *ngIf="done">
-						<small *ngIf="metadata"
-									 [matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
+						<div *ngIf="metadata"
+								 [matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
 							Scanned {{ metadata?.scannedDocument.creationTime | timeAgo }}
-						</small>
+						</div>
 					</ng-container>
 				</div>
 			</ng-container>
@@ -69,9 +70,10 @@
 
 		<!-- RESULTS FOUND -->
 		<div prop>
-			<label [matTooltip]="previewCount >= 1000 ? (previewCount | number) + ' results' : null">
+			<div header
+					 [matTooltip]="previewCount >= 1000 ? (previewCount | number) + ' results' : null">
 				{{ previewCount | shortNumber: 1 }}
-			</label>
+			</div>
 			<div>
 				results found
 			</div>
@@ -80,9 +82,11 @@
 		<!-- # COPIED WORDS -->
 		<div prop
 				 *ngIf="stats; else skeleton__prop">
-			<label [matTooltip]="combined >= 1000 ? (combined | number) + ' words' : null">
+			<div header
+					 [matTooltip]="combined >= 1000 ? (combined | number) + ' words' : null">
 				{{ combined | shortNumber: 1 }}
-			</label>
+
+			</div>
 			<div>similar words</div>
 		</div>
 
@@ -162,14 +166,12 @@
 					</div>
 					<mat-divider></mat-divider>
 					<div row
-							 fxLayout="
-								 row"
+							 fxLayout="row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
 						<div class="dot omitted"></div>
 						<div text>Omitted Words</div>
 						<span fxFlex></span>
-
 						<div>
 							{{ stats && metadata.scannedDocument.totalExcluded / stats?.total | percent: '1.0-1' }}
 						</div>
@@ -188,7 +190,9 @@
 		<div prop
 				 *ngIf="stats; else skeleton__prop"
 				 [ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }">
-			<label>{{ score | percent: '1.0-1' }}</label>
+			<div header>
+				{{ score | percent: '1.0-1' }}
+			</div>
 			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
 				match{{ isShowingPartialStats ? '*' : '' }}
 			</div>
