@@ -2,7 +2,7 @@
 
 [![npm:badge]][npm:page]
 
-Allow [Copyleaks API][api] users to view the plagiarism report using their downloaded data and present it on their platform. You can view the report anytime without being restricted by the Copyleaks expiration policy (that deletes the report's data after a few months). Use this report to have access to your Copyleaks report anytime without having to build your own UI to present the data.
+This allows you to view Copyleaks plagiarism report on your website. The report is based on Copyleaks scan results you downloaded via [Copyleaks API][api]. By using this component you can view the report anytime without being restricted by the Copyleaks expiration policy and control access policy to the information for your users.
 
 ## [Live demo][demo]
 
@@ -33,7 +33,7 @@ Install using npm
 npm i @copyleaks/plagiarism-report
 ```
 
-This library uses `@angular/material` and `@angular/flex-layout` as peer dependencies. If they are not allready installed on your project, add them.
+This library uses `@angular/material` and `@angular/flex-layout` as peer dependencies. If they are not already installed on your project, add them.
 
 - `ng add @angular/material` or `npm i @angular/material`
 - `npm i @angular/flex-layout`
@@ -217,7 +217,7 @@ This will basically display the result on the results list while it is fetching 
 
 In general it should flow like this:
 
-1. Use [Copyleaks API][api] to scan for palgiarism while providing the relevent [webhook configuration][api:submit:file].
+1. Use [Copyleaks API][api] to scan for plagiarism while providing the relevant [webhook configuration][api:submit:file].
 2. Once a [New Result Webhook][api:newresult] arrived on your server, publish it to the relevant web socket connections.
 3. Push the new result data to `CopyleaksService` and start downloading the actual result
 
@@ -252,7 +252,7 @@ export class SomeComponent {
 
 ## Configuration
 
-It is possible to configure the behavior, look and state of the report by providing a config via the following methods:
+It is possible to configure the behavior, and the look and state of the report by providing a config via the following methods:
 
 **Via component input property:**
 
@@ -338,7 +338,7 @@ You can use it like so:
 **My website is not using Angular 8, can I use this component?**
 
 No, this component is supported by Angular `v8.x`.
-As an alternative you can create an Angular web application that uses this libarary, and include it in your website using routing. This solution should work without any framework or with other web frameworkds/libraries such as React, AngularJs.
+As an alternative you can create an Angular web application that uses this library, and include it in your website using routing. This solution should work without any framework or with other web framework/libraries such as React, AngularJs.
 
 **Can I modify this component for my own usage?**
 

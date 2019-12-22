@@ -92,14 +92,15 @@ cr-expansion-panel-body {
 		padding: 1em;
 		display: flex;
 		flex: 1;
-		flex-direction: column;
+		flex-flow: column nowrap;
 		justify-content: center;
 		align-items: center;
 		text-transform: uppercase;
 		font-weight: bold;
 		white-space: nowrap;
 
-		label {
+		[header] {
+			line-height: 1em;
 			font-size: 3em;
 
 			@include lt-md {
