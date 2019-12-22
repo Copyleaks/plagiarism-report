@@ -6,14 +6,13 @@ import { Match, ResultPreview } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
-import { fadeIn, listFade } from '../../utils/animations';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
 import { IMAGES } from '../../assets/images';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
 	styleUrls: ['./results.component.scss'],
-	animations: [fadeIn, listFade],
+	animations: [],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 	constructor(

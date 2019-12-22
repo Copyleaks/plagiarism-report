@@ -1,79 +1,77 @@
-@import "../../../styles.scss";
+@import '../../../styles.scss';
 
 :host {
-  background-color: $background-color;
-  overflow: hidden;
+	background-color: $background-color;
+	overflow: hidden;
 }
 
-
 cr-panel {
-  cr-panel-header {
-    text-transform: uppercase;
-  }
+	flex: 1;
+	height: 100%;
+	cr-panel-header {
+		text-transform: uppercase;
+	}
 }
 
 cr-result-card {
-  margin: 5px;
-  margin-bottom: $default-spacing;
+	margin: 5px;
+	margin-bottom: $default-spacing;
 }
 
 cr-panel-body {
-  cdk-virtual-scroll-viewport {
-    padding: $default-spacing;
-    margin: -$default-spacing;
-    scrollbar-width: 0px;
+	cdk-virtual-scroll-viewport {
+		padding: $default-spacing;
+		margin: -$default-spacing;
+		scrollbar-width: 0px;
 
+		::ng-deep {
+			.cdk-virtual-scroll-content-wrapper {
+				max-width: 100%;
+			}
 
-    ::ng-deep {
+			.cdk-virtual-scroll-spacer {
+				&:nth-child(0),
+				&:nth-child(1),
+				&:nth-child(2),
+				&:nth-child(3) {
+					transform: scaleY(0);
+				}
+			}
+		}
 
-      .cdk-virtual-scroll-content-wrapper {
-        max-width: 100%;
-      }
+		@include lt-sm {
+			padding: $mobile-spacing;
+			margin: 0 (-$mobile-spacing);
+		}
 
-      .cdk-virtual-scroll-spacer {
+		overflow-y: scroll;
+	}
 
-        &:nth-child(0),
-        &:nth-child(1),
-        &:nth-child(2),
-        &:nth-child(3) {
-          transform: scaleY(0)
-        }
-      }
-    }
-
-    @include lt-md {
-      padding: $mobile-spacing;
-      margin: 0 (-$mobile-spacing);
-    }
-
-    overflow-y: scroll;
-  }
-
-  @include lt-md {
-    margin-top: 0;
-  }
+	@include lt-sm {
+		margin-top: 0;
+	}
 }
 
 [skeleton__card] {
-  mat-divider {
-    margin-top: $card-padding;
-    margin-bottom: $card-padding;
-    margin-left: -$card-padding;
-    margin-right: -$card-padding;
-  }
+	mat-divider {
+		margin-top: $card-padding;
+		margin-bottom: $card-padding;
+		margin-left: -$card-padding;
+		margin-right: -$card-padding;
+	}
 
-  [footer] {
-    height: 28px;
-  }
+	[footer] {
+		height: 28px;
+	}
 
-  @for $i from 1 through 5 {
-    ngx-skeleton-loader:nth-child(5n + #{$i}) {
-      width: percentage((random(30) + 70) / 100);
-    }
-  }
+	@for $i from 1 through 5 {
+		ngx-skeleton-loader:nth-child(5n + #{$i}) {
+			width: percentage((random(30) + 70) / 100);
+		}
+	}
 }
 
 [mat-button] {
-  min-width: 36px;
-  padding: 0;
+	min-width: 36px;
+	padding: 0;
 }

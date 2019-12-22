@@ -16,7 +16,6 @@ import { HighlightService } from './services/highlight.service';
 import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
-import { LayoutMediaQueryService } from './services/layout-media-query.service';
 
 @Component({
 	selector: 'cr-copyleaks-report',
@@ -50,12 +49,9 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 
 	public viewMode: ViewMode;
 	public resultsActive = false;
-	public isMobile: boolean;
-	constructor(
-		private reportService: ReportService,
-		private layoutService: LayoutMediaQueryService,
-		private copyleaksService: CopyleaksService
-	) {}
+	public aaa = false;
+
+	constructor(private reportService: ReportService, private copyleaksService: CopyleaksService) {}
 
 	/**
 	 * life-cycle method
@@ -68,7 +64,6 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		shareClick$.pipe(untilDestroy(this)).subscribe(data => this.share.emit(data));
 		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
 		configChange$.pipe(untilDestroy(this)).subscribe(config => this.configChange.emit(config));
-		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 	}
 
 	/**
