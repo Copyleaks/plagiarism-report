@@ -26,6 +26,7 @@ function ready() {
 	 * Initialization code, will execute before emitting iframe-ready event
 	 */
 	function init() {
+		Array.from(document.links).forEach(x => (x.href = '#')); // disable links
 		matches = Array.from(document.querySelectorAll('span[match]'));
 		matches.forEach(elem => {
 			elem.addEventListener('click', onMatchClick);

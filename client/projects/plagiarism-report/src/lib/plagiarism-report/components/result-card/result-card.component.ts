@@ -1,9 +1,9 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { map, take } from 'rxjs/operators';
-import { ResultPreview } from '../../models';
+
+import { ResultPreview, ScanSource } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { ReportService } from '../../services/report.service';
-import { truthy } from '../../utils/operators';
+import { combineLatest } from 'rxjs';
 
 @Component({
 	selector: 'cr-result-card',
@@ -16,6 +16,7 @@ export class ResultCardComponent implements OnInit {
 	@Input()
 	public preview: ResultPreview;
 	public result: ScanResult;
+	public source: ScanSource;
 	public loading = true;
 	constructor(private reportService: ReportService) {}
 
@@ -33,13 +34,13 @@ export class ResultCardComponent implements OnInit {
 	 */
 	ngOnInit() {
 		if (this.preview) {
-			this.reportService.results$
-				.pipe(
-					map(results => results.find(res => res.id === this.preview.id)),
-					truthy(),
-					take(1)
-				)
-				.subscribe(({ result }) => (this.result = result) && (this.loading = false));
+			const result$ = this.reportService.findResultById$(this.preview.id);
+			const { source$ } = this.reportService;
+			combineLatest([result$, source$]).subscribe(([result, source]) => {
+				this.source = source;
+				this.result = result.result;
+				this.loading = false;
+			});
 		}
 	}
 }

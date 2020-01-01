@@ -48,15 +48,16 @@
 							<ng-container *ngIf="!done && progress !== null">
 								{{ progress && progress / 100 | percent: '1.0' }}
 							</ng-container>
-							<ng-container *ngIf="done">
-								done
-							</ng-container>
+							<ng-container *ngIf="done">done</ng-container>
 						</div>
 					</div>
 				</div>
 				<div>
-					<ng-container *ngIf="!done">
-						scanning...
+					<ng-container *ngIf="isScanning && !done">
+						Scanning...
+					</ng-container>
+					<ng-container *ngIf="!isScanning && !done">
+						Loading...
 					</ng-container>
 					<ng-container *ngIf="done">
 						<div *ngIf="metadata"
@@ -119,7 +120,8 @@
 							 fxLayout="row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
-						<div class="dot identical"></div>
+						<div class="dot identical"
+								 [ngStyle]="{'visibility': options?.showIdentical? 'visible':'hidden'}"></div>
 						<div text
 								 [ngClass]="{ 'cr-strike-out': !options?.showIdentical }">
 							Identical
@@ -137,9 +139,10 @@
 							 fxLayout="row"
 							 fxLayoutAlign="center center"
 							 fxLayoutGap="0.5em">
-						<div class="dot minor-changes"></div>
+						<div class="dot minor-changes"
+								 [ngStyle]="{'visibility': options?.showMinorChanges ? 'visible':'hidden'}"></div>
 						<div text
-								 [ngClass]="{ 'cr-strike-out': options.showMinorChanges !== true }">
+								 [ngClass]="{ 'cr-strike-out': options?.showMinorChanges !== true }">
 							Minor Changes
 						</div>
 						<span fxFlex></span>
@@ -154,9 +157,10 @@
 							 fxLayout="row"
 							 fxLayoutAlign="start center"
 							 fxLayoutGap="0.5em">
-						<div class="dot related"></div>
+						<div class="dot related"
+								 [ngStyle]="{'visibility': options?.showRelated?  'visible':'hidden'}"></div>
 						<div text
-								 [ngClass]="{ 'cr-strike-out': options.showRelated !== true }">
+								 [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
 							Related Meaning
 						</div>
 						<span fxFlex></span>

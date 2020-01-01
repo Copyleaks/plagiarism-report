@@ -47,6 +47,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private statistics: StatisticsService
 	) {}
 
+	get isScanning() {
+		return this.progress && (this.progress >= 0 || this.progress < 100);
+	}
 	get done() {
 		return this.progress === 100;
 	}
