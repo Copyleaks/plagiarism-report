@@ -15,6 +15,21 @@ describe('match-helpers', () => {
 				);
 			});
 		});
+		describe('pdf case', () => {
+			const data: Match[] = [
+				{ start: 213, end: 228, type: 1, ids: ['A'] },
+				{ start: 221, end: 246, type: 0, ids: ['A'] },
+			];
+			it('same ids but different types', () => {
+				const result: Match[] = mergeMatches(data);
+				expect(result).toEqual(
+					expect.arrayContaining([
+						expect.objectContaining({ start: 213, end: 221, type: 1, ids: expect.arrayContaining(['A']) }),
+						expect.objectContaining({ start: 221, end: 246, type: 0, ids: expect.arrayContaining(['A']) }),
+					])
+				);
+			});
+		});
 	});
 
 	describe('groupIntervals', () => {

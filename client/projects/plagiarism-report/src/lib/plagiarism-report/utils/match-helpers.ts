@@ -103,40 +103,61 @@ const mergeMatchesInNest = (matches: Match[]): Match[] => {
 		[matches[0]]
 	);
 
-	if (uniqueMatches.length === 1) {
-		return uniqueMatches;
-	}
-
 	const endpoints = uniqueMatches
 		.reduce(extractMatchEndpoints, [])
 		.sort((a, b) => a.index - b.index || b.kind - a.kind);
 
-	const results: Match[] = [];
-	const idsSet = new Set<string>();
+	const subMatches: Match[] = [];
+	const idMap: { [key: string]: number } = {};
 	const types: number[] = [0, 0, 0, 0];
 	let start: number;
 	for (const { index, type, ids, kind, gid, reason } of endpoints) {
 		if (kind === EndpointKind.start) {
 			if (start !== undefined) {
 				if (index !== start) {
-					results.push({ start, end: index, type: types.findIndex(x => x > 0), ids: [...idsSet], gid, reason });
+					const participatingIds = Object.entries(idMap)
+						.filter(([, value]) => value > 0)
+						.map(([key]) => key);
+					subMatches.push({
+						start,
+						end: index,
+						type: types.findIndex(x => x > 0),
+						ids: participatingIds,
+						gid,
+						reason,
+					});
 				}
 			}
-			ids.forEach(id => idsSet.add(id));
+			ids.forEach(id => (idMap[id] = (idMap[id] || 0) + 1));
 			types[type]++;
 			start = index;
 		}
 		if (kind === EndpointKind.end) {
 			if (index !== start) {
-				results.push({ start, end: index, type: types.findIndex(x => x > 0), ids: [...idsSet], gid, reason });
+				const participatingIds = Object.entries(idMap)
+					.filter(([, value]) => value > 0)
+					.map(([key]) => key);
+				subMatches.push({ start, end: index, type: types.findIndex(x => x > 0), ids: participatingIds, gid, reason });
 			}
-			ids.forEach(id => idsSet.delete(id));
+			ids.forEach(id => (idMap[id] = (idMap[id] || 0) - 1));
 			types[type]--;
-			start = idsSet.size === 0 ? undefined : index;
+			start = Object.entries(idMap).filter(([, value]) => value > 0).length === 0 ? undefined : index;
 		}
 	}
+	const result: Match[] = subMatches.slice(1).reduce(
+		(prev: Match[], curr: Match) => {
+			const last = prev[prev.length - 1];
 
-	return results;
+			if (last.type === curr.type && curr.ids.sort().join(',') === last.ids.sort().join(',')) {
+				last.end = curr.end;
+			} else {
+				prev.push(curr);
+			}
+			return prev;
+		},
+		[subMatches[0]]
+	);
+	return result;
 };
 
 /**

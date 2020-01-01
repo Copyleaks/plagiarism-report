@@ -20,7 +20,8 @@
 	<div footer
 			 fxLayout="row"
 			 fxLayoutAlign="space-between stretch">
-		<div [ngClass]="{ 'text-identical': true }">{{ preview.matchedWords | shortNumber: 2 }} similar words</div>
+		<div [ngClass]="{ 'text-identical': true }">{{ preview.matchedWords / source.metadata.words | percent  }} similar
+			words</div>
 		<div fxLayout="row"
 				 fxLayoutGap="1em"
 				 style="height: 28px"
@@ -32,13 +33,20 @@
 		</div>
 	</div>
 	<sat-popover #popover
-							 horizontalAlign="after">
+							 horizontalAlign="before">
 		<div fxLayout="column nowrap"
 				 fxLayoutAlign="start start"
-				 class="sat-tooltip">
-			<div class="text-identical">identical - {{ result?.statistics.identical | number }} words</div>
-			<div class="text-minor-changes">minor changes - {{ result?.statistics.minorChanges | number }} words</div>
-			<div class="text-related">related - {{ result?.statistics.relatedMeaning | number }} words</div>
+				 class="sat-tooltip mat-typography">
+			<div class="text-identical">Identical -
+				{{ result?.statistics.identical / source?.metadata.words | percent }}
+				words
+			</div>
+			<div class="text-minor-changes">Minor Changes -
+				{{ result?.statistics.minorChanges / source?.metadata.words| percent }} words</div>
+			<div class="text-related">Related Meaning -
+				{{ result?.statistics.relatedMeaning / source?.metadata.words| percent }}
+				words
+			</div>
 		</div>
 	</sat-popover>
 </ng-container>

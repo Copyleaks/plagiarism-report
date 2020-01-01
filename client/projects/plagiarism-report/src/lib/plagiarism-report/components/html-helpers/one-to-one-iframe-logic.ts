@@ -19,10 +19,12 @@ function ready() {
 	let groups: { [gid: string]: HTMLSpanElement[] };
 	window.addEventListener('message', handleMessageFromParent);
 	init();
+
 	/**
 	 * Initialization code, will execute before emitting iframe-ready event
 	 */
 	function init() {
+		Array.from(document.links).forEach(x => (x.href = '#')); // disable links
 		matches = Array.from(document.querySelectorAll('span[match]'));
 		groups = matches.reduce((prev, curr) => {
 			prev[curr.dataset.gid] = prev[curr.dataset.gid] || [];
