@@ -6,7 +6,7 @@ import { ExcludeReason } from '.';
  */
 export interface ResultItem {
 	id: string;
-	result: ScanResult;
+	result?: ScanResult;
 }
 
 /** Simple range type */

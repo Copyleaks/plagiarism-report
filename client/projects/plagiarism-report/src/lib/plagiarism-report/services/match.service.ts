@@ -85,7 +85,7 @@ export class MatchService implements OnDestroy {
 		const { contentMode$, suspect$ } = this.reportService;
 		return combineLatest([contentMode$, suspect$]).pipe(
 			untilDestroy(this),
-			filter(([content, suspect]) => content === 'html' && suspect && !!suspect.result.html.value),
+			filter(([content, suspect]) => content === 'html' && suspect && suspect.result && !!suspect.result.html.value),
 			take(1)
 		);
 	}

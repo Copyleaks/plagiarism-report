@@ -67,7 +67,7 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 			.pipe(
 				withLatestFrom(suspect$, contentMode$),
 				filter(([, , content]) => content === 'html'),
-				filter(([, suspect]) => suspect && !suspect.result.html.value)
+				filter(([, suspect]) => suspect && suspect.result && !suspect.result.html.value)
 			)
 			.subscribe(([match, suspect]) => this.handleBroadcast(match, suspect.result, 'html'));
 	}

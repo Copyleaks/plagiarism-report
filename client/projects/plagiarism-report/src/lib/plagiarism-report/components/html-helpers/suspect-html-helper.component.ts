@@ -59,7 +59,7 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 				untilDestroy(this),
 				truthy()
 			)
-			.subscribe(suspect => suspect.result.html && (this.html = suspect.result.html.value));
+			.subscribe(suspect => suspect.result && suspect.result.html && (this.html = suspect.result.html.value));
 		suspectHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => this.renderMatches(matches));
 		jump$
 			.pipe(
@@ -78,7 +78,7 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 				filter(([, , matches, content]) => content === 'html' && !!matches)
 			)
 			.subscribe(([elem, suspect, matches]) => {
-				if (elem) {
+				if (elem && suspect && suspect.result) {
 					const comparison = suspect.result.html.comparison[MatchType[elem.match.type]];
 					const [start] = findRespectiveStart(elem.match.start, comparison, true);
 					const found = matches.findIndex(m => m.start === start);
@@ -91,10 +91,10 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 			.pipe(
 				withLatestFrom(suspect$, suspectHtmlMatches$, contentMode$),
 				filter(([, , matches, content]) => content === 'html' && !!matches),
-				filter(([, suspect]) => suspect && !!suspect.result.html.value)
+				filter(([, suspect]) => suspect && suspect.result && !!suspect.result.html.value)
 			)
 			.subscribe(([match, suspect, matches]) => {
-				if (match && suspect) {
+				if (match && suspect && suspect.result) {
 					const comparison = suspect.result.html.comparison[MatchType[match.type]];
 					const [start] = findRespectiveStart(match.start, comparison, true);
 					const found = matches.findIndex(m => m.start === start);

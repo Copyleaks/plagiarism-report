@@ -103,7 +103,8 @@
 															[view]="[150, 150]">
 					<ng-template #tooltipTemplate
 											 let-model="model">
-						<div style="padding:0.5em">
+						<div style="padding:0.5em"
+								 class="mat-typography">
 							<span style="font-size:1em;display: block">{{ model.value | number }}</span>
 							<span tooltip-text>{{ model.name }} words</span>
 						</div>

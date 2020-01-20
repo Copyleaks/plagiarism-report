@@ -215,7 +215,7 @@ const extractMatches = (comparison: ComparisonKey, content: ContentKey, subject:
 	item: ResultItem
 ) => {
 	const { result, id } = item;
-	if (!result[content] || !result[content].comparison) {
+	if (!result || !result[content] || !result[content].comparison) {
 		return [];
 	}
 	const gids = result[content].comparison[comparison].groupId || [];

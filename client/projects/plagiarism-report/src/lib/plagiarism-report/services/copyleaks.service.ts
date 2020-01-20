@@ -14,7 +14,6 @@ import {
 	SCAN_RESULT_VALIDATION_ERROR,
 	SCAN_SOURCE_VALIDATION_ERROR,
 	VERSION_VALIDATION_ERROR,
-	DEFAULT_REPORT_CONFIG,
 } from '../utils/constants';
 
 import { Subject } from 'rxjs';
@@ -81,13 +80,13 @@ export class CopyleaksService {
 	 * Insert a downloaded scan result to the report.
 	 * @see https://api.copyleaks.com/documentation/v3/downloads/result
 	 * @param id the result id
-	 * @param result the downloaded result object
+	 * @param result the downloaded result object , pass null to represent an error
 	 */
 	pushScanResult(id: string, result: ScanResult) {
 		if (typeof id !== 'string') {
 			throw new Error(`Argument "id" must be a string`);
 		}
-		if (!this.isScanResult(result)) {
+		if (result != null && !this.isScanResult(result)) {
 			throw new Error(SCAN_RESULT_VALIDATION_ERROR);
 		}
 		this._result.next({ id, result });
@@ -107,7 +106,7 @@ export class CopyleaksService {
 	 * @param config the complete/partial configuration object
 	 */
 	setConfig(config: CopyleaksReportConfig) {
-		this._config.next({ ...DEFAULT_REPORT_CONFIG, ...config });
+		this._config.next({ ...config });
 	}
 
 	/**

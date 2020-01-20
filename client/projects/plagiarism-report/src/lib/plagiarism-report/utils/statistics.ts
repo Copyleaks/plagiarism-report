@@ -15,6 +15,9 @@ import {
  * @param subject name of the subject to extract from ( source | suspected)
  */
 export const createWordIntervalsFrom = (type: ComparisonKey, subject: SubjectResultKey) => ({ result }: ResultItem) => {
+	if (!result) {
+		return [];
+	}
 	const { starts, lengths } = result.text.comparison[type][subject].words;
 	return starts.map(
 		(start, i): Match => ({

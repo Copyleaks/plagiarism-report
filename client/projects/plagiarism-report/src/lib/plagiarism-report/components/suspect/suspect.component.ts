@@ -107,7 +107,8 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroy(this))
 			.subscribe(
 				([mode, suspect]) =>
-					(this.contentMode = mode === 'html' && suspect && suspect.result.html.value ? 'html' : 'text')
+					(this.contentMode =
+						mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
 			);
 
 		onlyOneToOne$.pipe(untilDestroy(this)).subscribe(disable => (this.disableBackButton = disable));

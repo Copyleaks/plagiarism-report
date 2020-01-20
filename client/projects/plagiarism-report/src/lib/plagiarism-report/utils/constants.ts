@@ -22,7 +22,7 @@ export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
 	download: false,
 	help: false,
 	disableSuspectBackButton: false,
-	options: DEFAULT_OPTIONS,
+	options: { ...DEFAULT_OPTIONS },
 	scanId: null,
 	share: false,
 	sourcePage: 1,

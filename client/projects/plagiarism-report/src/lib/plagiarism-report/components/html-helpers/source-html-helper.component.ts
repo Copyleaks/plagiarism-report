@@ -82,7 +82,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 				filter(([, , matches, content]) => content === 'html' && !!matches)
 			)
 			.subscribe(([elem, suspect, matches]) => {
-				if (elem) {
+				if (elem && suspect.result) {
 					const comparison = suspect.result.html.comparison[MatchType[elem.match.type]];
 					const [start] = findRespectiveStart(elem.match.start, comparison, false);
 					const found = matches.findIndex(m => m.start === start);
@@ -99,7 +99,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 				filter(([, , matches, content]) => content === 'html' && !!matches)
 			)
 			.subscribe(([match, suspect, matches]) => {
-				if (match) {
+				if (match && suspect && suspect.result) {
 					const comparison = suspect.result.html.comparison[MatchType[match.type]];
 					const [start] = findRespectiveStart(match.start, comparison, false);
 					const found = matches.findIndex(m => m.start === start);

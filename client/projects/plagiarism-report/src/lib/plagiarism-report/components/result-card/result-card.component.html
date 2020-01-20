@@ -4,7 +4,9 @@
 			 (click)="onTitleClick()">
 		<mat-spinner style="zoom:0.2"
 								 *ngIf="loading"></mat-spinner>
-
+		<mat-icon *ngIf="!loading && result === null"
+							matTooltip="Result content is not available"
+							color="warn">error</mat-icon>
 		{{ preview.title }}
 	</div>
 
@@ -22,7 +24,7 @@
 			 fxLayoutAlign="space-between stretch">
 		<div [ngClass]="{ 'text-identical': true }"
 				 *ngIf="source">
-			{{ preview.matchedWords / source?.metadata.words | similarity }} similar words
+			{{ (similarWords$|async) / source?.metadata.words | similarity }} similar words
 		</div>
 		<div fxLayout="row"
 				 fxLayoutGap="1em"
