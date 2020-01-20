@@ -8,6 +8,8 @@ import {
 	OnInit,
 	Output,
 	SimpleChanges,
+	ElementRef,
+	Renderer2,
 } from '@angular/core';
 import { untilDestroy } from '../shared/operators/untilDestroy';
 import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
@@ -16,7 +18,7 @@ import { HighlightService } from './services/highlight.service';
 import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
-
+import { version } from '../../../package.json';
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
@@ -51,7 +53,14 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public resultsActive = false;
 	public aaa = false;
 
-	constructor(private reportService: ReportService, private copyleaksService: CopyleaksService) {}
+	constructor(
+		private reportService: ReportService,
+		private copyleaksService: CopyleaksService,
+		el: ElementRef,
+		renderer: Renderer2
+	) {
+		renderer.setAttribute(el.nativeElement, 'plagiarism-report-version', version);
+	}
 
 	/**
 	 * life-cycle method
