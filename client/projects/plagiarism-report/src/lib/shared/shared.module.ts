@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, PercentPipe } from '@angular/common';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { SearchPipe } from './pipes/search.pipe';
@@ -9,6 +9,7 @@ import { ClickStopPropagationDirective } from './directives/click-stop-propagati
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { WhitelistPipe } from './pipes/whitelist.pipe';
 import { UniquePipe } from './pipes/unique.pipe';
+import { SimilarityPipe } from './pipes/similarity.pipe';
 
 /**
  * A shared module containing all sort of generic reuseable stuff
@@ -22,9 +23,11 @@ import { UniquePipe } from './pipes/unique.pipe';
 		TimeAgoPipe,
 		WhitelistPipe,
 		UniquePipe,
+		SimilarityPipe,
 		ClickStopPropagationDirective,
 	],
 	imports: [CommonModule],
+	providers: [PercentPipe],
 	exports: [
 		ShortNumberPipe,
 		SafePipe,
@@ -32,6 +35,7 @@ import { UniquePipe } from './pipes/unique.pipe';
 		ArrayPipe,
 		TimeAgoPipe,
 		WhitelistPipe,
+		SimilarityPipe,
 		ClickStopPropagationDirective,
 	],
 })

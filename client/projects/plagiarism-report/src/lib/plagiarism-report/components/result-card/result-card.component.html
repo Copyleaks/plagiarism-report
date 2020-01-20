@@ -21,8 +21,9 @@
 			 fxLayout="row"
 			 fxLayoutAlign="space-between stretch">
 		<div [ngClass]="{ 'text-identical': true }"
-				 *ngIf="source">{{ preview.matchedWords / source?.metadata.words | percent  }} similar
-			words</div>
+				 *ngIf="source">
+			{{ preview.matchedWords / source?.metadata.words | similarity }} similar words
+		</div>
 		<div fxLayout="row"
 				 fxLayoutGap="1em"
 				 style="height: 28px"
@@ -39,16 +40,19 @@
 				 fxLayoutAlign="start start"
 				 class="sat-tooltip mat-typography">
 			<div class="text-identical"
-					 *ngIf="source">Identical -
-				{{ result?.statistics.identical / source?.metadata.words | percent }}
+					 *ngIf="source">
+				Identical -
+				{{ result?.statistics.identical / source?.metadata.words | similarity }}
 				words
 			</div>
 			<div class="text-minor-changes"
-					 *ngIf="source">Minor Changes -
-				{{ result?.statistics.minorChanges / source?.metadata.words| percent }} words</div>
+					 *ngIf="source">
+				Minor Changes - {{ result?.statistics.minorChanges / source?.metadata.words | similarity }} words
+			</div>
 			<div class="text-related"
-					 *ngIf="source">Related Meaning -
-				{{ result?.statistics.relatedMeaning / source?.metadata.words| percent }}
+					 *ngIf="source">
+				Related Meaning -
+				{{ result?.statistics.relatedMeaning / source?.metadata.words | similarity }}
 				words
 			</div>
 		</div>
