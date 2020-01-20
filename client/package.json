@@ -12,9 +12,9 @@
     "lib:build": "ng build plagiarism-report",
     "lib:copy-readme": "cp ../README.md dist/plagiarism-report",
     "lib:publish": "cd dist/plagiarism-report && npm publish",
-    "prettier": "prettier --write **/*.{ts,js,css,scss,html}",
-    "script:tag": "node scripts/tag.js",
-    "package": "npm run lib:test && npm run lib:lint && npm run lib:version && npm run lib:build && npm run lib:copy-readme && npm run lib:publish"
+    "lib:prettier": "prettier --write projects/plagiarism-report/**/*.{ts,js,css,scss,html}",
+		"script:extract-version": "node scripts/extract-version.js",
+    "package": "npm run lib:prettier npm run lib:test && npm run lib:lint && npm run lib:version && npm run script:extract-version && npm run lib:build && npm run lib:copy-readme && npm run lib:publish"
   },
   "private": true,
   "dependencies": {

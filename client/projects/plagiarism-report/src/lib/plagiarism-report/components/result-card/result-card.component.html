@@ -1,12 +1,9 @@
 <ng-container *ngIf="preview; else skeleton__card">
-	<div header
-			 class="title"
-			 (click)="onTitleClick()">
-		<mat-spinner style="zoom:0.2"
-								 *ngIf="loading"></mat-spinner>
-		<mat-icon *ngIf="!loading && result === null"
-							matTooltip="Result content is not available"
-							color="warn">error</mat-icon>
+	<div header class="title" (click)="onTitleClick()">
+		<mat-spinner style="zoom:0.2" *ngIf="loading"></mat-spinner>
+		<mat-icon *ngIf="!loading && result === null" matTooltip="Result content is not available" color="warn">
+			error
+		</mat-icon>
 		{{ preview.title }}
 	</div>
 
@@ -15,44 +12,30 @@
 	</p>
 
 	<div url>
-		<a [href]="preview.url"
-			 target="_blank">{{ preview.url }}</a>
+		<a [href]="preview.url" target="_blank">{{ preview.url }}</a>
 	</div>
 	<mat-divider></mat-divider>
-	<div footer
-			 fxLayout="row"
-			 fxLayoutAlign="space-between stretch">
-		<div [ngClass]="{ 'text-identical': true }"
-				 *ngIf="source">
-			{{ (similarWords$|async) / source?.metadata.words | similarity }} similar words
+	<div footer fxLayout="row" fxLayoutAlign="space-between stretch">
+		<div [ngClass]="{ 'text-identical': true }" *ngIf="source">
+			{{ (similarWords$ | async) / source?.metadata.words | similarity }} similar words
 		</div>
-		<div fxLayout="row"
-				 fxLayoutGap="1em"
-				 style="height: 28px"
-				 [satPopoverAnchor]="popover"
-				 satPopoverHover>
+		<div fxLayout="row" fxLayoutGap="1em" style="height: 28px" [satPopoverAnchor]="popover" satPopoverHover>
 			<span class="dot identical"></span>
 			<span class="dot minor-changes"></span>
 			<span class="dot related"></span>
 		</div>
 	</div>
-	<sat-popover #popover
-							 horizontalAlign="before">
-		<div fxLayout="column nowrap"
-				 fxLayoutAlign="start start"
-				 class="sat-tooltip mat-typography">
-			<div class="text-identical"
-					 *ngIf="source">
+	<sat-popover #popover horizontalAlign="before">
+		<div fxLayout="column nowrap" fxLayoutAlign="start start" class="sat-tooltip mat-typography">
+			<div class="text-identical" *ngIf="source">
 				Identical -
 				{{ result?.statistics.identical / source?.metadata.words | similarity }}
 				words
 			</div>
-			<div class="text-minor-changes"
-					 *ngIf="source">
+			<div class="text-minor-changes" *ngIf="source">
 				Minor Changes - {{ result?.statistics.minorChanges / source?.metadata.words | similarity }} words
 			</div>
-			<div class="text-related"
-					 *ngIf="source">
+			<div class="text-related" *ngIf="source">
 				Related Meaning -
 				{{ result?.statistics.relatedMeaning / source?.metadata.words | similarity }}
 				words
@@ -72,19 +55,21 @@
 		<ngx-skeleton-loader></ngx-skeleton-loader>
 	</p>
 	<mat-divider></mat-divider>
-	<div footer
-			 fxLayout="row"
-			 fxLayoutAlign="space-between stretch">
-		<ngx-skeleton-loader fxFlex="30"
-												 [theme]="{ height: '28px', margin: 0 }"></ngx-skeleton-loader>
-		<div fxLayout="row"
-				 fxLayoutGap="1em">
-			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
-													 appearance="circle"></ngx-skeleton-loader>
-			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
-													 appearance="circle"></ngx-skeleton-loader>
-			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
-													 appearance="circle"></ngx-skeleton-loader>
+	<div footer fxLayout="row" fxLayoutAlign="space-between stretch">
+		<ngx-skeleton-loader fxFlex="30" [theme]="{ height: '28px', margin: 0 }"></ngx-skeleton-loader>
+		<div fxLayout="row" fxLayoutGap="1em">
+			<ngx-skeleton-loader
+				[theme]="{ height: '28px', width: '28px', margin: 0 }"
+				appearance="circle"
+			></ngx-skeleton-loader>
+			<ngx-skeleton-loader
+				[theme]="{ height: '28px', width: '28px', margin: 0 }"
+				appearance="circle"
+			></ngx-skeleton-loader>
+			<ngx-skeleton-loader
+				[theme]="{ height: '28px', width: '28px', margin: 0 }"
+				appearance="circle"
+			></ngx-skeleton-loader>
 		</div>
 	</div>
 </ng-template>

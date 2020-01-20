@@ -1,65 +1,63 @@
-@import "../../../styles";
+@import '../../../styles';
 
 :host {
-  display: flex;
-  flex-flow: column nowrap;
+	display: flex;
+	flex-flow: column nowrap;
 
-  position: relative;
+	position: relative;
 }
 
 mat-form-field {
-  margin-bottom: 0;
-  width: 100%;
+	margin-bottom: 0;
+	width: 100%;
 }
 
 [result] {
-  &:hover {
-    background: rgba(0, 0, 0, .04);
-  }
+	&:hover {
+		background: rgba(0, 0, 0, 0.04);
+	}
 
-  mat-pseudo-checkbox {
-    margin-left: 1em;
-  }
+	mat-pseudo-checkbox {
+		margin-left: 1em;
+	}
 
-  p {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+	p {
+		flex: 1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }
 
 [button-link] {
-  cursor: pointer;
-  text-transform: capitalize;
+	cursor: pointer;
+	text-transform: capitalize;
 }
 
 [check-item] {
+	cursor: pointer;
+	margin-bottom: 0.5em;
+	white-space: nowrap;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
 
-
-  cursor: pointer;
-  margin-bottom: 0.5em;
-  white-space: nowrap;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  &:last-child {
-    margin-top: 0;
-  }
+	&:last-child {
+		margin-top: 0;
+	}
 }
 
 [close] {
-  position: absolute;
-  margin-top: -1em;
-  margin-right: -1em;
-  top: 0;
-  right: 0;
+	position: absolute;
+	margin-top: -1em;
+	margin-right: -1em;
+	top: 0;
+	right: 0;
 }
 
 @include gt-sm {
-  mat-dialog-content {
-    height: 50vh;
-    width: 60vh;
-  }
+	mat-dialog-content {
+		height: 50vh;
+		width: 60vh;
+	}
 }

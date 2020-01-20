@@ -17,20 +17,12 @@
 	</div>
 </mat-dialog-content>
 
-<div fxLayout.lt-md="column nowrap"
-		 fxLayout="row nowrap"
-		 fxLayoutGap="1em"
-		 fxLayoutAlign="space-between center">
-	<mat-checkbox fxFlexAlign.lt-md="start"
-								[(ngModel)]="options.setAsDefault">Set as default for all scans</mat-checkbox>
-	<button mat-raised-button
-					(click)="close(true)"
-					color="primary">
+<div fxLayout.lt-md="column nowrap" fxLayout="row nowrap" fxLayoutGap="1em" fxLayoutAlign="space-between center">
+	<mat-checkbox fxFlexAlign.lt-md="start" [(ngModel)]="options.setAsDefault">Set as default for all scans</mat-checkbox>
+	<button mat-raised-button (click)="close(true)" color="primary">
 		SAVE
 	</button>
 </div>
-<button close
-				mat-icon-button
-				(click)="close()">
+<button close mat-icon-button (click)="close()">
 	<mat-icon>close</mat-icon>
 </button>

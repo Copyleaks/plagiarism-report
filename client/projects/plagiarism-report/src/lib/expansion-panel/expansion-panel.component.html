@@ -1,12 +1,5 @@
-<div fxLayout="row nowrap"
-		 fxLayoutAlign="start stretch"
-		 top>
-	<span fxLayout="row"
-				fxLayoutAlign="center center"
-				fxFlex
-				top-title
-				matRipple
-				(click)="toggle()">
+<div fxLayout="row nowrap" fxLayoutAlign="start stretch" top>
+	<span fxLayout="row" fxLayoutAlign="center center" fxFlex top-title matRipple (click)="toggle()">
 		<ng-container [ngTemplateOutlet]="title"></ng-container>
 		<mat-icon>{{ expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
 	</span>
@@ -14,8 +7,7 @@
 		<ng-container [ngTemplateOutlet]="menu"></ng-container>
 	</div>
 </div>
-<div [@expandCollapse]="expanded ? 'open' : 'close'"
-		 body>
+<div [@expandCollapse]="expanded ? 'open' : 'close'" body>
 	<!-- <div body> -->
 	<mat-divider *ngIf="expanded"></mat-divider>
 	<ng-container [ngTemplateOutlet]="body"></ng-container>

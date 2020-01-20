@@ -18,7 +18,7 @@ import { HighlightService } from './services/highlight.service';
 import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
-import { version } from '../../../package.json';
+import { version } from '../report-version.json';
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',

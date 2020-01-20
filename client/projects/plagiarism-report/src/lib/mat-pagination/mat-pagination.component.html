@@ -1,40 +1,40 @@
 <div mat-pagination-wrapper>
-	<button *ngIf="showFirstLastButtons"
-					mat-button
-					matTooltip="First page"
-					(click)="currentPage = 1"
-					[disabled]="!hasPages || isFirstPage || disabled">
+	<button
+		*ngIf="showFirstLastButtons"
+		mat-button
+		matTooltip="First page"
+		(click)="currentPage = 1"
+		[disabled]="!hasPages || isFirstPage || disabled"
+	>
 		<mat-icon>first_page</mat-icon>
 	</button>
-	<button mat-button
-					matTooltip="Previous page"
-					(click)="back()"
-					[disabled]="!hasPages || isFirstPage || disabled">
+	<button mat-button matTooltip="Previous page" (click)="back()" [disabled]="!hasPages || isFirstPage || disabled">
 		<mat-icon>chevron_left</mat-icon>
 	</button>
 	<mat-form-field>
-		<input matInput
-					 (blur)="onInputBlur($event)"
-					 [min]="1"
-					 [max]="totalPages"
-					 autocomplete="off"
-					 type="number"
-					 [ngModelOptions]="{ updateOn: 'blur' }"
-					 [(ngModel)]="currentPage"
-					 [disabled]="!hasPages || disabled" />
+		<input
+			matInput
+			(blur)="onInputBlur($event)"
+			[min]="1"
+			[max]="totalPages"
+			autocomplete="off"
+			type="number"
+			[ngModelOptions]="{ updateOn: 'blur' }"
+			[(ngModel)]="currentPage"
+			[disabled]="!hasPages || disabled"
+		/>
 		<span matSuffix>of {{ totalPages }}</span>
 	</mat-form-field>
-	<button mat-button
-					matTooltip="Next page"
-					(click)="next()"
-					[disabled]="!hasPages || isLastPage || disabled">
+	<button mat-button matTooltip="Next page" (click)="next()" [disabled]="!hasPages || isLastPage || disabled">
 		<mat-icon>chevron_right</mat-icon>
 	</button>
-	<button *ngIf="showFirstLastButtons"
-					mat-button
-					matTooltip="Last page"
-					(click)="currentPage = totalPages"
-					[disabled]="!hasPages || isLastPage || disabled">
+	<button
+		*ngIf="showFirstLastButtons"
+		mat-button
+		matTooltip="Last page"
+		(click)="currentPage = totalPages"
+		[disabled]="!hasPages || isLastPage || disabled"
+	>
 		<mat-icon>last_page</mat-icon>
 	</button>
 </div>

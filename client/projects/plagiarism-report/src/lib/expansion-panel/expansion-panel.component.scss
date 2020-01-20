@@ -2,31 +2,31 @@ $panel-padding: 1em;
 $panel-border: 1px solid #e6e6e6;
 
 :host(cr-expansion-panel) {
-  border: $panel-border;
-  display: flex;
-  flex-direction: column;
+	border: $panel-border;
+	display: flex;
+	flex-direction: column;
 
-  [top] {
-    height: 2.5em;
+	[top] {
+		height: 2.5em;
 
-    [top-title] {
-      text-align: center;
-    }
+		[top-title] {
+			text-align: center;
+		}
 
-    cursor: pointer;
-  }
+		cursor: pointer;
+	}
 }
 
 :host(cr-expansion-panel-title) {
-  vertical-align: super;
+	vertical-align: super;
 }
 
 :host(cr-expansion-panel-menu) {
-  display: flex;
-  flex-flow: row nowrap;
-  height: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	height: 100%;
 }
 
 :host(cr-expansion-panel-menu-item) {
-  display: flex;
+	display: flex;
 }

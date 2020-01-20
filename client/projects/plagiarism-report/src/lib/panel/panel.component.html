@@ -1,23 +1,13 @@
-<div header
-		 fxLayout="row"
-		 fxLayoutAlign="space-between start">
-	<div fxLayout="row nowrap"
-			 fxFlex
-			 fxLayoutAlign="start center"
-			 fxFlexAlign="stretch">
+<div header fxLayout="row" fxLayoutAlign="space-between start">
+	<div fxLayout="row nowrap" fxFlex fxLayoutAlign="start center" fxFlexAlign="stretch">
 		<ng-container [ngTemplateOutlet]="title"></ng-container>
 	</div>
-	<div right
-			 fxLayout="row nowrap"
-			 fxLayoutGap="0.5em"
-			 fxFlexAlign="center">
+	<div right fxLayout="row nowrap" fxLayoutGap="0.5em" fxFlexAlign="center">
 		<ng-container [ngTemplateOutlet]="actions"></ng-container>
 	</div>
 </div>
 <mat-divider></mat-divider>
-<div fxLayout="column"
-		 fxFlex="100"
-		 body>
+<div fxLayout="column" fxFlex="100" body>
 	<ng-container [ngTemplateOutlet]="body"></ng-container>
 </div>
 
