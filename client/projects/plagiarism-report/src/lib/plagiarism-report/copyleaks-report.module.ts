@@ -99,7 +99,11 @@ import { CopyleaksTextConfig } from './models/CopyleaksTextConfig';
 		MatProgressSpinnerModule,
 		VirtualScrollerModule,
 	],
-	providers: [CopyleaksService],
+	providers: [
+		CopyleaksService,
+		{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
+		{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
+	],
 	entryComponents: [OptionsDialogComponent, ResultsFilterDialogComponent],
 	exports: [CopyleaksReportComponent],
 })

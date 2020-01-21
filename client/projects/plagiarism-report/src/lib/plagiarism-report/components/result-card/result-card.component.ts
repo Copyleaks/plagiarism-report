@@ -1,17 +1,17 @@
-import { Component, HostBinding, Input, OnInit, OnDestroy, Inject } from '@angular/core';
-
-import { ResultPreview, ScanSource, CopyleaksReportOptions } from '../../models';
-import { ScanResult } from '../../models/api-models/ScanResult';
-import { ReportService } from '../../services/report.service';
+import { Component, HostBinding, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
+import { CopyleaksReportOptions, ResultPreview, ScanSource } from '../../models';
+import { ScanResult } from '../../models/api-models/ScanResult';
 import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
+import { ReportService } from '../../services/report.service';
+import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
 
 @Component({
 	selector: 'cr-result-card',
 	templateUrl: './result-card.component.html',
 	styleUrls: ['./result-card.component.scss'],
+	providers: [],
 })
 export class ResultCardComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mat-elevation-z3')
