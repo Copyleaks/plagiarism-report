@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { CopyleaksReportConfig, CopyleaksReportOptions } from '../models';
+import { CopyleaksTextConfig } from '../models/CopyleaksTextConfig';
 
 /** Constants related to `report.service.ts` */
 export const REPORT_SERVICE_CONSTANTS = {
@@ -30,7 +31,12 @@ export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
 	suspectPage: 1,
 	viewMode: 'one-to-many',
 };
-
+/**
+ * Default text messages for the report
+ */
+export const DEFAULT_TEXT_CONFIG: CopyleaksTextConfig = {
+	RESULT_PUSH_ERROR: 'Unable to retrieve result content at this time. Please try again later.',
+};
 /** Font size unit for increasing/decreasing font size while in `text` content mode */
 export const TEXT_FONT_SIZE_UNIT = 0.25;
 
@@ -41,15 +47,18 @@ export const MAX_TEXT_ZOOM = 4;
 export const MIN_TEXT_ZOOM = 0.5;
 
 /** User messages for text exclusion cases */
-
 export const EXCLUDE_MESSAGE = {
 	1: 'Quotations are omitted according to your settings',
 	2: 'References are omitted according to your settings',
 	5: 'HTML templates are omitted according to your settings',
 	6: 'Tables of content are omitted according to your settings',
 };
+
 /** Injection token used to override the default config of the report */
 export const COPYLEAKS_CONFIG_INJECTION_TOKEN = new InjectionToken<CopyleaksReportConfig>('copyleaks-config');
+
+/** Injection token used to override the default text messages of the report */
+export const COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN = new InjectionToken<CopyleaksTextConfig>('copyleaks-text-config');
 
 /** The current Copyleaks API version that this library supports */
 export const CURRENT_API_VERSION = 3;

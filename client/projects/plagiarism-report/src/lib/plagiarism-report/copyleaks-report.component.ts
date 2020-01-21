@@ -1,5 +1,6 @@
 import {
 	Component,
+	ElementRef,
 	EventEmitter,
 	HostBinding,
 	Input,
@@ -7,10 +8,10 @@ import {
 	OnDestroy,
 	OnInit,
 	Output,
-	SimpleChanges,
-	ElementRef,
 	Renderer2,
+	SimpleChanges,
 } from '@angular/core';
+import { version } from '../report-version.json';
 import { untilDestroy } from '../shared/operators/untilDestroy';
 import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
 import { CopyleaksService } from './services/copyleaks.service';
@@ -18,7 +19,6 @@ import { HighlightService } from './services/highlight.service';
 import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
-import { version } from '../report-version.json';
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',

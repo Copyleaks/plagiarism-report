@@ -34,7 +34,12 @@ import { CopyleaksReportComponent } from './copyleaks-report.component';
 import { MatPaginationModule } from '../mat-pagination/mat-pagination.module';
 import { PoweredByComponent } from './components/powered-by/powered-by.component';
 
-import { DEFAULT_REPORT_CONFIG, COPYLEAKS_CONFIG_INJECTION_TOKEN } from './utils/constants';
+import {
+	DEFAULT_REPORT_CONFIG,
+	COPYLEAKS_CONFIG_INJECTION_TOKEN,
+	COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN,
+	DEFAULT_TEXT_CONFIG,
+} from './utils/constants';
 import { CopyleaksReportConfig } from './models';
 import { OriginalHtmlHelperComponent } from './components/html-helpers/original-html-helper.component';
 import { SourceHtmlHelperComponent } from './components/html-helpers/source-html-helper.component';
@@ -46,6 +51,7 @@ import { SourceTextHelperDirective } from './components/text-helpers/source-text
 import { CopyleaksService } from './services/copyleaks.service';
 import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { PlagiarismFreeComponent } from './components/plagiarism-free/plagiarism-free.component';
+import { CopyleaksTextConfig } from './models/CopyleaksTextConfig';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -100,12 +106,16 @@ import { PlagiarismFreeComponent } from './components/plagiarism-free/plagiarism
 export class CopyleaksReportModule {
 	/**
 	 * Modify the config that is added to the root module providers
-	 * @param config the modified config
+	 * @param config the modified report config
+	 * @param textConfig config containing custom text messages
 	 */
-	static forRoot(config: CopyleaksReportConfig): ModuleWithProviders {
+	static forRoot(config = {} as CopyleaksReportConfig, textConfig = {} as CopyleaksTextConfig): ModuleWithProviders {
 		return {
 			ngModule: CopyleaksReportModule,
-			providers: [{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } }],
+			providers: [
+				{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
+				{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
+			],
 		};
 	}
 
@@ -113,10 +123,13 @@ export class CopyleaksReportModule {
 	 * Modify the config that is added to the child module providers
 	 * @param config the modified config
 	 */
-	static forChild(config: CopyleaksReportConfig): ModuleWithProviders {
+	static forChild(config = {} as CopyleaksReportConfig, textConfig = {} as CopyleaksTextConfig): ModuleWithProviders {
 		return {
 			ngModule: CopyleaksReportModule,
-			providers: [{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } }],
+			providers: [
+				{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
+				{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
+			],
 		};
 	}
 }

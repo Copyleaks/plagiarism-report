@@ -1,10 +1,12 @@
-import { Component, HostBinding, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostBinding, Input, OnInit, OnDestroy, Inject } from '@angular/core';
 
 import { ResultPreview, ScanSource, CopyleaksReportOptions } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { ReportService } from '../../services/report.service';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
+import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
 
 @Component({
 	selector: 'cr-result-card',
@@ -21,7 +23,11 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	public loading = true;
 	public options: CopyleaksReportOptions;
 	public similarWords$: Observable<number>;
-	constructor(private reportService: ReportService) {}
+	constructor(
+		private reportService: ReportService,
+		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
+		public messages: CopyleaksTextConfig
+	) {}
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
