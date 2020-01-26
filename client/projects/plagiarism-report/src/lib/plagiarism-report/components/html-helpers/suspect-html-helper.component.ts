@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { filter, withLatestFrom, map } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { MatchJumpEvent, MatchSelectEvent, MatchType } from '../../models';
+import { MatchSelectEvent, MatchType } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
 import { MatchService } from '../../services/match.service';
 import { ReportService } from '../../services/report.service';
