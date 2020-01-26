@@ -192,7 +192,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 				this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 					takeUntil(destroy$),
 					retry(5),
-					map(result => this.copyleaksService.pushScanResult(item.id, Math.random() < 0.5 ? null : result))
+					map(result => this.copyleaksService.pushScanResult(item.id, result))
 				)
 			);
 			forkJoin(requests).subscribe();

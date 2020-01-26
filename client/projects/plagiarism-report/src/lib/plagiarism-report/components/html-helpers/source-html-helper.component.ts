@@ -71,7 +71,9 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 				withLatestFrom(viewMode$, contentMode$),
 				filter(([, view, content]) => view === 'one-to-one' && content === 'html')
 			)
-			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
+			.subscribe(([forward]) => {
+				this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent);
+			});
 
 		textMatchClick$
 			.pipe(

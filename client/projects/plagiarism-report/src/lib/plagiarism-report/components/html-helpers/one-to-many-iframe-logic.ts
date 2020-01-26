@@ -19,6 +19,7 @@ function onDocumentReady(fn: any) {
 function ready() {
 	let current: HTMLSpanElement;
 	let matches: HTMLSpanElement[];
+	let isPdf = document.querySelector('meta[content="pdf2htmlEX"]') !== null;
 	window.addEventListener('message', onMessageFromParent);
 	init();
 
@@ -65,8 +66,10 @@ function ready() {
 		if ((current === first && !event.forward) || (current === last && event.forward)) {
 			return;
 		}
+
 		const currentIndex = matches.indexOf(current);
 		const nextIndex = currentIndex + (event.forward ? 1 : -1);
+
 		onMatchSelect(matches[nextIndex]);
 	}
 
@@ -105,6 +108,9 @@ function ready() {
 		}
 		current = elem;
 		current.toggleAttribute('on', true);
+		if (isPdf) {
+			elem.closest('.pc').classList.add('opened');
+		}
 		current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 		messageParent({ type: 'match-select', index: +current.dataset.index });
 	}

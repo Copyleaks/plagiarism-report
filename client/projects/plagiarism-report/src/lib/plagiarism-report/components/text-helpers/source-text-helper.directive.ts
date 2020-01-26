@@ -38,7 +38,11 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 				withLatestFrom(source$, suspect$, contentMode$),
 				filter(([, , , content]) => content === 'text')
 			)
-			.subscribe(([{ elem }, source, suspect]) => this.handleBroadcast(elem.match, source, suspect.result, 'text'));
+			.subscribe(([{ elem }, source, suspect]) => {
+				if (elem) {
+					this.handleBroadcast(elem.match, source, suspect.result, 'text');
+				}
+			});
 
 		jump$
 			.pipe(
@@ -91,10 +95,9 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 			const nextIndex = this.current ? components.indexOf(this.current) + (forward ? 1 : -1) : 0;
 			this.highlightService.textMatchClicked({ elem: components[nextIndex], broadcast: true, origin: 'source' });
 		} else {
-			const page = (forward ? helpers.findNextPageWithMatch : helpers.findPrevPageWithMatch)(
-				this.host.textMatches,
-				this.host.currentPage
-			);
+			const page = forward
+				? helpers.findNextPageWithMatch(this.host.textMatches, this.host.currentPage)
+				: helpers.findPrevPageWithMatch(this.host.textMatches, this.host.currentPage);
 			if (this.host.currentPage !== page) {
 				this.highlightService.textMatchClicked({ elem: this.current, broadcast: true, origin: 'source' });
 				this.children.changes.pipe(take(1)).subscribe(() => {

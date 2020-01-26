@@ -51,8 +51,8 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 	 * - source and suspect html matches
 	 */
 	ngOnInit() {
-		const { suspect$, viewMode$, contentMode$ } = this.reportService;
-		const { sourceHtml$, textMatchClick$, jump$ } = this.highlightService;
+		const { suspect$, contentMode$ } = this.reportService;
+		const { sourceHtml$, textMatchClick$ } = this.highlightService;
 		const { suspectHtmlMatches$ } = this.matchService;
 		suspect$
 			.pipe(
@@ -61,13 +61,13 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 			)
 			.subscribe(suspect => suspect.result && suspect.result.html && (this.html = suspect.result.html.value));
 		suspectHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => this.renderMatches(matches));
-		jump$
-			.pipe(
-				untilDestroy(this),
-				withLatestFrom(viewMode$, contentMode$),
-				filter(([, view, content]) => view === 'one-to-one' && content === 'html')
-			)
-			.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
+		// jump$
+		// 	.pipe(
+		// 		untilDestroy(this),
+		// 		withLatestFrom(viewMode$, contentMode$),
+		// 		filter(([, view, content]) => view === 'one-to-one' && content === 'html')
+		// 	)
+		// 	.subscribe(([forward]) => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
 
 		textMatchClick$
 			.pipe(

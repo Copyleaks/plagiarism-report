@@ -17,6 +17,7 @@ function ready() {
 	let current: HTMLSpanElement;
 	let matches: HTMLSpanElement[];
 	let groups: { [gid: string]: HTMLSpanElement[] };
+	let isPdf = document.querySelector('meta[content="pdf2htmlEX"]') !== null;
 	window.addEventListener('message', handleMessageFromParent);
 	init();
 
@@ -62,8 +63,9 @@ function ready() {
 	function handleMatchJump(event: MatchJumpEvent) {
 		// cases:
 		// nothing is marked - force the start
+
 		if (!current) {
-			handleMatchSelect(matches[0]);
+			handleMatchSelect(matches[0], true);
 			return;
 		}
 
@@ -86,7 +88,7 @@ function ready() {
 			}
 		}
 		const nextGid = matches[currentIndex].dataset.gid;
-		handleMatchSelect(groups[nextGid][0]);
+		handleMatchSelect(groups[nextGid][0], true);
 	}
 
 	/**
@@ -137,6 +139,9 @@ function ready() {
 		}
 		if (elem) {
 			groups[elem.dataset.gid].forEach(el => el.toggleAttribute('on', true));
+			if (isPdf) {
+				elem.closest('.pc').classList.add('opened');
+			}
 			elem.scrollIntoView();
 		}
 		current = elem;

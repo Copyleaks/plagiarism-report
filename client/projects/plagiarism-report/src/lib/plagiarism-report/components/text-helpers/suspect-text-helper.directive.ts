@@ -61,7 +61,11 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 				filter(ev => ev.origin === 'source' && ev.broadcast),
 				withLatestFrom(suspect$)
 			)
-			.subscribe(([event, suspect]) => this.handleBroadcast(event.elem.match, suspect.result, 'text'));
+			.subscribe(([{ elem }, suspect]) => {
+				if (elem) {
+					this.handleBroadcast(elem.match, suspect.result, 'text');
+				}
+			});
 
 		sourceHtml$
 			.pipe(
