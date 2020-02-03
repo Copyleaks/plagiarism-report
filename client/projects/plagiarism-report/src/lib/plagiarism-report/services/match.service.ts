@@ -22,6 +22,7 @@ export class MatchService implements OnDestroy {
 
 	constructor(private reportService: ReportService) {
 		const { source$, filteredResults$, options$ } = this.reportService;
+
 		// listen to suspect changes and process one-to-one matches
 		combineLatest([this.onSuspectChange$, options$, source$])
 			.pipe(untilDestroy(this))

@@ -7,9 +7,10 @@ import {
 	CopyleaksReportConfig,
 	CopyleaksService,
 	DEFAULT_REPORT_CONFIG,
+	ResultItem,
 } from 'projects/plagiarism-report/src/public-api';
-import { forkJoin, from, interval, zip } from 'rxjs';
-import { delay, distinctUntilChanged, map, retry, take, takeUntil } from 'rxjs/operators';
+import { forkJoin, from, interval, zip, of } from 'rxjs';
+import { delay, distinctUntilChanged, map, retry, take, takeUntil, catchError } from 'rxjs/operators';
 import { ResultsService } from './results.service';
 
 @Component({
@@ -137,7 +138,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult(item.id, data));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
 
 				zip(from(results.database), interval(500))
@@ -150,7 +151,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult(item.id, data));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
 
 				zip(from(results.batch), interval(500))
@@ -163,7 +164,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult(item.id, data));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
 			});
 	}
@@ -192,11 +193,26 @@ export class ReportComponent implements OnInit, OnDestroy {
 				this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 					takeUntil(destroy$),
 					retry(5),
-					map(result => this.copyleaksService.pushScanResult(item.id, result))
+					map(result => ({ id: item.id, result } as ResultItem)),
+					catchError(() => of({ id: item.id, result: null }))
 				)
 			);
-			forkJoin(requests).subscribe();
+			forkJoin(requests).subscribe(items => {
+				this.copyleaksService.pushScanResult(items);
+			});
 		});
+		// completeResult$.subscribe(meta => {
+		// 	this.copyleaksService.pushCompletedResult(meta);
+		// 	const { internet, database, batch } = meta.results;
+		// 	const requests = [...internet, ...database, ...batch].map(item =>
+		// 		this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
+		// 			takeUntil(destroy$),
+		// 			retry(5),
+		// 			map(result => this.copyleaksService.pushScanResult({ id: item.id, result }))
+		// 		)
+		// 	);
+		// 	forkJoin(requests).subscribe();
+		// });
 	}
 	onBtnClick(event: any) {
 		console.log(event);

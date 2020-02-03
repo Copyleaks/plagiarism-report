@@ -34,14 +34,14 @@ export class ReportService implements OnDestroy {
 			onCompleteResult$,
 			onResultPreview$,
 			onProgress$,
-			onResultItem$,
+			onResultItems$,
 			onScanSource$,
 			onReportConfig$,
 		} = copyleaksService;
 		onCompleteResult$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
 		onResultPreview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
 		onProgress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
-		onResultItem$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResult(resultItem));
+		onResultItems$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResults(resultItem));
 		onScanSource$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
 		onReportConfig$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
 		this.config$.pipe(untilDestroy(this)).subscribe(config => this._configChange.next(config));
@@ -189,12 +189,13 @@ export class ReportService implements OnDestroy {
 	}
 
 	/**
-	 * Pushes a new `result` to the results observer
-	 * @param resultItem an object containing an id and a result
+	 * Pushes an array of new `result`s to the results observable
+	 * @param resultItems an array containing resultItem elements
 	 */
-	public addDownloadedResult(resultItem: ResultItem) {
-		if (!this._results.value.find(r => r.id === resultItem.id)) {
-			this._results.next([...this._results.value, resultItem]);
+	public addDownloadedResults(resultItems: ResultItem[]) {
+		const newItems = resultItems.filter(res => !this._results.value.find(x => x.id === res.id));
+		if (newItems.length) {
+			this._results.next([...this._results.value, ...newItems]);
 		}
 	}
 

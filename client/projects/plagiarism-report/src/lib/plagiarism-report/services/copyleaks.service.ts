@@ -25,7 +25,7 @@ export class CopyleaksService {
 	private readonly _complete = new Subject<CompleteResult>();
 	private readonly _preview = new Subject<ResultPreview>();
 	private readonly _source = new Subject<ScanSource>();
-	private readonly _result = new Subject<ResultItem>();
+	private readonly _results = new Subject<ResultItem[]>();
 	private readonly _progress = new Subject<number>();
 	private readonly _config = new Subject<CopyleaksReportConfig>();
 	private readonly _destroy = new Subject();
@@ -33,7 +33,7 @@ export class CopyleaksService {
 	public readonly onCompleteResult$ = this._complete.asObservable();
 	public readonly onResultPreview$ = this._preview.asObservable();
 	public readonly onScanSource$ = this._source.asObservable();
-	public readonly onResultItem$ = this._result.asObservable();
+	public readonly onResultItems$ = this._results.asObservable();
 	public readonly onProgress$ = this._progress.asObservable();
 	public readonly onReportConfig$ = this._config.asObservable();
 	public readonly onDestroy$ = this._destroy.asObservable();
@@ -77,19 +77,21 @@ export class CopyleaksService {
 		this._source.next(source);
 	}
 	/**
-	 * Insert a downloaded scan result to the report.
+	 * Insert one or more downloaded scan result to the report.
 	 * @see https://api.copyleaks.com/documentation/v3/downloads/result
-	 * @param id the result id
-	 * @param result the downloaded result object , pass null to represent an error
+	 * @param results one or more ResultItem object containing the result and the id of the result
 	 */
-	pushScanResult(id: string, result: ScanResult) {
-		if (typeof id !== 'string') {
-			throw new Error(`Argument "id" must be a string`);
+	pushScanResult(results: ResultItem[] | ResultItem) {
+		results = [].concat(results);
+		for (const { id, result } of results) {
+			if (typeof id !== 'string') {
+				throw new Error(`Argument "id" must be a string`);
+			}
+			if (result != null && !this.isScanResult(result)) {
+				throw new Error(SCAN_RESULT_VALIDATION_ERROR);
+			}
 		}
-		if (result != null && !this.isScanResult(result)) {
-			throw new Error(SCAN_RESULT_VALIDATION_ERROR);
-		}
-		this._result.next({ id, result });
+		this._results.next(results);
 	}
 
 	/**
