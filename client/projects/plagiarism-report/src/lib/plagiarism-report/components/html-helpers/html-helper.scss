@@ -1,8 +1,13 @@
 #sidebar.opened + #page-container {
 	left: 0px !important;
 }
-#page-container .c {
-	pointer-events: none !important;
+#page-container {
+	.c {
+		pointer-events: none !important;
+	}
+	.t {
+		pointer-events: all !important;
+	}
 }
 span[exclude] {
 	font-style: italic;
