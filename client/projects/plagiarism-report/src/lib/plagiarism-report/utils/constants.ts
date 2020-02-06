@@ -36,6 +36,10 @@ export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
  */
 export const DEFAULT_TEXT_CONFIG: CopyleaksTextConfig = {
 	RESULT_PUSH_ERROR: 'Unable to retrieve result content at this time. Please try again later.',
+	IDENTICAL_TOOLTIP_TEXT: 'Identical matches are one to one exact wording in the text. Click to disable',
+	MINOR_CHANGES_TOOLTIP_TEXT: 'Nearly identical with different form, ie "slow" becomes "slowly". Click to disable',
+	RELATED_MEANING_TOOLTIP_TEXT: 'Close meaning but different words used to convey the message. Click to disable',
+	MATCH_TYPE_OMITTED_TOOLTIP_TEXT: 'Omitted by your configuration. Click to enable',
 };
 /** Font size unit for increasing/decreasing font size while in `text` content mode */
 export const TEXT_FONT_SIZE_UNIT = 0.25;

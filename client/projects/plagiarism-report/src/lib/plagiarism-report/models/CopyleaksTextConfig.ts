@@ -1,3 +1,7 @@
 export interface CopyleaksTextConfig {
 	RESULT_PUSH_ERROR: string;
+	IDENTICAL_TOOLTIP_TEXT: string;
+	MINOR_CHANGES_TOOLTIP_TEXT: string;
+	RELATED_MEANING_TOOLTIP_TEXT: string;
+	MATCH_TYPE_OMITTED_TOOLTIP_TEXT: string;
 }

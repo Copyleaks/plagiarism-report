@@ -19,7 +19,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 		const timeToUpdate = Number.isNaN(seconds) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
 		this.timer = this.ngZone.runOutsideAngular(() => {
 			if (typeof window !== 'undefined') {
-				return window.setTimeout(() => {
+				return (window as any).setTimeout(() => {
 					this.ngZone.run(() => this.changeDetectorRef.markForCheck());
 				}, timeToUpdate);
 			}
@@ -63,7 +63,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 	/** clear the pipe timer */
 	private removeTimer() {
 		if (this.timer) {
-			window.clearTimeout(this.timer);
+			(window as any).clearTimeout(this.timer);
 			this.timer = null;
 		}
 	}

@@ -18,7 +18,7 @@ function ready() {
 	let matches: HTMLSpanElement[];
 	let groups: { [gid: string]: HTMLSpanElement[] };
 	let isPdf = document.querySelector('meta[content="pdf2htmlEX"]') !== null;
-	window.addEventListener('message', handleMessageFromParent);
+	(window as any).addEventListener('message', handleMessageFromParent);
 	init();
 
 	/**
@@ -40,7 +40,7 @@ function ready() {
 	}
 
 	function handleMessageFromParent(nativeEvent: MessageEvent) {
-		if (nativeEvent.source !== window.parent) {
+		if (nativeEvent.source !== (window as any).parent) {
 			return;
 		}
 		const event = nativeEvent.data as PostMessageEvent;
@@ -96,7 +96,7 @@ function ready() {
 	 * @param event the event to emit
 	 */
 	function messageParent(event: PostMessageEvent) {
-		window.parent.postMessage(event, '*');
+		(window as any).parent.postMessage(event, '*');
 	}
 
 	/**

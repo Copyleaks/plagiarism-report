@@ -90,7 +90,9 @@
 					<div
 						row
 						(click)="toggleComparison('showIdentical')"
-						[matTooltip]="options?.showIdentical ? null : 'Omitted by your configuration. Click to enable'"
+						[matTooltip]="
+							options?.showIdentical ? messages.IDENTICAL_TOOLTIP_TEXT : messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
+						"
 						fxLayout="row"
 						fxLayoutAlign="start center"
 						fxLayoutGap="0.5em"
@@ -109,7 +111,9 @@
 					<div
 						row
 						(click)="toggleComparison('showMinorChanges')"
-						[matTooltip]="options?.showMinorChanges ? null : 'Omitted by your configuration. Click to enable'"
+						[matTooltip]="
+							options?.showMinorChanges ? messages.MINOR_CHANGES_TOOLTIP_TEXT : messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
+						"
 						fxLayout="row"
 						fxLayoutAlign="center center"
 						fxLayoutGap="0.5em"
@@ -130,7 +134,9 @@
 					<div
 						row
 						(click)="toggleComparison('showRelated')"
-						[matTooltip]="options?.showRelated ? null : 'Omitted by your configuration. Click to enable'"
+						[matTooltip]="
+							options?.showRelated ? messages.RELATED_MEANING_TOOLTIP_TEXT : messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
+						"
 						fxLayout="row"
 						fxLayoutAlign="start center"
 						fxLayoutGap="0.5em"

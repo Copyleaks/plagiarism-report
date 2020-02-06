@@ -1,14 +1,15 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit, Inject } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { CopyleaksReportOptions, ReportStatistics, ViewMode } from '../../models';
+import { CopyleaksReportOptions, ReportStatistics, ViewMode, CopyleaksTextConfig } from '../../models';
 import { CompleteResult } from '../../models/api-models/CompleteResult';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
 import { truthy } from '../../utils/operators';
 import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
+import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
 
 @Component({
 	selector: 'cr-properties',
@@ -41,6 +42,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public chartData = [];
 
 	constructor(
+		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
+		public messages: CopyleaksTextConfig,
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private dialogService: MatDialog,
