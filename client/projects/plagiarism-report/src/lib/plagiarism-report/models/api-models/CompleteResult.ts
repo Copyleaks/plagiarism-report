@@ -79,3 +79,9 @@ export interface BatchResultPreview extends ResultPreviewBase {
 }
 /** Type containing some preview of a result from copyleaks api */
 export type ResultPreview = InternetResultPreview | DatabaseResultPreview | BatchResultPreview;
+
+/** Enum representing the access of a result */
+export enum ResultAccess {
+	full,
+	requirePayment
+}

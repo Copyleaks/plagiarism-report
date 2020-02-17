@@ -1,44 +1,58 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 :host {
-	padding: $card-padding;
-	display: flex;
-	flex-flow: column nowrap;
-	box-sizing: border-box;
+  padding: $card-padding;
+  display: flex;
+  flex-flow: column nowrap;
+  box-sizing: border-box;
 
-	.title {
-		font-weight: bold;
-		cursor: pointer;
-		word-wrap: break-word;
-	}
+  .title {
+    font-weight: bold;
+    cursor: pointer;
+    word-wrap: break-word;
+  }
 
-	mat-spinner {
-		margin: 2px;
-		display: inline-block;
-		vertical-align: text-bottom;
-	}
+  mat-spinner {
+    margin: 2px;
+    display: inline-block;
+    vertical-align: text-bottom;
+  }
 
-	mat-divider {
-		margin-top: $card-padding;
-		margin-bottom: $card-padding;
-		margin-left: -$card-padding;
-		margin-right: -$card-padding;
-	}
+  mat-divider {
+    margin-top: $card-padding;
+    margin-bottom: $card-padding;
+    margin-left: -$card-padding;
+    margin-right: -$card-padding;
+  }
 
-	[body] {
-		word-break: break-all;
-		word-break: break-word;
-	}
+  [body] {
+    word-break: break-all;
+    word-break: break-word;
+  }
 
-	[url] {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
+  [url] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-	[mat-button] {
-		min-width: 36px;
-		padding: 0;
-		color: darkgray;
-	}
+  [mat-button] {
+    min-width: 36px;
+    padding: 0;
+    color: darkgray;
+  }
+
+  [result-details] {
+    position: relative;
+    .blur {
+      filter: blur(5px);
+    }
+    [required-payment] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
