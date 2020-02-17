@@ -1,8 +1,11 @@
-import { Component, HostBinding, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+	Component, HostBinding, Inject, Input, OnDestroy, OnInit,
+	ViewContainerRef, ViewChild, ComponentFactoryResolver
+} from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CopyleaksReportOptions, ResultPreview, ScanSource, ResultAccess } from '../../models';
-import { ScanResult } from '../../models/api-models/ScanResult';
+import { ScanResult, ScanResultComponentBase } from '../../models/api-models/ScanResult';
 import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
 import { ReportService } from '../../services/report.service';
 import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
@@ -16,16 +19,19 @@ import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
 export class ResultCardComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mat-elevation-z3')
 	public readonly elevation = true;
+	@ViewChild('vcr', { read: ViewContainerRef, static: false })
+	vcr: ViewContainerRef;
 	@Input()
 	public preview: ResultPreview;
 	public result: ScanResult;
 	public source: ScanSource;
 	public loading = true;
-	public access: ResultAccess = ResultAccess.requirePayment;
+	public access: ResultAccess = ResultAccess.locked;
 	public resultAccess = ResultAccess;
 	public options: CopyleaksReportOptions;
 	public similarWords$: Observable<number>;
 	constructor(
+		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
@@ -55,6 +61,17 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 			this.source = source;
 			this.result = result.result;
 			this.loading = false;
+
+			if (this.result.component) {
+				const factory = this.componentFactoryResolver.resolveComponentFactory<ScanResultComponentBase>(this.result.component);
+				setTimeout(() => {
+					const ref = this.vcr.createComponent<ScanResultComponentBase>(factory);
+					const instance = ref.instance;
+					if (instance.setResult) {
+						instance.setResult(this.result);
+					}
+				});
+			}
 		});
 		this.similarWords$ = combineLatest([result$, options$]).pipe(
 			map(([result, options]) => {

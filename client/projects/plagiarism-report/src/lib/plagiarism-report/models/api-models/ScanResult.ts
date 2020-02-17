@@ -1,9 +1,17 @@
+import { Type } from '@angular/core';
+
 /** Type representing a scan result from copyleaks api */
 export interface ScanResult {
 	statistics: Statistics;
 	text: ResultTextSection;
 	html: ResultHtmlSection;
 	version: number;
+	component?: Type<ScanResultComponentBase>;
+}
+
+/** Type representing a scan result Component */
+export interface ScanResultComponentBase {
+	setResult: (result: ScanResult) => void
 }
 
 /** Type representing the statistics section of a scan result */

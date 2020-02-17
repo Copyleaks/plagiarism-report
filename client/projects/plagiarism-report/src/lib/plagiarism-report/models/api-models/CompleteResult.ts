@@ -83,5 +83,5 @@ export type ResultPreview = InternetResultPreview | DatabaseResultPreview | Batc
 /** Enum representing the access of a result */
 export enum ResultAccess {
 	full,
-	requirePayment
+	locked
 }

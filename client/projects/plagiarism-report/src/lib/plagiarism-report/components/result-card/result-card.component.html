@@ -1,9 +1,10 @@
 <ng-container *ngIf="preview; else skeleton__card">
-	<div result-details
-			 [style.min-height]="access==resultAccess.requirePayment ? '100px' : ''">
+
+	<ng-container #vcr></ng-container>
+
+	<ng-container *ngIf="!result?.component">
 		<div header
 				 class="title"
-				 [ngClass]="{'blur':access==resultAccess.requirePayment}"
 				 (click)="onTitleClick()">
 			<mat-spinner style="zoom:0.2"
 									 *ngIf="loading"></mat-spinner>
@@ -15,32 +16,19 @@
 			{{ preview.title }}
 		</div>
 
-		<p body
-			 [ngClass]="{'blur':access==resultAccess.requirePayment}">
+		<p body>
 			{{ preview.introduction }}
 		</p>
 
-		<div url
-				 [ngClass]="{'blur':access==resultAccess.requirePayment}">
+		<div url>
 			<a [href]="preview.url"
 				 target="_blank">{{ preview.url }}</a>
 		</div>
+	</ng-container>
 
 
-		<ng-container *ngIf="access==resultAccess.requirePayment">
-			<div required-payment
-					 fxLayout="column"
-					 fxLayoutAlign="center center">
-				<div class="blur-box"></div>
-				<h3>Upgrade your account to unlock the result</h3>
-				<button mat-raised-button
-								color='primary'>
-					<mat-icon>lock_open</mat-icon>
-				</button>
-			</div>
-		</ng-container>
-	</div>
 	<mat-divider></mat-divider>
+
 	<div footer
 			 fxLayout="row"
 			 fxLayoutAlign="space-between stretch">

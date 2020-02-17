@@ -26,6 +26,7 @@
   }
 
   [body] {
+    cursor: pointer;
     word-break: break-all;
     word-break: break-word;
   }
@@ -40,19 +41,5 @@
     min-width: 36px;
     padding: 0;
     color: darkgray;
-  }
-
-  [result-details] {
-    position: relative;
-    .blur {
-      filter: blur(5px);
-    }
-    [required-payment] {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
   }
 }

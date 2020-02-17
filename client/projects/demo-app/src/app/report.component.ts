@@ -12,6 +12,7 @@ import {
 import { forkJoin, from, interval, zip, of } from 'rxjs';
 import { delay, distinctUntilChanged, map, retry, take, takeUntil, catchError } from 'rxjs/operators';
 import { ResultsService } from './results.service';
+import { ScanResultComponent } from './components/scan-result/scan-result.component';
 
 @Component({
 	selector: 'app-report',
@@ -47,7 +48,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		private activatedRoute: ActivatedRoute,
 		private copyleaksService: CopyleaksService,
 		private resultsService: ResultsService
-	) {}
+	) { }
 
 	ngOnInit() {
 		const config = this.configFromQuery(this.activatedRoute.snapshot.queryParamMap);
@@ -138,7 +139,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: { ...data, component: this.useResultComponent() ? ScanResultComponent : null } }));
 					});
 
 				zip(from(results.database), interval(500))
@@ -151,7 +152,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: { ...data, component: this.useResultComponent() ? ScanResultComponent : null } }));
 					});
 
 				zip(from(results.batch), interval(500))
@@ -164,9 +165,14 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: { ...data, component: this.useResultComponent() ? ScanResultComponent : null } }));
 					});
 			});
+	}
+
+	useResultComponent() {
+		// return (Math.floor(Math.random() * (1000 - 0 + 1) + 0)) % 2 == 0;
+		return false;
 	}
 
 	/**
@@ -193,7 +199,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 				this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 					takeUntil(destroy$),
 					retry(5),
-					map(result => ({ id: item.id, result } as ResultItem)),
+					map(result => ({ id: item.id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
 					catchError(() => of({ id: item.id, result: null }))
 				)
 			);
@@ -217,7 +223,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 	onBtnClick(event: any) {
 		console.log(event);
 	}
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
 
 @Component({
@@ -225,5 +231,5 @@ export class ReportComponent implements OnInit, OnDestroy {
 	template: ``,
 })
 export class EmptyComponent {
-	constructor() {}
+	constructor() { }
 }
