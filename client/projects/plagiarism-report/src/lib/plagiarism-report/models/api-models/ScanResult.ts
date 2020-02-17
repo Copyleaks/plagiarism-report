@@ -11,7 +11,7 @@ export interface ScanResult {
 
 /** Type representing a scan result custom component */
 export interface ScanResultComponentBase {
-	setResult: (result: ScanResult) => void
+	setResult: (result: ScanResult) => void;
 }
 
 /** Type representing the statistics section of a scan result */

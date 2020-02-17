@@ -1,6 +1,13 @@
 import {
-	Component, HostBinding, Inject, Input, OnDestroy, OnInit,
-	ViewContainerRef, ViewChild, ComponentFactoryResolver
+	Component,
+	HostBinding,
+	Inject,
+	Input,
+	OnDestroy,
+	OnInit,
+	ViewContainerRef,
+	ViewChild,
+	ComponentFactoryResolver,
 } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -35,7 +42,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		private reportService: ReportService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) { }
+	) {}
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -63,7 +70,9 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 			this.loading = false;
 
 			if (this.result.component) {
-				const factory = this.componentFactoryResolver.resolveComponentFactory<ScanResultComponentBase>(this.result.component);
+				const factory = this.componentFactoryResolver.resolveComponentFactory<ScanResultComponentBase>(
+					this.result.component
+				);
 				setTimeout(() => {
 					const ref = this.vcr.createComponent<ScanResultComponentBase>(factory);
 					const instance = ref.instance;
@@ -90,5 +99,5 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
