@@ -9,7 +9,7 @@ export interface ScanResult {
 	component?: Type<ScanResultComponentBase>;
 }
 
-/** Type representing a scan result Component */
+/** Type representing a scan result custom component */
 export interface ScanResultComponentBase {
 	setResult: (result: ScanResult) => void
 }
