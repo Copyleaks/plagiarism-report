@@ -1,3 +1,6 @@
+import { Type } from '@angular/core';
+import { ResultItem } from '../Matches';
+
 /** A basic response from Copyleaks api */
 export interface BasicResponse {
 	status: ScanStatus;
@@ -53,13 +56,21 @@ export interface Score {
 }
 
 /** Base type for a result preview  */
-interface ResultPreviewBase {
+export interface ResultPreviewBase {
 	id: string;
 	title: string;
 	introduction: string;
 	matchedWords: number;
 	scanId?: string | void;
 	url?: string | void;
+	component?: Type<ResultPreviewComponentBase>;
+}
+
+/** Type representing a scan result preview custom component base */
+export interface ResultPreviewComponentBase {
+	setPreview: (preview: ResultPreviewBase) => void;
+	isLoading: (isLoading: boolean) => void;
+	setResult: (result: ResultItem) => void;
 }
 
 /** Type containing a preview of a result from the internet */

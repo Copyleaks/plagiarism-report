@@ -139,7 +139,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: { ...data, component: this.useResultComponent() ? ScanResultComponent : null } }));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
 
 				zip(from(results.database), interval(500))
@@ -152,7 +152,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: { ...data, component: this.useResultComponent() ? ScanResultComponent : null } }));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
 
 				zip(from(results.batch), interval(500))
@@ -165,7 +165,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
-							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: { ...data, component: this.useResultComponent() ? ScanResultComponent : null } }));
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
 			});
 	}
@@ -193,12 +193,17 @@ export class ReportComponent implements OnInit, OnDestroy {
 		);
 		downloadedSource$.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 		completeResult$.subscribe(meta => {
+			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: ScanResultComponent }))
+			// meta.results.internet = meta.results.internet.map(r => ({ ...r, component: ScanResultComponent }))
+			meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))
+
 			this.copyleaksService.pushCompletedResult(meta);
 			const { internet, database, batch } = meta.results;
 			const requests = [...internet, ...database, ...batch].map(item =>
 				this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 					takeUntil(destroy$),
 					retry(5),
+					delay(10000),
 					map(result => ({ id: item.id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
 					catchError(() => of({ id: item.id, result: null }))
 				)

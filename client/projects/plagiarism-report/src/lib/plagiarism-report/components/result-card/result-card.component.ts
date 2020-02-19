@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CopyleaksReportOptions, ResultPreview, ScanSource, ResultAccess } from '../../models';
-import { ScanResult, ScanResultComponentBase } from '../../models/api-models/ScanResult';
+import { CopyleaksReportOptions, ResultPreview, ScanSource, ResultAccess, ResultPreviewComponentBase } from '../../models';
+import { ScanResult } from '../../models/api-models/ScanResult';
 import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
 import { ReportService } from '../../services/report.service';
 import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
@@ -37,12 +37,13 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	public resultAccess = ResultAccess;
 	public options: CopyleaksReportOptions;
 	public similarWords$: Observable<number>;
+	private componentInstance: ResultPreviewComponentBase;
 	constructor(
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) {}
+	) { }
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -62,24 +63,36 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		if (!this.preview) {
 			return;
 		}
+
+		if (this.preview.component) {
+			const factory = this.componentFactoryResolver.resolveComponentFactory<ResultPreviewComponentBase>(
+				this.preview.component
+			);
+			setTimeout(() => {
+				const ref = this.vcr.createComponent<ResultPreviewComponentBase>(factory);
+				this.componentInstance = ref.instance;
+				if (this.componentInstance.setPreview) {
+					this.componentInstance.setPreview(this.preview);
+				}
+				if (this.componentInstance.isLoading) {
+					this.componentInstance.isLoading(this.loading);
+				}
+			});
+		}
+
 		const result$ = this.reportService.findResultById$(this.preview.id);
 		const { source$, options$ } = this.reportService;
 		combineLatest([result$, source$]).subscribe(([result, source]) => {
 			this.source = source;
 			this.result = result.result;
 			this.loading = false;
-
-			if (this.result.component) {
-				const factory = this.componentFactoryResolver.resolveComponentFactory<ScanResultComponentBase>(
-					this.result.component
-				);
-				setTimeout(() => {
-					const ref = this.vcr.createComponent<ScanResultComponentBase>(factory);
-					const instance = ref.instance;
-					if (instance.setResult) {
-						instance.setResult(this.result);
-					}
-				});
+			if (this.componentInstance) {
+				if (this.componentInstance.isLoading) {
+					this.componentInstance.isLoading(this.loading);
+				}
+				if (this.componentInstance.setResult) {
+					this.componentInstance.setResult(result);
+				}
 			}
 		});
 		this.similarWords$ = combineLatest([result$, options$]).pipe(
@@ -99,5 +112,5 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
