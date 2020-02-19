@@ -65,6 +65,11 @@ export class ReportComponent implements OnInit, OnDestroy {
 			.subscribe(params => this.onQueryChange(params));
 
 		this.simulateSync(this.activatedRoute.snapshot.paramMap.get('scanId'));
+
+		// For overriding result sorting
+		// this.copyleaksService.sortScanResults = (previews) => {
+		// 	return previews.sort((a, b) => a.matchedWords - b.matchedWords);
+		// }
 	}
 	onQueryChange(params: ParamMap) {
 		const config = this.configFromQuery(params);

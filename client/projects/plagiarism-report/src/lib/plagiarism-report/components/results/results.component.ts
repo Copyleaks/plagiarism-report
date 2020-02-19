@@ -8,6 +8,7 @@ import { LayoutMediaQueryService } from '../../services/layout-media-query.servi
 import { ReportService } from '../../services/report.service';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
 import { IMAGES } from '../../assets/images';
+import { CopyleaksService } from '../../services/copyleaks.service';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -16,12 +17,13 @@ import { IMAGES } from '../../assets/images';
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 	constructor(
+		private copyleaksService: CopyleaksService,
 		private reportService: ReportService,
 		private dialogService: MatDialog,
 		private layoutService: LayoutMediaQueryService,
 		private highlightService: HighlightService,
 		private cd: ChangeDetectorRef
-	) {}
+	) { }
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -62,7 +64,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 			});
 
 		filteredPreviews$.pipe(untilDestroy(this)).subscribe(previews => {
-			this.previews = previews.sort((a, b) => b.matchedWords - a.matchedWords);
+			this.previews = this.copyleaksService.sortScanResults(previews);
 		});
 
 		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => (this.hiddenResults = ids));
@@ -81,5 +83,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

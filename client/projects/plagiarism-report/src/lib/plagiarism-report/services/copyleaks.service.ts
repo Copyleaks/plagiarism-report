@@ -104,6 +104,15 @@ export class CopyleaksService {
 
 	/**
 	 * change the report's configuration
+	 * This function is used to sort the displayed results, you can add your own custom sort by overriding this function
+	 * @param previews the displayed results
+	 */
+	sortScanResults(previews: ResultPreview[]): ResultPreview[] {
+		return previews.sort((a, b) => b.matchedWords - a.matchedWords);
+	}
+
+	/**
+	 * change the report's configuration
 	 * allows passing partial configuration that will be complemented by the default configuration
 	 * @param config the complete/partial configuration object
 	 */

@@ -203,7 +203,7 @@ export class ReportService implements OnDestroy {
 	 * Edit the current state of the report using either a full or partial configuration object
 	 * @param config the configuration object
 	 */
-	configure(config: CopyleaksReportConfig) {
+	public configure(config: CopyleaksReportConfig) {
 		this._config.next(Object.assign(this._config.value, config));
 	}
 

@@ -11,7 +11,13 @@ import {
 } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CopyleaksReportOptions, ResultPreview, ScanSource, ResultAccess, ResultPreviewComponentBase } from '../../models';
+import {
+	CopyleaksReportOptions,
+	ResultPreview,
+	ScanSource,
+	ResultAccess,
+	ResultPreviewComponentBase,
+} from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
 import { ReportService } from '../../services/report.service';
@@ -43,7 +49,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		private reportService: ReportService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) { }
+	) {}
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -112,5 +118,5 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
