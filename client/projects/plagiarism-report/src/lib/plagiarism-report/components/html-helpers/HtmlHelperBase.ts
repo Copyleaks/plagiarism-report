@@ -33,7 +33,7 @@ export abstract class HtmlHelperBase {
 	 * @param event the default PostMessage event
 	 */
 	@HostListener('window:message', ['$event'])
-	onFrameMessage(event: MessageEvent) {
+	onFrameMessage(event) {
 		const { source, data } = event;
 		if (source !== this.frame) {
 			return;

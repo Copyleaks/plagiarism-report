@@ -39,7 +39,7 @@ function ready() {
 	/**
 	 * Message event handler
 	 */
-	function onMessageFromParent(nativeEvent: MessageEvent) {
+	function onMessageFromParent(nativeEvent) {
 		if (nativeEvent.source !== (window as any).parent) {
 			return;
 		}

@@ -39,7 +39,7 @@ function ready() {
 		});
 	}
 
-	function handleMessageFromParent(nativeEvent: MessageEvent) {
+	function handleMessageFromParent(nativeEvent) {
 		if (nativeEvent.source !== (window as any).parent) {
 			return;
 		}
