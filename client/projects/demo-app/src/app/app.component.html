@@ -1,8 +1,13 @@
-<nav></nav>
+<ng-container *ngIf="viewMode == eViewMode.Dashboard">
+	<nav></nav>
+	<main>
+		<div left></div>
+		<div right>
+			<router-outlet></router-outlet>
+		</div>
+	</main>
+</ng-container>
 
-<main>
-	<div left></div>
-	<div right>
-		<router-outlet></router-outlet>
-	</div>
-</main>
+<ng-container *ngIf="viewMode == eViewMode.Fullscreen">
+	<router-outlet></router-outlet>
+</ng-container>

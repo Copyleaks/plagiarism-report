@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+enum EViewMode { Dashboard, Fullscreen }
+
 // tslint:disable: completed-docs
 @Component({
 	selector: 'app-root',
@@ -7,5 +9,7 @@ import { Component } from '@angular/core';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-	constructor() {}
+	eViewMode = EViewMode;
+	viewMode = EViewMode.Fullscreen;
+	constructor() { }
 }
