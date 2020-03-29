@@ -23,7 +23,7 @@
 
 	<div footer fxLayout="row" fxLayoutAlign="space-between stretch">
 		<div [ngClass]="{ 'text-identical': true }" *ngIf="source">
-			{{ (similarWords$ | async) / source?.metadata.words | similarity }} similar words
+			{{ (similarWords$ | async) / (source?.metadata.words - source?.metadata.excluded) | similarity }} similar words
 		</div>
 		<div fxLayout="row" fxLayoutGap="1em" style="height: 28px" [satPopoverAnchor]="popover" satPopoverHover>
 			<span class="dot identical"></span>
@@ -35,15 +35,16 @@
 		<div fxLayout="column nowrap" fxLayoutAlign="start start" class="sat-tooltip mat-typography">
 			<div class="text-identical" *ngIf="source">
 				Identical -
-				{{ result?.statistics.identical / source?.metadata.words | similarity }}
+				{{ result?.statistics.identical / (source?.metadata.words - source?.metadata.excluded) | similarity }}
 				words
 			</div>
 			<div class="text-minor-changes" *ngIf="source">
-				Minor Changes - {{ result?.statistics.minorChanges / source?.metadata.words | similarity }} words
+				Minor Changes -
+				{{ result?.statistics.minorChanges / (source?.metadata.words - source?.metadata.excluded) | similarity }} words
 			</div>
 			<div class="text-related" *ngIf="source">
 				Related Meaning -
-				{{ result?.statistics.relatedMeaning / source?.metadata.words | similarity }}
+				{{ result?.statistics.relatedMeaning / (source?.metadata.words - source?.metadata.excluded) | similarity }}
 				words
 			</div>
 		</div>
