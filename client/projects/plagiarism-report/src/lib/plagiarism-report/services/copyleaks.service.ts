@@ -134,6 +134,7 @@ export class CopyleaksService {
 	 * This method will cause the `destroy$` observable to emit
 	 */
 	notifyDestroy() {
+		this.setFilteredResultsIds([]);
 		this._destroy.next();
 	}
 

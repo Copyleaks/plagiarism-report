@@ -185,6 +185,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			data: this.reportService,
 		});
 	}
+
+	get resultsFound() {
+		if (this.previewCount) {
+			return this.previewCount - this.hiddenResultsCount;
+		}
+		return 0;
+	}
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator

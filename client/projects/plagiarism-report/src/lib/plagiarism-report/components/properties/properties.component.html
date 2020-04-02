@@ -59,8 +59,8 @@
 		<!-- RESULTS FOUND -->
 		<!-- [style.color]="hiddenResultsCount? '#ff8400' : ''" -->
 		<div prop>
-			<div header [matTooltip]="previewCount >= 1000 ? (previewCount | number) + ' results' : null">
-				{{ previewCount - hiddenResultsCount | shortNumber: 1 }}
+			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
+				{{ resultsFound | shortNumber: 1 }}
 			</div>
 			<div [matTooltip]="hiddenResultsCount ? hiddenResultsCount + ' Results have been filtered' : null">
 				results found{{ hiddenResultsCount ? '*' : '' }}
