@@ -27,6 +27,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public share: boolean;
 	public download: boolean;
 	public previewCount = 0;
+	public hiddenResultsCount = 0;
 	public metadata: CompleteResult;
 	public viewMode: ViewMode;
 	public identical: number;
@@ -48,7 +49,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private layoutService: LayoutMediaQueryService,
 		private dialogService: MatDialog,
 		private statistics: StatisticsService
-	) {}
+	) { }
 
 	get isScanning() {
 		return this.progress && (this.progress >= 0 || this.progress < 100);
@@ -135,9 +136,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
-		const { help$, share$, download$, completeResult$, progress$, previews$, viewMode$, options$ } = this.reportService;
+		const { help$, share$, download$, completeResult$, progress$, previews$, viewMode$, options$, hiddenResults$ } = this.reportService;
 		completeResult$.pipe(untilDestroy(this)).subscribe(meta => (this.metadata = meta));
-		previews$.subscribe(({ length }) => (this.previewCount = length));
+		previews$.pipe(untilDestroy(this)).subscribe(previews => (this.previewCount = previews.length));
+		hiddenResults$.pipe(untilDestroy(this)).subscribe(hiddneResults => (this.hiddenResultsCount = hiddneResults.length));
 		help$.pipe(untilDestroy(this)).subscribe(help => (this.help = help));
 		share$.pipe(untilDestroy(this)).subscribe(share => (this.share = share));
 		download$.pipe(untilDestroy(this)).subscribe(download => (this.download = download));
@@ -175,5 +177,5 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

@@ -16,7 +16,7 @@ import {
 	VERSION_VALIDATION_ERROR,
 } from '../utils/constants';
 
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -29,6 +29,7 @@ export class CopyleaksService {
 	private readonly _progress = new Subject<number>();
 	private readonly _config = new Subject<CopyleaksReportConfig>();
 	private readonly _destroy = new Subject();
+	private readonly _filteredResultsIds = new BehaviorSubject<string[]>([]);
 
 	public readonly onCompleteResult$ = this._complete.asObservable();
 	public readonly onResultPreview$ = this._preview.asObservable();
@@ -36,7 +37,16 @@ export class CopyleaksService {
 	public readonly onResultItems$ = this._results.asObservable();
 	public readonly onProgress$ = this._progress.asObservable();
 	public readonly onReportConfig$ = this._config.asObservable();
+	public readonly filteredResultsIds$ = this._filteredResultsIds.asObservable();
 	public readonly onDestroy$ = this._destroy.asObservable();
+
+	/**
+		* Init/Set the filtered results.
+		* @param ids a list of results ids to be filtered.
+		*/
+	setFilteredResultsIds(ids: string[]) {
+		this._filteredResultsIds.next(ids);
+	}
 
 	/**
 	 * Insert the completion result of a scan to the report.

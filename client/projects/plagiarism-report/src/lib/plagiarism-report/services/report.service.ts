@@ -37,6 +37,7 @@ export class ReportService implements OnDestroy {
 			onResultItems$,
 			onScanSource$,
 			onReportConfig$,
+			filteredResultsIds$
 		} = copyleaksService;
 		onCompleteResult$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
 		onResultPreview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
@@ -51,6 +52,10 @@ export class ReportService implements OnDestroy {
 				take(1)
 			)
 			.subscribe(() => this._progress.next(100));
+
+		filteredResultsIds$
+			.pipe(untilDestroy(this), distinctUntilChanged())
+			.subscribe(ids => this.setHiddenResults(ids));
 	}
 
 	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(
@@ -153,6 +158,7 @@ export class ReportService implements OnDestroy {
 	 */
 	public setHiddenResults(ids: string[]) {
 		this._hiddenResults.next(ids);
+		this.copyleaksService.setFilteredResultsIds(ids);
 	}
 	/**
 	 * Pushes a new `event` to the help-click observer, indicating the help button was clicked

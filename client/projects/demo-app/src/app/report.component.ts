@@ -70,6 +70,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 		// this.copyleaksService.sortScanResults = (previews) => {
 		// 	return previews.sort((a, b) => a.matchedWords - b.matchedWords);
 		// }
+
+
+		// for filter watch and init
+		// this.copyleaksService.setFilteredResultsIds(["7e6afb5b02", "66f40ab6c4", "4529c2be00", "c6efe92177", "dc8634951f"]);
+		// this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), distinctUntilChanged()).subscribe(ids => console.log(ids));
+
 	}
 	onQueryChange(params: ParamMap) {
 		const config = this.configFromQuery(params);
