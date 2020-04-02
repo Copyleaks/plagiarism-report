@@ -41,9 +41,9 @@ export class CopyleaksService {
 	public readonly onDestroy$ = this._destroy.asObservable();
 
 	/**
-		* Init/Set the filtered results.
-		* @param ids a list of results ids to be filtered.
-		*/
+	 * Init/Set the filtered results.
+	 * @param ids a list of results ids to be filtered.
+	 */
 	setFilteredResultsIds(ids: string[]) {
 		this._filteredResultsIds.next(ids);
 	}

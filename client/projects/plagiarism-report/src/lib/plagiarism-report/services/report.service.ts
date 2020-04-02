@@ -37,7 +37,7 @@ export class ReportService implements OnDestroy {
 			onResultItems$,
 			onScanSource$,
 			onReportConfig$,
-			filteredResultsIds$
+			filteredResultsIds$,
 		} = copyleaksService;
 		onCompleteResult$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
 		onResultPreview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
@@ -54,7 +54,10 @@ export class ReportService implements OnDestroy {
 			.subscribe(() => this._progress.next(100));
 
 		filteredResultsIds$
-			.pipe(untilDestroy(this), distinctUntilChanged())
+			.pipe(
+				untilDestroy(this),
+				distinctUntilChanged()
+			)
 			.subscribe(ids => this.setHiddenResults(ids));
 	}
 
