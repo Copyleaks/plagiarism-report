@@ -56,7 +56,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		setTimeout(() => {
 			this.copyleaksService.setFilteredResultsIds(["7e6afb5b02", "66f40ab6c4", "4529c2be00", "c6efe92177", "dc8634951f"]);
 		}, 1000);
-		this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), distinctUntilChanged()).subscribe(ids => console.log(ids));
+		this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged()).subscribe(ids => console.log(ids));
 
 	}
 	onQueryChange(params: ParamMap) {

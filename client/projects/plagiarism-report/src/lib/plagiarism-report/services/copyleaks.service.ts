@@ -133,6 +133,7 @@ export class CopyleaksService {
 	 */
 	notifyDestroy() {
 		this._destroy$.next();
+		this.setFilteredResultsIds([]);
 	}
 
 	// Simple object validation
