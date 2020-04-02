@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ReportComponent, EmptyComponent } from './report.component';
-
 /** Routes for router module */
 const routes: Routes = [
 	{
-		path: 'empty',
-		component: EmptyComponent,
+		path: 'example1',
+		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
-		path: ':scanId',
-		component: ReportComponent,
+		path: 'example2',
+		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'martina',
+		redirectTo: 'example1/martina',
 	},
 ];
 
@@ -25,4 +23,4 @@ const routes: Routes = [
 	imports: [RouterModule.forRoot(routes)],
 	exports: [RouterModule],
 })
-export class RoutingModule {}
+export class RoutingModule { }

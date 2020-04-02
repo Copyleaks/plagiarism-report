@@ -58,7 +58,7 @@ export class ReportService implements OnDestroy {
 				untilDestroy(this),
 				distinctUntilChanged()
 			)
-			.subscribe(ids => this.setHiddenResults(ids));
+			.subscribe(ids => this._hiddenResults.next(ids));
 	}
 
 	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(
@@ -160,7 +160,6 @@ export class ReportService implements OnDestroy {
 	 * @param ids the ids to hide
 	 */
 	public setHiddenResults(ids: string[]) {
-		this._hiddenResults.next(ids);
 		this.copyleaksService.setFilteredResultsIds(ids);
 	}
 	/**

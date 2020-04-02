@@ -1,7 +1,19 @@
 <ng-container *ngIf="viewMode == eViewMode.Dashboard">
 	<nav></nav>
 	<main>
-		<div left></div>
+		<div left>
+
+			<button mat-stroked-button
+							style="width: 100%;"
+							[routerLink]="'example1/martina'"
+							color="warn">Previews Page</button>
+		</div>
+		<div left>
+			<button mat-stroked-button
+							style="width: 100%;"
+							[routerLink]="'example2/v2efq2g7nr0jjuov'"
+							color="warn">Next Page</button>
+		</div>
 		<div right>
 			<router-outlet></router-outlet>
 		</div>

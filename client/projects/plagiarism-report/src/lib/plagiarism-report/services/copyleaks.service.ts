@@ -16,36 +16,34 @@ import {
 	VERSION_VALIDATION_ERROR,
 } from '../utils/constants';
 
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class CopyleaksService {
-	private readonly _complete = new Subject<CompleteResult>();
-	private readonly _preview = new Subject<ResultPreview>();
-	private readonly _source = new Subject<ScanSource>();
-	private readonly _results = new Subject<ResultItem[]>();
-	private readonly _progress = new Subject<number>();
-	private readonly _config = new Subject<CopyleaksReportConfig>();
-	private readonly _destroy = new Subject();
-	private readonly _filteredResultsIds = new BehaviorSubject<string[]>([]);
+	private readonly _complete$ = new Subject<CompleteResult>();
+	private readonly _preview$ = new Subject<ResultPreview>();
+	private readonly _source$ = new Subject<ScanSource>();
+	private readonly _results$ = new Subject<ResultItem[]>();
+	private readonly _progress$ = new Subject<number>();
+	private readonly _config$ = new Subject<CopyleaksReportConfig>();
+	private readonly _destroy$ = new Subject();
+	private readonly _filteredResultsIds$ = new Subject<string[]>();
 
-	public readonly onCompleteResult$ = this._complete.asObservable();
-	public readonly onResultPreview$ = this._preview.asObservable();
-	public readonly onScanSource$ = this._source.asObservable();
-	public readonly onResultItems$ = this._results.asObservable();
-	public readonly onProgress$ = this._progress.asObservable();
-	public readonly onReportConfig$ = this._config.asObservable();
-	public readonly filteredResultsIds$ = this._filteredResultsIds.asObservable();
-	public readonly onDestroy$ = this._destroy.asObservable();
+	public readonly onCompleteResult$ = this._complete$.asObservable();
+	public readonly onResultPreview$ = this._preview$.asObservable();
+	public readonly onScanSource$ = this._source$.asObservable();
+	public readonly onResultItems$ = this._results$.asObservable();
+	public readonly onProgress$ = this._progress$.asObservable();
+	public readonly onReportConfig$ = this._config$.asObservable();
+	public readonly filteredResultsIds$ = this._filteredResultsIds$.asObservable();
+	public readonly onDestroy$ = this._destroy$.asObservable();
 
 	/**
 	 * Init/Set the filtered results.
 	 * @param ids a list of results ids to be filtered.
 	 */
 	setFilteredResultsIds(ids: string[]) {
-		this._filteredResultsIds.next(ids);
+		this._filteredResultsIds$.next(ids);
 	}
 
 	/**
@@ -57,7 +55,7 @@ export class CopyleaksService {
 		if (!this.isCompleteResult(result)) {
 			throw new Error(COMPLETE_RESULT_VALIDATION_ERROR);
 		}
-		this._complete.next(result);
+		this._complete$.next(result);
 	}
 
 	/**
@@ -69,7 +67,7 @@ export class CopyleaksService {
 		if (!this.isNewResult(result)) {
 			throw new Error(NEW_RESULT_VALIDATION_ERROR);
 		}
-		this._preview.next(result.internet[0] || result.database[0] || result.batch[0]);
+		this._preview$.next(result.internet[0] || result.database[0] || result.batch[0]);
 	}
 
 	/**
@@ -84,7 +82,7 @@ export class CopyleaksService {
 		if (!this.isScanSource(source)) {
 			throw new Error(SCAN_SOURCE_VALIDATION_ERROR);
 		}
-		this._source.next(source);
+		this._source$.next(source);
 	}
 	/**
 	 * Insert one or more downloaded scan result to the report.
@@ -101,7 +99,7 @@ export class CopyleaksService {
 				throw new Error(SCAN_RESULT_VALIDATION_ERROR);
 			}
 		}
-		this._results.next(results);
+		this._results$.next(results);
 	}
 
 	/**
@@ -109,7 +107,7 @@ export class CopyleaksService {
 	 * @param progress an integer between 0 ~ 100
 	 */
 	setProgress(progress: number) {
-		this._progress.next(progress);
+		this._progress$.next(progress);
 	}
 
 	/**
@@ -127,15 +125,14 @@ export class CopyleaksService {
 	 * @param config the complete/partial configuration object
 	 */
 	setConfig(config: CopyleaksReportConfig) {
-		this._config.next({ ...config });
+		this._config$.next({ ...config });
 	}
 
 	/**
 	 * This method will cause the `destroy$` observable to emit
 	 */
 	notifyDestroy() {
-		this.setFilteredResultsIds([]);
-		this._destroy.next();
+		this._destroy$.next();
 	}
 
 	// Simple object validation

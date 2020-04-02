@@ -1,38 +1,18 @@
 /* tslint:disable */
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
-import deepEqual from 'deep-equal';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CopyleaksReportConfig, CopyleaksService, DEFAULT_REPORT_CONFIG, ResultItem } from 'projects/plagiarism-report/src/public-api';
+import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
+import { ResultsService } from '../../results.service';
 import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
-import {
-	CopyleaksReportConfig,
-	CopyleaksService,
-	DEFAULT_REPORT_CONFIG,
-	ResultItem,
-} from 'projects/plagiarism-report/src/public-api';
-import { forkJoin, from, interval, zip, of } from 'rxjs';
-import { delay, distinctUntilChanged, map, retry, take, takeUntil, catchError } from 'rxjs/operators';
-import { ResultsService } from './results.service';
-import { ScanResultComponent } from './components/scan-result/scan-result.component';
+import { distinctUntilChanged, takeUntil, delay, retry, take, map, catchError } from 'rxjs/operators';
+import deepEqual from 'deep-equal';
+import { zip, from, interval, of, forkJoin } from 'rxjs';
+import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
 
 @Component({
 	selector: 'app-report',
-	template: `
-		<cr-copyleaks-report
-			[config]="config"
-			(configChange)="onConfigChange($event)"
-			(help)="onBtnClick($event)"
-			(share)="onBtnClick($event)"
-			(download)="onBtnClick($event)"
-		></cr-copyleaks-report>
-	`,
-	styles: [
-		`
-			:host {
-				min-height: 100%;
-				display: contents;
-			}
-		`,
-	],
+	templateUrl: './report.component.html',
+	styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit, OnDestroy {
 	public config: CopyleaksReportConfig = {
@@ -72,9 +52,11 @@ export class ReportComponent implements OnInit, OnDestroy {
 		// }
 
 
-		// for filter watch and init
-		// this.copyleaksService.setFilteredResultsIds(["7e6afb5b02", "66f40ab6c4", "4529c2be00", "c6efe92177", "dc8634951f"]);
-		// this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), distinctUntilChanged()).subscribe(ids => console.log(ids));
+		//for filter watch and init
+		setTimeout(() => {
+			this.copyleaksService.setFilteredResultsIds(["7e6afb5b02", "66f40ab6c4", "4529c2be00", "c6efe92177", "dc8634951f"]);
+		}, 1000);
+		this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), distinctUntilChanged()).subscribe(ids => console.log(ids));
 
 	}
 	onQueryChange(params: ParamMap) {
@@ -240,12 +222,4 @@ export class ReportComponent implements OnInit, OnDestroy {
 		console.log(event);
 	}
 	ngOnDestroy() { }
-}
-
-@Component({
-	selector: 'app-empty',
-	template: ``,
-})
-export class EmptyComponent {
-	constructor() { }
 }
