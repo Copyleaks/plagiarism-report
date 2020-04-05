@@ -14,7 +14,7 @@ const routes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'demo1/martina',
+		redirectTo: 'demo1/default',
 	},
 ];
 

@@ -63,7 +63,8 @@
 				{{ resultsFound | shortNumber: 1 }}
 			</div>
 			<div [matTooltip]="hiddenResultsCount ? hiddenResultsCount + ' Results have been filtered' : null">
-				results found{{ hiddenResultsCount ? '*' : '' }}
+				results found
+				<span *ngIf="hiddenResultsCount" style="color: red;">*</span>
 			</div>
 		</div>
 
