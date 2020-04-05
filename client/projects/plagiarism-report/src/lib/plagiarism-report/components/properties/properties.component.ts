@@ -10,6 +10,7 @@ import { StatisticsService } from '../../services/statistics.service';
 import { truthy } from '../../utils/operators';
 import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
 import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-properties',
@@ -41,6 +42,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		{ name: 'Original', value: '#f7f7f7' },
 	];
 	public chartData = [];
+	loa: any;
+
+	previewsLoading = false;
 
 	constructor(
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
@@ -146,8 +150,33 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			viewMode$,
 			options$,
 			hiddenResults$,
+			filteredPreviews$,
 		} = this.reportService;
-		completeResult$.pipe(untilDestroy(this)).subscribe(meta => (this.metadata = meta));
+
+		completeResult$.pipe(untilDestroy(this)).subscribe(meta => {
+			this.metadata = meta;
+			if (meta.filters && meta.filters.resultIds) {
+				filteredPreviews$.pipe(untilDestroy(this)).subscribe(previews => {
+					let counter = previews.length;
+					this.previewsLoading = counter !== 0;
+					for (const preview of previews) {
+						const result$ = this.reportService.findResultById$(preview.id);
+						result$
+							.pipe(
+								take(1),
+								untilDestroy(this)
+							)
+							.subscribe(() => {
+								--counter;
+								if (counter === 0) {
+									this.previewsLoading = false;
+								}
+							});
+					}
+				});
+			}
+		});
+
 		previews$.pipe(untilDestroy(this)).subscribe(previews => (this.previewCount = previews.length));
 		hiddenResults$
 			.pipe(untilDestroy(this))

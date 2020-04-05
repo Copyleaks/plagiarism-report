@@ -1,6 +1,6 @@
 {
 	"scannedDocument": {
-		"scanId": "martina",
+		"scanId": "default",
 		"totalWords": 2205,
 		"totalExcluded": 452,
 		"credits": 9,
@@ -240,7 +240,12 @@
 			}
 		],
 		"batch": [],
-		"score": { "identicalWords": 1720, "minorChangedWords": 4, "relatedMeaningWords": 2, "aggregatedScore": 98.5 }
+		"score": {
+			"identicalWords": 1720,
+			"minorChangedWords": 4,
+			"relatedMeaningWords": 2,
+			"aggregatedScore": 98.5
+		}
 	},
 	"status": 0
 }

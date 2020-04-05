@@ -2,17 +2,21 @@
 	<nav></nav>
 	<main>
 		<div left>
-
-			<button mat-stroked-button
-							style="width: 100%;"
-							[routerLink]="'example1/martina'"
-							color="warn">Previews Page</button>
-		</div>
-		<div left>
-			<button mat-stroked-button
-							style="width: 100%;"
-							[routerLink]="'example2/v2efq2g7nr0jjuov'"
-							color="warn">Next Page</button>
+			<mat-list>
+				<div mat-subheader>DEMOS</div>
+				<mat-list-item [routerLink]="'demo1/default'">
+					<button mat-raised-button
+									style="width: 100%;"
+									[routerLink]="'demo1/default'"
+									color="primary">Default</button>
+				</mat-list-item>
+				<mat-list-item [routerLink]="'demo2/filter'">
+					<button mat-raised-button
+									style="width: 100%;"
+									[routerLink]="'demo2/filter'"
+									color="warn">Include Filter</button>
+				</mat-list-item>
+			</mat-list>
 		</div>
 		<div right>
 			<router-outlet></router-outlet>

@@ -18,6 +18,7 @@ export interface ScanError {
 export interface CompleteResult extends BasicResponse {
 	scannedDocument: ScannedDocument;
 	results: ResultPreviews;
+	filters?: CompleteResultsFilters;
 }
 
 /**
@@ -28,6 +29,13 @@ export interface ResultPreviews {
 	database: DatabaseResultPreview[];
 	batch: BatchResultPreview[];
 	score: Score;
+}
+
+/**
+ * A results filters for report view
+ */
+export interface CompleteResultsFilters {
+	resultIds: string[];
 }
 
 /** Enum representing the status of a scan */

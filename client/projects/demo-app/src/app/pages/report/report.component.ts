@@ -50,14 +50,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 		// this.copyleaksService.sortScanResults = (previews) => {
 		// 	return previews.sort((a, b) => a.matchedWords - b.matchedWords);
 		// }
-
-
-		//for filter watch and init
-		setTimeout(() => {
-			this.copyleaksService.setFilteredResultsIds(["7e6afb5b02", "66f40ab6c4", "4529c2be00", "c6efe92177", "dc8634951f"]);
-		}, 1000);
-		this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged()).subscribe(ids => console.log(ids));
-
 	}
 	onQueryChange(params: ParamMap) {
 		const config = this.configFromQuery(params);
@@ -191,16 +183,41 @@ export class ReportComponent implements OnInit, OnDestroy {
 			meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))
 
 			this.copyleaksService.pushCompletedResult(meta);
+
+			// watch for results filter change
+			this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged()).subscribe(ids => {
+				console.log(ids);
+
+				if (meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) {
+					for (const id of meta.filters.resultIds) {
+						if (!ids.includes(id)) {
+							meta.filters.resultIds = meta.filters.resultIds.filter(fid => fid != id);
+							this.resultsService.newResult(meta.scannedDocument.scanId, id).pipe(
+								takeUntil(destroy$),
+								retry(5),
+								delay(5000),
+								map(result => ({ id: id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
+								catchError(() => of({ id: id, result: null }))
+							).subscribe(res => {
+								this.copyleaksService.pushScanResult(res);
+							})
+						}
+					}
+				}
+			});
+
 			const { internet, database, batch } = meta.results;
-			const requests = [...internet, ...database, ...batch].map(item =>
-				this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
-					takeUntil(destroy$),
-					retry(5),
-					delay(10000),
-					map(result => ({ id: item.id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
-					catchError(() => of({ id: item.id, result: null }))
-				)
-			);
+			const requests = [...internet, ...database, ...batch]
+				.filter(res => !(meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) || !meta.filters.resultIds.includes(res.id))
+				.map(item =>
+					this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
+						takeUntil(destroy$),
+						retry(5),
+						delay(5000),
+						map(result => ({ id: item.id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
+						catchError(() => of({ id: item.id, result: null }))
+					)
+				);
 			forkJoin(requests).subscribe(items => {
 				this.copyleaksService.pushScanResult(items);
 			});

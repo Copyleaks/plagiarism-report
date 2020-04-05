@@ -68,7 +68,7 @@
 		</div>
 
 		<!-- # COPIED WORDS -->
-		<div prop *ngIf="stats; else skeleton__prop">
+		<div prop *ngIf="stats && !previewsLoading; else skeleton__prop">
 			<div header [matTooltip]="combined >= 1000 ? (combined | number) + ' words' : null">
 				{{ combined | shortNumber: 1 }}
 			</div>
@@ -77,7 +77,7 @@
 
 		<!-- STATS -->
 		<div stats [fxFlexOrder.lt-md]="-5" fxLayout="row nowrap" fxLayoutAlign="stretch stretch">
-			<ng-container *ngIf="stats; else skeleton__stats">
+			<ng-container *ngIf="stats && !previewsLoading; else skeleton__stats">
 				<ngx-charts-pie-chart fxHide.lt-md [customColors]="customColors" [results]="chartData" [view]="[150, 150]">
 					<ng-template #tooltipTemplate let-model="model">
 						<div style="padding:0.5em" class="mat-typography">
@@ -171,7 +171,7 @@
 		<!-- % MATCH -->
 		<div
 			prop
-			*ngIf="stats; else skeleton__prop"
+			*ngIf="stats && !previewsLoading; else skeleton__prop"
 			[ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }"
 		>
 			<div header>

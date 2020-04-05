@@ -7,7 +7,8 @@ scans/*
 ### ALLOW ### 
 #!scans/download.js
 !scans/download.js
-!scans/martina
+!scans/default
+!scans/Filter
 ### Node ###
 # Logs
 logs

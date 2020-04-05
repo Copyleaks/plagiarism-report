@@ -129,6 +129,11 @@ export class ReportService implements OnDestroy {
 		if (!completeResult.scannedDocument.creationTime.endsWith('Z')) {
 			completeResult.scannedDocument.creationTime += 'Z';
 		}
+
+		if (completeResult.filters && completeResult.filters.resultIds) {
+			this.copyleaksService.setFilteredResultsIds(completeResult.filters.resultIds);
+		}
+
 		this._completeResult.next(completeResult);
 	}
 

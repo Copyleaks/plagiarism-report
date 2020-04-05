@@ -4,17 +4,17 @@ import { RouterModule, Routes } from '@angular/router';
 /** Routes for router module */
 const routes: Routes = [
 	{
-		path: 'example1',
+		path: 'demo1',
 		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
-		path: 'example2',
+		path: 'demo2',
 		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'example1/martina',
+		redirectTo: 'demo1/martina',
 	},
 ];
 

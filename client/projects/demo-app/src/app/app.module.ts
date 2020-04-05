@@ -22,7 +22,8 @@ import { ScanResultComponent } from './components/scan-result/scan-result.compon
 		RoutingModule,
 		MatListModule,
 		MatIconModule,
-		MatButtonModule
+		MatButtonModule,
+		MatListModule
 	],
 	providers: [],
 	bootstrap: [AppComponent],
