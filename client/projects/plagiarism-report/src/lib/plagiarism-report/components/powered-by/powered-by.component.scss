@@ -1,4 +1,4 @@
-@import '../../../styles';
+@import "../../../styles";
 
 :host {
 	display: flex;
@@ -17,4 +17,12 @@ a {
 	width: 100%;
 	max-width: 91px;
 	min-width: 91px;
+}
+
+.logo-svg-color {
+	fill: #040f21;
+}
+
+.logo-svg-copyleaks-color {
+	fill: #17a1ff;
 }
