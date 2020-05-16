@@ -1,4 +1,5 @@
 import { CopyleaksReportOptions } from './ResultsSettings';
+import { Type } from '@angular/core';
 
 /** possible view modes of the report */
 export type ViewMode = 'one-to-many' | 'one-to-one';
@@ -31,4 +32,6 @@ export interface CopyleaksReportConfig {
 	scanId?: string;
 	/** The suspect that is focused in the report */
 	suspectId?: string;
+	/** The passed component will be displayed over the results, the Results and Scan Properties sections will be hidden */
+	resultsOverlayComponent?: Type<any>
 }

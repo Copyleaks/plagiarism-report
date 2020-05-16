@@ -14,9 +14,10 @@ import {
 	SCAN_RESULT_VALIDATION_ERROR,
 	SCAN_SOURCE_VALIDATION_ERROR,
 	VERSION_VALIDATION_ERROR,
+	DEFAULT_REPORT_CONFIG,
 } from '../utils/constants';
 
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class CopyleaksService {
@@ -25,7 +26,7 @@ export class CopyleaksService {
 	private readonly _source$ = new Subject<ScanSource>();
 	private readonly _results$ = new Subject<ResultItem[]>();
 	private readonly _progress$ = new Subject<number>();
-	private readonly _config$ = new Subject<CopyleaksReportConfig>();
+	private readonly _config$ = new BehaviorSubject<CopyleaksReportConfig>({ ...DEFAULT_REPORT_CONFIG });
 	private readonly _destroy$ = new Subject();
 	private readonly _filteredResultsIds$ = new Subject<string[]>();
 

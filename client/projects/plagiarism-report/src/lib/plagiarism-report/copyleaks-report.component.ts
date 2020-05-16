@@ -52,6 +52,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public viewMode: ViewMode;
 	public resultsActive = false;
 	public aaa = false;
+	public hasResultsOverlay = false;
 
 	constructor(
 		private reportService: ReportService,
@@ -73,6 +74,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		shareClick$.pipe(untilDestroy(this)).subscribe(data => this.share.emit(data));
 		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
 		configChange$.pipe(untilDestroy(this)).subscribe(config => this.configChange.emit(config));
+		this.hasResultsOverlay = (!!this.config && !!this.config.resultsOverlayComponent);
 	}
 
 	/**
@@ -81,12 +83,15 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * @param changes the changes
 	 */
 	ngOnChanges(changes: SimpleChanges) {
-		this.copyleaksService.setConfig({ ...changes.config.currentValue });
+		if (changes.config) {
+			this.copyleaksService.setConfig({ ...changes.config.currentValue });
+			this.hasResultsOverlay = (!!changes.config.currentValue && !!changes.config.currentValue.resultsOverlayComponent);
+		}
 	}
 
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

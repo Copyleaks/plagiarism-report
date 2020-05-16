@@ -1,4 +1,4 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 :host {
 	background-color: $background-color;
@@ -19,6 +19,16 @@ cr-result-card {
 }
 
 cr-panel-body {
+	position: relative;
+	.overlay-component-wrapper {
+		position: absolute;
+		display: flex;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		top: 0;
+		z-index: 1;
+	}
 	cdk-virtual-scroll-viewport {
 		padding: $default-spacing;
 		margin: -$default-spacing;
@@ -74,4 +84,8 @@ cr-panel-body {
 [mat-button] {
 	min-width: 36px;
 	padding: 0;
+}
+
+.blur {
+	filter: blur(10px);
 }

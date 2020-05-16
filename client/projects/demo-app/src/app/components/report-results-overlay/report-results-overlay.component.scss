@@ -1,0 +1,11 @@
+:host {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+	h3 {
+		font-weight: bolder;
+	}
+}

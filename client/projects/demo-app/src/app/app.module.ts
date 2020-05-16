@@ -8,11 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutingModule } from './routing.module';
 import { MatIconModule, MatButtonModule, MatListModule } from '@angular/material';
 import { ScanResultComponent } from './components/scan-result/scan-result.component';
+import { ReportResultsOverlayComponent } from './components/report-results-overlay/report-results-overlay.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		ScanResultComponent],
+		ScanResultComponent,
+		ReportResultsOverlayComponent],
 	imports: [
 		CommonModule,
 		BrowserModule,
@@ -27,6 +29,6 @@ import { ScanResultComponent } from './components/scan-result/scan-result.compon
 	],
 	providers: [],
 	bootstrap: [AppComponent],
-	entryComponents: [ScanResultComponent]
+	entryComponents: [ScanResultComponent, ReportResultsOverlayComponent]
 })
 export class AppModule { }

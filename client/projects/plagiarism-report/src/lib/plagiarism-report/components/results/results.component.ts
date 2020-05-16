@@ -1,8 +1,17 @@
-import { ChangeDetectorRef, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import {
+	ChangeDetectorRef,
+	Component,
+	HostBinding,
+	OnDestroy,
+	OnInit,
+	ComponentFactoryResolver,
+	ViewChild,
+	ViewContainerRef
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { Match, ResultPreview } from '../../models';
+import { Match, ResultPreview, CopyleaksReportConfig } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
@@ -16,14 +25,19 @@ import { CopyleaksService } from '../../services/copyleaks.service';
 	animations: [],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
+	@ViewChild('vcr', { read: ViewContainerRef, static: false })
+	vcr: ViewContainerRef;
+	resultsOverlayComponentInstance: any;
+	hasOverlay = false;
 	constructor(
+		private componentFactoryResolver: ComponentFactoryResolver,
 		private copyleaksService: CopyleaksService,
 		private reportService: ReportService,
 		private dialogService: MatDialog,
 		private layoutService: LayoutMediaQueryService,
 		private highlightService: HighlightService,
 		private cd: ChangeDetectorRef
-	) {}
+	) { }
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -69,6 +83,29 @@ export class ResultsComponent implements OnInit, OnDestroy {
 
 		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => (this.hiddenResults = ids));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(isMobile => (this.isMobile = isMobile));
+
+		this.copyleaksService.onReportConfig$.pipe(untilDestroy(this)).subscribe((config) => {
+			this.checkAndAddOverlay(config)
+		});
+	}
+	/**
+		* check if the results overlay component was passed
+		*/
+	private checkAndAddOverlay(config: CopyleaksReportConfig) {
+		if (config && config.resultsOverlayComponent) {
+			this.hasOverlay = true;
+			if (!this.resultsOverlayComponentInstance) {
+				const factory = this.componentFactoryResolver.resolveComponentFactory(
+					config.resultsOverlayComponent
+				);
+				setTimeout(() => {
+					this.resultsOverlayComponentInstance = this.vcr.createComponent(factory);
+				});
+			}
+		} else {
+			this.resultsOverlayComponentInstance = null;
+			this.hasOverlay = false;
+		}
 	}
 
 	/**
@@ -83,5 +120,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
