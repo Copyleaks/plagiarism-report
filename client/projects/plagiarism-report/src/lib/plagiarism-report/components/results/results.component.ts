@@ -6,7 +6,7 @@ import {
 	OnInit,
 	ComponentFactoryResolver,
 	ViewChild,
-	ViewContainerRef
+	ViewContainerRef,
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
@@ -37,7 +37,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private layoutService: LayoutMediaQueryService,
 		private highlightService: HighlightService,
 		private cd: ChangeDetectorRef
-	) { }
+	) {}
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -84,20 +84,18 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => (this.hiddenResults = ids));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(isMobile => (this.isMobile = isMobile));
 
-		this.copyleaksService.onReportConfig$.pipe(untilDestroy(this)).subscribe((config) => {
-			this.checkAndAddOverlay(config)
+		this.copyleaksService.onReportConfig$.pipe(untilDestroy(this)).subscribe(config => {
+			this.checkAndAddOverlay(config);
 		});
 	}
 	/**
-		* check if the results overlay component was passed
-		*/
+	 * check if the results overlay component was passed
+	 */
 	private checkAndAddOverlay(config: CopyleaksReportConfig) {
 		if (config && config.resultsOverlayComponent) {
 			this.hasOverlay = true;
 			if (!this.resultsOverlayComponentInstance) {
-				const factory = this.componentFactoryResolver.resolveComponentFactory(
-					config.resultsOverlayComponent
-				);
+				const factory = this.componentFactoryResolver.resolveComponentFactory(config.resultsOverlayComponent);
 				setTimeout(() => {
 					this.resultsOverlayComponentInstance = this.vcr.createComponent(factory);
 				});
@@ -120,5 +118,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

@@ -33,5 +33,5 @@ export interface CopyleaksReportConfig {
 	/** The suspect that is focused in the report */
 	suspectId?: string;
 	/** The passed component will be displayed over the results, the Results and Scan Properties sections will be hidden */
-	resultsOverlayComponent?: Type<any>
+	resultsOverlayComponent?: Type<any>;
 }
