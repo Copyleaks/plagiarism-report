@@ -97,11 +97,12 @@ export class ResultsComponent implements OnInit, OnDestroy {
 			if (!this.resultsOverlayComponentInstance) {
 				const factory = this.componentFactoryResolver.resolveComponentFactory(config.resultsOverlayComponent);
 				setTimeout(() => {
-					this.resultsOverlayComponentInstance = this.vcr.createComponent(factory);
+					if (!this.resultsOverlayComponentInstance) {
+						this.resultsOverlayComponentInstance = this.vcr.createComponent(factory);
+					}
 				});
 			}
 		} else {
-			this.resultsOverlayComponentInstance = null;
 			this.hasOverlay = false;
 		}
 	}
