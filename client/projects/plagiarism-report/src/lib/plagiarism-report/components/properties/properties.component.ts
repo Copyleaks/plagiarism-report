@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -9,7 +9,7 @@ import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
 import { truthy } from '../../utils/operators';
 import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
-import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
+import { DEFAULT_TEXT_CONFIG } from '../../utils/constants';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -45,10 +45,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	loa: any;
 
 	previewsLoading = false;
+	messages: CopyleaksTextConfig = DEFAULT_TEXT_CONFIG;
 
 	constructor(
-		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
-		public messages: CopyleaksTextConfig,
+		// @Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
+		// public messages: CopyleaksTextConfig,
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private dialogService: MatDialog,
