@@ -3,5 +3,6 @@ export interface CopyleaksTextConfig {
 	IDENTICAL_TOOLTIP_TEXT: string;
 	MINOR_CHANGES_TOOLTIP_TEXT: string;
 	RELATED_MEANING_TOOLTIP_TEXT: string;
+	OMITTED_WORDS_TOOLTIP_TEXT: string;
 	MATCH_TYPE_OMITTED_TOOLTIP_TEXT: string;
 }

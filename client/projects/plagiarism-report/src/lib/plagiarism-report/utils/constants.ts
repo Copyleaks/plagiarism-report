@@ -39,6 +39,7 @@ export const DEFAULT_TEXT_CONFIG: CopyleaksTextConfig = {
 	IDENTICAL_TOOLTIP_TEXT: 'Identical matches are one to one exact wording in the text. Click to disable',
 	MINOR_CHANGES_TOOLTIP_TEXT: 'Nearly identical with different form, ie "slow" becomes "slowly". Click to disable',
 	RELATED_MEANING_TOOLTIP_TEXT: 'Close meaning but different words used to convey the message. Click to disable',
+	OMITTED_WORDS_TOOLTIP_TEXT: 'Words that have been hidden.',
 	MATCH_TYPE_OMITTED_TOOLTIP_TEXT: 'Omitted by your configuration. Click to enable',
 };
 /** Font size unit for increasing/decreasing font size while in `text` content mode */

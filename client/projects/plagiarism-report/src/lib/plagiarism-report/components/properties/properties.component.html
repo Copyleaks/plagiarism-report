@@ -153,7 +153,13 @@
 						</div>
 					</div>
 					<mat-divider></mat-divider>
-					<div row fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5em">
+					<div
+						[matTooltip]="messages.OMITTED_WORDS_TOOLTIP_TEXT"
+						row
+						fxLayout="row"
+						fxLayoutAlign="start center"
+						fxLayoutGap="0.5em"
+					>
 						<div class="dot omitted"></div>
 						<div text>Omitted Words</div>
 						<span fxFlex></span>
