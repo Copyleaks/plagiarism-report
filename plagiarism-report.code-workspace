@@ -9,6 +9,15 @@
 		},
 		{
 			"path": "client"
+		},
+		{
+			"path": "client/projects/plagiarism-report"
+		},
+		{
+			"path": "client/projects/demo-app"
+		},
+		{
+			"path": "client/scripts"
 		}
 	],
 	"settings": {

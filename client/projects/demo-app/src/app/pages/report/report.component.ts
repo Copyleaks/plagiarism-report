@@ -8,7 +8,6 @@ import { distinctUntilChanged, takeUntil, delay, retry, take, map, catchError } 
 import deepEqual from 'deep-equal';
 import { zip, from, interval, of, forkJoin } from 'rxjs';
 import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
-import { ReportResultsOverlayComponent } from '../../components/report-results-overlay/report-results-overlay.component';
 
 @Component({
 	selector: 'app-report',
@@ -22,7 +21,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		download: true,
 		disableSuspectBackButton: false,
 		contentMode: 'text',
-		resultsOverlayComponent: ReportResultsOverlayComponent
+		// resultsOverlayComponent: ReportResultsOverlayComponent
 	};
 
 	constructor(
