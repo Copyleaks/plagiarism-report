@@ -57,6 +57,7 @@ export const EXCLUDE_MESSAGE = {
 	2: 'References are omitted according to your settings',
 	5: 'HTML templates are omitted according to your settings',
 	6: 'Tables of content are omitted according to your settings',
+	7: 'Source code comments are omitted according to your settings',
 };
 
 /** Injection token used to override the default config of the report */

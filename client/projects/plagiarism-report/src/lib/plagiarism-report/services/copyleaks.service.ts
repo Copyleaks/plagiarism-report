@@ -68,7 +68,7 @@ export class CopyleaksService {
 		if (!this.isNewResult(result)) {
 			throw new Error(NEW_RESULT_VALIDATION_ERROR);
 		}
-		this._preview$.next(result.internet[0] || result.database[0] || result.batch[0]);
+		this._preview$.next(result.internet[0] || result.database[0] || result.batch[0] || result.repositories[0]);
 	}
 
 	/**
@@ -141,6 +141,6 @@ export class CopyleaksService {
 	private isCompleteResult = (o: CompleteResult) => o && !!o.scannedDocument && !!o.results;
 	private isScanSource = (o: ScanSource) => o && !!o.metadata && !!o.text && !!o.version;
 	private isScanResult = (o: ScanResult) => o && !!o.text && !!o.statistics && !!o.version;
-	private isNewResult = (o: NewResult) => o && !!o.internet && !!o.database && !!o.batch;
+	private isNewResult = (o: NewResult) => o && !!o.internet && !!o.database && !!o.batch && !!o.repositories;
 	private isCorrectVersion = (o: ScanResult | ScanSource) => o && o.version === 3;
 }

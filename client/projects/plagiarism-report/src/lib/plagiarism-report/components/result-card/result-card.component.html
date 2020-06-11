@@ -5,18 +5,43 @@
 		<div header
 				 class="title">
 			<div (click)="onTitleClick()">
-				<mat-spinner style="zoom:0.2"
-										 *ngIf="loading"></mat-spinner>
+				<div>
+					<mat-spinner style="zoom:0.2"
+											 *ngIf="loading"></mat-spinner>
+				</div>
 				<mat-icon *ngIf="!loading && result === null"
+									class="title-icon"
 									[matTooltip]="messages.RESULT_PUSH_ERROR"
 									color="warn">
 					error
 				</mat-icon>
-				{{ preview.title }}
+
+				<mat-icon *ngIf="!loading && result !== null && !preview.url"
+									class="title-icon"
+									color="primary">
+					<ng-container [ngSwitch]="preview.type">
+						<ng-container *ngSwitchCase="eResultPreviewType.Batch">
+							dns
+						</ng-container>
+						<ng-container *ngSwitchCase="eResultPreviewType.Database">
+							dns
+						</ng-container>
+						<ng-container *ngSwitchDefault>
+							storage
+						</ng-container>
+					</ng-container>
+				</mat-icon>
+
+				<img *ngIf="!loading && result !== null && preview.url"
+						 class="title-icon"
+						 [src]="'https://www.google.com/s2/favicons?domain='+ urlDomain">
+				<span>
+					{{ preview.title }}
+				</span>
 			</div>
 			<button mat-icon-button
 							[matMenuTriggerFor]="menu">
-				<mat-icon>keyboard_arrow_down</mat-icon>
+				<mat-icon>more_vert</mat-icon>
 			</button>
 			<mat-menu #menu="matMenu"
 								class="result-card-actions">

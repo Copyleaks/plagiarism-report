@@ -131,7 +131,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 						take(results.internet.length)
 					)
 					.subscribe(([item]) => {
-						this.copyleaksService.pushNewResult({ internet: [item], database: [], batch: [] });
+						this.copyleaksService.pushNewResult({ internet: [item], database: [], batch: [], repositories: [] });
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
@@ -144,12 +144,14 @@ export class ReportComponent implements OnInit, OnDestroy {
 						take(results.database.length)
 					)
 					.subscribe(([item]) => {
-						this.copyleaksService.pushNewResult({ internet: [], database: [item], batch: [] });
+						this.copyleaksService.pushNewResult({ internet: [], database: [item], batch: [], repositories: [] });
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
 							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
+
+
 
 				zip(from(results.batch), interval(500))
 					.pipe(
@@ -157,7 +159,20 @@ export class ReportComponent implements OnInit, OnDestroy {
 						take(results.batch.length)
 					)
 					.subscribe(([item]) => {
-						this.copyleaksService.pushNewResult({ internet: [], database: [], batch: [item] });
+						this.copyleaksService.pushNewResult({ internet: [], database: [], batch: [item], repositories: [] });
+						this.resultsService
+							.newResult(scanId, item.id)
+							.pipe(takeUntil(destroy$))
+							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
+					});
+
+				zip(from(results.repositories), interval(500))
+					.pipe(
+						takeUntil(destroy$),
+						take(results.repositories.length)
+					)
+					.subscribe(([item]) => {
+						this.copyleaksService.pushNewResult({ internet: [], database: [], batch: [], repositories: [item] });
 						this.resultsService
 							.newResult(scanId, item.id)
 							.pipe(takeUntil(destroy$))
@@ -189,9 +204,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 		);
 		downloadedSource$.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 		completeResult$.subscribe(meta => {
-			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: ScanResultComponent }))
+			// meta.results.batch = meta.results.batch.map(r => ({ ...r, component: ScanResultComponent }))
 			// meta.results.internet = meta.results.internet.map(r => ({ ...r, component: ScanResultComponent }))
-			meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))
+			// meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))
 
 			this.copyleaksService.pushCompletedResult(meta);
 
@@ -217,8 +232,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 				}
 			});
 
-			const { internet, database, batch } = meta.results;
-			const requests = [...internet, ...database, ...batch]
+			const { internet, database, batch, repositories } = meta.results;
+			const requests = [
+				...internet,
+				...database,
+				...batch,
+				...(repositories && repositories.length ? repositories : [])]
 				.filter(res => !(meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) || !meta.filters.resultIds.includes(res.id))
 				.map(item =>
 					this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(

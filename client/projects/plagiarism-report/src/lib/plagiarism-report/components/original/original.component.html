@@ -1,6 +1,6 @@
 <cr-panel fxFlex>
 	<cr-panel-header>
-		<label>Original</label>
+		<label>submitted text</label>
 	</cr-panel-header>
 	<cr-panel-actions>
 		<cr-panel-action fxHide.lt-md>
@@ -114,7 +114,7 @@
 		<div content-footer
 				 fxLayout="row-reverse nowrap"
 				 fxLayoutAlign="space-between center"
-				 *ngIf="!(hasHtml && isHtml) || pages?.length !== 1">
+				 *ngIf="!(hasHtml && isHtml) && pages?.length !== 1">
 			<cr-mat-pagination [currentPage]="currentPage"
 												 showFirstLastButtons
 												 (page)="onPage($event)"

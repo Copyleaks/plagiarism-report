@@ -28,6 +28,7 @@ export interface ResultPreviews {
 	internet: InternetResultPreview[];
 	database: DatabaseResultPreview[];
 	batch: BatchResultPreview[];
+	repositories: RepositoryResultPreview[];
 	score: Score;
 }
 
@@ -69,9 +70,18 @@ export interface ResultPreviewBase {
 	title: string;
 	introduction: string;
 	matchedWords: number;
+	type: EResultPreviewType;
 	scanId?: string | void;
 	url?: string | void;
 	component?: Type<ResultPreviewComponentBase>;
+}
+
+/** result preview types  */
+export enum EResultPreviewType {
+	Batch,
+	Repositroy,
+	Internet,
+	Database
 }
 
 /** Type representing a scan result preview custom component base */
@@ -96,8 +106,13 @@ export interface BatchResultPreview extends ResultPreviewBase {
 	scanId: string;
 	url: void;
 }
+/** Type containing a preview of a result from a repository scan */
+export interface RepositoryResultPreview extends ResultPreviewBase {
+	repositoryId: string;
+}
+
 /** Type containing some preview of a result from copyleaks api */
-export type ResultPreview = InternetResultPreview | DatabaseResultPreview | BatchResultPreview;
+export type ResultPreview = InternetResultPreview | DatabaseResultPreview | BatchResultPreview | RepositoryResultPreview;
 
 /** Enum representing the access of a result */
 export enum ResultAccess {

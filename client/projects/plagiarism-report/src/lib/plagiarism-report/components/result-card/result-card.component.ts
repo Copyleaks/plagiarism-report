@@ -18,6 +18,7 @@ import {
 	ResultAccess,
 	ResultPreviewComponentBase,
 	CopyleaksResultCardAction,
+	EResultPreviewType,
 } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
@@ -32,6 +33,7 @@ import { untilDestroy } from '../../../shared/operators/untilDestroy';
 	providers: [],
 })
 export class ResultCardComponent implements OnInit, OnDestroy {
+	eResultPreviewType = EResultPreviewType
 	@HostBinding('class.mat-elevation-z3')
 	public readonly elevation = true;
 	@ViewChild('vcr', { read: ViewContainerRef, static: false })
@@ -47,6 +49,14 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	public similarWords$: Observable<number>;
 	public resultCardActions: CopyleaksResultCardAction[] = [];
 	private componentInstance: ResultPreviewComponentBase;
+
+	get urlDomain() {
+		if (this.preview && this.preview.url) {
+			const url = new URL(this.preview.url)
+			return url.host;
+		}
+		return 'copyleaks.com';
+	}
 	constructor(
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,

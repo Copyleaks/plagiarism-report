@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
-import { CompleteResult, CopyleaksReportConfig, ResultItem, ResultPreview, ScanSource } from '../models';
+import { CompleteResult, CopyleaksReportConfig, ResultItem, ResultPreview, ScanSource, EResultPreviewType } from '../models';
 import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
 import { truthy } from '../utils/operators';
 import { CopyleaksService } from './copyleaks.service';
@@ -123,8 +123,14 @@ export class ReportService implements OnDestroy {
 	 * @param completeResult the complete result object
 	 */
 	public setCompleteResult(completeResult: CompleteResult) {
-		const { internet, database, batch } = completeResult.results;
-		const previews = [...internet, ...database, ...batch];
+		const { internet, database, batch, repositories } = completeResult.results;
+		const previews = [
+			...(repositories && repositories.length ? (repositories.map(r => ({ ...r, type: EResultPreviewType.Repositroy }))) : []),
+			...internet.map(r => ({ ...r, type: EResultPreviewType.Internet })),
+			...database.map(r => ({ ...r, type: EResultPreviewType.Database })),
+			...batch.map(r => ({ ...r, type: EResultPreviewType.Batch }))
+		];
+
 		previews.sort((a, b) => a.matchedWords - b.matchedWords).forEach(preview => this.addPreview(preview));
 		this._previews.next(previews);
 		if (!completeResult.scannedDocument.creationTime.endsWith('Z')) {

@@ -12,10 +12,13 @@
 		cursor: pointer;
 		word-wrap: break-word;
 		margin-top: -10px;
-		div {
+		> div {
 			flex: 1;
 			display: flex;
 			align-items: center;
+			> span {
+				margin-left: 10px;
+			}
 		}
 		button {
 			margin-right: -13px;

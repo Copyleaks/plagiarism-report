@@ -52,4 +52,5 @@ export enum ExcludeReason {
 	Footer = 4,
 	HtmlTemplate = 5,
 	TableOfContent = 6,
+	CodeComments = 7
 }
