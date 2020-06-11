@@ -10,18 +10,20 @@ import {
 	ComponentFactoryResolver,
 } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take, filter } from 'rxjs/operators';
 import {
 	CopyleaksReportOptions,
 	ResultPreview,
 	ScanSource,
 	ResultAccess,
 	ResultPreviewComponentBase,
+	CopyleaksResultCardAction,
 } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
 import { ReportService } from '../../services/report.service';
 import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
+import { untilDestroy } from '../../../shared/operators/untilDestroy';
 
 @Component({
 	selector: 'cr-result-card',
@@ -43,13 +45,14 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	public resultAccess = ResultAccess;
 	public options: CopyleaksReportOptions;
 	public similarWords$: Observable<number>;
+	public resultCardActions: CopyleaksResultCardAction[] = [];
 	private componentInstance: ResultPreviewComponentBase;
 	constructor(
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) {}
+	) { }
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -58,6 +61,20 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		if (this.result) {
 			this.reportService.configure({ viewMode: 'one-to-one', suspectId: this.preview.id });
 		}
+	}
+
+	/**
+	 * hide result
+	 */
+	hideResult() {
+		this.reportService.hiddenResults$
+			.pipe(untilDestroy(this), take(1))
+			.subscribe(hiddenResultsIds => {
+				this.reportService.setHiddenResults([
+					...hiddenResultsIds,
+					this.preview.id
+				])
+			})
 	}
 
 	/**
@@ -87,21 +104,24 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		}
 
 		const result$ = this.reportService.findResultById$(this.preview.id);
-		const { source$, options$ } = this.reportService;
-		combineLatest([result$, source$]).subscribe(([result, source]) => {
-			this.source = source;
-			this.result = result.result;
-			this.loading = false;
-			if (this.componentInstance) {
-				if (this.componentInstance.isLoading) {
-					this.componentInstance.isLoading(this.loading);
+		const { source$, options$, resultCardActions$ } = this.reportService;
+		combineLatest([result$, source$])
+			.pipe(untilDestroy(this))
+			.subscribe(([result, source]) => {
+				this.source = source;
+				this.result = result.result;
+				this.loading = false;
+				if (this.componentInstance) {
+					if (this.componentInstance.isLoading) {
+						this.componentInstance.isLoading(this.loading);
+					}
+					if (this.componentInstance.setResult) {
+						this.componentInstance.setResult(result);
+					}
 				}
-				if (this.componentInstance.setResult) {
-					this.componentInstance.setResult(result);
-				}
-			}
-		});
+			});
 		this.similarWords$ = combineLatest([result$, options$]).pipe(
+			untilDestroy(this),
 			map(([result, options]) => {
 				if (result && result.result && options) {
 					const { showIdentical, showMinorChanges, showRelated } = options;
@@ -113,10 +133,16 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 				return this.preview.matchedWords;
 			})
 		);
+
+		resultCardActions$
+			.pipe(untilDestroy(this), filter(r => (!!r && r.length !== 0)))
+			.subscribe(res => {
+				this.resultCardActions = res;
+			});
 	}
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

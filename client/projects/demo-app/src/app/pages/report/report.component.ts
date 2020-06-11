@@ -21,6 +21,16 @@ export class ReportComponent implements OnInit, OnDestroy {
 		download: true,
 		disableSuspectBackButton: false,
 		contentMode: 'text',
+		resultCardActions: [
+			{
+				name: 'Action 1',
+				action: (result) => console.log(result)
+			},
+			{
+				name: 'Action 2',
+				action: (result) => console.log(result)
+			}
+		]
 		// resultsOverlayComponent: ReportResultsOverlayComponent
 	};
 

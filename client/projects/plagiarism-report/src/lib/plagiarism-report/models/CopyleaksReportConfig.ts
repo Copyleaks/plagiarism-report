@@ -1,4 +1,4 @@
-import { CopyleaksReportOptions } from './ResultsSettings';
+import { CopyleaksReportOptions, CopyleaksResultCardAction } from './ResultsSettings';
 import { Type } from '@angular/core';
 
 /** possible view modes of the report */
@@ -10,6 +10,7 @@ export type DirectionMode = 'rtl' | 'ltr';
 
 /** Type representing the report configuration and options */
 export interface CopyleaksReportConfig {
+	resultCardActions?: CopyleaksResultCardAction[];
 	/** The content mode the report is displaying */
 	contentMode?: ContentMode;
 	/** The page of the source document */

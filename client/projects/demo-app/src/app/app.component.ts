@@ -10,6 +10,6 @@ enum EViewMode { Dashboard, Fullscreen }
 })
 export class AppComponent {
 	eViewMode = EViewMode;
-	viewMode = EViewMode.Dashboard;
+	viewMode = EViewMode.Fullscreen;
 	constructor() { }
 }

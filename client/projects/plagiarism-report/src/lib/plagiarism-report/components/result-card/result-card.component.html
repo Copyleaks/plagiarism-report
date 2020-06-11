@@ -2,47 +2,84 @@
 	<ng-container #vcr></ng-container>
 
 	<ng-container *ngIf="!preview?.component">
-		<div header class="title" (click)="onTitleClick()">
-			<mat-spinner style="zoom:0.2" *ngIf="loading"></mat-spinner>
-			<mat-icon *ngIf="!loading && result === null" [matTooltip]="messages.RESULT_PUSH_ERROR" color="warn">
-				error
-			</mat-icon>
-			{{ preview.title }}
+		<div header
+				 class="title">
+			<div (click)="onTitleClick()">
+				<mat-spinner style="zoom:0.2"
+										 *ngIf="loading"></mat-spinner>
+				<mat-icon *ngIf="!loading && result === null"
+									[matTooltip]="messages.RESULT_PUSH_ERROR"
+									color="warn">
+					error
+				</mat-icon>
+				{{ preview.title }}
+			</div>
+			<button mat-icon-button
+							[matMenuTriggerFor]="menu">
+				<mat-icon>keyboard_arrow_down</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu"
+								class="result-card-actions">
+				<button mat-menu-item
+								(click)="hideResult()">
+					Hide
+				</button>
+				<button *ngFor="let action of resultCardActions"
+								mat-menu-item
+								(click)="action.action(preview)">
+					{{action.name}}
+				</button>
+			</mat-menu>
 		</div>
 
-		<p body (click)="onTitleClick()">
+		<p body
+			 (click)="onTitleClick()">
 			{{ preview.introduction }}
 		</p>
 
 		<div url>
-			<a [href]="preview.url" target="_blank">{{ preview.url }}</a>
+			<a [href]="preview.url"
+				 target="_blank">{{ preview.url }}</a>
 		</div>
 	</ng-container>
 
 	<mat-divider></mat-divider>
 
-	<div footer fxLayout="row" fxLayoutAlign="space-between stretch">
-		<div [ngClass]="{ 'text-identical': true }" *ngIf="source">
+	<div footer
+			 fxLayout="row"
+			 fxLayoutAlign="space-between stretch">
+		<div [ngClass]="{ 'text-identical': true }"
+				 *ngIf="source">
 			{{ (similarWords$ | async) / (source?.metadata.words - source?.metadata.excluded) | similarity }} similar words
 		</div>
-		<div fxLayout="row" fxLayoutGap="1em" style="height: 28px" [satPopoverAnchor]="popover" satPopoverHover>
+		<div fxLayout="row"
+				 fxLayoutGap="1em"
+				 style="height: 28px"
+				 [satPopoverAnchor]="popover"
+				 satPopoverHover>
 			<span class="dot identical"></span>
 			<span class="dot minor-changes"></span>
 			<span class="dot related"></span>
 		</div>
 	</div>
-	<sat-popover #popover horizontalAlign="before">
-		<div fxLayout="column nowrap" fxLayoutAlign="start start" class="sat-tooltip mat-typography">
-			<div class="text-identical" *ngIf="source">
+	<sat-popover #popover
+							 horizontalAlign="before">
+		<div fxLayout="column nowrap"
+				 fxLayoutAlign="start start"
+				 class="sat-tooltip mat-typography">
+			<div class="text-identical"
+					 *ngIf="source">
 				Identical -
 				{{ result?.statistics.identical / (source?.metadata.words - source?.metadata.excluded) | similarity }}
 				words
 			</div>
-			<div class="text-minor-changes" *ngIf="source">
+			<div class="text-minor-changes"
+					 *ngIf="source">
 				Minor Changes -
 				{{ result?.statistics.minorChanges / (source?.metadata.words - source?.metadata.excluded) | similarity }} words
 			</div>
-			<div class="text-related" *ngIf="source">
+			<div class="text-related"
+					 *ngIf="source">
 				Related Meaning -
 				{{ result?.statistics.relatedMeaning / (source?.metadata.words - source?.metadata.excluded) | similarity }}
 				words
@@ -62,21 +99,19 @@
 		<ngx-skeleton-loader></ngx-skeleton-loader>
 	</p>
 	<mat-divider></mat-divider>
-	<div footer fxLayout="row" fxLayoutAlign="space-between stretch">
-		<ngx-skeleton-loader fxFlex="30" [theme]="{ height: '28px', margin: 0 }"></ngx-skeleton-loader>
-		<div fxLayout="row" fxLayoutGap="1em">
-			<ngx-skeleton-loader
-				[theme]="{ height: '28px', width: '28px', margin: 0 }"
-				appearance="circle"
-			></ngx-skeleton-loader>
-			<ngx-skeleton-loader
-				[theme]="{ height: '28px', width: '28px', margin: 0 }"
-				appearance="circle"
-			></ngx-skeleton-loader>
-			<ngx-skeleton-loader
-				[theme]="{ height: '28px', width: '28px', margin: 0 }"
-				appearance="circle"
-			></ngx-skeleton-loader>
+	<div footer
+			 fxLayout="row"
+			 fxLayoutAlign="space-between stretch">
+		<ngx-skeleton-loader fxFlex="30"
+												 [theme]="{ height: '28px', margin: 0 }"></ngx-skeleton-loader>
+		<div fxLayout="row"
+				 fxLayoutGap="1em">
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+													 appearance="circle"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+													 appearance="circle"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+													 appearance="circle"></ngx-skeleton-loader>
 		</div>
 	</div>
 </ng-template>

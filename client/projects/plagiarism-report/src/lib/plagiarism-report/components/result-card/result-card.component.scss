@@ -1,4 +1,4 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 :host {
 	padding: $card-padding;
@@ -7,9 +7,19 @@
 	box-sizing: border-box;
 
 	.title {
+		display: flex;
+		align-items: center;
 		font-weight: bold;
 		cursor: pointer;
 		word-wrap: break-word;
+		margin-top: -10px;
+		div {
+			flex: 1;
+		}
+		button {
+			margin-right: -13px;
+			margin-top: -3px;
+		}
 	}
 
 	mat-spinner {
@@ -41,5 +51,13 @@
 		min-width: 36px;
 		padding: 0;
 		color: darkgray;
+	}
+}
+
+::ng-deep .result-card-actions {
+	min-height: unset;
+	.mat-menu-content:not(:empty) {
+		padding-top: 0px;
+		padding-bottom: 0px;
 	}
 }

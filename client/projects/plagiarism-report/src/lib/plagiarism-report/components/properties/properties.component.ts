@@ -54,7 +54,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private layoutService: LayoutMediaQueryService,
 		private dialogService: MatDialog,
 		private statistics: StatisticsService
-	) {}
+	) { }
 
 	get isScanning() {
 		return this.progress && (this.progress >= 0 || this.progress < 100);
@@ -70,7 +70,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		return this.stats.identical + this.stats.relatedMeaning + this.stats.minorChanges;
 	}
 	get score() {
-		return Math.min(1, this.combined / (this.stats.total - this.stats.omittedWords));
+		const res = Math.min(1, this.combined / (this.stats.total - this.stats.omittedWords));
+		return isNaN(res) ? 0 : res;
 	}
 	get severity() {
 		if (this.score <= 0.1) {
@@ -226,5 +227,5 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
