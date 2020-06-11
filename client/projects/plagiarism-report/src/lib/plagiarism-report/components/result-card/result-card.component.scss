@@ -8,13 +8,14 @@
 
 	.title {
 		display: flex;
-		align-items: center;
 		font-weight: bold;
 		cursor: pointer;
 		word-wrap: break-word;
 		margin-top: -10px;
 		div {
 			flex: 1;
+			display: flex;
+			align-items: center;
 		}
 		button {
 			margin-right: -13px;

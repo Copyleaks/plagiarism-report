@@ -8,48 +8,55 @@
 			<ng-container *ngTemplateOutlet="menu__show_results"></ng-container>
 		</cr-panel-action>
 		<cr-panel-action *ngIf="isMobile">
-			<button mat-button [disabled]="!previews" (click)="isActive = !isActive">
+			<button mat-button
+							[disabled]="!previews"
+							(click)="isActive = !isActive">
 				<mat-icon>{{ isActive ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
 			</button>
 		</cr-panel-action>
 		<cr-panel-action *ngIf="!isMobile || isActive">
-			<button
-				mat-button
-				[ngClass]="{ 'mat-stroked-button mat-warn': hiddenResults.length }"
-				[disabled]="!previews || hasOverlay"
-				[matTooltip]="hiddenResults.length ? hiddenResults.length + ' results  are hidden' : 'Filter results'"
-				(click)="openFilterDialog()"
-			>
+			<button mat-button
+							[ngClass]="{ 'mat-stroked-button mat-warn': hiddenResults.length }"
+							[disabled]="!previews || hasOverlay"
+							[matTooltip]="hiddenResults.length ? hiddenResults.length + ' results  are hidden' : 'Filter results'"
+							(click)="openFilterDialog()">
 				<mat-icon>filter_list</mat-icon>
 			</button>
 		</cr-panel-action>
 	</cr-panel-actions>
-	<cr-panel-body fxLayout="column" fxFlex="100">
+	<cr-panel-body fxLayout="column"
+								 fxFlex="100">
 		<ng-container *ngIf="hasOverlay">
 			<div class="overlay-component-wrapper">
 				<ng-container #vcr></ng-container>
 			</div>
 		</ng-container>
-		<cr-plagiarism-free
-			*ngIf="previews && previews.length === 0"
-			[ngClass]="hasOverlay ? 'blur' : ''"
-		></cr-plagiarism-free>
-		<virtual-scroller
-			*ngIf="previews"
-			[ngClass]="hasOverlay ? 'blur' : ''"
-			#scroll
-			fxFlex
-			[items]="previews | whitelist: 'id':focusedMatch?.ids"
-		>
-			<cr-result-card *ngFor="let preview of scroll.viewPortItems" [preview]="preview"></cr-result-card>
+		<cr-plagiarism-free *ngIf="previews && previews.length === 0"
+												[ngClass]="hasOverlay ? 'blur' : ''"></cr-plagiarism-free>
+		<virtual-scroller *ngIf="previews"
+											[ngClass]="hasOverlay ? 'blur' : ''"
+											#scroll
+											fxFlex
+											[items]="previews | whitelist: 'id':focusedMatch?.ids">
+			<cr-result-card *ngFor="let preview of scroll.viewPortItems"
+											[preview]="preview"></cr-result-card>
 		</virtual-scroller>
-		<virtual-scroller *ngIf="!previews" [ngClass]="hasOverlay ? 'blur' : ''" #scroll fxFlex [items]="[1, 2, 3]">
+		<virtual-scroller *ngIf="!previews"
+											[ngClass]="hasOverlay ? 'blur' : ''"
+											#scroll
+											fxFlex
+											[items]="[1, 2, 3]">
 			<cr-result-card *ngFor="let preview of scroll.viewPortItems"></cr-result-card>
 		</virtual-scroller>
+		<div class="powered-by-section">
+			<cr-powered-by></cr-powered-by>
+		</div>
 	</cr-panel-body>
 </cr-panel>
 <ng-template #menu__show_results>
-	<button mat-button (click)="clearFocusedMatch()" matTooltip="Clear filter">
+	<button mat-button
+					(click)="clearFocusedMatch()"
+					matTooltip="Clear filter">
 		<mat-icon>close</mat-icon>
 	</button>
 </ng-template>

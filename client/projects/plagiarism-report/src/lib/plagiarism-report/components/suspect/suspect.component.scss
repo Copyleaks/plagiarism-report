@@ -1,4 +1,4 @@
-@import '../../../styles';
+@import "../../../styles";
 
 :host {
 	background-color: $background-color;
@@ -9,7 +9,7 @@
 	padding: 1em;
 	word-break: break-word;
 	line-height: normal;
-	span[class*='cr-m-'] {
+	span[class*="cr-m-"] {
 		cursor: pointer;
 
 		&.cr-m-0 {
@@ -43,12 +43,6 @@
 				background-color: lighten(gold, 10%);
 			}
 		}
-	}
-}
-
-cr-powered-by {
-	@include gt-xs {
-		display: none;
 	}
 }
 

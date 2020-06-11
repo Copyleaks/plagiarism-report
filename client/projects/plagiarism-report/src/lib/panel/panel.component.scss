@@ -1,10 +1,10 @@
-@import '../styles';
+@import "../styles";
 
 :host(cr-panel) {
 	border: 1px solid #e6e6e6;
 	display: flex;
 	flex-flow: column nowrap;
-	padding: $default-spacing;
+	padding: 0.5em $default-spacing;
 
 	@include lt-md {
 		padding: 0 $mobile-spacing;

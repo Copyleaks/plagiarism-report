@@ -1,4 +1,4 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 :host {
 	background-color: $background-color;
@@ -89,4 +89,13 @@ cr-panel-body {
 .blur {
 	filter: blur(5px);
 	overflow: hidden !important;
+}
+
+.powered-by-section {
+	cr-powered-by {
+		height: 44px;
+		padding-top: 1px;
+		border-top: 1px solid rgba(0, 0, 0, 0.12);
+		margin-top: 12px;
+	}
 }
