@@ -28,7 +28,7 @@ export interface ResultPreviews {
 	internet: InternetResultPreview[];
 	database: DatabaseResultPreview[];
 	batch: BatchResultPreview[];
-	repositories: RepositoryResultPreview[];
+	repositories?: RepositoryResultPreview[];
 	score: Score;
 }
 
