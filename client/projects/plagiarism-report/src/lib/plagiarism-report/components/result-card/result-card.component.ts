@@ -57,6 +57,23 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		}
 		return 'copyleaks.com';
 	}
+	get previewIconToolTip() {
+		if (this.preview) {
+			switch (this.preview.type) {
+				case EResultPreviewType.Internet:
+					return 'Internet Result';
+				case EResultPreviewType.Database:
+					return 'Internal Database Result';
+				case EResultPreviewType.Batch:
+					return 'Batch Result';
+				case EResultPreviewType.Repositroy:
+					return 'Repository Result';
+				default:
+					return '';
+			}
+		}
+		return '';
+	}
 	constructor(
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,

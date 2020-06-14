@@ -18,7 +18,8 @@
 
 				<mat-icon *ngIf="!loading && result !== null && !preview.url"
 									class="title-icon"
-									color="primary">
+									style="opacity: 0.5;"
+									[matTooltip]="previewIconToolTip">
 					<ng-container [ngSwitch]="preview.type">
 						<ng-container *ngSwitchCase="eResultPreviewType.Batch">
 							dns
@@ -34,14 +35,17 @@
 
 				<img *ngIf="!loading && result !== null && preview.url"
 						 class="title-icon"
+						 [matTooltip]="previewIconToolTip"
 						 [src]="'https://www.google.com/s2/favicons?domain='+ urlDomain">
-				<span>
+				<span [ngClass]="{'ellipsis-flex-text': preview.type === eResultPreviewType.Internet}"
+							[matTooltip]="preview.title"
+							[matTooltipDisabled]='preview.type !== eResultPreviewType.Internet'>
 					{{ preview.title }}
 				</span>
 			</div>
 			<button mat-icon-button
 							[matMenuTriggerFor]="menu">
-				<mat-icon>more_vert</mat-icon>
+				<mat-icon>arrow_drop_down</mat-icon>
 			</button>
 			<mat-menu #menu="matMenu"
 								class="result-card-actions">

@@ -113,14 +113,14 @@
 
 		<div content-footer
 				 fxLayout="row-reverse nowrap"
-				 fxLayoutAlign="space-between center"
-				 *ngIf="!(hasHtml && isHtml) && pages?.length !== 1">
+				 fxLayoutAlign="space-between center">
 			<cr-mat-pagination [currentPage]="currentPage"
+												 *ngIf="!(hasHtml && isHtml) && pages?.length !== 1"
 												 showFirstLastButtons
 												 (page)="onPage($event)"
 												 [totalPages]="pages?.length || 1"></cr-mat-pagination>
 
-			<!-- <cr-powered-by></cr-powered-by> -->
+			<cr-powered-by *ngIf="!isOneToMany"></cr-powered-by>
 		</div>
 	</cr-panel-body>
 </cr-panel>

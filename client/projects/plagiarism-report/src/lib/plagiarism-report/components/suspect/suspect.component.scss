@@ -46,6 +46,12 @@
 	}
 }
 
+cr-powered-by {
+	@include gt-xs {
+		display: none;
+	}
+}
+
 cr-panel {
 	cr-panel-header {
 		text-transform: uppercase;

@@ -16,6 +16,7 @@
 			flex: 1;
 			display: flex;
 			align-items: center;
+			width: 0%;
 			> span {
 				margin-left: 10px;
 			}
@@ -55,6 +56,13 @@
 		min-width: 36px;
 		padding: 0;
 		color: darkgray;
+	}
+
+	.ellipsis-flex-text {
+		flex: 1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }
 
