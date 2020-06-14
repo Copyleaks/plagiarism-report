@@ -1,4 +1,9 @@
-import { InternetResultPreview, DatabaseResultPreview, BatchResultPreview, RepositoryResultPreview } from './CompleteResult';
+import {
+	InternetResultPreview,
+	DatabaseResultPreview,
+	BatchResultPreview,
+	RepositoryResultPreview,
+} from './CompleteResult';
 
 /** Type containing a new internet result from Copyleaks api  */
 interface NewInternetResult {

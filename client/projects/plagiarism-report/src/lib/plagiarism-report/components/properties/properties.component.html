@@ -2,30 +2,22 @@
 	<cr-expansion-panel-title>SCAN PROPERTIES</cr-expansion-panel-title>
 	<cr-expansion-panel-menu>
 		<cr-expansion-panel-menu-item *ngIf="help">
-			<button mat-button
-							matTooltip="Help"
-							(click)="helpClicked($event)">
+			<button mat-button matTooltip="Help" (click)="helpClicked($event)">
 				<mat-icon>help_outline</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="share">
-			<button mat-button
-							matTooltip="Share"
-							(click)="shareClicked($event)">
+			<button mat-button matTooltip="Share" (click)="shareClicked($event)">
 				<mat-icon>share</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="download">
-			<button mat-button
-							matTooltip="Download"
-							(click)="downloadClicked($event)">
+			<button mat-button matTooltip="Download" (click)="downloadClicked($event)">
 				<mat-icon>save_alt</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item>
-			<button mat-button
-							matTooltip="Settings"
-							(click)="openSettingsDialog()">
+			<button mat-button matTooltip="Settings" (click)="openSettingsDialog()">
 				<mat-icon>settings</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
@@ -34,12 +26,8 @@
 		<!-- PROGRESS -->
 		<div prop>
 			<ng-container>
-				<div fxLayout="row nowrap"
-						 fxLayoutAlign="center center"
-						 fxLayoutGap="1em">
-					<div fxLayout="row nowrap"
-							 *ngIf="!done"
-							 fxLayoutAlign="center center">
+				<div fxLayout="row nowrap" fxLayoutAlign="center center" fxLayoutGap="1em">
+					<div fxLayout="row nowrap" *ngIf="!done" fxLayoutAlign="center center">
 						<div header>&zwnj;</div>
 						<mat-spinner [diameter]="40"></mat-spinner>
 					</div>
@@ -60,8 +48,7 @@
 						Loading...
 					</ng-container>
 					<ng-container *ngIf="done">
-						<div *ngIf="metadata"
-								 [matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
+						<div *ngIf="metadata" [matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
 							Scanned {{ metadata?.scannedDocument.creationTime | timeAgo }}
 						</div>
 					</ng-container>
@@ -72,21 +59,17 @@
 		<!-- RESULTS FOUND -->
 		<!-- [style.color]="hiddenResultsCount? '#ff8400' : ''" -->
 		<div prop>
-			<div header
-					 [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
+			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
 				{{ resultsFound | shortNumber: 1 }}
 			</div>
 			<div [matTooltip]="hiddenResultsCount ? hiddenResultsCount + ' Results have been filtered' : null">
 				results found
-				<span *ngIf="hiddenResultsCount"
-							style="color: red;">*</span>
+				<span *ngIf="hiddenResultsCount" style="color: red;">*</span>
 			</div>
 		</div>
 
 		<!-- # COPIED WORDS -->
-		<div prop
-				 *ngIf="stats && !previewsLoading; else skeleton__prop"
-				 [matTooltip]="total + ' submitted words'">
+		<div prop *ngIf="stats && !previewsLoading; else skeleton__prop" [matTooltip]="total + ' submitted words'">
 			<div header>
 				{{ combined | shortNumber: 1 }}
 			</div>
@@ -94,41 +77,30 @@
 		</div>
 
 		<!-- STATS -->
-		<div stats
-				 [fxFlexOrder.lt-md]="-5"
-				 fxLayout="row nowrap"
-				 fxLayoutAlign="stretch stretch">
+		<div stats [fxFlexOrder.lt-md]="-5" fxLayout="row nowrap" fxLayoutAlign="stretch stretch">
 			<ng-container *ngIf="stats && !previewsLoading; else skeleton__stats">
-				<ngx-charts-pie-chart fxHide.lt-md
-															[customColors]="customColors"
-															[results]="chartData"
-															[view]="[150, 150]">
-					<ng-template #tooltipTemplate
-											 let-model="model">
-						<div style="padding:0.5em"
-								 class="mat-typography">
+				<ngx-charts-pie-chart fxHide.lt-md [customColors]="customColors" [results]="chartData" [view]="[150, 150]">
+					<ng-template #tooltipTemplate let-model="model">
+						<div style="padding:0.5em" class="mat-typography">
 							<span style="font-size:1em;display: block">{{ model.value | number }}</span>
 							<span tooltip-text>{{ model.name }} words</span>
 						</div>
 					</ng-template>
 				</ngx-charts-pie-chart>
 
-				<div legend
-						 fxLayout="column"
-						 fxFlex
-						 fxLayoutAlign="space-evenly stretch">
-					<div row
-							 (click)="toggleComparison('showIdentical')"
-							 [matTooltip]="
+				<div legend fxLayout="column" fxFlex fxLayoutAlign="space-evenly stretch">
+					<div
+						row
+						(click)="toggleComparison('showIdentical')"
+						[matTooltip]="
 							options?.showIdentical ? messages.IDENTICAL_TOOLTIP_TEXT : messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
 						"
-							 fxLayout="row"
-							 fxLayoutAlign="start center"
-							 fxLayoutGap="0.5em">
-						<div class="dot identical"
-								 [ngStyle]="{ visibility: options?.showIdentical ? 'visible' : 'hidden' }"></div>
-						<div text
-								 [ngClass]="{ 'cr-strike-out': !options?.showIdentical }">
+						fxLayout="row"
+						fxLayoutAlign="start center"
+						fxLayoutGap="0.5em"
+					>
+						<div class="dot identical" [ngStyle]="{ visibility: options?.showIdentical ? 'visible' : 'hidden' }"></div>
+						<div text [ngClass]="{ 'cr-strike-out': !options?.showIdentical }">
 							Identical
 						</div>
 						<span fxFlex></span>
@@ -138,18 +110,21 @@
 						</div>
 					</div>
 					<mat-divider></mat-divider>
-					<div row
-							 (click)="toggleComparison('showMinorChanges')"
-							 [matTooltip]="
+					<div
+						row
+						(click)="toggleComparison('showMinorChanges')"
+						[matTooltip]="
 							options?.showMinorChanges ? messages.MINOR_CHANGES_TOOLTIP_TEXT : messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
 						"
-							 fxLayout="row"
-							 fxLayoutAlign="center center"
-							 fxLayoutGap="0.5em">
-						<div class="dot minor-changes"
-								 [ngStyle]="{ visibility: options?.showMinorChanges ? 'visible' : 'hidden' }"></div>
-						<div text
-								 [ngClass]="{ 'cr-strike-out': options?.showMinorChanges !== true }">
+						fxLayout="row"
+						fxLayoutAlign="center center"
+						fxLayoutGap="0.5em"
+					>
+						<div
+							class="dot minor-changes"
+							[ngStyle]="{ visibility: options?.showMinorChanges ? 'visible' : 'hidden' }"
+						></div>
+						<div text [ngClass]="{ 'cr-strike-out': options?.showMinorChanges !== true }">
 							Minor Changes
 						</div>
 						<span fxFlex></span>
@@ -158,18 +133,18 @@
 						</div>
 					</div>
 					<mat-divider></mat-divider>
-					<div row
-							 (click)="toggleComparison('showRelated')"
-							 [matTooltip]="
+					<div
+						row
+						(click)="toggleComparison('showRelated')"
+						[matTooltip]="
 							options?.showRelated ? messages.RELATED_MEANING_TOOLTIP_TEXT : messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
 						"
-							 fxLayout="row"
-							 fxLayoutAlign="start center"
-							 fxLayoutGap="0.5em">
-						<div class="dot related"
-								 [ngStyle]="{ visibility: options?.showRelated ? 'visible' : 'hidden' }"></div>
-						<div text
-								 [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
+						fxLayout="row"
+						fxLayoutAlign="start center"
+						fxLayoutGap="0.5em"
+					>
+						<div class="dot related" [ngStyle]="{ visibility: options?.showRelated ? 'visible' : 'hidden' }"></div>
+						<div text [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
 							Related Meaning
 						</div>
 						<span fxFlex></span>
@@ -178,11 +153,13 @@
 						</div>
 					</div>
 					<mat-divider></mat-divider>
-					<div [matTooltip]="messages.OMITTED_WORDS_TOOLTIP_TEXT"
-							 row
-							 fxLayout="row"
-							 fxLayoutAlign="start center"
-							 fxLayoutGap="0.5em">
+					<div
+						[matTooltip]="messages.OMITTED_WORDS_TOOLTIP_TEXT"
+						row
+						fxLayout="row"
+						fxLayoutAlign="start center"
+						fxLayoutGap="0.5em"
+					>
 						<div class="dot omitted"></div>
 						<div text>Omitted Words</div>
 						<span fxFlex></span>
@@ -193,17 +170,17 @@
 				</div>
 
 				<ng-template #statsSpinner>
-					<mat-spinner *ngIf="!stats"
-											 [diameter]="16"
-											 style="display: inline-block;"></mat-spinner>
+					<mat-spinner *ngIf="!stats" [diameter]="16" style="display: inline-block;"></mat-spinner>
 				</ng-template>
 			</ng-container>
 		</div>
 
 		<!-- % MATCH -->
-		<div prop
-				 *ngIf="stats && !previewsLoading; else skeleton__prop"
-				 [ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }">
+		<div
+			prop
+			*ngIf="stats && !previewsLoading; else skeleton__prop"
+			[ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }"
+		>
 			<div header>
 				{{ score | percent: '1.0-1' }}
 			</div>
@@ -223,20 +200,19 @@
 
 <ng-template #skeleton__stats>
 	<div fxLayout="column">
-		<ngx-skeleton-loader [theme]="{ width: '118px', height: '113px', margin: '1em' }"
-												 appearance="circle"></ngx-skeleton-loader>
+		<ngx-skeleton-loader
+			[theme]="{ width: '118px', height: '113px', margin: '1em' }"
+			appearance="circle"
+		></ngx-skeleton-loader>
 	</div>
 
-	<div fxLayout="column"
-			 fxFlex
-			 fxLayoutAlign="space-evenly stretch">
+	<div fxLayout="column" fxFlex fxLayoutAlign="space-evenly stretch">
 		<ng-container *ngFor="let x of 4 | array; let last = last">
-			<div fxLayout="row"
-					 fxLayoutGap="1em"
-					 style="padding:0em 0.5em"
-					 fxLayoutAlign="center center">
-				<ngx-skeleton-loader appearance="circle"
-														 [theme]="{ width: '1.75em', height: '1.75em', margin: '0px' }"></ngx-skeleton-loader>
+			<div fxLayout="row" fxLayoutGap="1em" style="padding:0em 0.5em" fxLayoutAlign="center center">
+				<ngx-skeleton-loader
+					appearance="circle"
+					[theme]="{ width: '1.75em', height: '1.75em', margin: '0px' }"
+				></ngx-skeleton-loader>
 				<ngx-skeleton-loader [theme]="{ margin: '0', width: '5em' }"></ngx-skeleton-loader>
 				<span fxFlex></span>
 				<ngx-skeleton-loader [theme]="{ margin: '0', width: '3em' }"></ngx-skeleton-loader>

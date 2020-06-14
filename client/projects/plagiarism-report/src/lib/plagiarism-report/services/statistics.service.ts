@@ -61,7 +61,9 @@ export class StatisticsService implements OnDestroy {
 		options: CopyleaksReportOptions
 	) {
 		const totalResults =
-			((completeResult.results.repositories && completeResult.results.repositories.length) ? completeResult.results.repositories.length : 0) +
+			(completeResult.results.repositories && completeResult.results.repositories.length
+				? completeResult.results.repositories.length
+				: 0) +
 			completeResult.results.batch.length +
 			completeResult.results.internet.length +
 			completeResult.results.database.length;

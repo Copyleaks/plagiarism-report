@@ -81,7 +81,7 @@ export enum EResultPreviewType {
 	Batch,
 	Repositroy,
 	Internet,
-	Database
+	Database,
 }
 
 /** Type representing a scan result preview custom component base */
@@ -112,7 +112,11 @@ export interface RepositoryResultPreview extends ResultPreviewBase {
 }
 
 /** Type containing some preview of a result from copyleaks api */
-export type ResultPreview = InternetResultPreview | DatabaseResultPreview | BatchResultPreview | RepositoryResultPreview;
+export type ResultPreview =
+	| InternetResultPreview
+	| DatabaseResultPreview
+	| BatchResultPreview
+	| RepositoryResultPreview;
 
 /** Enum representing the access of a result */
 export enum ResultAccess {
