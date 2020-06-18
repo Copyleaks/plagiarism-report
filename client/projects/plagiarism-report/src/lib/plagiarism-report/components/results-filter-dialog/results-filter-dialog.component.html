@@ -1,34 +1,42 @@
-<div mat-dialog-title>Results Filter</div>
+<div mat-dialog-title>{{translations?.FILTER_DIALOG?.TITLE || 'Results Filter'}}</div>
 <mat-form-field floatLabel="never">
 	<mat-icon matSuffix>search</mat-icon>
-	<mat-placeholder>Filter By Results</mat-placeholder>
-	<input matInput type="search" [(ngModel)]="query" />
+	<mat-placeholder>{{translations?.FILTER_DIALOG?.SEARCH_PLACHOLDER || 'Filter By Results'}}</mat-placeholder>
+	<input matInput
+				 type="search"
+				 [(ngModel)]="query" />
 </mat-form-field>
 <mat-dialog-content>
-	<div
-		result
-		*ngFor="let result of results | search: 'title,id':query"
-		fxLayout="row"
-		fxLayoutAlign="space-between center"
-		(click)="toggleResult(result)"
-		matRipple
-	>
+	<div result
+			 *ngFor="let result of results | search: 'title,id':query"
+			 fxLayout="row"
+			 fxLayoutAlign="space-between center"
+			 (click)="toggleResult(result)"
+			 matRipple>
 		<span check-item>
 			{{ result.title }}
 		</span>
 		<mat-pseudo-checkbox [state]="isHidden(result) ? 'unchecked' : 'checked'"></mat-pseudo-checkbox>
 	</div>
 </mat-dialog-content>
-<div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:1em">
-	<a button-link href="javascript:void(0)" (click)="checkAll()">
-		{{ hidden.length === results.length ? '' : 'un' }}check all
+<div fxLayout="row"
+		 fxLayoutAlign="space-between center"
+		 style="padding-top:1em">
+	<a button-link
+		 href="javascript:void(0)"
+		 (click)="checkAll()">
+		{{ hidden.length === results.length ? (translations?.FILTER_DIALOG?.CHECK_ALL || 'check all'):(translations?.FILTER_DIALOG?.UNCHECK_ALL || 'uncheck all')}}
 	</a>
 
-	<button mat-raised-button (click)="close(true)" color="primary">
-		SAVE
+	<button mat-raised-button
+					(click)="close(true)"
+					color="primary">
+		{{translations?.SHARED?.SAVE || 'SAVE'}}
 	</button>
 </div>
 
-<button close mat-icon-button (click)="close()">
+<button close
+				mat-icon-button
+				(click)="close()">
 	<mat-icon>close</mat-icon>
 </button>

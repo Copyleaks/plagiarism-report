@@ -11,6 +11,7 @@ import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
 import { MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
 	selector: 'cr-suspect',
@@ -19,11 +20,13 @@ import { truthy } from '../../utils/operators';
 	animations: [fadeIn],
 })
 export class SuspectComponent implements OnInit, OnDestroy {
+	translates: CopyleaksTranslations;
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
-		private matchService: MatchService
-	) {}
+		private matchService: MatchService,
+		private translatesService: CopyleaksTranslateService
+	) { }
 	readonly MatchType = MatchType;
 	public isMobile = false;
 	public zoom = 1;
@@ -92,6 +95,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * - mobile layout changes
 	 */
 	ngOnInit() {
+		this.translates = this.translatesService.translations;
 		const { suspect$, contentMode$, suspectPage$, onlyOneToOne$ } = this.reportService;
 		suspect$
 			.pipe(
@@ -119,5 +123,5 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

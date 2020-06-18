@@ -18,6 +18,7 @@ import { ReportService } from '../../services/report.service';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
 import { IMAGES } from '../../assets/images';
 import { CopyleaksService } from '../../services/copyleaks.service';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -29,6 +30,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	vcr: ViewContainerRef;
 	resultsOverlayComponentInstance: any;
 	hasOverlay = false;
+	translations: CopyleaksTranslations;
 	constructor(
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private copyleaksService: CopyleaksService,
@@ -36,8 +38,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private dialogService: MatDialog,
 		private layoutService: LayoutMediaQueryService,
 		private highlightService: HighlightService,
+		private translationsService: CopyleaksTranslateService,
 		private cd: ChangeDetectorRef
-	) {}
+	) { }
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -68,6 +71,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
+		this.translations = this.translationsService.translations;
 		const { filteredPreviews$, hiddenResults$, contentMode$ } = this.reportService;
 		const { originalText$, originalHtml$ } = this.highlightService;
 		combineLatest([originalText$, originalHtml$, contentMode$])
@@ -119,5 +123,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

@@ -6,6 +6,7 @@ import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { ResultPreview } from '../../models';
 import { ReportService } from '../../services/report.service';
 import { truthy } from '../../utils/operators';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
 	selector: 'cr-results-filter-dialog',
@@ -17,10 +18,12 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	hidden: string[] = [];
 	hiddenSubscription: Subscription;
 	results: ResultPreview[];
+	translations: CopyleaksTranslations;
 	constructor(
+		private translatesService: CopyleaksTranslateService,
 		private dialogRef: MatDialogRef<ResultsFilterDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) private reportSerivce: ReportService
-	) {}
+	) { }
 
 	/**
 	 * Checks whether the hidden results contain a `result`
@@ -75,6 +78,7 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	 * - dialog events
 	 */
 	ngOnInit() {
+		this.translations = this.translatesService.translations;
 		const { hiddenResults$, previews$ } = this.reportSerivce;
 		previews$.pipe(untilDestroy(this)).subscribe(results => (this.results = results));
 		hiddenResults$.pipe(take(1)).subscribe(hidden => {
@@ -89,5 +93,5 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

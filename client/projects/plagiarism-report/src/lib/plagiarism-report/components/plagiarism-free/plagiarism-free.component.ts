@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IMAGES } from '../../assets/images';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
 	selector: 'cr-plagiarism-free',
 	template: `
 		<img [src]="plagFreeImg | safe: 'url'" alt="Plagiarism free" />
-		<label>Plagiarism Free</label>
+		<label>{{translations?.PLAGIARISM_FREE || 'Plagiarism Free'}}</label>
 	`,
 	styles: [
 		`
@@ -24,6 +25,14 @@ import { IMAGES } from '../../assets/images';
 		`,
 	],
 })
-export class PlagiarismFreeComponent {
+export class PlagiarismFreeComponent implements OnInit {
 	public readonly plagFreeImg = IMAGES.PLAGIARISM_FREE_PNG;
+	translations: CopyleaksTranslations;
+	constructor(private translateService: CopyleaksTranslateService) { }
+	/**
+  * init translation on componenet init
+  */
+	ngOnInit() {
+		this.translations = this.translateService.translations;
+	}
 }

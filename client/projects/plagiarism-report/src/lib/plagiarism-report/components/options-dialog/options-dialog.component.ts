@@ -5,6 +5,7 @@ import { CopyleaksReportOptions } from '../../models/ResultsSettings';
 import { ReportService } from '../../services/report.service';
 import { truthy } from '../../utils/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
 	selector: 'cr-options-dialog',
@@ -12,10 +13,12 @@ import { untilDestroy } from '../../../shared/operators/untilDestroy';
 	styleUrls: ['./options-dialog.component.scss'],
 })
 export class OptionsDialogComponent implements OnInit, OnDestroy {
+	translations: CopyleaksTranslations;
 	constructor(
+		private translatesService: CopyleaksTranslateService,
 		private dialogRef: MatDialogRef<OptionsDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public reportService: ReportService
-	) {}
+	) { }
 
 	public options: CopyleaksReportOptions;
 	/**
@@ -31,6 +34,7 @@ export class OptionsDialogComponent implements OnInit, OnDestroy {
 	 * - dialog events
 	 */
 	ngOnInit() {
+		this.translations = this.translatesService.translations;
 		this.reportService.options$
 			.pipe(
 				untilDestroy(this),
@@ -46,5 +50,5 @@ export class OptionsDialogComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

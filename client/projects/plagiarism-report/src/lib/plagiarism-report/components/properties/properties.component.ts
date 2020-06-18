@@ -11,6 +11,7 @@ import { truthy } from '../../utils/operators';
 import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
 import { DEFAULT_TEXT_CONFIG } from '../../utils/constants';
 import { take } from 'rxjs/operators';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
 	selector: 'cr-properties',
@@ -46,6 +47,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 	previewsLoading = false;
 	messages: CopyleaksTextConfig = DEFAULT_TEXT_CONFIG;
+	translations: CopyleaksTranslations;
 
 	constructor(
 		// @Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
@@ -53,8 +55,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private dialogService: MatDialog,
-		private statistics: StatisticsService
-	) {}
+		private statistics: StatisticsService,
+		private translationsService: CopyleaksTranslateService
+	) { }
 
 	get isScanning() {
 		return this.progress && (this.progress >= 0 || this.progress < 100);
@@ -142,6 +145,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
+		this.translations = this.translationsService.translations;
 		const {
 			help$,
 			share$,
@@ -227,5 +231,5 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

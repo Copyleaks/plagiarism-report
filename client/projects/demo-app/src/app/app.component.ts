@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CopyleaksTranslateService, CopyleaksTranslations } from 'projects/plagiarism-report/src/lib/plagiarism-report/services/copyleaks-translate.service';
 
 enum EViewMode { Dashboard, Fullscreen }
 
@@ -8,8 +9,102 @@ enum EViewMode { Dashboard, Fullscreen }
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	eViewMode = EViewMode;
 	viewMode = EViewMode.Fullscreen;
-	constructor() { }
+	constructor(private reportTranslationsSvc: CopyleaksTranslateService) { }
+	ngOnInit() {
+		let translates: CopyleaksTranslations = {
+			PLAGIARISM_FREE: 'PLAGIARISM_FREE_T',
+			SCAN_PROPERTIES_SECTION: {
+				TITLE: 'SCAN_PROPERTIES_T',
+				SCANNING: {
+					PROGRESS: 'PROGRESS_T',
+					DONE: 'DONE_T',
+					LOADING: 'LOADING_T'
+				},
+				RESULTS_FOUND: 'RESULTS_FOUND_T',
+				RESULTS_FOUND_TOOLTIP: 'RESULTS_FOUND_TOOLTIP_T',
+				SIMILAR_WORDS: 'SIMILAR_WORDS',
+				SIMILAR_WORDS_TOOPTIP: 'SIMILAR_WORDS_TOOPTIP',
+				MATCH: 'MATCH_T',
+				ACTIONS: {
+					HELP: 'HELP_T',
+					SHARE: 'SHARE_T',
+					DOWNLOAD: 'DOWNLOAD_T',
+					SETTINGS: 'SETTINGS_T'
+				}
+			},
+			SUBMITTED_TEXT_SECTION: {
+				TITLE: 'SUBMITTED_TEXT_TITLE'
+			},
+			SUSPECT_SECTION: {
+				TITLE: 'SUSPECT_TITLE'
+			},
+			RESULTS_SECTION: {
+				TITLE: 'RESULTS_TITLE_T',
+				FILTER_TOOLTIP: 'FILTER_TOOLTIP_T',
+				FILTERED_RESULTS_TOOLTIP: 'FILTERED_RESULTS_TOOLTIP_T',
+				CLEAR_FILTER: 'CLEAR_FILTER_T'
+			},
+			RESULT_CARD: {
+				ACTIONS: {
+					EXCLUDE: 'EXCLUDE_T'
+				},
+				SIMILAR_WORDS: 'SIMILAR_WORDS_T',
+				BATCH_RESULT_TOOLTIP: 'BATCH_RESULT_TOOLTIP_T',
+				INTERNAL_DATABASE_RESULT_TOOLTIP: 'INTERNAL_DATABASE_RESULT_TOOLTIP_T',
+				INTERNET_RESULT_TOOLTIP: 'INTERNET_RESULT_TOOLTIP_T',
+				REPOSITORY_RESULT_TOOLTIP: 'REPOSITORY_RESULT_TOOLTIP_T',
+				RESULT_ERROR: 'RESULT_ERROR_T'
+			},
+			FILTER_DIALOG: {
+				TITLE: 'TITLE_T',
+				CHECK_ALL: 'CHECK_ALL_T',
+				UNCHECK_ALL: 'UNCHECK_ALL_T',
+				SEARCH_PLACHOLDER: 'SEARCH_PLACHOLDER_T'
+			},
+			RESULTS_SETTINGS_DIALOG: {
+				TITLE: 'TITLE_T',
+				SHOW_TOP_100_RESULT: 'SHOW_TOP_100_RESULT_T',
+				SET_DEFAULT: 'SET_DEFAULT_T'
+			},
+			SHARED: {
+				ACTIONS: {
+					CLOSE: 'CLOSE_T',
+					SWITCH_TO_TEXTUAL_MODE: 'SWITCH_TO_TEXTUAL_MODE_T',
+					SWITCH_TO_RICH_TEXT_MODE: 'SWITCH_TO_RICH_TEXT_MODE_T',
+					GO_TO_NEXT_MATCH: 'GO_TO_NEXT_MATCH_T',
+					GO_TO_PREV_MATCH: 'GO_TO_PREV_MATCH_T',
+					ALIGN_LEFT: 'ALIGN_LEFT_T',
+					ALIGN_RIGHT: 'ALIGN_RIGHT_T',
+					DECREASE_FONT_SIZE: 'DECREASE_FONT_SIZE_T',
+					INCREASE_FONT_SIZE: 'INCREASE_FONT_SIZE_T',
+					NEXT_PAGE: 'NEXT_PAGE_T',
+					LAST_PAGE: 'LAST_PAGE_T',
+					PREV_PAGE: 'PREV_PAGE_T',
+					FIRST_PAGE: 'FIRST_PAGE_T'
+				},
+				WORDS: 'WORDS_T',
+				MATCH_TYPES: {
+					ORIGINAL: 'ORIGINAL_T',
+					IDENTICAL: 'IDENTICAL_T',
+					IDENTICAL_TOOLTIP: 'IDENTICAL_TOOLTIP_T',
+					MINOR_CHANGES: 'MINOR_CHANGES_T',
+					MINOR_CHANGES_TOOLTIP: 'MINOR_CHANGES_TOOLTIP_T',
+					RELATED_MEANING: 'RELATED_MEANING_T',
+					RELATED_MEANING_TOOLTIP: 'RELATED_MEANING_TOOLTIP_T',
+					OMITTED_WORDS: 'OMITTED_WORDS_T',
+					OMITTED_WORDS_TOOLTIP: 'OMITTED_WORDS_TOOLTIP_T',
+					OMITTED_MATCH_TOOLTIP_TEXT: 'OMITTED_MATCH_TOOLTIP_TEXT_T'
+				},
+				SAVE: 'SAVE_T',
+				POWERED_BY: 'POWERED_BY_T',
+				OF: 'OF_T'
+			}
+		};
+
+		translates = {};
+		this.reportTranslationsSvc.setTranslations(translates);
+	}
 }

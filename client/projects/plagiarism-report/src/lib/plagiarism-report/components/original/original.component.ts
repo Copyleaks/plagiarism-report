@@ -12,6 +12,7 @@ import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } fr
 import { MatchComponent } from '../match/match.component';
 
 import { switchMapTo, distinctUntilChanged } from 'rxjs/operators';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
 	selector: 'cr-original',
@@ -20,12 +21,14 @@ import { switchMapTo, distinctUntilChanged } from 'rxjs/operators';
 	animations: [fadeIn],
 })
 export class OriginalComponent implements OnInit, OnDestroy {
+	translations: CopyleaksTranslations;
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService,
-		private highlightService: HighlightService
-	) {}
+		private highlightService: HighlightService,
+		private translationService: CopyleaksTranslateService
+	) { }
 	get pages(): number[] {
 		return this.source && this.source.text.pages.startPosition;
 	}
@@ -131,6 +134,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * - layout changes
 	 */
 	ngOnInit() {
+		this.translations = this.translationService.translations;
 		const { completeResult$, source$, viewMode$, contentMode$, sourcePage$ } = this.reportService;
 		const { originalTextMatches$, sourceTextMatches$, originalHtmlMatches$, sourceHtmlMatches$ } = this.matchService;
 		completeResult$.pipe(untilDestroy(this)).subscribe(completeResult => (this.completeResult = completeResult));
@@ -164,5 +168,5 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

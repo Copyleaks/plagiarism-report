@@ -25,6 +25,7 @@ import { CopyleaksTextConfig } from '../../models/CopyleaksTextConfig';
 import { ReportService } from '../../services/report.service';
 import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
 	selector: 'cr-result-card',
@@ -48,6 +49,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	public options: CopyleaksReportOptions;
 	public similarWords$: Observable<number>;
 	public resultCardActions: CopyleaksResultCardAction[] = [];
+	public translations: CopyleaksTranslations;
 	private componentInstance: ResultPreviewComponentBase;
 
 	get urlDomain() {
@@ -61,13 +63,17 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		if (this.preview) {
 			switch (this.preview.type) {
 				case EResultPreviewType.Internet:
-					return 'Internet Result';
+					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.INTERNET_RESULT_TOOLTIP) ?
+						this.translations.RESULT_CARD.INTERNET_RESULT_TOOLTIP : 'Internet Result';
 				case EResultPreviewType.Database:
-					return 'Internal Database Result';
+					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.INTERNAL_DATABASE_RESULT_TOOLTIP) ?
+						this.translations.RESULT_CARD.INTERNAL_DATABASE_RESULT_TOOLTIP : 'Internal Database Result';
 				case EResultPreviewType.Batch:
-					return 'Batch Result';
+					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.BATCH_RESULT_TOOLTIP) ?
+						this.translations.RESULT_CARD.BATCH_RESULT_TOOLTIP : 'Batch Result';
 				case EResultPreviewType.Repositroy:
-					return 'Repository Result';
+					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.REPOSITORY_RESULT_TOOLTIP) ?
+						this.translations.RESULT_CARD.REPOSITORY_RESULT_TOOLTIP : 'Repository Result';
 				default:
 					return '';
 			}
@@ -75,11 +81,12 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		return '';
 	}
 	constructor(
+		private translatesService: CopyleaksTranslateService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) {}
+	) { }
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -110,6 +117,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * - the scan result associated with this card
 	 */
 	ngOnInit() {
+		this.translations = this.translatesService.translations;
 		if (!this.preview) {
 			return;
 		}
@@ -174,5 +182,5 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

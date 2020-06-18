@@ -212,8 +212,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 			// watch for results filter change
 			this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged()).subscribe(ids => {
-				console.log(ids);
-
 				if (meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) {
 					for (const id of meta.filters.resultIds) {
 						if (!ids.includes(id)) {

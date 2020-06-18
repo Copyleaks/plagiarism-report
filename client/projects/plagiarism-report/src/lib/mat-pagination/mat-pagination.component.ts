@@ -1,5 +1,6 @@
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation, OnInit } from '@angular/core';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../plagiarism-report/services/copyleaks-translate.service';
 
 export interface PageChangeEvent {
 	currentPage: number;
@@ -13,12 +14,12 @@ export interface PageChangeEvent {
 	styleUrls: ['./mat-pagination.component.scss'],
 	encapsulation: ViewEncapsulation.None,
 })
-export class MatPaginationComponent {
-	constructor() {}
+export class MatPaginationComponent implements OnInit {
 	@Input() totalPages = 1;
 
 	@Output() page = new EventEmitter<PageChangeEvent>();
 	private _currentPage = 1;
+	translations: CopyleaksTranslations;
 	@Input()
 	public get currentPage(): number {
 		return this._currentPage;
@@ -48,7 +49,13 @@ export class MatPaginationComponent {
 	set showFirstLastButtons(value) {
 		this._showFirstLastButtons = coerceBooleanProperty(value);
 	}
-
+	constructor(private translationsService: CopyleaksTranslateService) { }
+	/**
+  * init translations on component init
+  */
+	ngOnInit() {
+		this.translations = this.translationsService.translations;
+	}
 	/**
 	 * Navigate to the next page.
 	 * This will cause the paginator to emit a `PageChangeEvent`
