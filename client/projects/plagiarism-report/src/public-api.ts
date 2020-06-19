@@ -4,6 +4,7 @@
 
 // services
 export * from './lib/plagiarism-report/services/copyleaks.service';
+export * from './lib/plagiarism-report/services/copyleaks-translate.service';
 // components
 export * from './lib/plagiarism-report/copyleaks-report.component';
 // modules
