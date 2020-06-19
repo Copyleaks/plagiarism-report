@@ -34,7 +34,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	}
 	public readonly MatchType = MatchType;
 	public readonly ExcludeReason = ExcludeReason;
-	public readonly EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
+	public EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
 	public zoom = 1;
 	public direction: DirectionMode = 'ltr';
 
@@ -135,6 +135,16 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		this.translations = this.translationService.translations;
+		if (this.translations && this.translations.SCAN_SETTINGS && this.translations.SCAN_SETTINGS.OMITTED) {
+			this.EXCLUDE_MESSAGE = {
+				1: this.translations.SCAN_SETTINGS.OMITTED.QUOTATIONS,
+				2: this.translations.SCAN_SETTINGS.OMITTED.REFERENCES,
+				5: this.translations.SCAN_SETTINGS.OMITTED.HTML_TEMPLATES,
+				6: this.translations.SCAN_SETTINGS.OMITTED.TABLES_OF_CONTENT,
+				7: this.translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
+				8: this.translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
+			}
+		}
 		const { completeResult$, source$, viewMode$, contentMode$, sourcePage$ } = this.reportService;
 		const { originalTextMatches$, sourceTextMatches$, originalHtmlMatches$, sourceHtmlMatches$ } = this.matchService;
 		completeResult$.pipe(untilDestroy(this)).subscribe(completeResult => (this.completeResult = completeResult));

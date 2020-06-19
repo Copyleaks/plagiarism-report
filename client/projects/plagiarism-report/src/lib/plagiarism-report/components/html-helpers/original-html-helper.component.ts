@@ -9,6 +9,7 @@ import { ReportService } from '../../services/report.service';
 import { truthy } from '../../utils/operators';
 import { HtmlHelperBase } from './HtmlHelperBase';
 import iframeScript from './one-to-many-iframe-logic';
+import { CopyleaksTranslateService } from '../../services/copyleaks-translate.service';
 
 /**
  * Component to handle manipulating the scan result's html inside an iframe
@@ -24,9 +25,10 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 		element: ElementRef<HTMLIFrameElement>,
 		private reportService: ReportService,
 		private highlightService: HighlightService,
-		private matchService: MatchService
+		private matchService: MatchService,
+		translateService: CopyleaksTranslateService
 	) {
-		super(renderer, element);
+		super(renderer, element, translateService);
 		const js = renderer.createElement('script') as HTMLScriptElement;
 		js.textContent = iframeScript;
 		this.script = js.outerHTML;
@@ -78,5 +80,5 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

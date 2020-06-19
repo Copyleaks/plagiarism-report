@@ -2,8 +2,10 @@ import { ElementRef, HostBinding, HostListener, Renderer2 } from '@angular/core'
 import { Match, MatchSelectEvent, MatchType, PostMessageEvent } from '../../models';
 import { EXCLUDE_MESSAGE } from '../../utils/constants';
 import iframeStyle from './iframe-styles';
+import { CopyleaksTranslateService } from '../../services/copyleaks-translate.service';
 
 export abstract class HtmlHelperBase {
+	private EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
 	/** the original html */
 	protected html: string;
 	/** string representation of the external css that will be inserted to the frame */
@@ -17,10 +19,26 @@ export abstract class HtmlHelperBase {
 	/** sets the sandbox attribute to the iframe */
 	@HostBinding('attr.sandbox') readonly sandbox = 'allow-scripts';
 
-	constructor(protected renderer: Renderer2, protected element: ElementRef<HTMLIFrameElement>) {
+	constructor(
+		protected renderer: Renderer2,
+		protected element: ElementRef<HTMLIFrameElement>,
+		protected translateService?: CopyleaksTranslateService) {
 		const css = renderer.createElement('style') as HTMLStyleElement;
 		css.textContent = iframeStyle;
 		this.style = css.outerHTML;
+		if (this.translateService) {
+			const translations = this.translateService.translations;
+			if (translations && translations.SCAN_SETTINGS && translations.SCAN_SETTINGS.OMITTED) {
+				this.EXCLUDE_MESSAGE = {
+					1: translations.SCAN_SETTINGS.OMITTED.QUOTATIONS,
+					2: translations.SCAN_SETTINGS.OMITTED.REFERENCES,
+					5: translations.SCAN_SETTINGS.OMITTED.HTML_TEMPLATES,
+					6: translations.SCAN_SETTINGS.OMITTED.TABLES_OF_CONTENT,
+					7: translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
+					8: translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
+				}
+			}
+		}
 	}
 	/**
 	 * Handles the `match-select` event
@@ -89,7 +107,7 @@ export abstract class HtmlHelperBase {
 			let slice = this.html.substring(curr.start, curr.end);
 			switch (curr.type) {
 				case MatchType.excluded:
-					slice = `<span exclude title="${EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;
+					slice = `<span exclude title="${this.EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;
 					break;
 				case MatchType.none:
 					break;

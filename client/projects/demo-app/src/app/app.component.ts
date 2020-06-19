@@ -1,9 +1,7 @@
+// tslint:disable
 import { Component, OnInit } from '@angular/core';
 import { CopyleaksTranslateService, CopyleaksTranslations } from 'projects/plagiarism-report/src/lib/plagiarism-report/services/copyleaks-translate.service';
-
 enum EViewMode { Dashboard, Fullscreen }
-
-// tslint:disable: completed-docs
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
@@ -14,14 +12,15 @@ export class AppComponent implements OnInit {
 	viewMode = EViewMode.Fullscreen;
 	constructor(private reportTranslationsSvc: CopyleaksTranslateService) { }
 	ngOnInit() {
-		let translates: CopyleaksTranslations = {
+		const translates: CopyleaksTranslations = {
 			PLAGIARISM_FREE: 'PLAGIARISM_FREE_T',
 			SCAN_PROPERTIES_SECTION: {
 				TITLE: 'SCAN_PROPERTIES_T',
 				SCANNING: {
 					PROGRESS: 'PROGRESS_T',
 					DONE: 'DONE_T',
-					LOADING: 'LOADING_T'
+					LOADING: 'LOADING_T',
+					SCANNED: 'SCANNED_T'
 				},
 				RESULTS_FOUND: 'RESULTS_FOUND_T',
 				RESULTS_FOUND_TOOLTIP: 'RESULTS_FOUND_TOOLTIP_T',
@@ -69,6 +68,29 @@ export class AppComponent implements OnInit {
 				SHOW_TOP_100_RESULT: 'SHOW_TOP_100_RESULT_T',
 				SET_DEFAULT: 'SET_DEFAULT_T'
 			},
+			SCAN_SETTINGS: {
+				OMITTED: {
+					QUOTATIONS: 'QUOTATIONS_T',
+					REFERENCES: 'REFERENCES_T',
+					HTML_TEMPLATES: 'HTML_TEMPLATES_T',
+					TABLES_OF_CONTENT: 'TABLES_OF_CONTENT_T',
+					SOURCE_CODE_COMMENTS: 'SOURCE_CODE_COMMENTS_T',
+					SENSITIVE_DATA: 'SENSITIVE_DATA_T',
+				}
+			},
+			TIME_AGO: {
+				FEW_SECONDS_AGO: 'FEW_SECONDS_AGO_T',
+				MINUTE_AGO: 'MINUTE_AGO_T',
+				MINUTES_AGO: 'MINUTES_AGO_T',
+				HOUR_AGO: 'HOUR_AGO_T',
+				HOURS_AGO: 'HOURS_AGO_T',
+				DAY_AGO: 'DAY_AGO_T',
+				DAYS_AGO: 'DAYS_AGO_T',
+				MONTH_AGO: 'MONTH_AGO_T',
+				MONTHS_AGO: 'MONTHS_AGO_T',
+				YEAR_AGO: 'YEAR_AGO_T',
+				YEARS_AGO: 'YEARS_AGO_T'
+			},
 			SHARED: {
 				ACTIONS: {
 					CLOSE: 'CLOSE_T',
@@ -104,7 +126,6 @@ export class AppComponent implements OnInit {
 			}
 		};
 
-		translates = {};
 		this.reportTranslationsSvc.setTranslations(translates);
 	}
 }

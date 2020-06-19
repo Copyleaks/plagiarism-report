@@ -25,6 +25,7 @@ export interface CopyleaksTranslations {
 			PROGRESS?: string;
 			DONE?: string;
 			LOADING?: string;
+			SCANNED?: string;
 		};
 		RESULTS_FOUND?: string;
 		RESULTS_FOUND_TOOLTIP?: string;
@@ -72,6 +73,29 @@ export interface CopyleaksTranslations {
 		SHOW_TOP_100_RESULT?: string;
 		SET_DEFAULT?: string;
 	},
+	SCAN_SETTINGS?: {
+		OMITTED?: {
+			QUOTATIONS: string;
+			REFERENCES: string;
+			HTML_TEMPLATES: string;
+			TABLES_OF_CONTENT: string;
+			SOURCE_CODE_COMMENTS: string;
+			SENSITIVE_DATA: string;
+		};
+	};
+	TIME_AGO?: {
+		FEW_SECONDS_AGO?: string
+		MINUTE_AGO?: string;
+		MINUTES_AGO?: string;
+		HOUR_AGO?: string;
+		HOURS_AGO?: string;
+		DAY_AGO?: string;
+		DAYS_AGO?: string;
+		MONTH_AGO?: string;
+		MONTHS_AGO?: string;
+		YEAR_AGO?: string;
+		YEARS_AGO?: string;
+	};
 	SHARED?: {
 		ACTIONS?: {
 			CLOSE?: string;
