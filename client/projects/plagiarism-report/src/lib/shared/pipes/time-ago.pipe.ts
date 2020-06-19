@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CopyleaksTranslateService, CopyleaksTranslations } from '../../plagiarism-report/services/copyleaks-translate.service';
+import {
+	CopyleaksTranslateService,
+	CopyleaksTranslations,
+} from '../../plagiarism-report/services/copyleaks-translate.service';
 @Pipe({
 	name: 'timeAgo',
 	pure: false,
@@ -7,7 +10,11 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../plagiari
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
 	private timer: number;
 	private translates: CopyleaksTranslations;
-	constructor(private changeDetectorRef: ChangeDetectorRef, private ngZone: NgZone, translateService: CopyleaksTranslateService) {
+	constructor(
+		private changeDetectorRef: ChangeDetectorRef,
+		private ngZone: NgZone,
+		translateService: CopyleaksTranslateService
+	) {
 		this.translates = translateService.translations;
 	}
 	/**
@@ -38,27 +45,39 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 		if (Number.isNaN(seconds)) {
 			return '';
 		} else if (seconds <= 45) {
-			return (timeAgoTranslates && timeAgoTranslates.FEW_SECONDS_AGO) ? timeAgoTranslates.FEW_SECONDS_AGO : 'a few seconds ago';
+			return timeAgoTranslates && timeAgoTranslates.FEW_SECONDS_AGO
+				? timeAgoTranslates.FEW_SECONDS_AGO
+				: 'a few seconds ago';
 		} else if (seconds <= 90) {
-			return (timeAgoTranslates && timeAgoTranslates.MINUTE_AGO) ? timeAgoTranslates.MINUTE_AGO : 'a minute ago';
+			return timeAgoTranslates && timeAgoTranslates.MINUTE_AGO ? timeAgoTranslates.MINUTE_AGO : 'a minute ago';
 		} else if (minutes <= 45) {
-			return minutes + ' ' + ((timeAgoTranslates && timeAgoTranslates.MINUTES_AGO) ? timeAgoTranslates.MINUTES_AGO : 'minutes ago');
+			return (
+				minutes +
+				' ' +
+				(timeAgoTranslates && timeAgoTranslates.MINUTES_AGO ? timeAgoTranslates.MINUTES_AGO : 'minutes ago')
+			);
 		} else if (minutes <= 90) {
-			return (timeAgoTranslates && timeAgoTranslates.HOUR_AGO) ? timeAgoTranslates.HOUR_AGO : 'an hour ago';
+			return timeAgoTranslates && timeAgoTranslates.HOUR_AGO ? timeAgoTranslates.HOUR_AGO : 'an hour ago';
 		} else if (hours <= 22) {
-			return hours + ' ' + ((timeAgoTranslates && timeAgoTranslates.HOURS_AGO) ? timeAgoTranslates.HOURS_AGO : 'hours ago');
+			return (
+				hours + ' ' + (timeAgoTranslates && timeAgoTranslates.HOURS_AGO ? timeAgoTranslates.HOURS_AGO : 'hours ago')
+			);
 		} else if (hours <= 36) {
-			return (timeAgoTranslates && timeAgoTranslates.DAY_AGO) ? timeAgoTranslates.DAY_AGO : 'a day ago';
+			return timeAgoTranslates && timeAgoTranslates.DAY_AGO ? timeAgoTranslates.DAY_AGO : 'a day ago';
 		} else if (days <= 25) {
-			return days + ' ' + ((timeAgoTranslates && timeAgoTranslates.DAYS_AGO) ? timeAgoTranslates.DAYS_AGO : 'days ago');
+			return days + ' ' + (timeAgoTranslates && timeAgoTranslates.DAYS_AGO ? timeAgoTranslates.DAYS_AGO : 'days ago');
 		} else if (days <= 45) {
-			return (timeAgoTranslates && timeAgoTranslates.MONTH_AGO) ? timeAgoTranslates.MONTH_AGO : 'a month ago';
+			return timeAgoTranslates && timeAgoTranslates.MONTH_AGO ? timeAgoTranslates.MONTH_AGO : 'a month ago';
 		} else if (days <= 345) {
-			return months + ' ' + ((timeAgoTranslates && timeAgoTranslates.MONTHS_AGO) ? timeAgoTranslates.MONTHS_AGO : 'months ago');
+			return (
+				months + ' ' + (timeAgoTranslates && timeAgoTranslates.MONTHS_AGO ? timeAgoTranslates.MONTHS_AGO : 'months ago')
+			);
 		} else if (days <= 545) {
-			return (timeAgoTranslates && timeAgoTranslates.YEAR_AGO) ? timeAgoTranslates.YEAR_AGO : 'a year ago';
+			return timeAgoTranslates && timeAgoTranslates.YEAR_AGO ? timeAgoTranslates.YEAR_AGO : 'a year ago';
 		} else {
-			return years + ' ' + ((timeAgoTranslates && timeAgoTranslates.YEARS_AGO) ? timeAgoTranslates.YEARS_AGO : 'years ago');
+			return (
+				years + ' ' + (timeAgoTranslates && timeAgoTranslates.YEARS_AGO ? timeAgoTranslates.YEARS_AGO : 'years ago')
+			);
 		}
 	}
 	/** OnDestroy */

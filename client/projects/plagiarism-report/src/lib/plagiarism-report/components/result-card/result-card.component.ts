@@ -63,17 +63,29 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		if (this.preview) {
 			switch (this.preview.type) {
 				case EResultPreviewType.Internet:
-					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.INTERNET_RESULT_TOOLTIP) ?
-						this.translations.RESULT_CARD.INTERNET_RESULT_TOOLTIP : 'Internet Result';
+					return this.translations &&
+						this.translations.RESULT_CARD &&
+						this.translations.RESULT_CARD.INTERNET_RESULT_TOOLTIP
+						? this.translations.RESULT_CARD.INTERNET_RESULT_TOOLTIP
+						: 'Internet Result';
 				case EResultPreviewType.Database:
-					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.INTERNAL_DATABASE_RESULT_TOOLTIP) ?
-						this.translations.RESULT_CARD.INTERNAL_DATABASE_RESULT_TOOLTIP : 'Internal Database Result';
+					return this.translations &&
+						this.translations.RESULT_CARD &&
+						this.translations.RESULT_CARD.INTERNAL_DATABASE_RESULT_TOOLTIP
+						? this.translations.RESULT_CARD.INTERNAL_DATABASE_RESULT_TOOLTIP
+						: 'Internal Database Result';
 				case EResultPreviewType.Batch:
-					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.BATCH_RESULT_TOOLTIP) ?
-						this.translations.RESULT_CARD.BATCH_RESULT_TOOLTIP : 'Batch Result';
+					return this.translations &&
+						this.translations.RESULT_CARD &&
+						this.translations.RESULT_CARD.BATCH_RESULT_TOOLTIP
+						? this.translations.RESULT_CARD.BATCH_RESULT_TOOLTIP
+						: 'Batch Result';
 				case EResultPreviewType.Repositroy:
-					return (this.translations && this.translations.RESULT_CARD && this.translations.RESULT_CARD.REPOSITORY_RESULT_TOOLTIP) ?
-						this.translations.RESULT_CARD.REPOSITORY_RESULT_TOOLTIP : 'Repository Result';
+					return this.translations &&
+						this.translations.RESULT_CARD &&
+						this.translations.RESULT_CARD.REPOSITORY_RESULT_TOOLTIP
+						? this.translations.RESULT_CARD.REPOSITORY_RESULT_TOOLTIP
+						: 'Repository Result';
 				default:
 					return '';
 			}
@@ -86,7 +98,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		private reportService: ReportService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) { }
+	) {}
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -182,5 +194,5 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

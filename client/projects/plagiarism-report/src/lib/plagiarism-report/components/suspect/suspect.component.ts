@@ -26,7 +26,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService,
 		private translatesService: CopyleaksTranslateService
-	) { }
+	) {}
 	readonly MatchType = MatchType;
 	public isMobile = false;
 	public zoom = 1;
@@ -123,5 +123,5 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

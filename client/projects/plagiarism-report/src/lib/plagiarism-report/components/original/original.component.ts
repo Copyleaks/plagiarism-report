@@ -28,7 +28,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		private matchService: MatchService,
 		private highlightService: HighlightService,
 		private translationService: CopyleaksTranslateService
-	) { }
+	) {}
 	get pages(): number[] {
 		return this.source && this.source.text.pages.startPosition;
 	}
@@ -143,7 +143,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 				6: this.translations.SCAN_SETTINGS.OMITTED.TABLES_OF_CONTENT,
 				7: this.translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
 				8: this.translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
-			}
+			};
 		}
 		const { completeResult$, source$, viewMode$, contentMode$, sourcePage$ } = this.reportService;
 		const { originalTextMatches$, sourceTextMatches$, originalHtmlMatches$, sourceHtmlMatches$ } = this.matchService;
@@ -178,5 +178,5 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

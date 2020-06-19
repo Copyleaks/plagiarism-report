@@ -10,10 +10,10 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 export class PoweredByComponent implements OnInit {
 	readonly logo = SVG.LOGO;
 	translations: CopyleaksTranslations;
-	constructor(private translationsService: CopyleaksTranslateService) { }
+	constructor(private translationsService: CopyleaksTranslateService) {}
 	/**
-  * init translations on component init.
-  */
+	 * init translations on component init.
+	 */
 	ngOnInit() {
 		this.translations = this.translationsService.translations;
 	}

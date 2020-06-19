@@ -22,7 +22,8 @@ export abstract class HtmlHelperBase {
 	constructor(
 		protected renderer: Renderer2,
 		protected element: ElementRef<HTMLIFrameElement>,
-		protected translateService?: CopyleaksTranslateService) {
+		protected translateService?: CopyleaksTranslateService
+	) {
 		const css = renderer.createElement('style') as HTMLStyleElement;
 		css.textContent = iframeStyle;
 		this.style = css.outerHTML;
@@ -36,7 +37,7 @@ export abstract class HtmlHelperBase {
 					6: translations.SCAN_SETTINGS.OMITTED.TABLES_OF_CONTENT,
 					7: translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
 					8: translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
-				}
+				};
 			}
 		}
 	}

@@ -6,7 +6,7 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 	selector: 'cr-plagiarism-free',
 	template: `
 		<img [src]="plagFreeImg | safe: 'url'" alt="Plagiarism free" />
-		<label>{{translations?.PLAGIARISM_FREE || 'Plagiarism Free'}}</label>
+		<label>{{ translations?.PLAGIARISM_FREE || 'Plagiarism Free' }}</label>
 	`,
 	styles: [
 		`
@@ -28,10 +28,10 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 export class PlagiarismFreeComponent implements OnInit {
 	public readonly plagFreeImg = IMAGES.PLAGIARISM_FREE_PNG;
 	translations: CopyleaksTranslations;
-	constructor(private translateService: CopyleaksTranslateService) { }
+	constructor(private translateService: CopyleaksTranslateService) {}
 	/**
-  * init translation on componenet init
-  */
+	 * init translation on componenet init
+	 */
 	ngOnInit() {
 		this.translations = this.translateService.translations;
 	}

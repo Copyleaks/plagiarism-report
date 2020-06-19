@@ -1,6 +1,9 @@
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { Component, EventEmitter, Input, Output, ViewEncapsulation, OnInit } from '@angular/core';
-import { CopyleaksTranslateService, CopyleaksTranslations } from '../plagiarism-report/services/copyleaks-translate.service';
+import {
+	CopyleaksTranslateService,
+	CopyleaksTranslations,
+} from '../plagiarism-report/services/copyleaks-translate.service';
 
 export interface PageChangeEvent {
 	currentPage: number;
@@ -49,10 +52,10 @@ export class MatPaginationComponent implements OnInit {
 	set showFirstLastButtons(value) {
 		this._showFirstLastButtons = coerceBooleanProperty(value);
 	}
-	constructor(private translationsService: CopyleaksTranslateService) { }
+	constructor(private translationsService: CopyleaksTranslateService) {}
 	/**
-  * init translations on component init
-  */
+	 * init translations on component init
+	 */
 	ngOnInit() {
 		this.translations = this.translationsService.translations;
 	}

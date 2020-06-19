@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class CopyleaksTranslateService {
 	private _translations: CopyleaksTranslations;
 	get translations() {
-		return this._translations
+		return this._translations;
 	}
 	/**
 	 * set translations for report texts.
@@ -67,12 +67,12 @@ export interface CopyleaksTranslations {
 		SEARCH_PLACHOLDER?: string;
 		CHECK_ALL?: string;
 		UNCHECK_ALL?: string;
-	},
+	};
 	RESULTS_SETTINGS_DIALOG?: {
 		TITLE?: string;
 		SHOW_TOP_100_RESULT?: string;
 		SET_DEFAULT?: string;
-	},
+	};
 	SCAN_SETTINGS?: {
 		OMITTED?: {
 			QUOTATIONS: string;
@@ -84,7 +84,7 @@ export interface CopyleaksTranslations {
 		};
 	};
 	TIME_AGO?: {
-		FEW_SECONDS_AGO?: string
+		FEW_SECONDS_AGO?: string;
 		MINUTE_AGO?: string;
 		MINUTES_AGO?: string;
 		HOUR_AGO?: string;
