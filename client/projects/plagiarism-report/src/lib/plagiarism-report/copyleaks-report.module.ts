@@ -52,6 +52,7 @@ import { CopyleaksService } from './services/copyleaks.service';
 import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { PlagiarismFreeComponent } from './components/plagiarism-free/plagiarism-free.component';
 import { CopyleaksTextConfig } from './models/CopyleaksTextConfig';
+import { CopyleaksTranslateService } from './services/copyleaks-translate.service';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -101,6 +102,7 @@ import { CopyleaksTextConfig } from './models/CopyleaksTextConfig';
 	],
 	providers: [
 		CopyleaksService,
+		CopyleaksTranslateService,
 		{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
 		{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
 	],
