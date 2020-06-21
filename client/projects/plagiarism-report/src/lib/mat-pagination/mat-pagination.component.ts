@@ -52,7 +52,7 @@ export class MatPaginationComponent implements OnInit {
 	set showFirstLastButtons(value) {
 		this._showFirstLastButtons = coerceBooleanProperty(value);
 	}
-	constructor(private translationsService: CopyleaksTranslateService) {}
+	constructor(private translationsService: CopyleaksTranslateService) { }
 	/**
 	 * init translations on component init
 	 */
@@ -79,6 +79,19 @@ export class MatPaginationComponent implements OnInit {
 	back() {
 		const previousPage = this.currentPage;
 		this.currentPage = this.currentPage - 1;
+		this.page.emit({
+			currentPage: this.currentPage,
+			totalPages: this.totalPages,
+			previousPage,
+		});
+	}
+	/**
+	 * Navigate to page.
+	 * This will cause the paginator to emit a `PageChangeEvent`
+	 */
+	goToPage(page: number) {
+		const previousPage = this.currentPage;
+		this.currentPage = page;
 		this.page.emit({
 			currentPage: this.currentPage,
 			totalPages: this.totalPages,
