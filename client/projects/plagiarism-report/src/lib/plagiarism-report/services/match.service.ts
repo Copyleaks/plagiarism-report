@@ -24,11 +24,8 @@ export class MatchService implements OnDestroy {
 		const { source$, filteredResults$, options$ } = this.reportService;
 
 		// listen to suspect changes and process one-to-one matches
-		combineLatest([
-			this.onSuspectChange$,
-			options$.pipe(distinctUntilChanged()),
-			source$
-		]).pipe(untilDestroy(this))
+		combineLatest([this.onSuspectChange$, options$.pipe(distinctUntilChanged()), source$])
+			.pipe(untilDestroy(this))
 			.subscribe(([result, options, source]) => this.processOneToOneMatches(result, options, source));
 
 		// this.onSuspectChange$.pipe(take(1),untilDestroy(this))

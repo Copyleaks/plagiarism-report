@@ -43,7 +43,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 
 	/**
 	 * Life-cycle method
@@ -65,7 +65,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 			.subscribe(source => {
 				this.html = source.html && source.html.value;
 				sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => {
-					this.renderMatches(matches)
+					this.renderMatches(matches);
 				});
 			});
 

@@ -52,7 +52,7 @@ export class MatPaginationComponent implements OnInit {
 	set showFirstLastButtons(value) {
 		this._showFirstLastButtons = coerceBooleanProperty(value);
 	}
-	constructor(private translationsService: CopyleaksTranslateService) { }
+	constructor(private translationsService: CopyleaksTranslateService) {}
 	/**
 	 * init translations on component init
 	 */
