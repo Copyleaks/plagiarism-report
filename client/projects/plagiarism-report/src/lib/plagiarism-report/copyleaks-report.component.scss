@@ -1,4 +1,4 @@
-@import '../styles.scss';
+@import "../styles.scss";
 
 :host {
 	display: contents;
@@ -25,7 +25,7 @@ cr-properties {
 
 [main-wrapper] {
 	height: 100%;
-	overflow: auto;
+	// overflow: auto;
 	padding: 1em;
 
 	@include lt-sm {
