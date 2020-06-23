@@ -120,7 +120,7 @@ export class CopyleaksReportModule {
 				{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
 				{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
 			],
-		};
+		} as ModuleWithProviders<CopyleaksReportModule>;
 	}
 
 	/**
@@ -134,6 +134,6 @@ export class CopyleaksReportModule {
 				{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
 				{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
 			],
-		};
+		} as ModuleWithProviders<CopyleaksReportModule>;;
 	}
 }
