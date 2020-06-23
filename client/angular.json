@@ -22,7 +22,7 @@
 						"main": "projects/demo-app/src/main.ts",
 						"polyfills": "projects/demo-app/src/polyfills.ts",
 						"tsConfig": "projects/demo-app/tsconfig.app.json",
-						"aot": false,
+						"aot": true,
 						"assets": ["projects/demo-app/src/favicon.ico", "projects/demo-app/src/assets"],
 						"styles": ["projects/demo-app/src/material-theme.scss", "projects/demo-app/src/styles.scss"],
 						"scripts": []
@@ -40,7 +40,6 @@
 							"sourceMap": false,
 							"extractCss": true,
 							"namedChunks": false,
-							"aot": true,
 							"extractLicenses": true,
 							"vendorChunk": false,
 							"buildOptimizer": true,
@@ -49,7 +48,11 @@
 									"type": "initial",
 									"maximumWarning": "2mb",
 									"maximumError": "5mb"
-								}
+								},
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
 							]
 						}
 					}
@@ -126,7 +129,12 @@
 						"tsConfig": "projects/plagiarism-report/tsconfig.lib.json",
 						"project": "projects/plagiarism-report/ng-package.json"
 					}
-				},
+				,          "configurations": {
+            "production": {
+              "tsConfig": "projects/plagiarism-report/tsconfig.lib.prod.json"
+            }
+          }
+},
 				"test": {
 					"builder": "@angular-builders/jest:run",
 					"options": {
