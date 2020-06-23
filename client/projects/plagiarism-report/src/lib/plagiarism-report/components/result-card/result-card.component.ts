@@ -37,7 +37,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	eResultPreviewType = EResultPreviewType;
 	@HostBinding('class.mat-elevation-z3')
 	public readonly elevation = true;
-	@ViewChild('vcr', { read: ViewContainerRef, static: false })
+	@ViewChild('vcr', { read: ViewContainerRef })
 	vcr: ViewContainerRef;
 	@Input()
 	public preview: ResultPreview;

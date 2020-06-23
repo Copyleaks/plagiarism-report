@@ -26,7 +26,7 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 	animations: [],
 })
 export class ResultsComponent implements OnInit, OnDestroy {
-	@ViewChild('vcr', { read: ViewContainerRef, static: false })
+	@ViewChild('vcr', { read: ViewContainerRef })
 	vcr: ViewContainerRef;
 	resultsOverlayComponentInstance: any;
 	hasOverlay = false;
