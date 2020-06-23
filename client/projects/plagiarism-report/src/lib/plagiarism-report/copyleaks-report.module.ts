@@ -115,7 +115,7 @@ export class CopyleaksReportModule {
 	 * @param config the modified report config
 	 * @param textConfig config containing custom text messages
 	 */
-	static forRoot(config = {} as CopyleaksReportConfig, textConfig = {} as CopyleaksTextConfig): ModuleWithProviders {
+	static forRoot(config = {} as CopyleaksReportConfig, textConfig = {} as CopyleaksTextConfig): ModuleWithProviders<CopyleaksReportModule> {
 		return {
 			ngModule: CopyleaksReportModule,
 			providers: [
@@ -129,7 +129,7 @@ export class CopyleaksReportModule {
 	 * Modify the config that is added to the child module providers
 	 * @param config the modified config
 	 */
-	static forChild(config = {} as CopyleaksReportConfig, textConfig = {} as CopyleaksTextConfig): ModuleWithProviders {
+	static forChild(config = {} as CopyleaksReportConfig, textConfig = {} as CopyleaksTextConfig): ModuleWithProviders<CopyleaksReportModule> {
 		return {
 			ngModule: CopyleaksReportModule,
 			providers: [
