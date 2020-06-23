@@ -1,9 +1,10 @@
-import { ElementRef, HostBinding, HostListener, Renderer2 } from '@angular/core';
+import { ElementRef, HostBinding, HostListener, Renderer2, Directive } from '@angular/core';
 import { Match, MatchSelectEvent, MatchType, PostMessageEvent } from '../../models';
 import { EXCLUDE_MESSAGE } from '../../utils/constants';
 import iframeStyle from './iframe-styles';
 import { CopyleaksTranslateService } from '../../services/copyleaks-translate.service';
 
+@Directive()
 export abstract class HtmlHelperBase {
 	private EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
 	/** the original html */
