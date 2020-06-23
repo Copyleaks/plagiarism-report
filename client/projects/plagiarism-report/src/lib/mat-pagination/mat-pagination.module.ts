@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule, MatButtonModule, MatInputModule, MatTooltipModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MatPaginationComponent } from './mat-pagination.component';

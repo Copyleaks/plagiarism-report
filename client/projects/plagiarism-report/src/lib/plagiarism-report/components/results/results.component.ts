@@ -8,7 +8,7 @@ import {
 	ViewChild,
 	ViewContainerRef,
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { combineLatest } from 'rxjs';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { Match, ResultPreview, CopyleaksReportConfig } from '../../models';

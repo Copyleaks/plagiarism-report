@@ -6,7 +6,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutingModule } from './routing.module';
-import { MatIconModule, MatButtonModule, MatListModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { ScanResultComponent } from './components/scan-result/scan-result.component';
 import { ReportResultsOverlayComponent } from './components/report-results-overlay/report-results-overlay.component';
 

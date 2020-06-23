@@ -1,5 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CopyleaksReportOptions, ReportStatistics, ViewMode, CopyleaksTextConfig } from '../../models';
