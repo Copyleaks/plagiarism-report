@@ -97,15 +97,10 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.translates = this.translatesService.translations;
 		const { suspect$, contentMode$, suspectPage$, onlyOneToOne$ } = this.reportService;
-		suspect$
-			.pipe(
-				untilDestroy(this),
-				truthy()
-			)
-			.subscribe(item => {
-				this.suspect = item.result;
-				suspectPage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = +page));
-			});
+		suspect$.pipe(untilDestroy(this), truthy()).subscribe(item => {
+			this.suspect = item.result;
+			suspectPage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = +page));
+		});
 
 		combineLatest([contentMode$, suspect$])
 			.pipe(untilDestroy(this))

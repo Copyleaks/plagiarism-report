@@ -93,18 +93,11 @@ export class MatchService implements OnDestroy {
 		);
 	}
 	private get onSuspectChange$() {
-		return this.reportService.suspect$.pipe(
-			untilDestroy(this),
-			truthy(),
-			distinctUntilChanged()
-		);
+		return this.reportService.suspect$.pipe(untilDestroy(this), truthy(), distinctUntilChanged());
 	}
 
 	private get onNewSuspect$() {
-		return this.onSuspectChange$.pipe(
-			untilDestroy(this),
-			skip(1)
-		);
+		return this.onSuspectChange$.pipe(untilDestroy(this), skip(1));
 	}
 
 	/** Emits matches that are relevant to source text one-to-one mode */
@@ -114,42 +107,27 @@ export class MatchService implements OnDestroy {
 
 	/** Emits matches that are relevant to source html one-to-one mode */
 	public get sourceHtmlMatches$() {
-		return this._sourceHtmlMatches.asObservable().pipe(
-			untilDestroy(this),
-			truthy()
-		);
+		return this._sourceHtmlMatches.asObservable().pipe(untilDestroy(this), truthy());
 	}
 
 	/** Emits matches that are relevant to suspect text one-to-one mode */
 	public get suspectTextMatches$() {
-		return this._suspectTextMatches.asObservable().pipe(
-			untilDestroy(this),
-			truthy()
-		);
+		return this._suspectTextMatches.asObservable().pipe(untilDestroy(this), truthy());
 	}
 
 	/** Emits matches that are relevant to suspect html one-to-one mode */
 	public get suspectHtmlMatches$() {
-		return this._suspectHtmlMatches.asObservable().pipe(
-			untilDestroy(this),
-			truthy()
-		);
+		return this._suspectHtmlMatches.asObservable().pipe(untilDestroy(this), truthy());
 	}
 
 	/** Emits matches that are relevant to source text one-to-many mode */
 	public get originalTextMatches$() {
-		return this._originalTextMatches.asObservable().pipe(
-			untilDestroy(this),
-			truthy()
-		);
+		return this._originalTextMatches.asObservable().pipe(untilDestroy(this), truthy());
 	}
 
 	/** Emits matches that are relevant to source html one-to-many mode */
 	public get originalHtmlMatches$() {
-		return this._originalHtmlMatches.asObservable().pipe(
-			untilDestroy(this),
-			truthy()
-		);
+		return this._originalHtmlMatches.asObservable().pipe(untilDestroy(this), truthy());
 	}
 
 	/**
@@ -175,7 +153,7 @@ export class MatchService implements OnDestroy {
 				const text = helpers.processSuspectText(item, settings, mode === 'text');
 				this._suspectTextMatches.next(text);
 			});
-		} else if (!(source.html && source.html.value) && (item.result.html && item.result.html.value)) {
+		} else if (!(source.html && source.html.value) && item.result.html && item.result.html.value) {
 			// case where suspect has html but source doesnt
 			this.onSuspectFirstTextMode$.pipe(takeUntil(this.onNewSuspect$)).subscribe(() => {
 				const text = helpers.processSuspectText(item, settings);

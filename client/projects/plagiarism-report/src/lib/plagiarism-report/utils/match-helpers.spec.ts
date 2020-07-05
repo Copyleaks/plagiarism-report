@@ -3,7 +3,10 @@ import { mergeMatches, fillMissingGaps } from './match-helpers';
 describe('match-helpers', () => {
 	describe('mergeMatches', () => {
 		describe('for two simple overlaping matches - ', () => {
-			const data: Match[] = [{ start: 0, end: 7, type: 0, ids: ['A'] }, { start: 5, end: 12, type: 1, ids: ['B'] }];
+			const data: Match[] = [
+				{ start: 0, end: 7, type: 0, ids: ['A'] },
+				{ start: 5, end: 12, type: 1, ids: ['B'] },
+			];
 			it('it should group matches correctly', () => {
 				const result: Match[] = mergeMatches(data);
 				expect(result).toEqual(

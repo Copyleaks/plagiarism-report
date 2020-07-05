@@ -57,10 +57,7 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 		const { sourceHtml$, textMatchClick$ } = this.highlightService;
 		const { suspectHtmlMatches$ } = this.matchService;
 		suspect$
-			.pipe(
-				untilDestroy(this),
-				truthy()
-			)
+			.pipe(untilDestroy(this), truthy())
 			.subscribe(suspect => suspect.result && suspect.result.html && (this.html = suspect.result.html.value));
 		suspectHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => this.renderMatches(matches));
 		// jump$

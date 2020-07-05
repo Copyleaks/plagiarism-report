@@ -167,17 +167,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 					this.previewsLoading = counter !== 0;
 					for (const preview of previews) {
 						const result$ = this.reportService.findResultById$(preview.id);
-						result$
-							.pipe(
-								take(1),
-								untilDestroy(this)
-							)
-							.subscribe(() => {
-								--counter;
-								if (counter === 0) {
-									this.previewsLoading = false;
-								}
-							});
+						result$.pipe(take(1), untilDestroy(this)).subscribe(() => {
+							--counter;
+							if (counter === 0) {
+								this.previewsLoading = false;
+							}
+						});
 					}
 				});
 			}
@@ -194,21 +189,16 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		options$.pipe(untilDestroy(this)).subscribe(options => (this.options = options));
 
-		this.statistics.statistics$
-			.pipe(
-				untilDestroy(this),
-				truthy()
-			)
-			.subscribe(value => {
-				this.stats = value;
-				const { identical, minorChanges, relatedMeaning, omittedWords, total } = value;
-				this.chartData = [
-					{ name: 'Identical', value: identical },
-					{ name: 'Minor changes', value: minorChanges },
-					{ name: 'Related meaning', value: relatedMeaning },
-					{ name: 'Original', value: total - (identical + minorChanges + relatedMeaning + omittedWords) },
-				];
-			});
+		this.statistics.statistics$.pipe(untilDestroy(this), truthy()).subscribe(value => {
+			this.stats = value;
+			const { identical, minorChanges, relatedMeaning, omittedWords, total } = value;
+			this.chartData = [
+				{ name: 'Identical', value: identical },
+				{ name: 'Minor changes', value: minorChanges },
+				{ name: 'Related meaning', value: relatedMeaning },
+				{ name: 'Original', value: total - (identical + minorChanges + relatedMeaning + omittedWords) },
+			];
+		});
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 	}
 

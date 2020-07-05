@@ -35,12 +35,7 @@ export class OptionsDialogComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		this.translations = this.translatesService.translations;
-		this.reportService.options$
-			.pipe(
-				untilDestroy(this),
-				take(1)
-			)
-			.subscribe(options => (this.options = { ...options }));
+		this.reportService.options$.pipe(untilDestroy(this), take(1)).subscribe(options => (this.options = { ...options }));
 		this.dialogRef
 			.beforeClosed()
 			.pipe(truthy())

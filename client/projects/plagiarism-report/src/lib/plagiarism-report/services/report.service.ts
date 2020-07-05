@@ -54,29 +54,17 @@ export class ReportService implements OnDestroy {
 		onReportConfig$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
 		this.config$.pipe(untilDestroy(this)).subscribe(config => this._configChange.next(config));
 		combineLatest([this.source$, this.completeResult$])
-			.pipe(
-				untilDestroy(this),
-				take(1)
-			)
+			.pipe(untilDestroy(this), take(1))
 			.subscribe(() => this._progress.next(100));
 
 		filteredResultsIds$
-			.pipe(
-				untilDestroy(this),
-				distinctUntilChanged()
-			)
+			.pipe(untilDestroy(this), distinctUntilChanged())
 			.subscribe(ids => this._hiddenResults.next(ids));
 	}
 
-	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(
-		truthy(),
-		take(1)
-	);
+	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(truthy(), take(1));
 
-	public source$ = this._source.asObservable().pipe(
-		truthy(),
-		take(1)
-	);
+	public source$ = this._source.asObservable().pipe(truthy(), take(1));
 	public progress$ = this._progress.asObservable();
 
 	/** config observable */

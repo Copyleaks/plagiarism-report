@@ -113,14 +113,9 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * hide result
 	 */
 	hideResult() {
-		this.reportService.hiddenResults$
-			.pipe(
-				untilDestroy(this),
-				take(1)
-			)
-			.subscribe(hiddenResultsIds => {
-				this.reportService.setHiddenResults([...hiddenResultsIds, this.preview.id]);
-			});
+		this.reportService.hiddenResults$.pipe(untilDestroy(this), take(1)).subscribe(hiddenResultsIds => {
+			this.reportService.setHiddenResults([...hiddenResultsIds, this.preview.id]);
+		});
 	}
 
 	/**

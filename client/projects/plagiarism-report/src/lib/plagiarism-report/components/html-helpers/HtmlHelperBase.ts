@@ -5,6 +5,7 @@ import iframeStyle from './iframe-styles';
 import { CopyleaksTranslateService } from '../../services/copyleaks-translate.service';
 
 @Directive()
+// tslint:disable-next-line: directive-class-suffix
 export abstract class HtmlHelperBase {
 	private EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
 	/** the original html */

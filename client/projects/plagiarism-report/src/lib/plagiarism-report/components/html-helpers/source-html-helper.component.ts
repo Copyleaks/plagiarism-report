@@ -57,17 +57,12 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 		const { source$, viewMode$, suspect$, contentMode$ } = this.reportService;
 		const { suspectHtml$, jump$, textMatchClick$ } = this.highlightService;
 		const { sourceHtmlMatches$ } = this.matchService;
-		source$
-			.pipe(
-				untilDestroy(this),
-				truthy()
-			)
-			.subscribe(source => {
-				this.html = source.html && source.html.value;
-				sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => {
-					this.renderMatches(matches);
-				});
+		source$.pipe(untilDestroy(this), truthy()).subscribe(source => {
+			this.html = source.html && source.html.value;
+			sourceHtmlMatches$.pipe(untilDestroy(this)).subscribe(matches => {
+				this.renderMatches(matches);
 			});
+		});
 
 		jump$
 			.pipe(
