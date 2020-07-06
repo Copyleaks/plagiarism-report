@@ -35,6 +35,13 @@ Install using npm
 npm i @copyleaks/plagiarism-report
 ```
 
+Choose the version corresponding to your Angular version:
+
+ Angular     | @copyleaks/plagiarism-report
+ ----------- | -------------------
+ 9           | 3.x+              
+ 8           | 2.x+              
+
 This library uses `@angular/material` and `@angular/flex-layout` as peer dependencies. If they are not already installed on your project, add them.
 
 - `ng add @angular/material` or `npm i @angular/material`
