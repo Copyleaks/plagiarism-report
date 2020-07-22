@@ -58,7 +58,7 @@ export const EXCLUDE_MESSAGE = {
 	5: 'HTML templates are omitted according to your settings',
 	6: 'Tables of content are omitted according to your settings',
 	7: 'Source code comments are omitted according to your settings',
-	8: 'Sensitive data are hidden according to your settings',
+	0: 'Sensitive data are hidden according to your settings',
 };
 
 /** Injection token used to override the default config of the report */
