@@ -28,7 +28,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		private matchService: MatchService,
 		private highlightService: HighlightService,
 		private translationService: CopyleaksTranslateService
-	) { }
+	) {}
 	get pages(): number[] {
 		return this.source && this.source.text.pages.startPosition;
 	}
@@ -172,5 +172,5 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
