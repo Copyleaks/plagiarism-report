@@ -51,6 +51,8 @@ import { VirtualScrollerModule } from 'ngx-virtual-scroller';
 import { PlagiarismFreeComponent } from './components/plagiarism-free/plagiarism-free.component';
 import { CopyleaksTextConfig } from './models/CopyleaksTextConfig';
 import { CopyleaksTranslateService } from './services/copyleaks-translate.service';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsDialogComponent } from './components/notifications-dialog/notifications-dialog.component';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -70,6 +72,8 @@ import { CopyleaksTranslateService } from './services/copyleaks-translate.servic
 		SourceTextHelperDirective,
 		SuspectTextHelperDirective,
 		PlagiarismFreeComponent,
+		NotificationsComponent,
+		NotificationsDialogComponent
 	],
 	imports: [
 		CommonModule,
@@ -104,7 +108,7 @@ import { CopyleaksTranslateService } from './services/copyleaks-translate.servic
 		{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
 		{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
 	],
-	entryComponents: [OptionsDialogComponent, ResultsFilterDialogComponent],
+	entryComponents: [OptionsDialogComponent, ResultsFilterDialogComponent, NotificationsDialogComponent],
 	exports: [CopyleaksReportComponent],
 })
 export class CopyleaksReportModule {

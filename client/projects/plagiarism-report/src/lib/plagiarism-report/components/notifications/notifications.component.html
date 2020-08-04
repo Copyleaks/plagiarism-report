@@ -1,0 +1,36 @@
+<div matRipple
+		 (click)='showNotificationsDialog()'
+		 class="btn-notifications-new"
+		 [ngClass]="{
+				'btn-notifications-info':type===notificationType.Info,
+				'btn-notifications-error':type===notificationType.Error,
+				'btn-notifications-warning':type===notificationType.Warning
+			 }">
+	<ng-container [ngSwitch]="type">
+		<mat-icon *ngSwitchCase="notificationType.Warning">warning</mat-icon>
+		<mat-icon *ngSwitchCase="notificationType.Error">error</mat-icon>
+		<mat-icon *ngSwitchDefault>info</mat-icon>
+	</ng-container>
+	<span style="font-size: 13px;">see alerts</span>
+</div>
+
+<!-- <div fxLayout='row'
+		 fxLayoutAlign='center center'
+		 fxLayoutGap="5px"
+		 matRipple
+		 (click)='showNotificationsDialog()'
+		 class="btn-notifications-old"
+		 [ngClass]="{
+				'btn-notifications-info':type===notificationType.Info,
+				'btn-notifications-error':type===notificationType.Error,
+				'btn-notifications-warning':type===notificationType.Warning
+			 }">
+	<div>
+		<ng-container [ngSwitch]="type">
+			<mat-icon *ngSwitchCase="notificationType.Warning">warning</mat-icon>
+			<mat-icon *ngSwitchCase="notificationType.Error">error</mat-icon>
+			<mat-icon *ngSwitchDefault>Info</mat-icon>
+		</ng-container>
+	</div>
+	<span>see alerts</span>
+</div> -->

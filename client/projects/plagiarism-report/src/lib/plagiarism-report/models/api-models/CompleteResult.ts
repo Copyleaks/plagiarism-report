@@ -19,8 +19,34 @@ export interface CompleteResult extends BasicResponse {
 	scannedDocument: ScannedDocument;
 	results: ResultPreviews;
 	filters?: CompleteResultsFilters;
+	notifications?: CompleteResultNotification;
 }
 
+/**
+ * A notification of a complete response from Copyleaks api
+ */
+export interface CompleteResultNotification {
+	alerts: CompleteResultNotificationAlert[];
+}
+/**
+ * A notification alert of a complete response from Copyleaks api
+ */
+export interface CompleteResultNotificationAlert {
+	additionalData: string;
+	code: string;
+	helpLink: string;
+	message: string;
+	severity: CompleteResultNotificationAlertSeverity
+	title: string;
+}
+
+export enum CompleteResultNotificationAlertSeverity {
+	Debug = 0,
+	Info = 1,
+	Warning = 2,
+	Error = 3,
+	Critical = 4
+}
 /**
  * A result preview of a complete response from Copyleaks api
  */

@@ -1,0 +1,58 @@
+.notification-dialog {
+	max-width: 500px;
+	.header {
+		h2 {
+			margin-top: 0;
+		}
+		button {
+			margin-top: -9px;
+			margin-right: -7px;
+		}
+	}
+	.alert-card {
+		padding: 16px 16px 6px;
+		border-top: 3px solid #17a1ff;
+		box-shadow: 0px 1px 2px rgb(0 0 0 / 31%);
+		mat-icon {
+			color: #17a1ff;
+			font-size: 40px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+		}
+
+		.alert-card-header {
+			.card-header-title {
+				margin-bottom: 5px;
+				font-size: 17px;
+				font-weight: bold;
+				color: rgba(0, 0, 0, 0.87);
+			}
+			.card-header-description {
+				font-size: 14px;
+				color: rgba(0, 0, 0, 0.54);
+				margin: 0;
+			}
+		}
+	}
+	.alert-card-error {
+		border-color: red;
+		mat-icon {
+			color: red;
+		}
+	}
+	.alert-card-warning {
+		border-color: orange;
+		mat-icon {
+			color: orange;
+		}
+	}
+
+	.actions {
+		a {
+			padding: 0 10px;
+			font-weight: bold;
+			font-size: 14px;
+		}
+	}
+}

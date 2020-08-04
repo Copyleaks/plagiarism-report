@@ -1,0 +1,48 @@
+.btn-notifications-new {
+	margin: 10px 5px;
+	position: relative;
+	padding: 5px 12px 5px 36px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+.btn-notifications-old {
+	border-radius: 50px;
+	padding-right: 10px;
+	margin-top: 9px;
+	margin-bottom: 9px;
+	padding-left: 5px;
+	cursor: pointer;
+	mat-icon {
+		margin-top: 5px;
+	}
+}
+.btn-notifications-info {
+	border: 1px solid #17a1ff;
+	color: #17a1ff;
+	mat-icon {
+		position: absolute;
+		left: 0px;
+		font-size: 30px;
+		top: 0px;
+	}
+}
+.btn-notifications-error {
+	border: 1px solid red;
+	color: red;
+	mat-icon {
+		position: absolute;
+		left: 0px;
+		font-size: 30px;
+		top: 0px;
+	}
+}
+.btn-notifications-warning {
+	border: 1px solid orange;
+	color: orange;
+	mat-icon {
+		position: absolute;
+		left: 7px;
+		font-size: 27px;
+		top: 1px;
+	}
+}

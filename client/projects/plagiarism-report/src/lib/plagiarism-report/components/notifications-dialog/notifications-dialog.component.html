@@ -1,0 +1,50 @@
+<div class="notification-dialog">
+	<div fxLayout='row'
+			 class="header">
+		<h2>Alerts</h2>
+		<span fxFlex></span>
+		<button mat-icon-button
+						mat-dialog-close>
+			<mat-icon>close</mat-icon>
+		</button>
+	</div>
+	<div fxLayout='column'
+			 fxLayoutGap='20px'>
+		<div class="alert-card"
+				 [ngClass]="{
+				'alert-card-error':alert.severity===severity.Error,
+				'alert-card-warning':alert.severity===severity.Warning
+	 			}"
+				 fxLayout='column'
+				 fxLayoutGap='10px'
+				 *ngFor="let alert of notification?.alerts">
+			<div fxLayout='row'
+					 fxLayoutAlign='start start'
+					 fxLayoutGap='10px'>
+				<ng-container [ngSwitch]="alert.severity">
+					<mat-icon *ngSwitchCase="severity.Warning">warning</mat-icon>
+					<mat-icon *ngSwitchCase="severity.Error">error</mat-icon>
+					<mat-icon *ngSwitchDefault>info</mat-icon>
+				</ng-container>
+				<div class='alert-card-header'>
+					<div class="card-header-title">{{alert.title}}</div>
+					<ng-container [ngSwitch]="alert.severity">
+						<p class="card-header-description"
+							 *ngSwitchCase="severity.Warning">Warning Notification</p>
+						<p class="card-header-description"
+							 *ngSwitchCase="severity.Error">Error Notification</p>
+						<p class="card-header-description"
+							 *ngSwitchDefault>Info Notification</p>
+					</ng-container>
+				</div>
+			</div>
+			<div style="text-align: justify;">
+				{{alert.message}}
+			</div>
+			<div class="actions">
+				<a mat-button
+					 [href]="alert.helpLink">Read More</a>
+			</div>
+		</div>
+	</div>
+</div>
