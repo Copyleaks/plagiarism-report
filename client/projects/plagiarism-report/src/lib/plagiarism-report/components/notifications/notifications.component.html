@@ -1,11 +1,13 @@
-<ng-container *ngIf="severity || severity==severities.Debug">
-	<div matRipple
-			 (click)='showNotificationsDialog()'
-			 class="btn-notifications-new"
-			 [ngClass]="{
-				'btn-notifications-error':(severity==severities.Error || severity==severities.Critical),
-				'btn-notifications-warning':severity==severities.Warning
-			 }">
+<ng-container *ngIf="severity || severity == severities.Debug">
+	<div
+		matRipple
+		(click)="showNotificationsDialog()"
+		class="btn-notifications-new"
+		[ngClass]="{
+			'btn-notifications-error': severity == severities.Error || severity == severities.Critical,
+			'btn-notifications-warning': severity == severities.Warning
+		}"
+	>
 		<ng-container [ngSwitch]="severity">
 			<mat-icon *ngSwitchCase="severities.Warning">warning</mat-icon>
 			<mat-icon *ngSwitchCase="severities.Error">error</mat-icon>

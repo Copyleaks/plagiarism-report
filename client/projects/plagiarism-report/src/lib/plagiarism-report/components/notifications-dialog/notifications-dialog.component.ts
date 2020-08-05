@@ -8,15 +8,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
 	selector: 'cr-notifications-dialog',
 	templateUrl: './notifications-dialog.component.html',
-	styleUrls: ['./notifications-dialog.component.scss']
+	styleUrls: ['./notifications-dialog.component.scss'],
 })
 export class NotificationsDialogComponent implements OnInit, OnDestroy {
 	notification: CompleteResultNotification;
 	severity = CompleteResultNotificationAlertSeverity;
-	constructor(@Inject(MAT_DIALOG_DATA) private reportService: ReportService) { }
+	constructor(@Inject(MAT_DIALOG_DATA) private reportService: ReportService) {}
 	/**
- 	* Life-cycle method
- 	*/
+	 * Life-cycle method
+	 */
 	ngOnInit() {
 		this.reportService.completeResult$
 			.pipe(
@@ -31,5 +31,5 @@ export class NotificationsDialogComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

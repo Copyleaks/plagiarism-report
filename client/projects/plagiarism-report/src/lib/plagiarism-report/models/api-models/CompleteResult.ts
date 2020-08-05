@@ -36,7 +36,7 @@ export interface CompleteResultNotificationAlert {
 	code: string;
 	helpLink: string;
 	message: string;
-	severity: CompleteResultNotificationAlertSeverity
+	severity: CompleteResultNotificationAlertSeverity;
 	title: string;
 }
 
@@ -45,7 +45,7 @@ export enum CompleteResultNotificationAlertSeverity {
 	Info = 1,
 	Warning = 2,
 	Error = 3,
-	Critical = 4
+	Critical = 4,
 }
 /**
  * A result preview of a complete response from Copyleaks api

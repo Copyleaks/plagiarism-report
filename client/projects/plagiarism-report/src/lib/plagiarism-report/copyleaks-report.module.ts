@@ -73,7 +73,7 @@ import { NotificationsDialogComponent } from './components/notifications-dialog/
 		SuspectTextHelperDirective,
 		PlagiarismFreeComponent,
 		NotificationsComponent,
-		NotificationsDialogComponent
+		NotificationsDialogComponent,
 	],
 	imports: [
 		CommonModule,

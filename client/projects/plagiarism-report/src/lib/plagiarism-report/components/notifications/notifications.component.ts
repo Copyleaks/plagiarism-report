@@ -8,15 +8,15 @@ import { CompleteResultNotificationAlertSeverity } from '../../models';
 @Component({
 	selector: 'cr-notifications',
 	templateUrl: './notifications.component.html',
-	styleUrls: ['./notifications.component.scss']
+	styleUrls: ['./notifications.component.scss'],
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
 	public severity: CompleteResultNotificationAlertSeverity;
 	public severities = CompleteResultNotificationAlertSeverity;
-	constructor(private matDialog: MatDialog, private reportService: ReportService) { }
+	constructor(private matDialog: MatDialog, private reportService: ReportService) {}
 	/**
- 	* Life-cycle method
- 	*/
+	 * Life-cycle method
+	 */
 	ngOnInit() {
 		this.reportService.completeResult$
 			.pipe(
@@ -29,18 +29,18 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			});
 	}
 	/**
- 	* shows the notification dialogs with the alerts
- 	*/
+	 * shows the notification dialogs with the alerts
+	 */
 	showNotificationsDialog() {
 		this.matDialog.open(NotificationsDialogComponent, {
 			autoFocus: false,
 			maxWidth: '500px',
-			data: this.reportService
-		})
+			data: this.reportService,
+		});
 	}
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
