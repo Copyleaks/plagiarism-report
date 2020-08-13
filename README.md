@@ -247,6 +247,11 @@ As an alternative you can create an Angular web application that uses this libra
 
 Modifying the component is allowed according to the [License](./license).
 
+## Additional Reading Sources
+
+- [Showing Progress on the report](./ADVANCE_README_PROGRESS.md).
+- [Real-Time usage](./ADVANCE_README_REAL_TIME.md).
+
 [api]: https://api.copyleaks.com
 [api:register]: https://api.copyleaks.com/account-ui/register
 [api:completed]: https://api.copyleaks.com/documentation/v3/webhooks/completed
