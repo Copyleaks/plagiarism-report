@@ -11,7 +11,9 @@ import {
 	SlicedMatch,
 	SubjectResultKey,
 	CopyleaksReportOptions,
+	CompleteResultNotification
 } from '../models';
+import { ALERTS } from './constants';
 
 /** A reduce function to extrace `MatchEndpoint`s */
 const extractMatchEndpoints = (acc: MatchEndpoint[], curr: Match): MatchEndpoint[] => {
@@ -342,6 +344,38 @@ export const processSourceText = (
 	const grouped = mergeMatches([...identical, ...minor, ...related, ...excluded]);
 	const filled = fillMissingGaps(grouped, source.text.value.length);
 	return paginateMatches(source.text.value, source.text.pages.startPosition, filled);
+};
+
+/**
+ * This function will process notifications and generate a list of match intervals that will help
+ * highlight the source text.
+ * @param notifications the scan source
+ * @param source the scan source
+ */
+export const processSuspectedCharacterMatches = (
+	notifications: CompleteResultNotification,
+	source: ScanSource
+): SlicedMatch[][] => {
+	const matches: Match[] = [];
+	const alertToMatch = notifications.alerts.find(alert => alert.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE);
+	const data: {
+		starts: number[]
+		lengths: number[]
+	} = JSON.parse(alertToMatch.additionalData);
+	if (data && data.starts && data.lengths) {
+		for (let i = 0; i < data.starts.length; i++) {
+			matches.push({
+				start: data.starts[i],
+				end: data.starts[i] + data.lengths[i],
+				type: MatchType.identical,
+				ids: []
+			});
+		}
+	}
+
+	const grouped = matches;
+	const filled = fillMissingGaps(grouped, source.text.value.length);
+	return paginateMatches(source.text.value, source.text.pages.startPosition, filled);;
 };
 
 /**

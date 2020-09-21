@@ -1,47 +1,19 @@
-<div class="header" mat-dialog-title>
+<div class="header"
+		 mat-dialog-title>
 	<h3>Alerts</h3>
 </div>
 <mat-dialog-content>
-	<div fxLayout="column" style="padding-bottom: 5px;" fxLayoutGap="20px">
-		<div
-			class="alert-card"
-			[style.padding-bottom]="!alert?.helpLink ? '16px' : ''"
-			[ngClass]="{
-				'alert-card-error': alert.severity === severity.Error || alert.severity === severity.Critical,
-				'alert-card-warning': alert.severity === severity.Warning
-			}"
-			fxLayout="column"
-			fxLayoutGap="10px"
-			*ngFor="let alert of notification?.alerts"
-		>
-			<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-				<ng-container [ngSwitch]="alert.severity">
-					<mat-icon *ngSwitchCase="severity.Warning">warning</mat-icon>
-					<mat-icon *ngSwitchCase="severity.Error">error</mat-icon>
-					<mat-icon *ngSwitchCase="severity.Critical">error</mat-icon>
-					<mat-icon *ngSwitchDefault>info</mat-icon>
-				</ng-container>
-				<div class="alert-card-header">
-					<div class="card-header-title">{{ alert.title }}</div>
-					<ng-container [ngSwitch]="alert.severity">
-						<p class="card-header-description" *ngSwitchCase="severity.Warning">Warning</p>
-						<p class="card-header-description" *ngSwitchCase="severity.Error">Error</p>
-						<p class="card-header-description" *ngSwitchCase="severity.Critical">Critical</p>
-						<p class="card-header-description" *ngSwitchCase="severity.Debug">Debug</p>
-						<p class="card-header-description" *ngSwitchDefault>Information</p>
-					</ng-container>
-				</div>
-			</div>
-			<div style="text-align: justify;">
-				{{ alert.message }}
-			</div>
-			<div class="actions" *ngIf="alert.helpLink">
-				<a mat-button [href]="alert.helpLink">Read More</a>
-			</div>
-		</div>
+	<div fxLayout="column"
+			 style="padding-bottom: 5px;"
+			 fxLayoutGap="20px">
+		<ng-container *ngFor="let alert of notification?.alerts">
+			<cr-alert-card [alert]='alert'
+										 (afterToggleError)='closeDialog()'></cr-alert-card>
+		</ng-container>
 	</div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="center">
-	<button mat-button mat-dialog-close>Close</button>
+	<button mat-button
+					mat-dialog-close>Close</button>
 </mat-dialog-actions>

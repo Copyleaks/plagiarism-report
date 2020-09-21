@@ -53,6 +53,13 @@ import { CopyleaksTextConfig } from './models/CopyleaksTextConfig';
 import { CopyleaksTranslateService } from './services/copyleaks-translate.service';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NotificationsDialogComponent } from './components/notifications-dialog/notifications-dialog.component';
+import { ViewModeService } from './services/view-mode.service';
+import { HighlightService } from './services/highlight.service';
+import { MatchService } from './services/match.service';
+import { ReportService } from './services/report.service';
+import { StatisticsService } from './services/statistics.service';
+import { SelectedAlertComponent } from './components/selected-alert/selected-alert.component';
+import { AlertCardComponent } from './components/alert-card/alert-card.component';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -74,6 +81,8 @@ import { NotificationsDialogComponent } from './components/notifications-dialog/
 		PlagiarismFreeComponent,
 		NotificationsComponent,
 		NotificationsDialogComponent,
+		SelectedAlertComponent,
+		AlertCardComponent
 	],
 	imports: [
 		CommonModule,
@@ -103,6 +112,13 @@ import { NotificationsDialogComponent } from './components/notifications-dialog/
 		VirtualScrollerModule,
 	],
 	providers: [
+		// local services
+		ReportService,
+		StatisticsService,
+		MatchService,
+		HighlightService,
+		ViewModeService,
+
 		CopyleaksService,
 		CopyleaksTranslateService,
 		{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },

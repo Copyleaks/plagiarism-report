@@ -41,11 +41,11 @@ export interface CompleteResultNotificationAlert {
 }
 
 export enum CompleteResultNotificationAlertSeverity {
-	Debug = 0,
-	Info = 1,
-	Warning = 2,
-	Error = 3,
-	Critical = 4,
+	VeryLow = 0,
+	Low = 1,
+	Medium = 2,
+	High = 3,
+	VeryHigh = 4,
 }
 /**
  * A result preview of a complete response from Copyleaks api

@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { CompleteResultNotification, CompleteResultNotificationAlertSeverity } from '../../models';
+import {
+	CompleteResultNotification
+} from '../../models';
 import { ReportService } from '../../services/report.service';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { filter } from 'rxjs/operators';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
 	selector: 'cr-notifications-dialog',
@@ -12,8 +14,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class NotificationsDialogComponent implements OnInit, OnDestroy {
 	notification: CompleteResultNotification;
-	severity = CompleteResultNotificationAlertSeverity;
-	constructor(@Inject(MAT_DIALOG_DATA) private reportService: ReportService) {}
+	constructor(
+		private matDialog: MatDialog,
+		@Inject(MAT_DIALOG_DATA) private reportService: ReportService
+	) { }
 	/**
 	 * Life-cycle method
 	 */
@@ -28,8 +32,14 @@ export class NotificationsDialogComponent implements OnInit, OnDestroy {
 			});
 	}
 	/**
+	 * close dialog
+	 */
+	closeDialog() {
+		this.matDialog.closeAll();
+	}
+	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

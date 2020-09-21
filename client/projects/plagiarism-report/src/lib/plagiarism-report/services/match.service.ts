@@ -2,10 +2,11 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { asyncScheduler, BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter, map, skip, take, takeUntil, throttleTime } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
-import { CopyleaksReportOptions, Match, ResultItem, ScanSource, SlicedMatch } from '../models';
+import { CompleteResultNotification, CopyleaksReportOptions, Match, ResultItem, ScanSource, SlicedMatch } from '../models';
 import * as helpers from '../utils/match-helpers';
 import { truthy } from '../utils/operators';
 import { ReportService } from './report.service';
+import { EReportViewModel, ViewModeService } from './view-mode.service';
 
 /**
  * Service that calculates the matches highlight positions with respect to the view and content mode.
@@ -20,8 +21,10 @@ export class MatchService implements OnDestroy {
 	private _originalTextMatches = new BehaviorSubject<SlicedMatch[][]>(null);
 	private _originalHtmlMatches = new BehaviorSubject<Match[]>(null);
 
-	constructor(private reportService: ReportService) {
-		const { source$, filteredResults$, options$ } = this.reportService;
+	constructor(private reportService: ReportService, private viewModeService: ViewModeService) {
+		const { source$, filteredResults$, options$, completeResult$ } = this.reportService;
+		const { reportViewMode$ } = this.viewModeService;
+		let notification: CompleteResultNotification;
 
 		// listen to suspect changes and process one-to-one matches
 		combineLatest([this.onSuspectChange$, options$.pipe(distinctUntilChanged()), source$])
@@ -36,15 +39,32 @@ export class MatchService implements OnDestroy {
 			throttleTime(5000, asyncScheduler, { leading: false, trailing: true })
 		);
 
+		completeResult$
+			.pipe(
+				untilDestroy(this),
+				filter(c => !!c.notifications && !!c.notifications.alerts && !!c.notifications.alerts.length)
+			)
+			.subscribe(completeResult => {
+				notification = completeResult.notifications;
+			});
+
 		/**
 		 * We want to process oneToMany results when:
 		 * * once the source is ready
 		 * * every time the filteredResults$ observable updates
 		 * * every time the options object has changed
+		 * * report view mode change
 		 */
-		combineLatest([throttledResults$, options$, source$])
+		combineLatest([throttledResults$, options$, source$, reportViewMode$])
 			.pipe(untilDestroy(this))
-			.subscribe(([results, options, source]) => this.processOneToManyMatches(results, options, source));
+			.subscribe(([results, options, source, viewMode]) => {
+				if (viewMode === EReportViewModel.SuspectedCharacterReplacement) {
+					this.processSuspectedCharacterMatches(results, options, notification, source);
+				} else {
+					this.processOneToManyMatches(results, options, source)
+				}
+			}
+			);
 	}
 
 	private get onSourceFirstTextMode$() {
@@ -201,6 +221,33 @@ export class MatchService implements OnDestroy {
 	private processOneToManyMatches(results: ResultItem[], settings: CopyleaksReportOptions, source: ScanSource) {
 		this.onSourceFirstTextMode$.subscribe(() => {
 			const text = helpers.processSourceText(results, settings, source);
+			if (text) {
+				this._originalTextMatches.next(text);
+			}
+		});
+		this.onSourceFirstHtmlMode$.subscribe(() => {
+			const html = helpers.processSourceHtml(results, settings, source);
+			if (html) {
+				this._originalHtmlMatches.next(html);
+			}
+		});
+	}
+
+	/**
+	 * Process matches on the `suspected-character-replacement` view mode
+	 * will calculate the matches when showing `text` or `html` for the first time
+	 * @param results the results to calculate matches from
+	 * @param settings the report settings
+	 * @param notifications the notifications to calculate matches from
+	 * @param source  the scan source
+	 */
+	private processSuspectedCharacterMatches(
+		results: ResultItem[],
+		settings: CopyleaksReportOptions,
+		notifications: CompleteResultNotification,
+		source: ScanSource) {
+		this.onSourceFirstTextMode$.subscribe(() => {
+			const text = helpers.processSuspectedCharacterMatches(notifications, source);
 			if (text) {
 				this._originalTextMatches.next(text);
 			}

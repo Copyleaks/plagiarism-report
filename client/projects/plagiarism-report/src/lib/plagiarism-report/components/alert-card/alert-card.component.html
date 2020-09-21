@@ -1,0 +1,60 @@
+<div class="alert-card"
+		 [style.padding-bottom]="!alert?.helpLink ? '16px' : ''"
+		 [ngClass]="{
+'alert-card-error': alert.severity === severity.High || alert.severity === severity.VeryHigh,
+'alert-card-warning': alert.severity === severity.Medium
+}"
+		 fxLayout="column"
+		 fxLayoutGap="10px">
+	<div fxLayout="row"
+			 fxLayoutAlign="start center"
+			 fxLayoutGap="10px">
+		<ng-container [ngSwitch]="alert.severity">
+			<mat-icon *ngSwitchCase="severity.Medium">warning</mat-icon>
+			<mat-icon *ngSwitchCase="severity.High">error</mat-icon>
+			<mat-icon *ngSwitchCase="severity.VeryHigh">error</mat-icon>
+			<mat-icon *ngSwitchDefault>info</mat-icon>
+		</ng-container>
+		<div class="alert-card-header">
+			<div class="card-header-title">{{ alert.title }}</div>
+			<ng-container [ngSwitch]="alert.severity">
+				<p class="card-header-description"
+					 *ngSwitchCase="severity.VeryLow">Very Low</p>
+				<p class="card-header-description"
+					 *ngSwitchCase="severity.Low">Low</p>
+				<p class="card-header-description"
+					 *ngSwitchCase="severity.Medium">Medium</p>
+				<p class="card-header-description"
+					 *ngSwitchCase="severity.High">High</p>
+				<p class="card-header-description"
+					 *ngSwitchCase="severity.VeryHigh">Very High</p>
+			</ng-container>
+		</div>
+	</div>
+
+	<div style="text-align: justify;">
+		{{ alert.message }}
+	</div>
+
+	<div class="actions"
+			 *ngIf="alert.helpLink || alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
+
+		<button mat-button
+						(click)="toggleError(alert)"
+						*ngIf="alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE"
+						color='primary'>
+			<ng-container *ngIf="isSelected">
+				Hide Error
+			</ng-container>
+			<ng-container *ngIf="!isSelected">
+				View Error
+			</ng-container>
+		</button>
+
+		<a mat-button
+			 target="_blank"
+			 *ngIf="alert.helpLink"
+			 [href]="alert.helpLink">Read More</a>
+	</div>
+
+</div>

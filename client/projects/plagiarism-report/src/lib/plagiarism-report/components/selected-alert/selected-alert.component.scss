@@ -1,0 +1,11 @@
+:host {
+	width: 30%;
+	max-width: 530px;
+}
+cr-panel {
+	flex: 1;
+	height: 100%;
+	cr-panel-header {
+		text-transform: uppercase;
+	}
+}

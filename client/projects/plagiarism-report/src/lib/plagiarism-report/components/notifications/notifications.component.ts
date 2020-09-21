@@ -13,7 +13,7 @@ import { CompleteResultNotificationAlertSeverity } from '../../models';
 export class NotificationsComponent implements OnInit, OnDestroy {
 	public severity: CompleteResultNotificationAlertSeverity;
 	public severities = CompleteResultNotificationAlertSeverity;
-	constructor(private matDialog: MatDialog, private reportService: ReportService) {}
+	constructor(private matDialog: MatDialog, private reportService: ReportService) { }
 	/**
 	 * Life-cycle method
 	 */
@@ -42,5 +42,5 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

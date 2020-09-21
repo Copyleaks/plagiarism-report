@@ -1,6 +1,17 @@
+<button mat-raised-button
+				color='warn'
+				(click)='toggleViewMode()'>Toggle View</button>
 <cr-properties *ngIf="!hasResultsOverlay"></cr-properties>
-<div main-wrapper fxLayout="row nowrap" fxLayoutAlign="start stretch" fxLayout.lt-sm="column nowrap">
+<div main-wrapper
+		 fxLayout="row nowrap"
+		 fxLayoutAlign="start stretch"
+		 fxLayout.lt-sm="column nowrap">
 	<cr-original></cr-original>
-	<cr-suspect [fxShow]="isOneToOne"></cr-suspect>
-	<cr-results [fxShow]="isOneToMany"></cr-results>
+	<ng-container *ngIf="reportViewMode == eReportViewModel.ScanningResult">
+		<cr-suspect [fxShow]="isOneToOne"></cr-suspect>
+		<cr-results [fxShow]="isOneToMany"></cr-results>
+	</ng-container>
+	<ng-container *ngIf="reportViewMode == eReportViewModel.SuspectedCharacterReplacement">
+		<cr-selected-alert [fxShow]=''></cr-selected-alert>
+	</ng-container>
 </div>

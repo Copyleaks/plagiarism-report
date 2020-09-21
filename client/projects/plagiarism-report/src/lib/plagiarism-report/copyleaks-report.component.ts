@@ -15,16 +15,13 @@ import { version } from '../report-version.json';
 import { untilDestroy } from '../shared/operators/untilDestroy';
 import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
 import { CopyleaksService } from './services/copyleaks.service';
-import { HighlightService } from './services/highlight.service';
-import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
-import { StatisticsService } from './services/statistics.service';
+import { EReportViewModel, ViewModeService } from './services/view-mode.service';
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
 	styleUrls: ['./copyleaks-report.component.scss'],
-	animations: [],
-	providers: [ReportService, StatisticsService, MatchService, HighlightService],
+	animations: []
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	@HostBinding('class.mat-typography')
@@ -54,9 +51,13 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public aaa = false;
 	public hasResultsOverlay = false;
 
+	public reportViewMode: EReportViewModel;
+	public eReportViewModel = EReportViewModel;
+
 	constructor(
 		private reportService: ReportService,
 		private copyleaksService: CopyleaksService,
+		private viewModeService: ViewModeService,
 		el: ElementRef,
 		renderer: Renderer2
 	) {
@@ -75,6 +76,19 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
 		configChange$.pipe(untilDestroy(this)).subscribe(config => this.configChange.emit(config));
 		this.hasResultsOverlay = !!this.config && !!this.config.resultsOverlayComponent;
+
+		this.viewModeService.reportViewMode$
+			.pipe(untilDestroy(this)).subscribe(viewMode => (this.reportViewMode = viewMode));
+	}
+
+	// tslint:disable-next-line: completed-docs
+	toggleViewMode() {
+		const viewMode = this.viewModeService.reportViewMode$.value;
+		if (viewMode === EReportViewModel.ScanningResult) {
+			this.viewModeService.changeViewMode$(EReportViewModel.SuspectedCharacterReplacement)
+		} else {
+			this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult)
+		}
 	}
 
 	/**
@@ -93,5 +107,5 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
