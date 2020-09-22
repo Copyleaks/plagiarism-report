@@ -11,9 +11,8 @@ import {
 	SlicedMatch,
 	SubjectResultKey,
 	CopyleaksReportOptions,
-	CompleteResultNotification
+	CompleteResultNotificationAlert
 } from '../models';
-import { ALERTS } from './constants';
 
 /** A reduce function to extrace `MatchEndpoint`s */
 const extractMatchEndpoints = (acc: MatchEndpoint[], curr: Match): MatchEndpoint[] => {
@@ -349,15 +348,14 @@ export const processSourceText = (
 /**
  * This function will process notifications and generate a list of match intervals that will help
  * highlight the source text.
- * @param notifications the scan source
  * @param source the scan source
+ * @param alertToMatch alert to process
  */
 export const processSuspectedCharacterMatches = (
-	notifications: CompleteResultNotification,
-	source: ScanSource
+	source: ScanSource,
+	alertToMatch: CompleteResultNotificationAlert
 ): SlicedMatch[][] => {
 	const matches: Match[] = [];
-	const alertToMatch = notifications.alerts.find(alert => alert.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE);
 	const data: {
 		starts: number[]
 		lengths: number[]
@@ -367,7 +365,7 @@ export const processSuspectedCharacterMatches = (
 			matches.push({
 				start: data.starts[i],
 				end: data.starts[i] + data.lengths[i],
-				type: MatchType.identical,
+				type: MatchType.suspectedCharacterReplacement,
 				ids: []
 			});
 		}

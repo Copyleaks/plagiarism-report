@@ -5,6 +5,7 @@ import { ReportService } from '../../services/report.service';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { filter } from 'rxjs/operators';
 import { CompleteResultNotificationAlertSeverity } from '../../models';
+import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
 @Component({
 	selector: 'cr-notifications',
 	templateUrl: './notifications.component.html',
@@ -13,7 +14,10 @@ import { CompleteResultNotificationAlertSeverity } from '../../models';
 export class NotificationsComponent implements OnInit, OnDestroy {
 	public severity: CompleteResultNotificationAlertSeverity;
 	public severities = CompleteResultNotificationAlertSeverity;
-	constructor(private matDialog: MatDialog, private reportService: ReportService) { }
+	constructor(
+		private matDialog: MatDialog,
+		private viewModeService: ViewModeService,
+		private reportService: ReportService) { }
 	/**
 	 * Life-cycle method
 	 */
@@ -37,6 +41,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			maxWidth: '500px',
 			data: this.reportService,
 		});
+	}
+	/**
+	 * change view to alerts view
+	 */
+	changeViewToAlerts() {
+		this.reportService.configure({ viewMode: 'one-to-many' });
+		this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
 	}
 	/**
 	 * Life-cycle method

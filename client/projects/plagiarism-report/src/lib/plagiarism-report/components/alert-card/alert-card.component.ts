@@ -1,7 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { filter, take } from 'rxjs/operators';
+import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CompleteResultNotificationAlert, CompleteResultNotificationAlertSeverity, MatchType } from '../../models';
+import { HighlightService } from '../../services/highlight.service';
 import { MatchService } from '../../services/match.service';
+import { ReportService } from '../../services/report.service';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
 import { ALERTS } from '../../utils/constants';
 
@@ -10,7 +13,7 @@ import { ALERTS } from '../../utils/constants';
 	templateUrl: './alert-card.component.html',
 	styleUrls: ['./alert-card.component.scss']
 })
-export class AlertCardComponent {
+export class AlertCardComponent implements OnDestroy {
 	@Input() alert: CompleteResultNotificationAlert;
 	@Output() afterToggleError = new EventEmitter();
 	severity = CompleteResultNotificationAlertSeverity;
@@ -18,26 +21,45 @@ export class AlertCardComponent {
 	get isSelected() {
 		return this.viewModeService?.selectedAlert?.code === this.alert?.code;
 	}
-	constructor(private matchService: MatchService, private viewModeService: ViewModeService) { }
+	constructor(
+		private viewModeService: ViewModeService,
+		private highlightService: HighlightService,
+		private reportService: ReportService,
+		private matchsService: MatchService) { }
 	/**
-	 * this function will change the view of the report depanding on the selected alert
+	 * this function will select an alert
 	 */
-	toggleError(alert: CompleteResultNotificationAlert) {
+	toggleAlertPreview(alert: CompleteResultNotificationAlert) {
 		if (this.isSelected) {
-			this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
+			this.viewModeService.selectedAlert = null;
 		} else {
 			this.viewModeService.selectedAlert = alert;
-			if (alert.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE) {
-				this.matchService.originalTextMatches$
-					.pipe(take(1))
-					.subscribe(text => {
-						const sourcePage = text.findIndex(r => r.filter(s => s.match.type !== MatchType.none).length) + 1
-						this.viewModeService.changeViewMode$(EReportViewModel.SuspectedCharacterReplacement, sourcePage);
-					})
+		}
+		this.reportService.configure({ contentMode: 'text' });
+		setTimeout(() => {
+			this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
+
+			this.matchsService.originalTextMatches$.
+				pipe(
+					untilDestroy(this),
+					take(1),
+					filter(m =>
+						m.filter(mat =>
+							mat.filter(match => match.match.type !== MatchType.none).length !== 0
+						).length !== 0
+					)
+				).subscribe(_ => {
+					this.highlightService.jump(true);
+				})
+
+			if (this.afterToggleError) {
+				this.afterToggleError.emit();
 			}
-		}
-		if (this.afterToggleError) {
-			this.afterToggleError.emit();
-		}
+		}, 100);
 	}
+	/**
+	 * life cycel method
+	 * required for untilDestored
+	 */
+	ngOnDestroy() { }
 }

@@ -1,6 +1,6 @@
 <ng-container *ngIf="severity">
 	<div matRipple
-			 (click)="showNotificationsDialog()"
+			 (click)="changeViewToAlerts()"
 			 class="btn-notifications-new"
 			 [ngClass]="{
 			'btn-notifications-error': severity == severities.High || severity == severities.VeryHigh,

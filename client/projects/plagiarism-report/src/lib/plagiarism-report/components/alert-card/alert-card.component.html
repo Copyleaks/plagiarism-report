@@ -1,12 +1,13 @@
 <div class="alert-card"
 		 [style.padding-bottom]="!alert?.helpLink ? '16px' : ''"
-		 [ngClass]="{
-'alert-card-error': alert.severity === severity.High || alert.severity === severity.VeryHigh,
-'alert-card-warning': alert.severity === severity.Medium
-}"
 		 fxLayout="column"
+		 [ngClass]="{
+			'alert-card-error': alert.severity === severity.High || alert.severity === severity.VeryHigh,
+			'alert-card-warning': alert.severity === severity.Medium
+			}"
 		 fxLayoutGap="10px">
 	<div fxLayout="row"
+			 class="alert-card-header"
 			 fxLayoutAlign="start center"
 			 fxLayoutGap="10px">
 		<ng-container [ngSwitch]="alert.severity">
@@ -15,7 +16,7 @@
 			<mat-icon *ngSwitchCase="severity.VeryHigh">error</mat-icon>
 			<mat-icon *ngSwitchDefault>info</mat-icon>
 		</ng-container>
-		<div class="alert-card-header">
+		<div>
 			<div class="card-header-title">{{ alert.title }}</div>
 			<ng-container [ngSwitch]="alert.severity">
 				<p class="card-header-description"
@@ -39,22 +40,27 @@
 	<div class="actions"
 			 *ngIf="alert.helpLink || alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
 
-		<button mat-button
-						(click)="toggleError(alert)"
-						*ngIf="alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE"
-						color='primary'>
-			<ng-container *ngIf="isSelected">
-				Hide Error
-			</ng-container>
-			<ng-container *ngIf="!isSelected">
-				View Error
-			</ng-container>
-		</button>
+		<ng-container *ngIf="alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
+			<button mat-stroked-button
+							*ngIf="!isSelected"
+							style="font-weight: bolder;"
+							(click)="toggleAlertPreview(alert)">
+				<mat-icon>visibility</mat-icon>
+				Preview
+			</button>
+			<button mat-raised-button
+							*ngIf="isSelected"
+							color='primary'
+							(click)="toggleAlertPreview(alert)">
+				<mat-icon>visibility_off</mat-icon>
+				Stop preview
+			</button>
+		</ng-container>
 
-		<a mat-button
+		<a mat-stroked-button
 			 target="_blank"
 			 *ngIf="alert.helpLink"
-			 [href]="alert.helpLink">Read More</a>
+			 [href]="alert.helpLink">Learn more</a>
 	</div>
 
 </div>

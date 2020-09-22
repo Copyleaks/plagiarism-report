@@ -12,6 +12,7 @@ import { OptionsDialogComponent } from '../options-dialog/options-dialog.compone
 import { DEFAULT_TEXT_CONFIG } from '../../utils/constants';
 import { take } from 'rxjs/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
+import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
 
 @Component({
 	selector: 'cr-properties',
@@ -53,11 +54,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		// @Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		// public messages: CopyleaksTextConfig,
 		private reportService: ReportService,
+		private viewModeService: ViewModeService,
 		private layoutService: LayoutMediaQueryService,
 		private dialogService: MatDialog,
 		private statistics: StatisticsService,
 		private translationsService: CopyleaksTranslateService
-	) {}
+	) { }
 
 	get isScanning() {
 		return this.progress && (this.progress >= 0 || this.progress < 100);
@@ -86,6 +88,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		return 'high';
 	}
 
+	get isAlertsView() {
+		return this.viewModeService?.reportViewMode$?.value === EReportViewModel.Alerts;
+	}
+
 	get isShowingPartialStats() {
 		if (!this.options || !this.stats) {
 			return false;
@@ -100,6 +106,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * this function will move to scanning result view mode
+	 */
+	showScanningResult() {
+		this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
 	}
 
 	/**
@@ -221,5 +234,5 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

@@ -41,6 +41,9 @@ export enum MatchType {
 	minorChanges = 1,
 	relatedMeaning = 2,
 	none = 3,
+
+	// custom
+	suspectedCharacterReplacement = 100
 }
 
 /**

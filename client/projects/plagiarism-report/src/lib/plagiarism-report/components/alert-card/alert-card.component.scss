@@ -2,15 +2,14 @@
 	padding: 16px 16px 6px;
 	border-top: 3px solid #17a1ff;
 	box-shadow: 0px 1px 2px rgb(0 0 0 / 31%);
-	mat-icon {
-		color: #17a1ff;
-		font-size: 45px;
-		width: 45px;
-		height: 45px;
-		line-height: 45px;
-	}
-
 	.alert-card-header {
+		mat-icon {
+			color: #17a1ff;
+			font-size: 45px;
+			width: 45px;
+			height: 45px;
+			line-height: 45px;
+		}
 		.card-header-title {
 			margin-bottom: 5px;
 			font-size: 17px;
@@ -24,22 +23,24 @@
 		}
 	}
 }
+
 .alert-card-error {
-	border-color: red;
-	mat-icon {
-		color: red;
+	border-color: red !important;
+	.alert-card-header mat-icon {
+		color: red !important;
 	}
 }
 .alert-card-warning {
-	border-color: orange;
-	mat-icon {
-		color: orange;
+	border-color: orange !important;
+	.alert-card-header mat-icon {
+		color: orange !important;
 	}
 }
 
 .actions {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
+	gap: 10px;
 	a {
 		padding: 0 10px;
 		font-weight: bold;

@@ -13,7 +13,7 @@ export class MatchComponent implements AfterContentInit {
 		public element: ElementRef<HTMLElement>,
 		private renderer: Renderer2,
 		private highlightService: HighlightService
-	) {}
+	) { }
 
 	// tslint:disable-next-line:no-input-rename
 	@Input('cr-match')

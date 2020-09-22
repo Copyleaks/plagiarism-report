@@ -1,0 +1,36 @@
+<cr-panel>
+	<cr-panel-header>
+		Alerts
+	</cr-panel-header>
+	<cr-panel-actions>
+		<cr-panel-action>
+			<button mat-button
+							matTooltip='Close alerts'
+							(click)="hideAlerts()">
+				<mat-icon>close</mat-icon>
+			</button>
+			<!-- <cr-panel-action *ngIf="isMobile">
+				<button mat-button
+								[disabled]="!previews"
+								(click)="isActive = !isActive">
+					<mat-icon>{{ isActive ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
+				</button>
+			</cr-panel-action> -->
+		</cr-panel-action>
+	</cr-panel-actions>
+	<cr-panel-body fxLayout="column"
+								 fxFlex="100">
+		<div fxFlex
+				 fxLayout='column'
+				 fxLayoutGap='15px'
+				 class="alerts-container">
+			<ng-container *ngFor="let alert of notification?.alerts">
+				<cr-alert-card [ngClass]="{'alert-opacity':selectedAlert && selectedAlert.code !== alert.code}"
+											 [alert]='alert'></cr-alert-card>
+			</ng-container>
+		</div>
+		<div class="powered-by-section">
+			<cr-powered-by></cr-powered-by>
+		</div>
+	</cr-panel-body>
+</cr-panel>

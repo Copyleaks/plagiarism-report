@@ -1,6 +1,3 @@
-<button mat-raised-button
-				color='warn'
-				(click)='toggleViewMode()'>Toggle View</button>
 <cr-properties *ngIf="!hasResultsOverlay"></cr-properties>
 <div main-wrapper
 		 fxLayout="row nowrap"
@@ -11,7 +8,7 @@
 		<cr-suspect [fxShow]="isOneToOne"></cr-suspect>
 		<cr-results [fxShow]="isOneToMany"></cr-results>
 	</ng-container>
-	<ng-container *ngIf="reportViewMode == eReportViewModel.SuspectedCharacterReplacement">
-		<cr-selected-alert [fxShow]=''></cr-selected-alert>
+	<ng-container *ngIf="reportViewMode == eReportViewModel.Alerts">
+		<cr-alerts></cr-alerts>
 	</ng-container>
 </div>

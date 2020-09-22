@@ -26,7 +26,8 @@
 										 *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md>
+		<cr-panel-action fxHide.lt-md
+										 *ngIf="!AlertPreviewViewMode">
 			<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
 		</cr-panel-action>
 		<cr-panel-action fxHide.gt-sm
@@ -200,6 +201,7 @@
 </ng-template>
 <ng-template #menu__toggle_content>
 	<button mat-button
+					*ngIf="!AlertPreviewViewMode"
 					[matTooltip]="
 			isHtml
 				? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'

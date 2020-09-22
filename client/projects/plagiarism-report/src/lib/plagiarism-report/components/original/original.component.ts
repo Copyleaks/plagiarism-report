@@ -8,11 +8,12 @@ import { LayoutMediaQueryService } from '../../services/layout-media-query.servi
 import { MatchService } from '../../services/match.service';
 import { ReportService } from '../../services/report.service';
 import { fadeIn } from '../../utils/animations';
-import { EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
+import { ALERTS, EXCLUDE_MESSAGE, MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { MatchComponent } from '../match/match.component';
 
 import { switchMapTo, distinctUntilChanged } from 'rxjs/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
+import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
 
 @Component({
 	selector: 'cr-original',
@@ -25,10 +26,11 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
+		private viewModeService: ViewModeService,
 		private matchService: MatchService,
 		private highlightService: HighlightService,
 		private translationService: CopyleaksTranslateService
-	) {}
+	) { }
 	get pages(): number[] {
 		return this.source && this.source.text.pages.startPosition;
 	}
@@ -88,6 +90,13 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		return this.source && this.source.html && !!this.source.html.value;
 	}
 
+	/**
+	 * `true` if the view mode is alert
+	 */
+	get AlertPreviewViewMode() {
+		return this.viewModeService?.reportViewMode$?.value === EReportViewModel.Alerts &&
+			this.viewModeService?.selectedAlert?.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE;
+	}
 	/**
 	 * updates the font size of the suspect text.
 	 * @param amount a decimal number between 0.5 and 4
@@ -172,5 +181,5 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

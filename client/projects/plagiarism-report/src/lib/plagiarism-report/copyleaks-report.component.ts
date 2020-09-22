@@ -81,16 +81,6 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 			.pipe(untilDestroy(this)).subscribe(viewMode => (this.reportViewMode = viewMode));
 	}
 
-	// tslint:disable-next-line: completed-docs
-	toggleViewMode() {
-		const viewMode = this.viewModeService.reportViewMode$.value;
-		if (viewMode === EReportViewModel.ScanningResult) {
-			this.viewModeService.changeViewMode$(EReportViewModel.SuspectedCharacterReplacement)
-		} else {
-			this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult)
-		}
-	}
-
 	/**
 	 * Life-cycle method
 	 * Handles `changes` for input properties
