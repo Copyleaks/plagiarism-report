@@ -1,4 +1,4 @@
-@import "../../../styles";
+@import '../../../styles';
 
 :host {
 	cursor: pointer;
@@ -13,7 +13,7 @@
 	}
 }
 
-span[class*="cr-m-"] {
+span[class*='cr-m-'] {
 	cursor: pointer;
 
 	&.cr-m-1 {

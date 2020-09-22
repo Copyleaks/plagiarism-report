@@ -11,7 +11,7 @@ import {
 	SlicedMatch,
 	SubjectResultKey,
 	CopyleaksReportOptions,
-	CompleteResultNotificationAlert
+	CompleteResultNotificationAlert,
 } from '../models';
 
 /** A reduce function to extrace `MatchEndpoint`s */
@@ -357,8 +357,8 @@ export const processSuspectedCharacterMatches = (
 ): SlicedMatch[][] => {
 	const matches: Match[] = [];
 	const data: {
-		starts: number[]
-		lengths: number[]
+		starts: number[];
+		lengths: number[];
 	} = JSON.parse(alertToMatch.additionalData);
 	if (data && data.starts && data.lengths) {
 		for (let i = 0; i < data.starts.length; i++) {
@@ -366,14 +366,14 @@ export const processSuspectedCharacterMatches = (
 				start: data.starts[i],
 				end: data.starts[i] + data.lengths[i],
 				type: MatchType.suspectedCharacterReplacement,
-				ids: []
+				ids: [],
 			});
 		}
 	}
 
 	const grouped = matches;
 	const filled = fillMissingGaps(grouped, source.text.value.length);
-	return paginateMatches(source.text.value, source.text.pages.startPosition, filled);;
+	return paginateMatches(source.text.value, source.text.pages.startPosition, filled);
 };
 
 /**

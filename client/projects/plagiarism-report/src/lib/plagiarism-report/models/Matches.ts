@@ -43,7 +43,7 @@ export enum MatchType {
 	none = 3,
 
 	// custom
-	suspectedCharacterReplacement = 100
+	suspectedCharacterReplacement = 100,
 }
 
 /**

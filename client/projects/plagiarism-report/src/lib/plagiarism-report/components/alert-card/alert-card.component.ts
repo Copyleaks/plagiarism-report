@@ -11,7 +11,7 @@ import { ALERTS } from '../../utils/constants';
 @Component({
 	selector: 'cr-alert-card',
 	templateUrl: './alert-card.component.html',
-	styleUrls: ['./alert-card.component.scss']
+	styleUrls: ['./alert-card.component.scss'],
 })
 export class AlertCardComponent implements OnDestroy {
 	@Input() alert: CompleteResultNotificationAlert;
@@ -25,7 +25,8 @@ export class AlertCardComponent implements OnDestroy {
 		private viewModeService: ViewModeService,
 		private highlightService: HighlightService,
 		private reportService: ReportService,
-		private matchsService: MatchService) { }
+		private matchsService: MatchService
+	) {}
 	/**
 	 * this function will select an alert
 	 */
@@ -39,18 +40,17 @@ export class AlertCardComponent implements OnDestroy {
 		setTimeout(() => {
 			this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
 
-			this.matchsService.originalTextMatches$.
-				pipe(
+			this.matchsService.originalTextMatches$
+				.pipe(
 					untilDestroy(this),
 					take(1),
-					filter(m =>
-						m.filter(mat =>
-							mat.filter(match => match.match.type !== MatchType.none).length !== 0
-						).length !== 0
+					filter(
+						m => m.filter(mat => mat.filter(match => match.match.type !== MatchType.none).length !== 0).length !== 0
 					)
-				).subscribe(_ => {
+				)
+				.subscribe(_ => {
 					this.highlightService.jump(true);
-				})
+				});
 
 			if (this.afterToggleError) {
 				this.afterToggleError.emit();
@@ -61,5 +61,5 @@ export class AlertCardComponent implements OnDestroy {
 	 * life cycel method
 	 * required for untilDestored
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

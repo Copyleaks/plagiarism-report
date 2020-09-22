@@ -52,10 +52,9 @@ export class MatchService implements OnDestroy {
 				if (viewMode === EReportViewModel.Alerts) {
 					this.processAlertMatches(options, source);
 				} else {
-					this.processOneToManyMatches(results, options, source)
+					this.processOneToManyMatches(results, options, source);
 				}
-			}
-			);
+			});
 	}
 
 	private get onSourceFirstTextMode$() {
@@ -230,9 +229,7 @@ export class MatchService implements OnDestroy {
 	 * @param settings the report settings
 	 * @param source  the scan source
 	 */
-	private processAlertMatches(
-		settings: CopyleaksReportOptions,
-		source: ScanSource) {
+	private processAlertMatches(settings: CopyleaksReportOptions, source: ScanSource) {
 		this.onSourceFirstTextMode$.subscribe(() => {
 			let text: SlicedMatch[][];
 			if (this.viewModeService?.selectedAlert?.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE) {

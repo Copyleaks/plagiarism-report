@@ -21,7 +21,7 @@ import { EReportViewModel, ViewModeService } from './services/view-mode.service'
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
 	styleUrls: ['./copyleaks-report.component.scss'],
-	animations: []
+	animations: [],
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	@HostBinding('class.mat-typography')
@@ -78,7 +78,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		this.hasResultsOverlay = !!this.config && !!this.config.resultsOverlayComponent;
 
 		this.viewModeService.reportViewMode$
-			.pipe(untilDestroy(this)).subscribe(viewMode => (this.reportViewMode = viewMode));
+			.pipe(untilDestroy(this))
+			.subscribe(viewMode => (this.reportViewMode = viewMode));
 	}
 
 	/**
@@ -97,5 +98,5 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

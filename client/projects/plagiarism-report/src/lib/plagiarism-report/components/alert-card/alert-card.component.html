@@ -1,15 +1,14 @@
-<div class="alert-card"
-		 [style.padding-bottom]="!alert?.helpLink ? '16px' : ''"
-		 fxLayout="column"
-		 [ngClass]="{
-			'alert-card-error': alert.severity === severity.High || alert.severity === severity.VeryHigh,
-			'alert-card-warning': alert.severity === severity.Medium
-			}"
-		 fxLayoutGap="10px">
-	<div fxLayout="row"
-			 class="alert-card-header"
-			 fxLayoutAlign="start center"
-			 fxLayoutGap="10px">
+<div
+	class="alert-card"
+	[style.padding-bottom]="!alert?.helpLink ? '16px' : ''"
+	fxLayout="column"
+	[ngClass]="{
+		'alert-card-error': alert.severity === severity.High || alert.severity === severity.VeryHigh,
+		'alert-card-warning': alert.severity === severity.Medium
+	}"
+	fxLayoutGap="10px"
+>
+	<div fxLayout="row" class="alert-card-header" fxLayoutAlign="start center" fxLayoutGap="10px">
 		<ng-container [ngSwitch]="alert.severity">
 			<mat-icon *ngSwitchCase="severity.Medium">warning</mat-icon>
 			<mat-icon *ngSwitchCase="severity.High">error</mat-icon>
@@ -19,16 +18,11 @@
 		<div>
 			<div class="card-header-title">{{ alert.title }}</div>
 			<ng-container [ngSwitch]="alert.severity">
-				<p class="card-header-description"
-					 *ngSwitchCase="severity.VeryLow">Very Low</p>
-				<p class="card-header-description"
-					 *ngSwitchCase="severity.Low">Low</p>
-				<p class="card-header-description"
-					 *ngSwitchCase="severity.Medium">Medium</p>
-				<p class="card-header-description"
-					 *ngSwitchCase="severity.High">High</p>
-				<p class="card-header-description"
-					 *ngSwitchCase="severity.VeryHigh">Very High</p>
+				<p class="card-header-description" *ngSwitchCase="severity.VeryLow">Very Low</p>
+				<p class="card-header-description" *ngSwitchCase="severity.Low">Low</p>
+				<p class="card-header-description" *ngSwitchCase="severity.Medium">Medium</p>
+				<p class="card-header-description" *ngSwitchCase="severity.High">High</p>
+				<p class="card-header-description" *ngSwitchCase="severity.VeryHigh">Very High</p>
 			</ng-container>
 		</div>
 	</div>
@@ -37,30 +31,18 @@
 		{{ alert.message }}
 	</div>
 
-	<div class="actions"
-			 *ngIf="alert.helpLink || alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
-
+	<div class="actions" *ngIf="alert.helpLink || alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
 		<ng-container *ngIf="alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
-			<button mat-stroked-button
-							*ngIf="!isSelected"
-							style="font-weight: bolder;"
-							(click)="toggleAlertPreview(alert)">
+			<button mat-stroked-button *ngIf="!isSelected" style="font-weight: bolder;" (click)="toggleAlertPreview(alert)">
 				<mat-icon>visibility</mat-icon>
 				Preview
 			</button>
-			<button mat-raised-button
-							*ngIf="isSelected"
-							color='primary'
-							(click)="toggleAlertPreview(alert)">
+			<button mat-raised-button *ngIf="isSelected" color="primary" (click)="toggleAlertPreview(alert)">
 				<mat-icon>visibility_off</mat-icon>
 				Stop preview
 			</button>
 		</ng-container>
 
-		<a mat-stroked-button
-			 target="_blank"
-			 *ngIf="alert.helpLink"
-			 [href]="alert.helpLink">Learn more</a>
+		<a mat-stroked-button target="_blank" *ngIf="alert.helpLink" [href]="alert.helpLink">Learn more</a>
 	</div>
-
 </div>

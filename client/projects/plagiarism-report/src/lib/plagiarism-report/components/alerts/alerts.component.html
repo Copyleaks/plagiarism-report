@@ -4,9 +4,7 @@
 	</cr-panel-header>
 	<cr-panel-actions>
 		<cr-panel-action>
-			<button mat-button
-							matTooltip='Close alerts'
-							(click)="hideAlerts()">
+			<button mat-button matTooltip="Close alerts" (click)="hideAlerts()">
 				<mat-icon>close</mat-icon>
 			</button>
 			<!-- <cr-panel-action *ngIf="isMobile">
@@ -18,15 +16,13 @@
 			</cr-panel-action> -->
 		</cr-panel-action>
 	</cr-panel-actions>
-	<cr-panel-body fxLayout="column"
-								 fxFlex="100">
-		<div fxFlex
-				 fxLayout='column'
-				 fxLayoutGap='15px'
-				 class="alerts-container">
+	<cr-panel-body fxLayout="column" fxFlex="100">
+		<div fxFlex fxLayout="column" fxLayoutGap="15px" class="alerts-container">
 			<ng-container *ngFor="let alert of notification?.alerts">
-				<cr-alert-card [ngClass]="{'alert-opacity':selectedAlert && selectedAlert.code !== alert.code}"
-											 [alert]='alert'></cr-alert-card>
+				<cr-alert-card
+					[ngClass]="{ 'alert-opacity': selectedAlert && selectedAlert.code !== alert.code }"
+					[alert]="alert"
+				></cr-alert-card>
 			</ng-container>
 		</div>
 		<div class="powered-by-section">

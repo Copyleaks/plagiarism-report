@@ -33,10 +33,10 @@ import { MatPaginationModule } from '../mat-pagination/mat-pagination.module';
 import { PoweredByComponent } from './components/powered-by/powered-by.component';
 
 import {
-  DEFAULT_REPORT_CONFIG,
-  COPYLEAKS_CONFIG_INJECTION_TOKEN,
-  COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN,
-  DEFAULT_TEXT_CONFIG,
+	DEFAULT_REPORT_CONFIG,
+	COPYLEAKS_CONFIG_INJECTION_TOKEN,
+	COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN,
+	DEFAULT_TEXT_CONFIG,
 } from './utils/constants';
 import { CopyleaksReportConfig } from './models';
 import { OriginalHtmlHelperComponent } from './components/html-helpers/original-html-helper.component';
@@ -61,105 +61,105 @@ import { StatisticsService } from './services/statistics.service';
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { AlertCardComponent } from './components/alert-card/alert-card.component';
 @NgModule({
-  declarations: [
-    CopyleaksReportComponent,
-    PropertiesComponent,
-    ResultsComponent,
-    OriginalComponent,
-    ResultCardComponent,
-    SuspectComponent,
-    OptionsDialogComponent,
-    ResultsFilterDialogComponent,
-    PoweredByComponent,
-    MatchComponent,
-    OriginalHtmlHelperComponent,
-    SourceHtmlHelperComponent,
-    SuspectHtmlHelperComponent,
-    OriginalTextHelperDirective,
-    SourceTextHelperDirective,
-    SuspectTextHelperDirective,
-    PlagiarismFreeComponent,
-    NotificationsComponent,
-    NotificationsDialogComponent,
-    AlertsComponent,
-    AlertCardComponent
-  ],
-  imports: [
-    CommonModule,
-    PanelModule,
-    SharedModule,
-    ExpansionPanelModule,
-    MatIconModule,
-    FormsModule,
-    MatDividerModule,
-    MatButtonModule,
-    FlexLayoutModule,
-    ChartCommonModule,
-    PieChartModule,
-    SatPopoverModule,
-    MatTooltipModule,
-    MatDialogModule,
-    MatInputModule,
-    MatMenuModule,
-    MatListModule,
-    MatCheckboxModule,
-    MatSlideToggleModule,
-    MatPaginatorModule,
-    MatRippleModule,
-    NgxSkeletonLoaderModule,
-    MatPaginationModule,
-    MatProgressSpinnerModule,
-    VirtualScrollerModule,
-  ],
-  providers: [
-    // local services
-    ReportService,
-    StatisticsService,
-    MatchService,
-    HighlightService,
-    ViewModeService,
+	declarations: [
+		CopyleaksReportComponent,
+		PropertiesComponent,
+		ResultsComponent,
+		OriginalComponent,
+		ResultCardComponent,
+		SuspectComponent,
+		OptionsDialogComponent,
+		ResultsFilterDialogComponent,
+		PoweredByComponent,
+		MatchComponent,
+		OriginalHtmlHelperComponent,
+		SourceHtmlHelperComponent,
+		SuspectHtmlHelperComponent,
+		OriginalTextHelperDirective,
+		SourceTextHelperDirective,
+		SuspectTextHelperDirective,
+		PlagiarismFreeComponent,
+		NotificationsComponent,
+		NotificationsDialogComponent,
+		AlertsComponent,
+		AlertCardComponent,
+	],
+	imports: [
+		CommonModule,
+		PanelModule,
+		SharedModule,
+		ExpansionPanelModule,
+		MatIconModule,
+		FormsModule,
+		MatDividerModule,
+		MatButtonModule,
+		FlexLayoutModule,
+		ChartCommonModule,
+		PieChartModule,
+		SatPopoverModule,
+		MatTooltipModule,
+		MatDialogModule,
+		MatInputModule,
+		MatMenuModule,
+		MatListModule,
+		MatCheckboxModule,
+		MatSlideToggleModule,
+		MatPaginatorModule,
+		MatRippleModule,
+		NgxSkeletonLoaderModule,
+		MatPaginationModule,
+		MatProgressSpinnerModule,
+		VirtualScrollerModule,
+	],
+	providers: [
+		// local services
+		ReportService,
+		StatisticsService,
+		MatchService,
+		HighlightService,
+		ViewModeService,
 
-    CopyleaksService,
-    CopyleaksTranslateService,
-    { provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
-    { provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
-  ],
-  entryComponents: [OptionsDialogComponent, ResultsFilterDialogComponent, NotificationsDialogComponent],
-  exports: [CopyleaksReportComponent],
+		CopyleaksService,
+		CopyleaksTranslateService,
+		{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
+		{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
+	],
+	entryComponents: [OptionsDialogComponent, ResultsFilterDialogComponent, NotificationsDialogComponent],
+	exports: [CopyleaksReportComponent],
 })
 export class CopyleaksReportModule {
-  /**
-   * Modify the config that is added to the root module providers
-   * @param config the modified report config
-   * @param textConfig config containing custom text messages
-   */
-  static forRoot(
-    config = {} as CopyleaksReportConfig,
-    textConfig = {} as CopyleaksTextConfig
-  ): ModuleWithProviders<CopyleaksReportModule> {
-    return {
-      ngModule: CopyleaksReportModule,
-      providers: [
-        { provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
-        { provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
-      ],
-    } as ModuleWithProviders<CopyleaksReportModule>;
-  }
+	/**
+	 * Modify the config that is added to the root module providers
+	 * @param config the modified report config
+	 * @param textConfig config containing custom text messages
+	 */
+	static forRoot(
+		config = {} as CopyleaksReportConfig,
+		textConfig = {} as CopyleaksTextConfig
+	): ModuleWithProviders<CopyleaksReportModule> {
+		return {
+			ngModule: CopyleaksReportModule,
+			providers: [
+				{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
+				{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
+			],
+		} as ModuleWithProviders<CopyleaksReportModule>;
+	}
 
-  /**
-   * Modify the config that is added to the child module providers
-   * @param config the modified config
-   */
-  static forChild(
-    config = {} as CopyleaksReportConfig,
-    textConfig = {} as CopyleaksTextConfig
-  ): ModuleWithProviders<CopyleaksReportModule> {
-    return {
-      ngModule: CopyleaksReportModule,
-      providers: [
-        { provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
-        { provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
-      ],
-    } as ModuleWithProviders<CopyleaksReportModule>;
-  }
+	/**
+	 * Modify the config that is added to the child module providers
+	 * @param config the modified config
+	 */
+	static forChild(
+		config = {} as CopyleaksReportConfig,
+		textConfig = {} as CopyleaksTextConfig
+	): ModuleWithProviders<CopyleaksReportModule> {
+		return {
+			ngModule: CopyleaksReportModule,
+			providers: [
+				{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG, ...config } },
+				{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG, ...textConfig } },
+			],
+		} as ModuleWithProviders<CopyleaksReportModule>;
+	}
 }

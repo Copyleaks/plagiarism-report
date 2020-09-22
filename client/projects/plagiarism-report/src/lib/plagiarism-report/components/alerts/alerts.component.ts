@@ -8,17 +8,14 @@ import { EReportViewModel, ViewModeService } from '../../services/view-mode.serv
 @Component({
 	selector: 'cr-alerts',
 	templateUrl: './alerts.component.html',
-	styleUrls: ['./alerts.component.scss']
+	styleUrls: ['./alerts.component.scss'],
 })
 export class AlertsComponent implements OnInit, OnDestroy {
 	notification: CompleteResultNotification;
 	get selectedAlert() {
 		return this.viewModeService?.selectedAlert;
 	}
-	constructor(
-		private reportService: ReportService,
-		private viewModeService: ViewModeService
-	) { }
+	constructor(private reportService: ReportService, private viewModeService: ViewModeService) {}
 	/**
 	 * Life-cycle method
 	 */
@@ -41,6 +38,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
 	/**
 	 * Life-cycle method
 	 * required by untilDestory
-		*/
-	ngOnDestroy() { }
+	 */
+	ngOnDestroy() {}
 }

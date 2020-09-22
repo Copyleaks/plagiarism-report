@@ -24,7 +24,7 @@ export abstract class HtmlHelperBase {
 	constructor(
 		protected renderer: Renderer2,
 		protected element: ElementRef<HTMLIFrameElement>,
-		protected translateService?: CopyleaksTranslateService,
+		protected translateService?: CopyleaksTranslateService
 	) {
 		const css = renderer.createElement('style') as HTMLStyleElement;
 		css.textContent = iframeStyle;

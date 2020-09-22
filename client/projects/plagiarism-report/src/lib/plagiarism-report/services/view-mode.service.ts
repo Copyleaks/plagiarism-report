@@ -4,7 +4,7 @@ import { CompleteResultNotificationAlert } from '../models';
 
 export enum EReportViewModel {
 	ScanningResult,
-	Alerts
+	Alerts,
 }
 
 @Injectable()
@@ -20,7 +20,7 @@ export class ViewModeService {
 	set selectedAlert(alert: CompleteResultNotificationAlert) {
 		this._selectedAlert = alert;
 	}
-	constructor() { }
+	constructor() {}
 	/**
 	 * change the view of the report
 	 * @param mode view mode
