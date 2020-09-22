@@ -15,13 +15,23 @@ import { version } from '../report-version.json';
 import { untilDestroy } from '../shared/operators/untilDestroy';
 import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
 import { CopyleaksService } from './services/copyleaks.service';
+import { HighlightService } from './services/highlight.service';
+import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
+import { StatisticsService } from './services/statistics.service';
 import { EReportViewModel, ViewModeService } from './services/view-mode.service';
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
 	styleUrls: ['./copyleaks-report.component.scss'],
 	animations: [],
+	providers: [
+		ReportService,
+		StatisticsService,
+		MatchService,
+		HighlightService,
+		ViewModeService,
+	]
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	@HostBinding('class.mat-typography')
@@ -98,5 +108,5 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

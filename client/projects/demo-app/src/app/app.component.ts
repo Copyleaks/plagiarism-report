@@ -8,7 +8,7 @@ enum EViewMode { Dashboard, Fullscreen }
 })
 export class AppComponent implements OnInit {
 	eViewMode = EViewMode;
-	viewMode = EViewMode.Fullscreen;
+	viewMode = EViewMode.Dashboard;
 	constructor() { }
 	ngOnInit() { }
 }

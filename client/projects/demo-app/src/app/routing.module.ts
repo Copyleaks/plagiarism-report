@@ -12,6 +12,10 @@ const routes: Routes = [
 		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
+		path: 'main',
+		loadChildren: () => import(`./pages/main-page/main-page-routing.module`).then(mod => mod.MainPageRoutingModule),
+	},
+	{
 		path: '',
 		pathMatch: 'full',
 		redirectTo: 'demo1/default',
