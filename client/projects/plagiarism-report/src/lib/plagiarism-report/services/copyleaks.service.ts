@@ -68,7 +68,9 @@ export class CopyleaksService {
 		if (!this.isNewResult(result)) {
 			throw new Error(NEW_RESULT_VALIDATION_ERROR);
 		}
-		this._preview$.next(result.internet[0] || result.database[0] || result.batch[0] || result.repositories[0]);
+		[...result.internet, ...result.database, ...result.batch, ...result.repositories].forEach(prev => {
+			this._preview$.next(prev);
+		})
 	}
 
 	/**
