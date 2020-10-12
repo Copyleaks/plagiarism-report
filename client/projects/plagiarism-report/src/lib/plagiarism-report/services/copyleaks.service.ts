@@ -70,7 +70,7 @@ export class CopyleaksService {
 		}
 		[...result.internet, ...result.database, ...result.batch, ...result.repositories].forEach(prev => {
 			this._preview$.next(prev);
-		})
+		});
 	}
 
 	/**
