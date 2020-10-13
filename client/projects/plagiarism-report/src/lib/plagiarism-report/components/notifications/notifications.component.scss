@@ -12,6 +12,10 @@
 		font-size: 30px;
 		top: 0px;
 	}
+	&.btn-enabled {
+		background-color: #17a1ff;
+		color: white;
+	}
 }
 .btn-notifications-error {
 	border: 1px solid red;
@@ -22,6 +26,10 @@
 		font-size: 30px;
 		top: 0px;
 	}
+	&.btn-enabled {
+		background-color: red;
+		color: white;
+	}
 }
 .btn-notifications-warning {
 	border: 1px solid orange;
@@ -31,5 +39,9 @@
 		left: 7px;
 		font-size: 27px;
 		top: 1px;
+	}
+	&.btn-enabled {
+		background-color: orange;
+		color: white;
 	}
 }

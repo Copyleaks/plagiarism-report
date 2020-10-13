@@ -1,0 +1,17 @@
+:host {
+	display: flex;
+	flex-flow: column nowrap;
+	place-items: center center;
+}
+img {
+	width: 50%;
+}
+label {
+	margin-top: -1em;
+	font-size: 1.5em;
+}
+
+.notification-section {
+	margin-top: 10px;
+	font-weight: bolder;
+}

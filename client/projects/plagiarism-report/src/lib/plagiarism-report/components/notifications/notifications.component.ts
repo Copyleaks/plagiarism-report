@@ -6,6 +6,7 @@ import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { filter } from 'rxjs/operators';
 import { CompleteResultNotificationAlertSeverity } from '../../models';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
+import { BehaviorSubject } from 'rxjs';
 @Component({
 	selector: 'cr-notifications',
 	templateUrl: './notifications.component.html',
@@ -14,15 +15,18 @@ import { EReportViewModel, ViewModeService } from '../../services/view-mode.serv
 export class NotificationsComponent implements OnInit, OnDestroy {
 	public severity: CompleteResultNotificationAlertSeverity;
 	public severities = CompleteResultNotificationAlertSeverity;
+	public currentViewMode$: BehaviorSubject<EReportViewModel>;
+	public eReportViewModel = EReportViewModel;
 	constructor(
 		private matDialog: MatDialog,
 		private viewModeService: ViewModeService,
 		private reportService: ReportService
-	) {}
+	) { }
 	/**
 	 * Life-cycle method
 	 */
 	ngOnInit() {
+		this.currentViewMode$ = this.viewModeService.reportViewMode$;
 		this.reportService.completeResult$
 			.pipe(
 				untilDestroy(this),
@@ -46,13 +50,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	/**
 	 * change view to alerts view
 	 */
-	changeViewToAlerts() {
-		this.reportService.configure({ viewMode: 'one-to-many' });
-		this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
+	toggleView() {
+		if (this.viewModeService.reportViewMode$.value !== EReportViewModel.Alerts) {
+			this.reportService.configure({ viewMode: 'one-to-many' });
+			this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
+		} else {
+			this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
+		}
 	}
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
