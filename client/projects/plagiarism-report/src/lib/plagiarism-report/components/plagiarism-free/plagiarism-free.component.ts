@@ -5,12 +5,12 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 @Component({
 	selector: 'cr-plagiarism-free',
 	templateUrl: `./plagiarism-free.component.html`,
-	styleUrls: ['./plagiarism-free.component.scss']
+	styleUrls: ['./plagiarism-free.component.scss'],
 })
 export class PlagiarismFreeComponent implements OnInit {
 	public readonly plagFreeImg = IMAGES.PLAGIARISM_FREE_PNG;
 	translations: CopyleaksTranslations;
-	constructor(private translateService: CopyleaksTranslateService) { }
+	constructor(private translateService: CopyleaksTranslateService) {}
 	/**
 	 * init translation on componenet init
 	 */

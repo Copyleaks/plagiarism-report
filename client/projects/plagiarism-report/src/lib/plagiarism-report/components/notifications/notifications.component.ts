@@ -21,7 +21,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		private matDialog: MatDialog,
 		private viewModeService: ViewModeService,
 		private reportService: ReportService
-	) { }
+	) {}
 	/**
 	 * Life-cycle method
 	 */
@@ -62,5 +62,5 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
