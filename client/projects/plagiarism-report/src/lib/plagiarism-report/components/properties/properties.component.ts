@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CopyleaksReportOptions, ReportStatistics, ViewMode, CopyleaksTextConfig } from '../../models';
-import { CompleteResult } from '../../models/api-models/CompleteResult';
+import { CompleteResult, CompleteResultNotificationAlertSeverity } from '../../models/api-models/CompleteResult';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
@@ -49,6 +49,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	previewsLoading = false;
 	messages: CopyleaksTextConfig = DEFAULT_TEXT_CONFIG;
 	translations: CopyleaksTranslations;
+	notificationsSeverity: CompleteResultNotificationAlertSeverity;
 
 	constructor(
 		// @Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
@@ -59,7 +60,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private dialogService: MatDialog,
 		private statistics: StatisticsService,
 		private translationsService: CopyleaksTranslateService
-	) {}
+	) { }
 
 	get isScanning() {
 		return this.progress && (this.progress >= 0 || this.progress < 100);
@@ -230,9 +231,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		}
 		return 0;
 	}
+
+	/**
+	 * wil be notified on notifications severity change
+	 * @param severity latest notifications severity
+	 */
+	onNotificationSeverityChange(severity: CompleteResultNotificationAlertSeverity) {
+		this.notificationsSeverity = severity;
+	}
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

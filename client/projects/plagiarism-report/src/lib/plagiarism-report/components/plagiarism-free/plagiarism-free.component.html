@@ -1,6 +1,12 @@
-<img [src]="plagFreeImg | safe: 'url'" alt="Plagiarism free" />
-<label>{{ translations?.PLAGIARISM_FREE || 'Plagiarism Free' }}</label>
+<img [src]="plagFreeImg | safe: 'url'"
+		 alt="Plagiarism free" />
+<label *ngIf="!notificationsSeverity">
+	{{ translations?.PLAGIARISM_FREE || 'Plagiarism Free' }}
+</label>
+<label *ngIf="notificationsSeverity">
+	{{ translations?.PLAGIARISM_FREE_WITH_NOTIFICATIONS || 'No Plagiarism Detected' }}
+</label>
 
 <div class="notification-section">
-	<cr-notifications></cr-notifications>
+	<cr-notifications (severityChange)='onNotificationSeverityChange($event)'></cr-notifications>
 </div>

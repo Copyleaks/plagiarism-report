@@ -17,6 +17,7 @@ export class CopyleaksTranslateService {
 
 export interface CopyleaksTranslations {
 	PLAGIARISM_FREE?: string;
+	PLAGIARISM_FREE_WITH_NOTIFICATIONS?: string;
 	SCAN_PROPERTIES_SECTION?: {
 		TITLE?: string;
 		SCANNING?: {

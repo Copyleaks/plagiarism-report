@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IMAGES } from '../../assets/images';
+import { CompleteResultNotificationAlertSeverity } from '../../models';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 
 @Component({
@@ -9,12 +10,22 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 })
 export class PlagiarismFreeComponent implements OnInit {
 	public readonly plagFreeImg = IMAGES.PLAGIARISM_FREE_PNG;
-	translations: CopyleaksTranslations;
-	constructor(private translateService: CopyleaksTranslateService) {}
+	public translations: CopyleaksTranslations;
+	public notificationsSeverity: CompleteResultNotificationAlertSeverity;
+	public notificationAlertSeverities = CompleteResultNotificationAlertSeverity;
+	constructor(private translateService: CopyleaksTranslateService) { }
 	/**
 	 * init translation on componenet init
 	 */
 	ngOnInit() {
 		this.translations = this.translateService.translations;
+	}
+
+	/**
+	 * wil be notified on notifications severity change
+	 * @param severity latest notifications severity
+	 */
+	onNotificationSeverityChange(severity: CompleteResultNotificationAlertSeverity) {
+		this.notificationsSeverity = severity;
 	}
 }

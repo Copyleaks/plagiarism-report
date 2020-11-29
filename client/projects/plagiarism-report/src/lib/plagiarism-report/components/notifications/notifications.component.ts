@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationsDialogComponent } from '../notifications-dialog/notifications-dialog.component';
 import { ReportService } from '../../services/report.service';
@@ -17,11 +17,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	public severities = CompleteResultNotificationAlertSeverity;
 	public currentViewMode$: BehaviorSubject<EReportViewModel>;
 	public eReportViewModel = EReportViewModel;
+	@Output() severityChange = new EventEmitter<CompleteResultNotificationAlertSeverity>();
 	constructor(
 		private matDialog: MatDialog,
 		private viewModeService: ViewModeService,
 		private reportService: ReportService
-	) {}
+	) { }
 	/**
 	 * Life-cycle method
 	 */
@@ -35,6 +36,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			.subscribe(completeResult => {
 				const alertSeverities = completeResult.notifications.alerts.map(s => +s.severity);
 				this.severity = Math.max(...alertSeverities);
+				this.severityChange.emit(this.severity);
 			});
 	}
 	/**
@@ -62,5 +64,5 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
