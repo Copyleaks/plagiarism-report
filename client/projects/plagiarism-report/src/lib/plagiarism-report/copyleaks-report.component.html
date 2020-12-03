@@ -1,9 +1,5 @@
-<cr-properties *ngIf="!hasResultsOverlay"
-							 [isDownloading]='isDownloading'></cr-properties>
-<div main-wrapper
-		 fxLayout="row nowrap"
-		 fxLayoutAlign="start stretch"
-		 fxLayout.lt-sm="column nowrap">
+<cr-properties *ngIf="!hasResultsOverlay" [isDownloading]="isDownloading"></cr-properties>
+<div main-wrapper fxLayout="row nowrap" fxLayoutAlign="start stretch" fxLayout.lt-sm="column nowrap">
 	<cr-original></cr-original>
 	<ng-container *ngIf="reportViewMode == eReportViewModel.ScanningResult">
 		<cr-suspect [fxShow]="isOneToOne"></cr-suspect>
