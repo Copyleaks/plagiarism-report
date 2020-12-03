@@ -41,6 +41,9 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 
 	@Input()
 	public config: CopyleaksReportConfig;
+	@Input()
+	public isDownloading = false;
+
 	@Output()
 	public configChange = new EventEmitter<CopyleaksReportConfig>();
 	@Output()
@@ -102,5 +105,5 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
