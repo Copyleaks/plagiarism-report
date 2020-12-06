@@ -40,7 +40,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private highlightService: HighlightService,
 		private translationsService: CopyleaksTranslateService,
 		private cd: ChangeDetectorRef
-	) { }
+	) {}
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -126,5 +126,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
