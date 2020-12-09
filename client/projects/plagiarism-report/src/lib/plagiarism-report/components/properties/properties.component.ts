@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -22,6 +22,9 @@ import { EReportViewModel, ViewModeService } from '../../services/view-mode.serv
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mobile') isMobile: boolean;
+
+	@Input()
+	public isDownloading = false;
 
 	public options: CopyleaksReportOptions;
 	public stats: ReportStatistics;
@@ -50,6 +53,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	messages: CopyleaksTextConfig = DEFAULT_TEXT_CONFIG;
 	translations: CopyleaksTranslations;
 	notificationsSeverity: CompleteResultNotificationAlertSeverity;
+
+	get btnDownloadTooltip() {
+		if (this.isDownloading) {
+			return 'downloading...';
+		} else {
+			return this.translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.DOWNLOAD || 'Download';
+		}
+	}
 
 	constructor(
 		// @Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)

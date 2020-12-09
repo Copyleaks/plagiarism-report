@@ -134,15 +134,17 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 				this.preview.component
 			);
 			setTimeout(() => {
-				const ref = this.vcr.createComponent<ResultPreviewComponentBase>(factory);
-				this.componentInstance = ref.instance;
-				if (this.componentInstance.setPreview) {
-					this.componentInstance.setPreview(this.preview);
+				const ref = this.vcr?.createComponent<ResultPreviewComponentBase>(factory);
+				if (ref) {
+					this.componentInstance = ref.instance;
+					if (this.componentInstance.setPreview) {
+						this.componentInstance.setPreview(this.preview);
+					}
+					if (this.componentInstance.isLoading) {
+						this.componentInstance.isLoading(this.loading);
+					}
 				}
-				if (this.componentInstance.isLoading) {
-					this.componentInstance.isLoading(this.loading);
-				}
-			});
+			}, 100);
 		}
 
 		const result$ = this.reportService.findResultById$(this.preview.id);
