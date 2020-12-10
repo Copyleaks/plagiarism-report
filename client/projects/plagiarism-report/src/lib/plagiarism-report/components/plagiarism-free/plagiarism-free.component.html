@@ -1,5 +1,4 @@
-<img [src]="plagFreeImg | safe: 'url'"
-		 alt="Plagiarism free" />
+<img [src]="plagFreeImg | safe: 'url'" alt="Plagiarism free" />
 <label *ngIf="!isHighNotificationSeverity">
 	{{ translations?.PLAGIARISM_FREE || 'Plagiarism Free' }}
 </label>
@@ -8,5 +7,5 @@
 </label>
 
 <div class="notification-section">
-	<cr-notifications (severityChange)='onNotificationSeverityChange($event)'></cr-notifications>
+	<cr-notifications (severityChange)="onNotificationSeverityChange($event)"></cr-notifications>
 </div>

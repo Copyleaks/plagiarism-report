@@ -14,11 +14,13 @@ export class PlagiarismFreeComponent implements OnInit {
 	public notificationsSeverity: CompleteResultNotificationAlertSeverity;
 
 	get isHighNotificationSeverity() {
-		return this.notificationsSeverity == CompleteResultNotificationAlertSeverity.High ||
-			this.notificationsSeverity == CompleteResultNotificationAlertSeverity.VeryHigh
+		return (
+			this.notificationsSeverity === CompleteResultNotificationAlertSeverity.High ||
+			this.notificationsSeverity === CompleteResultNotificationAlertSeverity.VeryHigh
+		);
 	}
 
-	constructor(private translateService: CopyleaksTranslateService) { }
+	constructor(private translateService: CopyleaksTranslateService) {}
 	/**
 	 * init translation on componenet init
 	 */
