@@ -12,7 +12,12 @@ export class PlagiarismFreeComponent implements OnInit {
 	public readonly plagFreeImg = IMAGES.PLAGIARISM_FREE_PNG;
 	public translations: CopyleaksTranslations;
 	public notificationsSeverity: CompleteResultNotificationAlertSeverity;
-	public notificationAlertSeverities = CompleteResultNotificationAlertSeverity;
+
+	get isHighNotificationSeverity() {
+		return this.notificationsSeverity == CompleteResultNotificationAlertSeverity.High ||
+			this.notificationsSeverity == CompleteResultNotificationAlertSeverity.VeryHigh
+	}
+
 	constructor(private translateService: CopyleaksTranslateService) { }
 	/**
 	 * init translation on componenet init

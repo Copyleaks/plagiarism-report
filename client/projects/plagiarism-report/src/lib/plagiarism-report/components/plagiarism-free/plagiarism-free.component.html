@@ -1,10 +1,10 @@
 <img [src]="plagFreeImg | safe: 'url'"
 		 alt="Plagiarism free" />
-<label *ngIf="!notificationsSeverity">
+<label *ngIf="!isHighNotificationSeverity">
 	{{ translations?.PLAGIARISM_FREE || 'Plagiarism Free' }}
 </label>
-<label *ngIf="notificationsSeverity">
-	{{ translations?.PLAGIARISM_FREE_WITH_NOTIFICATIONS || 'No Plagiarism Detected' }}
+<label *ngIf="isHighNotificationSeverity">
+	{{ translations?.PLAGIARISM_FREE_WITH_NOTIFICATIONS || 'Cheating Detected' }}
 </label>
 
 <div class="notification-section">
