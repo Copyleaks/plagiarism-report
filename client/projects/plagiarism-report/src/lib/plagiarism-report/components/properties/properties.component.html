@@ -56,9 +56,6 @@
 						</div>
 					</div>
 				</div>
-				<ng-container>
-					<cr-notifications (severityChange)="onNotificationSeverityChange($event)"></cr-notifications>
-				</ng-container>
 				<div>
 					<ng-container *ngIf="isScanning && !done">
 						{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.PROGRESS || 'Scanning' }}...
@@ -255,6 +252,10 @@
 			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
 				{{ translations?.SCAN_PROPERTIES_SECTION?.MATCH || 'match' }}{{ isShowingPartialStats ? '*' : '' }}
 			</div>
+
+			<ng-container>
+				<cr-notifications (severityChange)="onNotificationSeverityChange($event)"></cr-notifications>
+			</ng-container>
 		</div>
 	</cr-expansion-panel-body>
 </cr-expansion-panel>
