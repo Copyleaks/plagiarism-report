@@ -30,14 +30,24 @@ export class ViewModeService implements OnDestroy {
 				filter(c => !!c.notifications && !!c.notifications.alerts && !!c.notifications.alerts.length)
 			)
 			.subscribe(completeResult => {
-				const alertSeverities = completeResult.notifications.alerts.map(s => +s.severity);
-				const severity = Math.max(...alertSeverities);
-				if (
-					severity === CompleteResultNotificationAlertSeverity.High ||
-					severity === CompleteResultNotificationAlertSeverity.VeryHigh
-				) {
+				const hasAlerts = completeResult.notifications?.alerts?.length;
+
+				const hasResults = !!completeResult.results?.batch?.length ||
+					!!completeResult.results?.internet?.length ||
+					!!completeResult.results?.database?.length ||
+					!!completeResult.results?.repositories?.length;
+
+				if (hasAlerts && !hasResults) {
 					this._reportViewMode$.next(EReportViewModel.Alerts);
 				}
+				// const alertSeverities = completeResult.notifications.alerts.map(s => +s.severity);
+				// const severity = Math.max(...alertSeverities);
+				// if (
+				// 	severity === CompleteResultNotificationAlertSeverity.High ||
+				// 	severity === CompleteResultNotificationAlertSeverity.VeryHigh
+				// ) {
+				// 	this._reportViewMode$.next(EReportViewModel.Alerts);
+				// }
 			});
 	}
 	/**

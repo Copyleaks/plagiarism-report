@@ -247,5 +247,65 @@
       "aggregatedScore": 98.5
     }
   },
+  "notifications": {
+    "alerts": [
+      {
+        "additionalData": "{\"starts\":[5043,5046,5069,5087,5094,5110,5118,5124,5230,5245,5250,5260,5336,5342,5349,5358,5376,5403,5488,5506,5518,5525,5528,5564,5579,5586,5619,5624,5638,5643,5683,5706,5723,5930,5933,5939,5950,5967,5981,5993,6163,6193,6213,6232,6244,6272,6277,6282,6319,6331,6346,6370,6382,6397,6418,6426,6437,6478,6484,6598,6600,6636,6654,6669,6681,6696,6701,6725,6748,6769,6829,6851,6856,6860,6875,6882,6933,6948,6966,6994,7017,7032,7039,7052,7057,7077,7081,7101,7113,7128,7157,7175,7185,7204,7238,7245,7260,7266,7281,7294,7303,7313,7519,7530,7547,7559,7596,7607,7633,7639,7645,7666,7696,7856,7870,7875,7884,7902,7932,7936,7950,7963,8006,8026,8037,8048,8054,8071,8094,8099,8101,8145,8175,8347,8352,8368,8375,8397,8411,8450,8455,8459,8491,8526,8532,8542,8553,8570,8668,8671,8673,8693,8697,8747,8775,8817,8835,8849,8853,8859,9003,9013,9021,9033,9040,9054,9061,9115,9132,9135,9149,9158,9167,9171,9176,9331,9341,9420,9424,9493,9506,9509,9519,9612,9645,9682,9693,9717,9782,9800,9821,9836,9849,9854,9860,9889,9906,9935,9943,9953,9958,9964,10031,10049,10064,10074,10172,10224,10334,10359,10405,10415,10497,10522,10534,10542,10553,10566,11019,11028,11040,11046,11049,11062],\"lengths\":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}",
+        "code": "suspected-character-replacement",
+        "helpLink": "https://help.copyleaks.com/support/solutions/articles/35000165567-what-is-a-character-replacement-error-",
+        "message": "We suspect that some characters have been replaced in order to cover up possible plagiarism.",
+        "severity": 3,
+        "title": "Suspected Character Replacement"
+      },
+      {
+        "additionalData": "",
+        "code": "suspected-cheating-detected",
+        "helpLink": "https://help.copyleaks.com/support/solutions/articles/35000165567-what-is-a-character-replacement-error-",
+        "message": "We suspect that you are Cheating",
+        "severity": 3,
+        "title": "Suspected Cheating Detected"
+      },
+      {
+        "code": "repository-scan-failed",
+        "title": "Not able to Scan Against Repository",
+        "message": "You do not have permission to scan against `a`.",
+        "helpLink": null,
+        "severity": 0,
+        "additionalData": "{\"repositoryId\":\"a\",\"repositoryName\":\"a\"}"
+      },
+      {
+        "code": "repository-scan-failed",
+        "title": "Not able to Scan Against Repository",
+        "message": "You do not have permission to scan against `a`.",
+        "helpLink": null,
+        "severity": 1,
+        "additionalData": "{\"repositoryId\":\"a\",\"repositoryName\":\"a\"}"
+      },
+      {
+        "code": "repository-index-failed",
+        "title": "Not able to Index Against Repository",
+        "message": "You do not have permission to index against `a` or the repository does not exists.",
+        "helpLink": null,
+        "severity": 2,
+        "additionalData": "{\"repositoryId\":\"a\",\"repositoryName\":\"a\"}"
+      },
+      {
+        "code": "repository-index-failed",
+        "title": "Not able to Index Against Repository",
+        "message": "You do not have permission to index against `a` or the repository does not exists.",
+        "helpLink": "https://help.copyleaks.com",
+        "severity": 3,
+        "additionalData": "{\"repositoryId\":\"a\",\"repositoryName\":\"a\"}"
+      },
+      {
+        "code": "repository-index-failed",
+        "title": "Not able to Index Against Repository",
+        "message": "You do not have permission to index against `a` or the repository does not exists.",
+        "helpLink": null,
+        "severity": 4,
+        "additionalData": "{\"repositoryId\":\"a\",\"repositoryName\":\"a\"}"
+      }
+    ]
+  },
   "status": 0
 }
