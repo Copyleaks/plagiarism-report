@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { CompleteResultNotificationAlert, CompleteResultNotificationAlertSeverity } from '../models';
+import { CompleteResultNotificationAlert } from '../models';
 import { ReportService } from './report.service';
 
 export enum EReportViewModel {
@@ -32,7 +32,8 @@ export class ViewModeService implements OnDestroy {
 			.subscribe(completeResult => {
 				const hasAlerts = completeResult.notifications?.alerts?.length;
 
-				const hasResults = !!completeResult.results?.batch?.length ||
+				const hasResults =
+					!!completeResult.results?.batch?.length ||
 					!!completeResult.results?.internet?.length ||
 					!!completeResult.results?.database?.length ||
 					!!completeResult.results?.repositories?.length;
