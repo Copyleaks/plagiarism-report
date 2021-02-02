@@ -55,6 +55,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { NotificationsDialogComponent } from './components/notifications-dialog/notifications-dialog.component';
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { AlertCardComponent } from './components/alert-card/alert-card.component';
+import { DirectionService } from './services/direction.service';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -109,6 +110,7 @@ import { AlertCardComponent } from './components/alert-card/alert-card.component
 	providers: [
 		CopyleaksService,
 		CopyleaksTranslateService,
+		DirectionService,
 		{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
 		{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
 	],

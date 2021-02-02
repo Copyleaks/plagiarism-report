@@ -26,6 +26,7 @@ import { ReportService } from '../../services/report.service';
 import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
+import { DirectionService } from '../../services/direction.service';
 
 @Component({
 	selector: 'cr-result-card',
@@ -96,6 +97,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		private translatesService: CopyleaksTranslateService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
+		public directionService:DirectionService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
 	) {}

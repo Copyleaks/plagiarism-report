@@ -26,6 +26,15 @@
 			margin-top: -3px;
 		}
 	}
+	
+	.title-rtl{
+		> div {
+			> span {
+				margin-left: 0px;
+				margin-right: 10px;
+			}
+		}
+	}
 
 	mat-spinner {
 		margin: 2px;

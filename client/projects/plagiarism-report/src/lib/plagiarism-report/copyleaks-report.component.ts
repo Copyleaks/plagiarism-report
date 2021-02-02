@@ -26,7 +26,7 @@ import { EReportViewModel, ViewModeService } from './services/view-mode.service'
 	templateUrl: 'copyleaks-report.component.html',
 	styleUrls: ['./copyleaks-report.component.scss'],
 	animations: [],
-	providers: [ReportService, StatisticsService, MatchService, HighlightService, ViewModeService, DirectionService],
+	providers: [ReportService, StatisticsService, MatchService, HighlightService, ViewModeService],
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	@HostBinding('class.mat-typography')
@@ -111,5 +111,5 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
