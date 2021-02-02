@@ -20,7 +20,7 @@ export class OptionsDialogComponent implements OnInit, OnDestroy {
 		private dialogRef: MatDialogRef<OptionsDialogComponent>,
 		public directionService: DirectionService,
 		@Inject(MAT_DIALOG_DATA) public reportService: ReportService
-	) { }
+	) {}
 
 	public options: CopyleaksReportOptions;
 	/**
@@ -47,5 +47,5 @@ export class OptionsDialogComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

@@ -111,5 +111,5 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

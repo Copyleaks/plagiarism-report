@@ -97,7 +97,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		private translatesService: CopyleaksTranslateService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
-		public directionService:DirectionService,
+		public directionService: DirectionService,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
 	) {}

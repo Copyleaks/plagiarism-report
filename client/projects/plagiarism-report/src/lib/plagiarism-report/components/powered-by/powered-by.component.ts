@@ -11,10 +11,7 @@ import { DirectionService } from '../../services/direction.service';
 export class PoweredByComponent implements OnInit {
 	readonly logo = SVG.LOGO;
 	translations: CopyleaksTranslations;
-	constructor(
-		private translationsService: CopyleaksTranslateService,
-		public directionService: DirectionService,
-	) { }
+	constructor(private translationsService: CopyleaksTranslateService, public directionService: DirectionService) {}
 	/**
 	 * init translations on component init.
 	 */
