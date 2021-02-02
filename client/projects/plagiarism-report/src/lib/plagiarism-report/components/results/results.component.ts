@@ -19,6 +19,7 @@ import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-f
 import { IMAGES } from '../../assets/images';
 import { CopyleaksService } from '../../services/copyleaks.service';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
+import { DirectionService } from '../../services/direction.service';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -39,8 +40,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private layoutService: LayoutMediaQueryService,
 		private highlightService: HighlightService,
 		private translationsService: CopyleaksTranslateService,
+		private directionService: DirectionService,
 		private cd: ChangeDetectorRef
-	) {}
+	) { }
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -58,6 +60,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	openFilterDialog() {
 		this.dialogService.open<ResultsFilterDialogComponent, ReportService>(ResultsFilterDialogComponent, {
+			direction: this.directionService.dir,
 			data: this.reportService,
 		});
 	}
@@ -126,5 +129,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

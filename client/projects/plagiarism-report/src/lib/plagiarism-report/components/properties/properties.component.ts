@@ -13,6 +13,7 @@ import { DEFAULT_TEXT_CONFIG } from '../../utils/constants';
 import { take } from 'rxjs/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
+import { DirectionService } from '../../services/direction.service';
 
 @Component({
 	selector: 'cr-properties',
@@ -70,8 +71,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private layoutService: LayoutMediaQueryService,
 		private dialogService: MatDialog,
 		private statistics: StatisticsService,
+		private directionService: DirectionService,
 		private translationsService: CopyleaksTranslateService
-	) {}
+	) { }
 
 	get isScanning() {
 		return this.progress && (this.progress >= 0 || this.progress < 100);
@@ -232,6 +234,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 */
 	openSettingsDialog() {
 		this.dialogService.open<OptionsDialogComponent, ReportService>(OptionsDialogComponent, {
+			direction: this.directionService.dir,
 			data: this.reportService,
 		});
 	}
@@ -254,5 +257,5 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
