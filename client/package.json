@@ -11,7 +11,7 @@
 		"lib:lint": "ng lint plagiarism-report",
 		"lib:version": "cd projects/plagiarism-report && npm version patch",
 		"lib:build": "ng build plagiarism-report --prod",
-		"lib:copy-readme": "cp ../README.md dist/plagiarism-report",
+		"lib:copy-readme": "copy ../README.md dist/plagiarism-report",
 		"lib:publish": "cd dist/plagiarism-report && npm publish",
 		"lib:prettier": "prettier --write projects/plagiarism-report/**/*.{ts,js,css,scss,html}",
 		"script:extract-version": "node scripts/extract-version.js",

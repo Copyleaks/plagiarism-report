@@ -73,7 +73,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private statistics: StatisticsService,
 		private directionService: DirectionService,
 		private translationsService: CopyleaksTranslateService
-	) { }
+	) {}
 
 	get isScanning() {
 		return this.progress && (this.progress >= 0 || this.progress < 100);
@@ -257,5 +257,5 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
