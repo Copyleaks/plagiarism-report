@@ -109,6 +109,7 @@ export class HighlightService implements OnDestroy {
 	 * @param mode the mode to clear, leave empty for both
 	 */
 	public clear(mode?: ContentMode) {
+		console.log('clear');
 		if (!mode || mode === 'html') {
 			this.textMatchClicked({ elem: null, broadcast: false, origin: 'original' });
 			this.textMatchClicked({ elem: null, broadcast: false, origin: 'source' });
@@ -206,6 +207,15 @@ export class HighlightService implements OnDestroy {
 	 */
 	public setSuspectHtmlMatch(match: Match) {
 		this._suspectHtml.next(match);
+	}
+
+	public clearAllMatchs() {
+		this.setOriginalTextMatch(null);
+		this.setSuspectTextMatch(null);
+		this.setOriginalHtmlMatch(null);
+		this.setSourceHtmlMatch(null);
+		this.setSuspectHtmlMatch(null);
+		this.setSourceTextMatch(null);
 	}
 
 	/**

@@ -20,6 +20,7 @@ import { IMAGES } from '../../assets/images';
 import { CopyleaksService } from '../../services/copyleaks.service';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { DirectionService } from '../../services/direction.service';
+import { delay } from 'rxjs/operators';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -32,6 +33,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	resultsOverlayComponentInstance: any;
 	hasOverlay = false;
 	translations: CopyleaksTranslations;
+	isLoadingResults = true;
+
 	constructor(
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private copyleaksService: CopyleaksService,
@@ -42,7 +45,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private translationsService: CopyleaksTranslateService,
 		private directionService: DirectionService,
 		private cd: ChangeDetectorRef
-	) {}
+	) { }
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -75,7 +78,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		this.translations = this.translationsService.translations;
-		const { filteredPreviews$, hiddenResults$, contentMode$ } = this.reportService;
+		const { filteredPreviews$, hiddenResults$, contentMode$, results$ } = this.reportService;
 		const { originalText$, originalHtml$ } = this.highlightService;
 		combineLatest([originalText$, originalHtml$, contentMode$])
 			.pipe(untilDestroy(this))
@@ -88,11 +91,21 @@ export class ResultsComponent implements OnInit, OnDestroy {
 			this.previews = this.copyleaksService.sortScanResults(previews);
 		});
 
-		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => (this.hiddenResults = ids));
+		hiddenResults$.pipe(untilDestroy(this)).subscribe(ids => {
+			this.hiddenResults = ids
+			this.highlightService.clear();
+			this.highlightService.clearAllMatchs();
+		});
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(isMobile => (this.isMobile = isMobile));
 
 		this.copyleaksService.onReportConfig$.pipe(untilDestroy(this)).subscribe(config => {
 			this.checkAndAddOverlay(config);
+		});
+
+		results$.pipe(untilDestroy(this), delay(1000)).subscribe(results => {
+			if (results?.length === this.previews?.length) {
+				this.isLoadingResults = false;
+			}
 		});
 	}
 	/**
@@ -129,5 +142,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

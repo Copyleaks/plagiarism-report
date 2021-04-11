@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CopyleaksReportOptions, ReportStatistics, ViewMode, CopyleaksTextConfig } from '../../models';
-import { CompleteResult, CompleteResultNotificationAlertSeverity } from '../../models/api-models/CompleteResult';
+import { CompleteResult } from '../../models/api-models/CompleteResult';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
@@ -53,7 +53,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	previewsLoading = false;
 	messages: CopyleaksTextConfig = DEFAULT_TEXT_CONFIG;
 	translations: CopyleaksTranslations;
-	notificationsSeverity: CompleteResultNotificationAlertSeverity;
 
 	get btnDownloadTooltip() {
 		if (this.isDownloading) {
@@ -246,13 +245,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		return 0;
 	}
 
-	/**
-	 * wil be notified on notifications severity change
-	 * @param severity latest notifications severity
-	 */
-	onNotificationSeverityChange(severity: CompleteResultNotificationAlertSeverity) {
-		this.notificationsSeverity = severity;
-	}
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator

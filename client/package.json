@@ -7,6 +7,7 @@
 		"build": "ng build",
 		"lint": "ng lint",
 		"lib:pack": "npm pack ./dist/plagiarism-report",
+		"local:package": "npm run lib:prettier npm run lib:test && npm run lib:lint && npm run lib:build && npm run lib:pack",
 		"lib:test": "ng test plagiarism-report",
 		"lib:lint": "ng lint plagiarism-report",
 		"lib:version": "cd projects/plagiarism-report && npm version patch",

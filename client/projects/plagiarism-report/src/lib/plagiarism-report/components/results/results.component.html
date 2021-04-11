@@ -1,9 +1,13 @@
 <cr-panel>
 	<cr-panel-header>
+		<!--  -->
+		<mat-spinner *ngIf="previews?.length && isLoadingResults" [diameter]="20" style="margin-right: 8px;"></mat-spinner>
+		<!--  -->
 		{{ translations?.RESULTS_SECTION?.TITLE || 'Results' }}
 		<ng-container *ngIf="focusedMatch">
 			({{ visibleResults.length }} {{ translations?.SHARED?.OF || 'of' }} {{ previews?.length }})
 		</ng-container>
+		<!--  -->
 	</cr-panel-header>
 	<cr-panel-actions>
 		<cr-panel-action *ngIf="focusedMatch">

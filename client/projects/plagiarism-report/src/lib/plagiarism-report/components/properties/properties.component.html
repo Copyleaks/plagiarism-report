@@ -75,11 +75,7 @@
 
 		<!-- RESULTS FOUND -->
 		<!-- [style.color]="hiddenResultsCount? '#ff8400' : ''" -->
-		<div
-			prop
-			[style.cursor]="notificationsSeverity ? 'pointer' : ''"
-			(click)="notificationsSeverity && isAlertsView && showScanningResult()"
-		>
+		<div prop [style.cursor]="isAlertsView ? 'pointer' : ''" (click)="isAlertsView && showScanningResult()">
 			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
 				{{ resultsFound | shortNumber: 1 }}
 			</div>
@@ -254,7 +250,7 @@
 			</div>
 
 			<ng-container>
-				<cr-notifications (severityChange)="onNotificationSeverityChange($event)"></cr-notifications>
+				<cr-notifications></cr-notifications>
 			</ng-container>
 		</div>
 	</cr-expansion-panel-body>

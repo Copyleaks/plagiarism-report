@@ -4,7 +4,7 @@ import { CopyleaksReportConfig, CopyleaksService, DEFAULT_REPORT_CONFIG, ResultI
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ResultsService } from '../../results.service';
 import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
-import { distinctUntilChanged, takeUntil, delay, retry, take, map, catchError } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil, retry, take, map, catchError } from 'rxjs/operators';
 import deepEqual from 'deep-equal';
 import { zip, from, interval, of, forkJoin } from 'rxjs';
 import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
@@ -223,7 +223,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 			.downloadedSource(scanId)
 			.pipe(
 				takeUntil(destroy$),
-				delay(5000),
+				// delay(5000),
 				retry(3)
 			)
 			.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
@@ -232,7 +232,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 			.completeResult(scanId)
 			.pipe(
 				takeUntil(destroy$),
-				delay(5000),
+				// delay(5000),
 				retry(3)
 			)
 			.subscribe(result => this.copyleaksService.pushCompletedResult(result));
@@ -241,7 +241,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 			.completeResult(scanId)
 			.pipe(
 				takeUntil(destroy$),
-				delay(5000)
+				// delay(5000)
 			)
 			.subscribe(({ results }) => {
 				zip(from(results.internet), interval(500))
@@ -338,7 +338,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 							this.resultsService.newResult(meta.scannedDocument.scanId, id).pipe(
 								takeUntil(destroy$),
 								retry(5),
-								delay(5000),
+								// delay(5000),
 								map(result => ({ id: id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
 								catchError(() => of({ id: id, result: null }))
 							).subscribe(res => {
@@ -360,7 +360,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 						takeUntil(destroy$),
 						retry(5),
-						delay(5000),
+						// delay(5000),
 						map(result => ({ id: item.id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
 						catchError(() => of({ id: item.id, result: null }))
 					)

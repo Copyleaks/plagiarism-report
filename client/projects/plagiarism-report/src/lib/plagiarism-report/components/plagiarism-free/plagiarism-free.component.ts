@@ -11,14 +11,7 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 export class PlagiarismFreeComponent implements OnInit {
 	public readonly plagFreeImg = IMAGES.PLAGIARISM_FREE_PNG;
 	public translations: CopyleaksTranslations;
-	public notificationsSeverity: CompleteResultNotificationAlertSeverity;
-
-	get isHighNotificationSeverity() {
-		return (
-			this.notificationsSeverity === CompleteResultNotificationAlertSeverity.High ||
-			this.notificationsSeverity === CompleteResultNotificationAlertSeverity.VeryHigh
-		);
-	}
+	public isHighNotificationSeverity = false;
 
 	constructor(private translateService: CopyleaksTranslateService) {}
 	/**
@@ -33,6 +26,10 @@ export class PlagiarismFreeComponent implements OnInit {
 	 * @param severity latest notifications severity
 	 */
 	onNotificationSeverityChange(severity: CompleteResultNotificationAlertSeverity) {
-		this.notificationsSeverity = severity;
+		setTimeout(() => {
+			this.isHighNotificationSeverity =
+				severity === CompleteResultNotificationAlertSeverity.High ||
+				severity === CompleteResultNotificationAlertSeverity.VeryHigh;
+		});
 	}
 }

@@ -107,7 +107,7 @@ export abstract class HtmlHelperBase {
 	protected renderMatches(matches: Match[]) {
 		this.matches = matches;
 		const html = matches.reduceRight((prev: string, curr: Match, i: number) => {
-			let slice = this.html.substring(curr.start, curr.end);
+			let slice = this.html?.substring(curr.start, curr.end);
 			switch (curr.type) {
 				case MatchType.excluded:
 					slice = `<span exclude title="${this.EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;

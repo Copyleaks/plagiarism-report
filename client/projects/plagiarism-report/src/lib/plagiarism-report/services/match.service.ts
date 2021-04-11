@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { asyncScheduler, BehaviorSubject, combineLatest } from 'rxjs';
-import { distinctUntilChanged, filter, map, skip, take, takeUntil, throttleTime } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { distinctUntilChanged, filter, map, skip, take, takeUntil } from 'rxjs/operators';
 import { untilDestroy } from '../../shared/operators/untilDestroy';
 import { CopyleaksReportOptions, Match, ResultItem, ScanSource, SlicedMatch } from '../models';
 import { ALERTS } from '../utils/constants';
@@ -23,7 +23,7 @@ export class MatchService implements OnDestroy {
 	private _originalHtmlMatches = new BehaviorSubject<Match[]>(null);
 
 	constructor(private reportService: ReportService, private viewModeService: ViewModeService) {
-		const { source$, filteredResults$, options$ } = this.reportService;
+		const { source$, filteredResults$, options$, previews$, hiddenResults$ } = this.reportService;
 		const { reportViewMode$ } = this.viewModeService;
 
 		// listen to suspect changes and process one-to-one matches
@@ -34,11 +34,11 @@ export class MatchService implements OnDestroy {
 		// this.onSuspectChange$.pipe(take(1),untilDestroy(this))
 
 		// listen to changes in settings and filtered results
-		const throttledResults$ = filteredResults$.pipe(
-			untilDestroy(this),
-			throttleTime(5000, asyncScheduler, { leading: false, trailing: true })
-		);
-
+		// const throttledResults$ = filteredResults$.pipe(
+		// 	untilDestroy(this),
+		// 	throttleTime(5000, asyncScheduler, { leading: false, trailing: true })
+		// );
+		let _timeout;
 		/**
 		 * We want to process oneToMany results when:
 		 * * once the source is ready
@@ -46,13 +46,21 @@ export class MatchService implements OnDestroy {
 		 * * every time the options object has changed
 		 * * report view mode change
 		 */
-		combineLatest([throttledResults$, options$, source$, reportViewMode$])
+		combineLatest([filteredResults$, previews$, hiddenResults$, options$, source$, reportViewMode$])
 			.pipe(untilDestroy(this))
-			.subscribe(([results, options, source, viewMode]) => {
+			.subscribe(([results, previews, hiddenResults, options, source, viewMode]) => {
+				if (_timeout) {
+					clearTimeout(_timeout);
+				}
 				if (viewMode === EReportViewModel.Alerts) {
 					this.processAlertMatches(options, source);
 				} else {
-					this.processOneToManyMatches(results, options, source);
+					_timeout = setTimeout(
+						() => {
+							this.processOneToManyMatches(results, options, source);
+						},
+						results.length === previews.length - hiddenResults.length ? 0 : 5000
+					);
 				}
 			});
 	}
