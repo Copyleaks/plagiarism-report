@@ -109,7 +109,6 @@ export class HighlightService implements OnDestroy {
 	 * @param mode the mode to clear, leave empty for both
 	 */
 	public clear(mode?: ContentMode) {
-		console.log('clear');
 		if (!mode || mode === 'html') {
 			this.textMatchClicked({ elem: null, broadcast: false, origin: 'original' });
 			this.textMatchClicked({ elem: null, broadcast: false, origin: 'source' });
