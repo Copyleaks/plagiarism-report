@@ -2,26 +2,25 @@
 	<ng-container #vcr></ng-container>
 
 	<ng-container *ngIf="!preview?.component">
-		<div header class="title" [class]="'title-' + directionService.dir">
+		<div header
+			 class="title"
+			 [class]="'title-' + directionService.dir">
 			<div (click)="onTitleClick()">
 				<div>
-					<mat-spinner style="zoom:0.2" *ngIf="loading"></mat-spinner>
+					<mat-spinner style="zoom:0.2"
+								 *ngIf="loading"></mat-spinner>
 				</div>
-				<mat-icon
-					*ngIf="!loading && result === null"
-					class="title-icon"
-					[matTooltip]="translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR"
-					color="warn"
-				>
+				<mat-icon *ngIf="!loading && result === null"
+						  class="title-icon"
+						  [matTooltip]="translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR"
+						  color="warn">
 					error
 				</mat-icon>
 
-				<mat-icon
-					*ngIf="!loading && result !== null && !preview.url"
-					class="title-icon"
-					style="opacity: 0.5;"
-					[matTooltip]="previewIconToolTip"
-				>
+				<mat-icon *ngIf="!loading && result !== null && !preview.url"
+						  class="title-icon"
+						  style="opacity: 0.5;"
+						  [matTooltip]="previewIconToolTip">
 					<ng-container [ngSwitch]="preview.type">
 						<ng-container *ngSwitchCase="eResultPreviewType.Batch">
 							dns
@@ -35,79 +34,102 @@
 					</ng-container>
 				</mat-icon>
 
-				<img
-					*ngIf="!loading && result !== null && preview.url"
-					class="title-icon"
-					[matTooltip]="previewIconToolTip"
-					[src]="'https://www.google.com/s2/favicons?domain=' + urlDomain"
-				/>
-				<span
-					[ngClass]="{ 'ellipsis-flex-text': preview.type === eResultPreviewType.Internet }"
-					[matTooltip]="preview.title"
-					[matTooltipDisabled]="preview.type !== eResultPreviewType.Internet"
-				>
+				<img *ngIf="!loading && result !== null && preview.url"
+					 class="title-icon"
+					 [matTooltip]="previewIconToolTip"
+					 [src]="'https://www.google.com/s2/favicons?domain=' + urlDomain" />
+				<span [ngClass]="{ 'ellipsis-flex-text': preview.type === eResultPreviewType.Internet }"
+					  [matTooltip]="preview.title"
+					  [matTooltipDisabled]="preview.type !== eResultPreviewType.Internet">
 					{{ preview.title }}
 				</span>
 			</div>
-			<button mat-icon-button [matMenuTriggerFor]="menu">
+			<button mat-icon-button
+					[matMenuTriggerFor]="menu">
 				<mat-icon>arrow_drop_down</mat-icon>
 			</button>
-			<mat-menu #menu="matMenu" class="result-card-actions">
-				<button mat-menu-item (click)="hideResult()">
+			<mat-menu #menu="matMenu"
+					  class="result-card-actions">
+				<button mat-menu-item
+						(click)="hideResult()">
 					{{ translations?.RESULT_CARD?.ACTIONS?.EXCLUDE || 'Exclude' }}
 				</button>
-				<button *ngFor="let action of resultCardActions" mat-menu-item (click)="action.action(preview)">
+				<button *ngFor="let action of resultCardActions"
+						mat-menu-item
+						(click)="action.action(preview)">
 					{{ action.name }}
 				</button>
 			</mat-menu>
 		</div>
 
-		<p body (click)="onTitleClick()">
+		<p body
+		   (click)="onTitleClick()">
 			{{ preview.introduction }}
 		</p>
 
 		<div url>
-			<a [href]="preview.url" target="_blank">{{ preview.url }}</a>
+			<a [href]="preview.url"
+			   target="_blank">{{ preview.url }}</a>
 		</div>
 	</ng-container>
 
 	<mat-divider></mat-divider>
 
-	<div footer fxLayout="row" fxLayoutAlign="space-between stretch">
-		<div [ngClass]="{ 'text-identical': true }" *ngIf="source">
+	<div footer
+		 fxLayout="row"
+		 fxLayoutAlign="space-between stretch">
+		<div [ngClass]="{ 'text-identical': true }"
+			 *ngIf="source">
 			{{ (similarWords$ | async) / (source?.metadata.words - source?.metadata.excluded) | similarity }}
 			{{ translations?.RESULT_CARD?.SIMILAR_WORDS || 'similar words' }}
 		</div>
-		<div
-			[dir]="directionService.dir"
-			fxLayout="row"
-			fxLayoutGap="1em"
-			style="height: 28px"
-			[satPopoverAnchor]="popover"
-			satPopoverHover
-		>
+		<span></span>
+		<div [dir]="directionService.dir"
+			 fxLayout="row"
+			 fxLayoutGap="1em"
+			 style="height: 28px"
+			 [satPopoverAnchor]="popover"
+			 satPopoverHover>
 			<span class="dot identical"></span>
 			<span class="dot minor-changes"></span>
 			<span class="dot related"></span>
 		</div>
 	</div>
-	<sat-popover #popover horizontalAlign="before">
-		<div fxLayout="column nowrap" fxLayoutAlign="start start" class="sat-tooltip mat-typography">
-			<div class="text-identical" *ngIf="source">
-				{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }} -
-				{{ result?.statistics.identical / (source?.metadata.words - source?.metadata.excluded) | similarity }}
-				{{ translations?.SHARED?.WORDS || 'words' }}
-			</div>
-			<div class="text-minor-changes" *ngIf="source">
-				{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }} -
-				{{ result?.statistics.minorChanges / (source?.metadata.words - source?.metadata.excluded) | similarity }}
-				{{ translations?.SHARED?.WORDS || 'words' }}
-			</div>
-			<div class="text-related" *ngIf="source">
-				{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Related Meaning' }} -
-				{{ result?.statistics.relatedMeaning / (source?.metadata.words - source?.metadata.excluded) | similarity }}
-				{{ translations?.SHARED?.WORDS || 'words' }}
-			</div>
+	<sat-popover #popover
+				 horizontalAlign="before">
+		<div fxLayout="column nowrap"
+			 fxLayoutAlign="start start"
+			 class="sat-tooltip mat-typography">
+			<!--  -->
+			<ng-container *ngIf="!source">
+				<div>
+					<mat-spinner [diameter]='30'></mat-spinner>
+				</div>
+			</ng-container>
+			<!--  -->
+			<ng-container *ngIf="source">
+				<div class="text-identical">
+					{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }} -
+					{{ result?.statistics.identical / (source?.metadata.words - source?.metadata.excluded) | similarity
+					}}
+					{{ translations?.SHARED?.WORDS || 'words' }}
+				</div>
+				<div class="text-minor-changes">
+					{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }} -
+					{{ result?.statistics.minorChanges / (source?.metadata.words - source?.metadata.excluded) |
+					similarity
+					}}
+					{{ translations?.SHARED?.WORDS || 'words' }}
+				</div>
+				<div class="text-related">
+					{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Related Meaning' }} -
+					{{ result?.statistics.relatedMeaning / (source?.metadata.words - source?.metadata.excluded) |
+					similarity
+					}}
+					{{ translations?.SHARED?.WORDS || 'words' }}
+				</div>
+			</ng-container>
+			<!--  -->
 		</div>
 	</sat-popover>
 </ng-container>
@@ -123,21 +145,19 @@
 		<ngx-skeleton-loader></ngx-skeleton-loader>
 	</p>
 	<mat-divider></mat-divider>
-	<div footer fxLayout="row" fxLayoutAlign="space-between stretch">
-		<ngx-skeleton-loader fxFlex="30" [theme]="{ height: '28px', margin: 0 }"></ngx-skeleton-loader>
-		<div fxLayout="row" fxLayoutGap="1em">
-			<ngx-skeleton-loader
-				[theme]="{ height: '28px', width: '28px', margin: 0 }"
-				appearance="circle"
-			></ngx-skeleton-loader>
-			<ngx-skeleton-loader
-				[theme]="{ height: '28px', width: '28px', margin: 0 }"
-				appearance="circle"
-			></ngx-skeleton-loader>
-			<ngx-skeleton-loader
-				[theme]="{ height: '28px', width: '28px', margin: 0 }"
-				appearance="circle"
-			></ngx-skeleton-loader>
+	<div footer
+		 fxLayout="row"
+		 fxLayoutAlign="space-between stretch">
+		<ngx-skeleton-loader fxFlex="30"
+							 [theme]="{ height: '28px', margin: 0 }"></ngx-skeleton-loader>
+		<div fxLayout="row"
+			 fxLayoutGap="1em">
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+								 appearance="circle"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+								 appearance="circle"></ngx-skeleton-loader>
+			<ngx-skeleton-loader [theme]="{ height: '28px', width: '28px', margin: 0 }"
+								 appearance="circle"></ngx-skeleton-loader>
 		</div>
 	</div>
 </ng-template>

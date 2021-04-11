@@ -25,7 +25,7 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 		private dialogRef: MatDialogRef<ResultsFilterDialogComponent>,
 		public directionService: DirectionService,
 		@Inject(MAT_DIALOG_DATA) private reportSerivce: ReportService
-	) {}
+	) { }
 
 	/**
 	 * Checks whether the hidden results contain a `result`
@@ -82,7 +82,7 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.translations = this.translatesService.translations;
 		const { hiddenResults$, previews$ } = this.reportSerivce;
-		previews$.pipe(untilDestroy(this)).subscribe(results => (this.results = results));
+		previews$.pipe(untilDestroy(this)).subscribe(results => (this.results = results.reverse()));
 		hiddenResults$.pipe(take(1)).subscribe(hidden => {
 			this.hidden = [...hidden];
 		});
@@ -95,5 +95,5 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
