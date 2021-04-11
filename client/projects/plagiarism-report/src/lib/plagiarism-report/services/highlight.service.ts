@@ -209,6 +209,9 @@ export class HighlightService implements OnDestroy {
 		this._suspectHtml.next(match);
 	}
 
+	/**
+	 * clear all selected matches
+	 */
 	public clearAllMatchs() {
 		this.setOriginalTextMatch(null);
 		this.setSuspectTextMatch(null);
