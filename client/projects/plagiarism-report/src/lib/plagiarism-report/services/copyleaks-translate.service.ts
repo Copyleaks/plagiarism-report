@@ -102,6 +102,7 @@ export interface CopyleaksTranslations {
 			SWITCH_TO_RICH_TEXT_MODE?: string;
 			GO_TO_NEXT_MATCH?: string;
 			GO_TO_PREV_MATCH?: string;
+			LAUNCH_URL?: string;
 			ALIGN_LEFT?: string;
 			ALIGN_RIGHT?: string;
 			DECREASE_FONT_SIZE?: string;

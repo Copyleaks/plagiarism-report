@@ -53,7 +53,7 @@ export class SuspectTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * - listen to text match clicks from `source`
 	 */
 	ngAfterContentInit() {
-		const { suspect$, contentMode$ } = this.reportService;
+		const { suspectResult$: suspect$, contentMode$ } = this.reportService;
 		const { textMatchClick$, sourceHtml$ } = this.highlightService;
 		textMatchClick$
 			.pipe(

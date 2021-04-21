@@ -20,6 +20,7 @@
 		</cr-panel-action>
 		<cr-panel-action *ngIf="!isMobile || isActive">
 			<button
+				id="cr-hint-results-filter-list"
 				mat-button
 				[ngClass]="{ 'mat-stroked-button mat-warn': hiddenResults.length }"
 				[disabled]="!previews || hasOverlay"
@@ -34,7 +35,7 @@
 			</button>
 		</cr-panel-action>
 	</cr-panel-actions>
-	<cr-panel-body fxLayout="column" fxFlex="100">
+	<cr-panel-body fxLayout="column" fxFlex="100" id="cr-hint-results-card">
 		<ng-container *ngIf="hasOverlay">
 			<div class="overlay-component-wrapper">
 				<ng-container #vcr></ng-container>

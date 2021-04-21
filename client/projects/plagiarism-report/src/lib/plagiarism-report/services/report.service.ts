@@ -81,8 +81,11 @@ export class ReportService implements OnDestroy {
 	public onlyOneToOne$ = this.config$.pipe(map(x => x.disableSuspectBackButton));
 	public sourcePage$ = this.config$.pipe(map(x => x.sourcePage));
 	public suspectPage$ = this.config$.pipe(map(x => x.suspectPage));
-	public suspect$: Observable<ResultItem> = this.suspectId$.pipe(
+	public suspectResult$: Observable<ResultItem> = this.suspectId$.pipe(
 		switchMap(id => (id ? this.findResultById$(id) : of(null)))
+	);
+	public suspectPreview$: Observable<ResultPreview> = this.suspectId$.pipe(
+		switchMap(id => (id ? this.findPreviewById$(id) : of(null)))
 	);
 
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
@@ -109,6 +112,19 @@ export class ReportService implements OnDestroy {
 		return this.results$.pipe(
 			map(results => results.find(res => res.id === id)),
 			truthy(),
+			take(1)
+		);
+	}
+
+	/**
+	 * Get an observable of some preview by id
+	 * The observable completes after emitting the result
+	 * @param id the preview id
+	 */
+	public findPreviewById$(id: string) {
+		return this._previews.pipe(
+			truthy(),
+			map(preview => preview.find(res => res.id === id)),
 			take(1)
 		);
 	}

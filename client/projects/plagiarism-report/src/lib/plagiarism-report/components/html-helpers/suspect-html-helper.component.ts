@@ -53,7 +53,7 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 	 * - source and suspect html matches
 	 */
 	ngOnInit() {
-		const { suspect$, contentMode$ } = this.reportService;
+		const { suspectResult$: suspect$, contentMode$ } = this.reportService;
 		const { sourceHtml$, textMatchClick$ } = this.highlightService;
 		const { suspectHtmlMatches$ } = this.matchService;
 		suspect$

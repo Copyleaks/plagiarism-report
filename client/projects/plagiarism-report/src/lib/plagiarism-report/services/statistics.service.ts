@@ -11,7 +11,14 @@ import { distinct } from '../utils/operators';
 export class StatisticsService implements OnDestroy {
 	private _statistics = new BehaviorSubject<ReportStatistics>(undefined);
 	constructor(reportService: ReportService) {
-		const { completeResult$, results$, viewMode$, filteredResults$, suspect$, options$ } = reportService;
+		const {
+			completeResult$,
+			results$,
+			viewMode$,
+			filteredResults$,
+			suspectResult$: suspect$,
+			options$,
+		} = reportService;
 		combineLatest([completeResult$, suspect$, options$, viewMode$])
 			.pipe(
 				untilDestroy(this),

@@ -28,7 +28,7 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * - subscribe to the source text selected match
 	 */
 	ngAfterContentInit() {
-		const { contentMode$, viewMode$, source$, suspect$ } = this.reportService;
+		const { contentMode$, viewMode$, source$, suspectResult$: suspect$ } = this.reportService;
 		const { textMatchClick$, jump$, sourceText$, suspectHtml$ } = this.highlightService;
 		sourceText$.pipe(untilDestroy(this)).subscribe(value => (this.current = value));
 		textMatchClick$

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { PageChangeEvent } from '../../../mat-pagination/mat-pagination.component';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { MatchType, SlicedMatch } from '../../models';
+import { MatchType, ResultPreview, SlicedMatch } from '../../models';
 import { ScanResult } from '../../models/api-models/ScanResult';
 import { ContentMode, DirectionMode } from '../../models/CopyleaksReportConfig';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
@@ -12,6 +12,7 @@ import { fadeIn } from '../../utils/animations';
 import { MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'cr-suspect',
@@ -21,12 +22,13 @@ import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services
 })
 export class SuspectComponent implements OnInit, OnDestroy {
 	translates: CopyleaksTranslations;
+	preview: ResultPreview;
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService,
 		private translatesService: CopyleaksTranslateService
-	) {}
+	) { }
 	readonly MatchType = MatchType;
 	public isMobile = false;
 	public zoom = 1;
@@ -42,6 +44,10 @@ export class SuspectComponent implements OnInit, OnDestroy {
 
 	public get isHtml(): boolean {
 		return this.contentMode === 'html';
+	}
+
+	public get hasUrl(): boolean {
+		return !!this.preview?.url;
 	}
 
 	get pages(): number[] {
@@ -96,27 +102,41 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		this.translates = this.translatesService.translations;
-		const { suspect$, contentMode$, suspectPage$, onlyOneToOne$ } = this.reportService;
+		const { suspectPreview$, suspectResult$: suspect$, contentMode$, suspectPage$, onlyOneToOne$ } = this.reportService;
+
 		suspect$.pipe(untilDestroy(this), truthy()).subscribe(item => {
 			this.suspect = item.result;
 			suspectPage$.pipe(untilDestroy(this)).subscribe(page => (this.currentPage = +page));
+
+			suspectPreview$.pipe(untilDestroy(this), truthy(), take(1)).subscribe(preview => {
+				this.preview = preview;
+			});
 		});
 
 		combineLatest([contentMode$, suspect$])
 			.pipe(untilDestroy(this))
 			.subscribe(
 				([mode, suspect]) =>
-					(this.contentMode =
-						mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
+				(this.contentMode =
+					mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
 			);
 
 		onlyOneToOne$.pipe(untilDestroy(this)).subscribe(disable => (this.disableBackButton = disable));
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
 		this.matchService.suspectTextMatches$.pipe(untilDestroy(this)).subscribe(matches => (this.textMatches = matches));
 	}
+
+	/**
+	 * this will open the suspect preview url in a new tab
+	 */
+	openUrl() {
+		if (this.hasUrl) {
+			window.open(this.preview.url as string, '_blank');
+		}
+	}
 	/**
 	 * life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

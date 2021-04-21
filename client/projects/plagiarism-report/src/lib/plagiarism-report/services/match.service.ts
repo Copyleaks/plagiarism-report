@@ -103,7 +103,7 @@ export class MatchService implements OnDestroy {
 		);
 	}
 	private get onSuspectFirstHtmlMode$() {
-		const { contentMode$, suspect$ } = this.reportService;
+		const { contentMode$, suspectResult$: suspect$ } = this.reportService;
 		return combineLatest([contentMode$, suspect$]).pipe(
 			untilDestroy(this),
 			filter(([content, suspect]) => content === 'html' && suspect && suspect.result && !!suspect.result.html.value),
@@ -111,7 +111,7 @@ export class MatchService implements OnDestroy {
 		);
 	}
 	private get onSuspectChange$() {
-		return this.reportService.suspect$.pipe(untilDestroy(this), truthy(), distinctUntilChanged());
+		return this.reportService.suspectResult$.pipe(untilDestroy(this), truthy(), distinctUntilChanged());
 	}
 
 	private get onNewSuspect$() {

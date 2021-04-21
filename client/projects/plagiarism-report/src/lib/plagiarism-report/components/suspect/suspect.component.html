@@ -4,6 +4,9 @@
 	</cr-panel-header>
 
 	<cr-panel-actions>
+		<cr-panel-action fxHide.lt-md *ngIf="hasUrl">
+			<ng-container *ngTemplateOutlet="menu__launch_url"></ng-container>
+		</cr-panel-action>
 		<cr-panel-action fxHide.lt-md *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
 		</cr-panel-action>
@@ -99,6 +102,10 @@
 		<ng-container *ngTemplateOutlet="menu__prev_match"></ng-container>
 		{{translates?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Previous Match'}}
 	</button> -->
+	<button mat-menu-item *ngIf="hasUrl" (click)="openUrl()" crClickStopPropagation>
+		<ng-container *ngTemplateOutlet="menu__launch_url"></ng-container>
+		{{ translates?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab' }}
+	</button>
 	<button mat-menu-item (click)="toggleContent()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__toggle_html"></ng-container>
 		{{
@@ -151,6 +158,15 @@
 <ng-template #menu__align_left>
 	<button mat-button [matTooltip]="translates?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'" (click)="direction = 'ltr'">
 		<mat-icon>format_align_left</mat-icon>
+	</button>
+</ng-template>
+<ng-template #menu__launch_url>
+	<button
+		mat-button
+		[matTooltip]="translates?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
+		(click)="openUrl()"
+	>
+		<mat-icon>launch</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_right>

@@ -54,7 +54,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 	 * - jump events
 	 */
 	ngOnInit() {
-		const { source$, viewMode$, suspect$, contentMode$ } = this.reportService;
+		const { source$, viewMode$, suspectResult$: suspect$, contentMode$ } = this.reportService;
 		const { suspectHtml$, jump$, textMatchClick$ } = this.highlightService;
 		const { sourceHtmlMatches$ } = this.matchService;
 		source$.pipe(untilDestroy(this), truthy()).subscribe(source => {
