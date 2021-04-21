@@ -28,7 +28,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService,
 		private translatesService: CopyleaksTranslateService
-	) { }
+	) {}
 	readonly MatchType = MatchType;
 	public isMobile = false;
 	public zoom = 1;
@@ -117,8 +117,8 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroy(this))
 			.subscribe(
 				([mode, suspect]) =>
-				(this.contentMode =
-					mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
+					(this.contentMode =
+						mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
 			);
 
 		onlyOneToOne$.pipe(untilDestroy(this)).subscribe(disable => (this.disableBackButton = disable));
@@ -138,5 +138,5 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
