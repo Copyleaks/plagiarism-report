@@ -64,9 +64,15 @@
 						{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.LOADING || 'Loading' }}...
 					</ng-container>
 					<ng-container *ngIf="done">
-						<div *ngIf="metadata" [matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
+						<div
+							*ngIf="metadata"
+							[matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'"
+							[matTooltipDisabled]="hideCreationTime"
+						>
 							{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.SCANNED || 'Scanned' }}
-							{{ metadata?.scannedDocument.creationTime | timeAgo }}
+							<ng-container *ngIf="!hideCreationTime">
+								{{ metadata?.scannedDocument.creationTime | timeAgo }}
+							</ng-container>
 						</div>
 					</ng-container>
 				</div>

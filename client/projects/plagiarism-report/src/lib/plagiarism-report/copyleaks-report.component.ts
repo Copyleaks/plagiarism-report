@@ -44,6 +44,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public config: CopyleaksReportConfig;
 	@Input()
 	public isDownloading = false;
+	@Input()
+	public hideCreationTime = false;
 
 	@Output()
 	public configChange = new EventEmitter<CopyleaksReportConfig>();

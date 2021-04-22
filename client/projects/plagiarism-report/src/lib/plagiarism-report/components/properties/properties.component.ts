@@ -26,6 +26,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 	@Input()
 	public isDownloading = false;
+	@Input()
+	public hideCreationTime = false;
 
 	public options: CopyleaksReportOptions;
 	public stats: ReportStatistics;
