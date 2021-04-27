@@ -19,8 +19,8 @@
 			</button>
 		</cr-panel-action>
 		<cr-panel-action *ngIf="!isMobile || isActive">
+			<div id="cr-hint-results-filter-list"></div>
 			<button
-				id="cr-hint-results-filter-list"
 				mat-button
 				[ngClass]="{ 'mat-stroked-button mat-warn': hiddenResults.length }"
 				[disabled]="!previews || hasOverlay"

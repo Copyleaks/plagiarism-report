@@ -105,3 +105,13 @@ cr-expansion-panel-body {
 		}
 	}
 }
+
+#cr-hint-results-score {
+	min-width: 100px;
+	text-align: center;
+}
+
+#cr-hint-results-found {
+	position: relative;
+	top: -30px;
+}

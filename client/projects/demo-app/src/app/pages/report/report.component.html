@@ -1,5 +1,6 @@
 <cr-copyleaks-report [config]="config"
 					 (configChange)="onConfigChange($event)"
-					 (help)="onBtnClick($event)"
+					 (help)="help()"
 					 (share)="onBtnClick($event)"
+					 (propertiesExpandChange)="onPropertiesExpandChange($event)"
 					 (download)="onBtnClick($event)"></cr-copyleaks-report>

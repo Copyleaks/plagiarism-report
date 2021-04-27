@@ -2,7 +2,10 @@
 	*ngIf="!hasResultsOverlay"
 	[isDownloading]="isDownloading"
 	[hideCreationTime]="hideCreationTime"
+	[expanded]="config.propertiesExpanded != null ? config.propertiesExpanded : true"
+	(expandChange)="propertiesExpandChange.emit($event)"
 ></cr-properties>
+
 <div
 	main-wrapper
 	fxLayout="row nowrap"

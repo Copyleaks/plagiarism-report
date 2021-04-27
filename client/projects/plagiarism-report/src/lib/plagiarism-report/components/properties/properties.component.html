@@ -1,4 +1,4 @@
-<cr-expansion-panel expanded="true">
+<cr-expansion-panel [expanded]="expanded" (expandChange)="onExpandChange($event)">
 	<cr-expansion-panel-title>
 		{{ translations?.SCAN_PROPERTIES_SECTION?.TITLE || 'SCAN PROPERTIES' }}
 	</cr-expansion-panel-title>
@@ -82,11 +82,8 @@
 		<!-- RESULTS FOUND -->
 		<!-- [style.color]="hiddenResultsCount? '#ff8400' : ''" -->
 		<div prop [style.cursor]="isAlertsView ? 'pointer' : ''" (click)="isAlertsView && showScanningResult()">
-			<div
-				header
-				id="cr-hint-results-found"
-				[matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null"
-			>
+			<div id="cr-hint-results-found"></div>
+			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
 				{{ resultsFound | shortNumber: 1 }}
 			</div>
 			<div
@@ -253,10 +250,13 @@
 			*ngIf="stats && !previewsLoading; else skeleton__prop"
 			[ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }"
 		>
-			<div header id="cr-hint-results-score">
+			<div header>
 				{{ score | percent: '1.0-1' }}
 			</div>
-			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
+			<div
+				id="cr-hint-results-score"
+				[matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null"
+			>
 				{{ translations?.SCAN_PROPERTIES_SECTION?.MATCH || 'match' }}{{ isShowingPartialStats ? '*' : '' }}
 			</div>
 

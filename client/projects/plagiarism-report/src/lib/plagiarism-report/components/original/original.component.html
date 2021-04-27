@@ -4,6 +4,7 @@
 	</cr-panel-header>
 	<cr-panel-actions>
 		<cr-panel-action fxHide.lt-md>
+			<div id="cr-hint-go-to-next-match"></div>
 			<ng-container *ngTemplateOutlet="menu__next_match"></ng-container>
 		</cr-panel-action>
 		<cr-panel-action fxHide.lt-md>
@@ -24,6 +25,7 @@
 		</cr-panel-action>
 		<cr-panel-action fxHide.lt-md *ngIf="!AlertPreviewViewMode">
 			<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
+			<div id="cr-hint-toggle-content"></div>
 		</cr-panel-action>
 		<cr-panel-action fxHide.gt-sm *ngIf="activeMediaQueries.includes('lt-md')">
 			<button mat-button [matMenuTriggerFor]="appMenu">
@@ -166,7 +168,6 @@
 </mat-menu>
 <ng-template #menu__next_match>
 	<button
-		id="cr-hint-go-to-next-match"
 		mat-button
 		(click)="onJumpToNextMatchClick()"
 		[disabled]="
@@ -191,7 +192,6 @@
 </ng-template>
 <ng-template #menu__toggle_content>
 	<button
-		id="cr-hint-toggle-content"
 		mat-button
 		*ngIf="!AlertPreviewViewMode"
 		[matTooltip]="

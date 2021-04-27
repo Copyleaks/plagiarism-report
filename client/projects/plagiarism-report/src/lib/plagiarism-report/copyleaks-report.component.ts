@@ -55,6 +55,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public share = new EventEmitter<MouseEvent>();
 	@Output()
 	public download = new EventEmitter<MouseEvent>();
+	@Output()
+	public propertiesExpandChange = new EventEmitter<boolean>();
 
 	@Input()
 	public dir: 'rtl' | 'ltr' = 'ltr';

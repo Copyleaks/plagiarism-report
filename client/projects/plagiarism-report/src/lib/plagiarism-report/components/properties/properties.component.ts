@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -28,6 +28,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public isDownloading = false;
 	@Input()
 	public hideCreationTime = false;
+	@Input()
+	public expanded = true;
+	@Output()
+	public expandChange = new EventEmitter();
 
 	public options: CopyleaksReportOptions;
 	public stats: ReportStatistics;
@@ -238,6 +242,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			direction: this.directionService.dir,
 			data: this.reportService,
 		});
+	}
+
+	/**
+	 * run on properties expand change
+	 */
+	onExpandChange(expanded: boolean) {
+		if (this.expandChange) {
+			this.expandChange.emit(expanded);
+		}
 	}
 
 	get resultsFound() {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 /** animation for expanding and collapsing an element's height */
@@ -28,6 +28,7 @@ export const expandCollapseAnimation = trigger('expandCollapse', [
 export class ExpansionPanelComponent {
 	@Input() expanded = false;
 	@Input() disabled = false;
+	@Output() expandChange = new EventEmitter();
 	protected animationState = 'close';
 	/**
 	 * Flips the expansion panel `expanded` state.
@@ -38,6 +39,9 @@ export class ExpansionPanelComponent {
 	toggle(force?: boolean) {
 		this.expanded = force === undefined ? !this.expanded : force;
 		this.animationState = this.expanded ? 'open' : 'close';
+		if (this.expandChange) {
+			this.expandChange.emit(this.expanded);
+		}
 	}
 }
 

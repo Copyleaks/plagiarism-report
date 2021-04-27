@@ -31,6 +31,8 @@ export interface CopyleaksReportConfig {
 	disableSuspectBackButton?: boolean;
 	/** The id of the scan the report is displaying */
 	scanId?: string;
+	/** The init state of the properties expand */
+	propertiesExpanded?: boolean;
 	/** The suspect that is focused in the report */
 	suspectId?: string;
 	/** The passed component will be displayed over the results, the Results and Scan Properties sections will be hidden */

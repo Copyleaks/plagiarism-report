@@ -9,6 +9,7 @@ import deepEqual from 'deep-equal';
 import { zip, from, interval, of, forkJoin } from 'rxjs';
 import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
 
+// import * as IntroJs from "intro.js";
 @Component({
 	selector: 'app-report',
 	templateUrl: './report.component.html',
@@ -33,6 +34,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 		]
 		// resultsOverlayComponent: ReportResultsOverlayComponent
 	};
+	introJS: any;
+	preoprtiesExpanded: boolean = true;
 
 	constructor(
 		private router: Router,
@@ -64,6 +67,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		// 	return previews.sort((a, b) => a.matchedWords - b.matchedWords);
 		// }
 	}
+
 	translateReport() {
 		const translates: CopyleaksTranslations = {
 			PLAGIARISM_FREE: 'PLAGIARISM_FREE_T',
@@ -181,12 +185,14 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 		this.reportTranslationsSvc.setTranslations(translates);
 	}
+
 	onQueryChange(params: ParamMap) {
 		const config = this.configFromQuery(params);
 		if (!deepEqual(config, this.config)) {
 			this.config = config;
 		}
 	}
+
 	onConfigChange(config: CopyleaksReportConfig) {
 		if (deepEqual(this.config, config)) {
 			return;
@@ -197,6 +203,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 			queryParamsHandling: 'merge',
 		});
 	}
+
 	configFromQuery(queryParamMap: ParamMap): CopyleaksReportConfig {
 		const keys = ['suspectId', 'viewMode', 'contentMode', 'sourcePage', 'suspectPage'];
 		const config = {} as CopyleaksReportConfig;
@@ -214,6 +221,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		}
 		return query;
 	}
+
 	/**
 	 * simulate a real time feed of scan results for a given scan id
 	 */
@@ -382,8 +390,77 @@ export class ReportComponent implements OnInit, OnDestroy {
 		// 	forkJoin(requests).subscribe();
 		// });
 	}
+
 	onBtnClick(event: any) {
 		console.log(event);
 	}
+
+	help() {
+
+		// this.introJS = IntroJs();
+
+		if (this.introJS) {
+			this.introJS.removeHints();
+			this.introJS.refresh();
+
+			var options = [
+				{
+					element: document.getElementById('cr-hint-go-to-next-match'),
+					hint: 'INTROJS.REPORT_HINTS.GO_TO_NEXT_MATCH',
+					hintPosition: 'top-right'
+				},
+				{
+					element: document.getElementById('cr-hint-toggle-content'),
+					hint: 'INTROJS.REPORT_HINTS.TOGGLE_CONTENT',
+					hintPosition: 'top-right'
+				},
+				{
+					element: document.getElementById('cr-hint-results-filter-list'),
+					hint: 'INTROJS.REPORT_HINTS.RESULTS_FILTER_LIST',
+					hintPosition: 'top-right'
+				},
+				{
+					element: document.getElementById('cr-hint-results-card'),
+					hint: 'INTROJS.REPORT_HINTS.RESULTS_CARD',
+					hintPosition: 'top-left'
+				}
+			]
+
+			if (this.preoprtiesExpanded) {
+				options.push(
+					{
+						element: document.getElementById('cr-hint-results-found'),
+						hint: 'INTROJS.REPORT_HINTS.RESULTS_FOUND',
+						hintPosition: 'top-middle'
+					},
+					{
+						element: document.getElementById('cr-hint-identical'),
+						hint: 'INTROJS.REPORT_HINTS.IDENTICAL',
+						hintPosition: 'middle-middle'
+					},
+					{
+						element: document.getElementById('cr-hint-results-score'),
+						hint: 'INTROJS.REPORT_HINTS.RESULTS_SCORE',
+						hintPosition: 'bottom-right'
+					})
+			}
+
+			this.introJS.setOptions({
+				tooltipClass: 'copyleaks-intro-tooltip',
+				hints: options
+			})
+			this.introJS.showHints();
+		}
+	}
+
+	onPropertiesExpandChange(expanded: boolean) {
+		this.preoprtiesExpanded = expanded;
+		if (this.introJS) {
+			setTimeout(() => {
+				this.help();
+			}, 300);
+		}
+	}
+
 	ngOnDestroy() { }
 }

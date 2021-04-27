@@ -136,3 +136,14 @@ cr-panel {
 	width: 100%;
 	max-width: 320px;
 }
+
+#cr-hint-toggle-content {
+	position: relative;
+	top: -30px;
+	right: -17px;
+}
+#cr-hint-go-to-next-match {
+	position: relative;
+	right: -2px;
+	top: -5px;
+}

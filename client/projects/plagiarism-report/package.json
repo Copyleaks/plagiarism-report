@@ -6,7 +6,7 @@
 	},
 	"license": "SEE LICENSE IN LICENSE.md",
 	"homepage": "https://api.copyleaks.com",
-	"version": "3.0.24",
+	"version": "3.0.25",
 	"dependencies": {
 		"scroll-into-view-if-needed": "^2.2.20",
 		"@ncstate/sat-popover": "^4.0.0",
