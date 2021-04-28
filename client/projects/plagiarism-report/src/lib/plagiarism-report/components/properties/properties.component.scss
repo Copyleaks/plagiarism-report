@@ -107,8 +107,8 @@ cr-expansion-panel-body {
 }
 
 #cr-hint-results-score {
-	min-width: 100px;
-	text-align: center;
+	position: relative;
+	right: -25px;
 }
 
 #cr-hint-results-found {

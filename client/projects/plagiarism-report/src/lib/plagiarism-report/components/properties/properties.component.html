@@ -253,10 +253,8 @@
 			<div header>
 				{{ score | percent: '1.0-1' }}
 			</div>
-			<div
-				id="cr-hint-results-score"
-				[matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null"
-			>
+			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
+				<div id="cr-hint-results-score"></div>
 				{{ translations?.SCAN_PROPERTIES_SECTION?.MATCH || 'match' }}{{ isShowingPartialStats ? '*' : '' }}
 			</div>
 
