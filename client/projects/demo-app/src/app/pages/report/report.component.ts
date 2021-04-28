@@ -9,7 +9,7 @@ import deepEqual from 'deep-equal';
 import { zip, from, interval, of, forkJoin } from 'rxjs';
 import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
 
-// import * as IntroJs from "intro.js";
+import * as IntroJs from "intro.js";
 @Component({
 	selector: 'app-report',
 	templateUrl: './report.component.html',
@@ -397,7 +397,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 	help() {
 
-		// this.introJS = IntroJs();
+		this.introJS = IntroJs();
 
 		if (this.introJS) {
 			this.introJS.removeHints();
@@ -440,8 +440,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 					},
 					{
 						element: document.getElementById('cr-hint-results-score'),
-						hint: 'INTROJS.REPORT_HINTS.RESULTS_SCORE',
-						hintPosition: 'bottom-right'
+						hint: 'The aggregate score is a percentage based on all of the results compared to the submitted text',
+						hintPosition: 'top-right'
 					})
 			}
 

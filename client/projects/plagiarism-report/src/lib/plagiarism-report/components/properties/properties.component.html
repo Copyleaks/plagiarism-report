@@ -251,11 +251,11 @@
 			[ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }"
 		>
 			<div header>
+				<div id="cr-hint-results-score"></div>
 				{{ score | percent: '1.0-1' }}
 			</div>
 			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
-				<div id="cr-hint-results-score"></div>
-				{{ translations?.SCAN_PROPERTIES_SECTION?.MATCH || 'match' }}{{ isShowingPartialStats ? '*' : '' }}
+				<span>{{ translations?.SCAN_PROPERTIES_SECTION?.MATCH || 'match' }}{{ isShowingPartialStats ? '*' : '' }}</span>
 			</div>
 
 			<ng-container>

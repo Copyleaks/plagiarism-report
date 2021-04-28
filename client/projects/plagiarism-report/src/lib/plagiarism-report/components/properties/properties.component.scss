@@ -107,8 +107,10 @@ cr-expansion-panel-body {
 }
 
 #cr-hint-results-score {
+	display: inline-block;
 	position: relative;
-	right: -25px;
+	top: -20px;
+	right: -8px;
 }
 
 #cr-hint-results-found {

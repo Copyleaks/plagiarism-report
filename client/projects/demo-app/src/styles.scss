@@ -12,3 +12,26 @@ body {
 	margin: 0;
 	font: 400 14px/20px Open Sans;
 }
+
+.copyleaks-intro-tooltip {
+	.introjs-tooltiptext {
+		padding: 0px 15px 15px !important;
+		text-align: center;
+		p {
+			text-align: left;
+		}
+	}
+	.introjs-button {
+		background: #3f9bf5;
+		border: none;
+		border-radius: 5px;
+		color: white;
+		text-shadow: unset;
+		font-family: "Open Sans", sans-serif;
+	}
+}
+
+.introjs-hint-pulse {
+	border-color: #3f9ef5 !important;
+	background-color: #0787fd8a !important;
+}
