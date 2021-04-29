@@ -441,7 +441,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					{
 						element: document.getElementById('cr-hint-results-score'),
 						hint: 'The aggregate score is a percentage based on all of the results compared to the submitted text',
-						hintPosition: 'top-right'
+						hintPosition: 'middle-right'
 					})
 			}
 
