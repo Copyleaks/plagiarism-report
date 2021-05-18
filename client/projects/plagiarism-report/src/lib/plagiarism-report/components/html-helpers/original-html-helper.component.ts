@@ -38,6 +38,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * handle match selection
 	 */
 	handleMatchSelect(event: MatchSelectEvent) {
+		console.log(this.matches);
 		this.highlightService.setOriginalHtmlMatch(event.index !== -1 ? this.matches[event.index] : null);
 	}
 
@@ -50,7 +51,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * - jump events
 	 */
 	ngOnInit() {
-		const { source$, viewMode$, contentMode$ } = this.reportService;
+		const { source$, viewMode, contentMode$ } = this.reportService;
 		const { jump$ } = this.highlightService;
 		const { originalHtmlMatches$ } = this.matchService;
 		source$
@@ -68,9 +69,9 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 				this.matches = matches;
 				this.renderMatches(matches);
 			});
-		const onOneToManyHtmlJump$ = combineLatest([jump$, viewMode$, contentMode$]).pipe(
+		const onOneToManyHtmlJump$ = combineLatest([jump$, contentMode$]).pipe(
 			untilDestroy(this),
-			filter(([, view, content]) => view === 'one-to-many' && content === 'html'),
+			filter(([, content]) => viewMode === 'one-to-many' && content === 'html'),
 			map(([forward]) => forward)
 		);
 		onOneToManyHtmlJump$.subscribe(forward => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
@@ -80,5 +81,5 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

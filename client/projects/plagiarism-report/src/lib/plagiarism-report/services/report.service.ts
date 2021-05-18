@@ -71,7 +71,10 @@ export class ReportService implements OnDestroy {
 	public config$ = this._config.asObservable();
 	/** sub config observeables */
 	public contentMode$ = this.config$.pipe(map(x => x.contentMode));
+
 	public viewMode$ = this.config$.pipe(map(x => x.viewMode));
+	public viewMode = this._config.value.viewMode;
+
 	public suspectId$ = this.config$.pipe(map(x => x.suspectId));
 	public help$ = this.config$.pipe(map(x => x.help));
 	public download$ = this.config$.pipe(map(x => x.download));

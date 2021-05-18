@@ -7,6 +7,7 @@ import {
 	ComponentFactoryResolver,
 	ViewChild,
 	ViewContainerRef,
+	ElementRef,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { combineLatest } from 'rxjs';
@@ -20,7 +21,7 @@ import { IMAGES } from '../../assets/images';
 import { CopyleaksService } from '../../services/copyleaks.service';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { DirectionService } from '../../services/direction.service';
-import { delay } from 'rxjs/operators';
+import { delay, filter } from 'rxjs/operators';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -34,6 +35,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	hasOverlay = false;
 	translations: CopyleaksTranslations;
 	isLoadingResults = true;
+	isComponentDisplayed = true;
 
 	constructor(
 		private componentFactoryResolver: ComponentFactoryResolver,
@@ -44,8 +46,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private highlightService: HighlightService,
 		private translationsService: CopyleaksTranslateService,
 		private directionService: DirectionService,
-		private cd: ChangeDetectorRef
-	) {}
+		private cd: ChangeDetectorRef,
+		private elementRef: ElementRef<HTMLElement>
+	) { }
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -81,8 +84,13 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		const { filteredPreviews$, hiddenResults$, contentMode$, results$ } = this.reportService;
 		const { originalText$, originalHtml$ } = this.highlightService;
 		combineLatest([originalText$, originalHtml$, contentMode$])
-			.pipe(untilDestroy(this))
+			.pipe(
+				untilDestroy(this),
+				filter(_ => this.isComponentDisplayed)
+			)
 			.subscribe(([text, html, content]) => {
+				console.log('focusedMatch change');
+
 				this.focusedMatch = content === 'text' ? text && text.match : html;
 				this.cd.detectChanges();
 			});
@@ -107,7 +115,24 @@ export class ResultsComponent implements OnInit, OnDestroy {
 				this.isLoadingResults = false;
 			}
 		});
+
+		this.listenForDisplayChange();
+
 	}
+
+	/**
+	 * listener for display change
+	 */
+	private listenForDisplayChange() {
+		const observer = new MutationObserver(() => {
+			this.isComponentDisplayed = this.elementRef.nativeElement.style.display !== 'none';
+			console.log('displayed ', this.isComponentDisplayed);
+		});
+
+		const target = this.elementRef.nativeElement;
+		observer.observe(target, { attributes: true, attributeFilter: ['style'] });
+	}
+
 	/**
 	 * check if the results overlay component was passed
 	 */
@@ -142,5 +167,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
