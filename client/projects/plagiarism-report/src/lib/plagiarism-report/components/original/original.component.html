@@ -96,16 +96,10 @@
 				</ng-template>
 
 				<!-- html for one-to-many -->
-				<iframe
-					[class]="hasHtml && isHtml && isOneToMany ? 'show-iframe' : 'hide-iframe'"
-					cr-original-html-helper
-				></iframe>
+				<iframe [fxShow]="hasHtml && isHtml && isOneToMany" cr-original-html-helper></iframe>
 
 				<!-- html for one to one -->
-				<iframe
-					[class]="hasHtml && isHtml && !isOneToMany ? 'show-iframe' : 'hide-iframe'"
-					cr-source-html-helper
-				></iframe>
+				<iframe [fxShow]="hasHtml && isHtml && !isOneToMany" cr-source-html-helper></iframe>
 			</div>
 		</div>
 
