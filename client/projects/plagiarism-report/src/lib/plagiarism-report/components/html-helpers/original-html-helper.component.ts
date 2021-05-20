@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { MatchJumpEvent, MatchSelectEvent } from '../../models';
 import { HighlightService } from '../../services/highlight.service';
@@ -38,7 +38,6 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * handle match selection
 	 */
 	handleMatchSelect(event: MatchSelectEvent) {
-		console.log(this.matches);
 		this.highlightService.setOriginalHtmlMatch(event.index !== -1 ? this.matches[event.index] : null);
 	}
 
@@ -51,7 +50,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * - jump events
 	 */
 	ngOnInit() {
-		const { source$, viewMode, contentMode$ } = this.reportService;
+		const { source$, viewMode$, contentMode$ } = this.reportService;
 		const { jump$ } = this.highlightService;
 		const { originalHtmlMatches$ } = this.matchService;
 		source$
@@ -69,12 +68,20 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 				this.matches = matches;
 				this.renderMatches(matches);
 			});
-		const onOneToManyHtmlJump$ = combineLatest([jump$, contentMode$]).pipe(
+
+		const onOneToManyHtmlJump$ = combineLatest([jump$, contentMode$, viewMode$]).pipe(
+			distinctUntilChanged(),
 			untilDestroy(this),
-			filter(([, content]) => viewMode === 'one-to-many' && content === 'html'),
+			filter(([forward, content, viewMode]) =>
+				(forward === true || forward === false) &&
+				viewMode === 'one-to-many' &&
+				content === 'html'
+			),
 			map(([forward]) => forward)
 		);
-		onOneToManyHtmlJump$.subscribe(forward => this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent));
+		onOneToManyHtmlJump$.subscribe(forward => {
+			this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent)
+		});
 	}
 
 	/**

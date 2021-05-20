@@ -13,6 +13,7 @@ import { MAX_TEXT_ZOOM, MIN_TEXT_ZOOM, TEXT_FONT_SIZE_UNIT } from '../../utils/c
 import { truthy } from '../../utils/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { take } from 'rxjs/operators';
+import { HighlightService } from '../../services/highlight.service';
 
 @Component({
 	selector: 'cr-suspect',
@@ -27,8 +28,9 @@ export class SuspectComponent implements OnInit, OnDestroy {
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
 		private matchService: MatchService,
-		private translatesService: CopyleaksTranslateService
-	) {}
+		private translatesService: CopyleaksTranslateService,
+		private highlightService: HighlightService
+	) { }
 	readonly MatchType = MatchType;
 	public isMobile = false;
 	public zoom = 1;
@@ -65,7 +67,10 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * exits one-to-one mode and goes to one-to-many mode
 	 */
 	goBack() {
-		this.reportService.configure({ viewMode: 'one-to-many', suspectId: null });
+		this.highlightService.jump(null);
+		setTimeout(() => {
+			this.reportService.configure({ viewMode: 'one-to-many', suspectId: null });
+		});
 	}
 
 	/**
@@ -117,8 +122,8 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroy(this))
 			.subscribe(
 				([mode, suspect]) =>
-					(this.contentMode =
-						mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
+				(this.contentMode =
+					mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
 			);
 
 		onlyOneToOne$.pipe(untilDestroy(this)).subscribe(disable => (this.disableBackButton = disable));
@@ -138,5 +143,5 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

@@ -89,8 +89,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
 				filter(_ => this.isComponentDisplayed)
 			)
 			.subscribe(([text, html, content]) => {
-				console.log('focusedMatch change');
-
 				this.focusedMatch = content === 'text' ? text && text.match : html;
 				this.cd.detectChanges();
 			});
@@ -125,8 +123,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 */
 	private listenForDisplayChange() {
 		const observer = new MutationObserver(() => {
-			this.isComponentDisplayed = this.elementRef.nativeElement.style.display !== 'none';
-			console.log('displayed ', this.isComponentDisplayed);
+			this.isComponentDisplayed = this.elementRef?.nativeElement?.style?.display !== 'none';
 		});
 
 		const target = this.elementRef.nativeElement;
