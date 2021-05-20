@@ -84,8 +84,6 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 				filter(([textMatchClickEvent, view, content]) => textMatchClickEvent && view === 'one-to-many' && content === 'text')
 			)
 			.subscribe(([textMatchClickEvent, ,]) => {
-				console.log('textMatchClick$');
-
 				this.lastSelectedOriginalTextMatch = textMatchClickEvent
 			});
 
@@ -97,7 +95,6 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 				filter(([view, content]) => this.lastSelectedOriginalTextMatch && view === 'one-to-many' && content === 'text')
 			)
 			.subscribe(_ => {
-				console.log('view');
 				setTimeout(() => {
 					const start = this.lastSelectedOriginalTextMatch.elem.match.start;
 					const end = this.lastSelectedOriginalTextMatch.elem.match.end;

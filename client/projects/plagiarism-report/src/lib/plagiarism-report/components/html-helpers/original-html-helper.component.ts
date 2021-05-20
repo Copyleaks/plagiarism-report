@@ -71,7 +71,6 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 				untilDestroy(this)
 			)
 			.subscribe(([, matches]) => {
-				console.log('deepEqual: ', deepEqual(this.matches, matches));
 
 				if (!this.renderedSuccessfully || !deepEqual(this.matches, matches)) {
 					this.matches = matches;
