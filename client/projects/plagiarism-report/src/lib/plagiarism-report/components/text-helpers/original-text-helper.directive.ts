@@ -16,7 +16,7 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 		@Host() private host: OriginalComponent,
 		private reportService: ReportService,
 		private highlightService: HighlightService
-	) { }
+	) {}
 
 	@ContentChildren(MatchComponent)
 	private children: QueryList<MatchComponent>;
@@ -81,10 +81,12 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 				distinctUntilChanged(),
 				untilDestroy(this),
 				withLatestFrom(viewMode$, contentMode$),
-				filter(([textMatchClickEvent, view, content]) => textMatchClickEvent && view === 'one-to-many' && content === 'text')
+				filter(
+					([textMatchClickEvent, view, content]) => textMatchClickEvent && view === 'one-to-many' && content === 'text'
+				)
 			)
 			.subscribe(([textMatchClickEvent, ,]) => {
-				this.lastSelectedOriginalTextMatch = textMatchClickEvent
+				this.lastSelectedOriginalTextMatch = textMatchClickEvent;
 			});
 
 		viewMode$
@@ -111,5 +113,5 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

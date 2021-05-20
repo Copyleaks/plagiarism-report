@@ -11,63 +11,54 @@
 			<ng-container *ngTemplateOutlet="menu__prev_match"></ng-container>
 		</cr-panel-action>
 
-		<cr-panel-action fxHide.lt-md
-						 *ngIf="!isHtml">
+		<cr-panel-action fxHide.lt-md *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md
-						 *ngIf="!isHtml">
+		<cr-panel-action fxHide.lt-md *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md
-						 *ngIf="!isHtml">
+		<cr-panel-action fxHide.lt-md *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md
-						 *ngIf="!isHtml">
+		<cr-panel-action fxHide.lt-md *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
 		</cr-panel-action>
-		<cr-panel-action fxHide.lt-md
-						 *ngIf="!AlertPreviewViewMode">
+		<cr-panel-action fxHide.lt-md *ngIf="!AlertPreviewViewMode">
 			<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
 			<div id="cr-hint-toggle-content"></div>
 		</cr-panel-action>
-		<cr-panel-action fxHide.gt-sm
-						 *ngIf="activeMediaQueries.includes('lt-md')">
-			<button mat-button
-					[matMenuTriggerFor]="appMenu">
+		<cr-panel-action fxHide.gt-sm *ngIf="activeMediaQueries.includes('lt-md')">
+			<button mat-button [matMenuTriggerFor]="appMenu">
 				<mat-icon>more_vert</mat-icon>
 			</button>
 		</cr-panel-action>
 	</cr-panel-actions>
 
 	<cr-panel-body fxLayout="column nowrap">
-		<div fxFlex
-			 fxLayout="column"
-			 fxLayoutGap="1em">
-			<div card
-				 fxFlex
-				 class="mat-elevation-z3"
-				 fxLayout="column">
+		<div fxFlex fxLayout="column" fxLayoutGap="1em">
+			<div card fxFlex class="mat-elevation-z3" fxLayout="column">
 				<!-- skeleton placeholder -->
 				<ng-container *ngTemplateOutlet="!source ? skeleton__body : null"></ng-container>
 
 				<!-- text for one-to-many -->
-				<div [fxShow]="source && !(hasHtml && isHtml) && isOneToMany"
-					 crOriginalTextHelper
-					 text-container
-					 [ngStyle]="{ 'font-size': zoom + 'em' }"
-					 [dir]="direction">
+				<div
+					[fxShow]="source && !(hasHtml && isHtml) && isOneToMany"
+					crOriginalTextHelper
+					text-container
+					[ngStyle]="{ 'font-size': zoom + 'em' }"
+					[dir]="direction"
+				>
 					<ng-container *ngIf="textMatches; else clean">
 						<ng-container *ngFor="let partial of textMatches[currentPage - 1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{ partial.content }}</span>
-							<span *ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
-								  [cr-match]="partial.match"
-								  origin="original">
+							<span
+								*ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
+								[cr-match]="partial.match"
+								origin="original"
+							>
 								{{ partial.content }}
 							</span>
-							<i *ngIf="partial.match.type === MatchType.excluded"
-							   [title]="EXCLUDE_MESSAGE[partial.match.reason]">
+							<i *ngIf="partial.match.type === MatchType.excluded" [title]="EXCLUDE_MESSAGE[partial.match.reason]">
 								{{ partial.content }}
 							</i>
 						</ng-container>
@@ -75,21 +66,24 @@
 				</div>
 
 				<!-- text for one-to-one -->
-				<div [fxShow]="source && !(hasHtml && isHtml) && !isOneToMany"
-					 crSourceTextHelper
-					 text-container
-					 [ngStyle]="{ 'font-size': zoom + 'em' }"
-					 [dir]="direction">
+				<div
+					[fxShow]="source && !(hasHtml && isHtml) && !isOneToMany"
+					crSourceTextHelper
+					text-container
+					[ngStyle]="{ 'font-size': zoom + 'em' }"
+					[dir]="direction"
+				>
 					<ng-container *ngIf="textMatches; else clean">
 						<ng-container *ngFor="let partial of textMatches[currentPage - 1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{ partial.content }}</span>
-							<i *ngIf="partial.match.type === MatchType.excluded"
-							   [title]="EXCLUDE_MESSAGE[partial.match.reason]">
+							<i *ngIf="partial.match.type === MatchType.excluded" [title]="EXCLUDE_MESSAGE[partial.match.reason]">
 								{{ partial.content }}
 							</i>
-							<span *ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
-								  [cr-match]="partial.match"
-								  origin="source">
+							<span
+								*ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
+								[cr-match]="partial.match"
+								origin="source"
+							>
 								{{ partial.content }}
 							</span>
 						</ng-container>
@@ -102,23 +96,27 @@
 				</ng-template>
 
 				<!-- html for one-to-many -->
-				<iframe [class]="hasHtml && isHtml && isOneToMany ? 'show-iframe':'hide-iframe'"
-						cr-original-html-helper></iframe>
+				<iframe
+					[class]="hasHtml && isHtml && isOneToMany ? 'show-iframe' : 'hide-iframe'"
+					cr-original-html-helper
+				></iframe>
 
 				<!-- html for one to one -->
-				<iframe [class]="hasHtml && isHtml && !isOneToMany ? 'show-iframe':'hide-iframe'"
-						cr-source-html-helper></iframe>
+				<iframe
+					[class]="hasHtml && isHtml && !isOneToMany ? 'show-iframe' : 'hide-iframe'"
+					cr-source-html-helper
+				></iframe>
 			</div>
 		</div>
 
-		<div content-footer
-			 fxLayout="row-reverse nowrap"
-			 fxLayoutAlign="space-between center">
-			<cr-mat-pagination [currentPage]="currentPage"
-							   *ngIf="!(hasHtml && isHtml) && pages?.length !== 1"
-							   showFirstLastButtons
-							   (page)="onPage($event)"
-							   [totalPages]="pages?.length || 1"></cr-mat-pagination>
+		<div content-footer fxLayout="row-reverse nowrap" fxLayoutAlign="space-between center">
+			<cr-mat-pagination
+				[currentPage]="currentPage"
+				*ngIf="!(hasHtml && isHtml) && pages?.length !== 1"
+				showFirstLastButtons
+				(page)="onPage($event)"
+				[totalPages]="pages?.length || 1"
+			></cr-mat-pagination>
 
 			<cr-powered-by *ngIf="!isOneToMany"></cr-powered-by>
 		</div>
@@ -127,120 +125,125 @@
 
 <!-- menu -->
 <mat-menu #appMenu>
-	<button mat-menu-item
-			[disabled]="
+	<button
+		mat-menu-item
+		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
-			(click)="onJumpToNextMatchClick()"
-			crClickStopPropagation>
+		(click)="onJumpToNextMatchClick()"
+		crClickStopPropagation
+	>
 		<ng-container *ngTemplateOutlet="menu__next_match"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Next Match' }}
 	</button>
-	<button mat-menu-item
-			[disabled]="
+	<button
+		mat-menu-item
+		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
-			(click)="onJumpToNextMatchClick(false)"
-			crClickStopPropagation>
+		(click)="onJumpToNextMatchClick(false)"
+		crClickStopPropagation
+	>
 		<ng-container *ngTemplateOutlet="menu__prev_match"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Previous Match' }}
 	</button>
-	<button mat-menu-item
-			[disabled]="!hasHtml"
-			(click)="toggleContent()"
-			crClickStopPropagation>
+	<button mat-menu-item [disabled]="!hasHtml" (click)="toggleContent()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
 		{{
-		isHtml
-		? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'
-		: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
+			isHtml
+				? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'
+				: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
 		}}
 	</button>
-	<button mat-menu-item
-			*ngIf="!isHtml"
-			crClickStopPropagation>
+	<button mat-menu-item *ngIf="!isHtml" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align Left' }}
 	</button>
-	<button mat-menu-item
-			*ngIf="!isHtml"
-			crClickStopPropagation>
+	<button mat-menu-item *ngIf="!isHtml" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align Right' }}
 	</button>
-	<button mat-menu-item
-			*ngIf="!isHtml"
-			(click)="increaseFontSize()"
-			crClickStopPropagation>
+	<button mat-menu-item *ngIf="!isHtml" (click)="increaseFontSize()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase Font Size' }}
 	</button>
-	<button mat-menu-item
-			*ngIf="!isHtml"
-			(click)="decreaseFontSize()"
-			crClickStopPropagation>
+	<button mat-menu-item *ngIf="!isHtml" (click)="decreaseFontSize()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease Font Size' }}
 	</button>
 </mat-menu>
 <ng-template #menu__next_match>
-	<button mat-button
-			(click)="onJumpToNextMatchClick()"
-			[disabled]="
+	<button
+		mat-button
+		(click)="onJumpToNextMatchClick()"
+		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
-			[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'">
+		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'"
+	>
 		<mat-icon>arrow_downward</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__prev_match>
-	<button mat-button
-			(click)="onJumpToNextMatchClick(false)"
-			[disabled]="
+	<button
+		mat-button
+		(click)="onJumpToNextMatchClick(false)"
+		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
-			[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'">
+		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'"
+	>
 		<mat-icon>arrow_upward</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__toggle_content>
-	<button mat-button
-			*ngIf="!AlertPreviewViewMode"
-			[matTooltip]="
+	<button
+		mat-button
+		*ngIf="!AlertPreviewViewMode"
+		[matTooltip]="
 			isHtml
 				? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'
 				: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
 		"
-			[disabled]="!hasHtml"
-			(click)="toggleContent()">
+		[disabled]="!hasHtml"
+		(click)="toggleContent()"
+	>
 		<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_left>
-	<button mat-button
-			[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'"
-			(click)="direction = 'ltr'">
+	<button
+		mat-button
+		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'"
+		(click)="direction = 'ltr'"
+	>
 		<mat-icon>format_align_left</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_right>
-	<button mat-button
-			[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
-			(click)="direction = 'rtl'">
+	<button
+		mat-button
+		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
+		(click)="direction = 'rtl'"
+	>
 		<mat-icon>format_align_right</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__font_inc>
-	<button mat-button
-			[matTooltip]="translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
-			(click)="increaseFontSize()">
+	<button
+		mat-button
+		[matTooltip]="translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
+		(click)="increaseFontSize()"
+	>
 		<mat-icon>zoom_in</mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__font_dec>
-	<button mat-button
-			[matTooltip]="translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
-			(click)="decreaseFontSize()">
+	<button
+		mat-button
+		[matTooltip]="translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
+		(click)="decreaseFontSize()"
+	>
 		<mat-icon>zoom_out</mat-icon>
 	</button>
 </ng-template>
@@ -248,28 +251,30 @@
 <!-- skeletons -->
 
 <ng-template #skeleton__pagination>
-	<div skeleton__pagination-wrapper
-		 fxLayout="row nowrap"
-		 fxLayoutGap="0.5em"
-		 fxLayoutAlign.lt-md="center stretch"
-		 fxLayoutAlign="start stretch">
+	<div
+		skeleton__pagination-wrapper
+		fxLayout="row nowrap"
+		fxLayoutGap="0.5em"
+		fxLayoutAlign.lt-md="center stretch"
+		fxLayoutAlign="start stretch"
+	>
 		<ngx-skeleton-loader [theme]="{ width: '2em', height: '2em' }"></ngx-skeleton-loader>
 		<ngx-skeleton-loader [theme]="{ width: '2em', height: '2em' }"></ngx-skeleton-loader>
-		<ngx-skeleton-loader fxFlex
-							 [theme]="{ width: '100%', minWidth: '2em', height: '2em' }"></ngx-skeleton-loader>
+		<ngx-skeleton-loader fxFlex [theme]="{ width: '100%', minWidth: '2em', height: '2em' }"></ngx-skeleton-loader>
 		<ngx-skeleton-loader [theme]="{ width: '2em', height: '2em' }"></ngx-skeleton-loader>
 		<ngx-skeleton-loader [theme]="{ width: '2em', height: '2em' }"></ngx-skeleton-loader>
 	</div>
 </ng-template>
 
 <ng-template #skeleton__body>
-	<div fxFlex
-		 fxLayout="column"
-		 fxLayoutAlign="start stretch"
-		 fxLayoutGap="1em"
-		 style="overflow: hidden;margin:1em"
-		 skeleton__body>
-		<ngx-skeleton-loader [theme]="{ height: '100%' }"
-							 *ngFor="let item of 20 | array"></ngx-skeleton-loader>
+	<div
+		fxFlex
+		fxLayout="column"
+		fxLayoutAlign="start stretch"
+		fxLayoutGap="1em"
+		style="overflow: hidden;margin:1em"
+		skeleton__body
+	>
+		<ngx-skeleton-loader [theme]="{ height: '100%' }" *ngFor="let item of 20 | array"></ngx-skeleton-loader>
 	</div>
 </ng-template>

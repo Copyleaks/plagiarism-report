@@ -15,7 +15,7 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 		@Host() private host: OriginalComponent,
 		private highlightService: HighlightService,
 		private reportService: ReportService
-	) { }
+	) {}
 
 	@ContentChildren(MatchComponent)
 	private children: QueryList<MatchComponent>;
@@ -125,5 +125,5 @@ export class SourceTextHelperDirective implements AfterContentInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

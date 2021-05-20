@@ -67,11 +67,8 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 				this.setHtml(this.html);
 			});
 		combineLatest([source$.pipe(truthy()), originalHtmlMatches$])
-			.pipe(
-				untilDestroy(this)
-			)
+			.pipe(untilDestroy(this))
 			.subscribe(([, matches]) => {
-
 				if (!this.renderedSuccessfully || !deepEqual(this.matches, matches)) {
 					this.matches = matches;
 					this.renderMatches(matches);
@@ -87,15 +84,14 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 		const onOneToManyHtmlJump$ = combineLatest([jump$, contentMode$, viewMode$]).pipe(
 			distinctUntilChanged(),
 			untilDestroy(this),
-			filter(([forward, content, viewMode]) =>
-				(forward === true || forward === false) &&
-				viewMode === 'one-to-many' &&
-				content === 'html'
+			filter(
+				([forward, content, viewMode]) =>
+					(forward === true || forward === false) && viewMode === 'one-to-many' && content === 'html'
 			),
 			map(([forward]) => forward)
 		);
 		onOneToManyHtmlJump$.subscribe(forward => {
-			this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent)
+			this.messageFrame({ type: 'match-jump', forward } as MatchJumpEvent);
 		});
 	}
 
@@ -103,5 +99,5 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

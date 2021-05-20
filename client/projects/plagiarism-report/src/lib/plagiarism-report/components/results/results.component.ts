@@ -48,7 +48,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private directionService: DirectionService,
 		private cd: ChangeDetectorRef,
 		private elementRef: ElementRef<HTMLElement>
-	) { }
+	) {}
 
 	@HostBinding('class.active') isActive = false;
 	@HostBinding('class.mobile') isMobile = false;
@@ -115,7 +115,6 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		});
 
 		this.listenForDisplayChange();
-
 	}
 
 	/**
@@ -164,5 +163,5 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }
