@@ -1,5 +1,5 @@
 /* tslint:disable */
-import { MatchJumpEvent, PostMessageEvent } from '../../models';
+import { MatchJumpEvent, MatchSelectEvent, PostMessageEvent } from '../../models';
 
 /**
  * document ready event handler
@@ -45,6 +45,9 @@ function ready() {
 		}
 		const event = nativeEvent.data as PostMessageEvent;
 		switch (event.type) {
+			case 'match-select':
+				handleBroadcastMatchSelect(event);
+				break;
 			case 'match-jump':
 				onMatchJump(event);
 				break;
@@ -52,6 +55,19 @@ function ready() {
 				console.error('unknown event in frame', nativeEvent);
 		}
 	}
+
+	/**
+	 * handle a broadcasted `match-select` event
+	 * @param event the match select event
+	 */
+	function handleBroadcastMatchSelect(event: MatchSelectEvent) {
+		const elem = document.querySelector<HTMLSpanElement>(`span[match][data-index='${event.index}']`);
+		if (!elem && event.index !== -1) {
+			messageParent({ type: 'match-warn' });
+		}
+		onMatchSelect(elem, true); // should not rebroadcast
+	}
+
 	/**
 	 * Event handler for a `MatchJumpEvent` that is fired when the user clicks the
 	 * go to next/prev match buttons
@@ -96,14 +112,14 @@ function ready() {
 	 * - if an element is allready highlighted turn it off and highlight `elem`
 	 * @param elem the selected element
 	 */
-	function onMatchSelect(elem: HTMLSpanElement): void {
-		if (current === elem) {
+	function onMatchSelect(elem: HTMLSpanElement, broadcast: boolean = false): void {
+		if (!broadcast && current === elem) {
 			current.toggleAttribute('on', false);
 			current = null;
 			messageParent({ type: 'match-select', index: -1 });
 			return;
 		}
-		if (current) {
+		if (!broadcast && current) {
 			current.toggleAttribute('on', false);
 		}
 		current = elem;

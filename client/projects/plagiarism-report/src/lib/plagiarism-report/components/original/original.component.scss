@@ -1,4 +1,4 @@
-@import '../../../styles';
+@import "../../../styles";
 
 :host {
 	background-color: $background-color;
@@ -13,7 +13,7 @@
 		opacity: 0.7;
 	}
 
-	span[class*='cr-m-'] {
+	span[class*="cr-m-"] {
 		cursor: pointer;
 
 		&.cr-m-0 {
@@ -146,4 +146,13 @@ cr-panel {
 	position: relative;
 	right: -2px;
 	top: -5px;
+}
+
+.show-iframe {
+	flex: 1 1 100%;
+	max-height: 100%;
+}
+.hide-iframe {
+	flex: 1 1 0%;
+	height: 0 !important;
 }

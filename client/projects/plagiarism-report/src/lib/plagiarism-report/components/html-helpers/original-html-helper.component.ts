@@ -10,6 +10,7 @@ import { truthy } from '../../utils/operators';
 import { HtmlHelperBase } from './HtmlHelperBase';
 import iframeScript from './one-to-many-iframe-logic';
 import { CopyleaksTranslateService } from '../../services/copyleaks-translate.service';
+import deepEqual from 'deep-equal';
 
 /**
  * Component to handle manipulating the scan result's html inside an iframe
@@ -20,6 +21,8 @@ import { CopyleaksTranslateService } from '../../services/copyleaks-translate.se
 	styleUrls: ['./html-helper.scss'],
 })
 export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnInit, OnDestroy {
+	private lastMatchSelectEvent: MatchSelectEvent;
+	private renderedSuccessfully = false;
 	constructor(
 		renderer: Renderer2,
 		element: ElementRef<HTMLIFrameElement>,
@@ -38,6 +41,7 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * handle match selection
 	 */
 	handleMatchSelect(event: MatchSelectEvent) {
+		this.lastMatchSelectEvent = event;
 		this.highlightService.setOriginalHtmlMatch(event.index !== -1 ? this.matches[event.index] : null);
 	}
 
@@ -63,10 +67,22 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 				this.setHtml(this.html);
 			});
 		combineLatest([source$.pipe(truthy()), originalHtmlMatches$])
-			.pipe(untilDestroy(this))
+			.pipe(
+				untilDestroy(this)
+			)
 			.subscribe(([, matches]) => {
-				this.matches = matches;
-				this.renderMatches(matches);
+				console.log('deepEqual: ', deepEqual(this.matches, matches));
+
+				if (!this.renderedSuccessfully || !deepEqual(this.matches, matches)) {
+					this.matches = matches;
+					this.renderMatches(matches);
+					this.renderedSuccessfully = true;
+					this.lastMatchSelectEvent = null;
+				}
+
+				if (this.lastMatchSelectEvent && this.lastMatchSelectEvent.index !== -1) {
+					this.messageFrame({ type: 'match-select', index: this.lastMatchSelectEvent?.index } as MatchSelectEvent);
+				}
 			});
 
 		const onOneToManyHtmlJump$ = combineLatest([jump$, contentMode$, viewMode$]).pipe(

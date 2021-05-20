@@ -1,7 +1,7 @@
 import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
-import { filter, take, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { HighlightService } from '../../services/highlight.service';
+import { HighlightService, TextMatchHighlightEvent } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import * as helpers from '../../utils/highlight-helpers';
 import { MatchComponent } from '../match/match.component';
@@ -11,11 +11,12 @@ import { OriginalComponent } from '../original/original.component';
 	selector: '[crOriginalTextHelper]',
 })
 export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy {
+	private lastSelectedOriginalTextMatch: TextMatchHighlightEvent;
 	constructor(
 		@Host() private host: OriginalComponent,
 		private reportService: ReportService,
 		private highlightService: HighlightService
-	) {}
+	) { }
 
 	@ContentChildren(MatchComponent)
 	private children: QueryList<MatchComponent>;
@@ -64,8 +65,9 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 	 */
 	ngAfterContentInit() {
 		const { contentMode$, viewMode$ } = this.reportService;
-		const { jump$, originalText$ } = this.highlightService;
+		const { jump$, originalText$, textMatchClick$ } = this.highlightService;
 		originalText$.pipe(untilDestroy(this)).subscribe(value => (this.current = value));
+
 		jump$
 			.pipe(
 				untilDestroy(this),
@@ -73,11 +75,44 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 				filter(([, view, content]) => view === 'one-to-many' && content === 'text')
 			)
 			.subscribe(([forward]) => this.handleJump(forward));
+
+		textMatchClick$
+			.pipe(
+				distinctUntilChanged(),
+				untilDestroy(this),
+				withLatestFrom(viewMode$, contentMode$),
+				filter(([textMatchClickEvent, view, content]) => textMatchClickEvent && view === 'one-to-many' && content === 'text')
+			)
+			.subscribe(([textMatchClickEvent, ,]) => {
+				console.log('textMatchClick$');
+
+				this.lastSelectedOriginalTextMatch = textMatchClickEvent
+			});
+
+		viewMode$
+			.pipe(
+				distinctUntilChanged(),
+				untilDestroy(this),
+				withLatestFrom(contentMode$),
+				filter(([view, content]) => this.lastSelectedOriginalTextMatch && view === 'one-to-many' && content === 'text')
+			)
+			.subscribe(_ => {
+				console.log('view');
+				setTimeout(() => {
+					const start = this.lastSelectedOriginalTextMatch.elem.match.start;
+					const end = this.lastSelectedOriginalTextMatch.elem.match.end;
+					const comp = this.children.find(item => item.match.start === start && item.match.end === end);
+					if (comp === null) {
+						throw new Error('Match component was not found in view');
+					}
+					this.highlightService.textMatchClicked({ elem: comp, broadcast: false, origin: 'original' });
+				}, 100);
+			});
 	}
 
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
