@@ -80,6 +80,13 @@ export interface ScannedDocument {
 	totalExcluded: number;
 	credits: number;
 	creationTime: string;
+	metadata?: {
+		finalUrl: string;
+		canonicalUrl: string;
+		author: string;
+		organization: string;
+		filename: string;
+	}
 }
 
 /** Type representing a summary of the reuslts of a scanned document */
@@ -100,6 +107,13 @@ export interface ResultPreviewBase {
 	scanId?: string | void;
 	url?: string | void;
 	component?: Type<ResultPreviewComponentBase>;
+	metadata?: {
+		finalUrl: string;
+		canonicalUrl: string;
+		author: string;
+		organization: string;
+		filename: string;
+	}
 }
 
 /** result preview types  */

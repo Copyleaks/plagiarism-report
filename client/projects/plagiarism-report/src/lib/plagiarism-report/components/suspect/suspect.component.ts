@@ -30,7 +30,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 		private matchService: MatchService,
 		private translatesService: CopyleaksTranslateService,
 		private highlightService: HighlightService
-	) {}
+	) { }
 	readonly MatchType = MatchType;
 	public isMobile = false;
 	public zoom = 1;
@@ -49,7 +49,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	}
 
 	public get hasUrl(): boolean {
-		return !!this.preview?.url;
+		return !!this.preview?.url || !!this.preview?.metadata?.finalUrl;
 	}
 
 	get pages(): number[] {
@@ -122,8 +122,8 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			.pipe(untilDestroy(this))
 			.subscribe(
 				([mode, suspect]) =>
-					(this.contentMode =
-						mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
+				(this.contentMode =
+					mode === 'html' && suspect && suspect.result && suspect.result.html.value ? 'html' : 'text')
 			);
 
 		onlyOneToOne$.pipe(untilDestroy(this)).subscribe(disable => (this.disableBackButton = disable));
@@ -136,12 +136,13 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 */
 	openUrl() {
 		if (this.hasUrl) {
-			window.open(this.preview.url as string, '_blank');
+			const url = this.preview?.url || this.preview?.metadata?.finalUrl;
+			window.open(url, '_blank');
 		}
 	}
 	/**
 	 * life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

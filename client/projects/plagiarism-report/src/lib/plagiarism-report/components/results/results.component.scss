@@ -1,4 +1,4 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 :host {
 	background-color: $background-color;
@@ -11,11 +11,6 @@ cr-panel {
 	cr-panel-header {
 		text-transform: uppercase;
 	}
-}
-
-cr-result-card {
-	margin: 5px;
-	margin-bottom: $default-spacing;
 }
 
 cr-panel-body {

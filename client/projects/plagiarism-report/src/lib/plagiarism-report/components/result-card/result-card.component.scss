@@ -1,10 +1,14 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 :host {
-	padding: $card-padding;
 	display: flex;
 	flex-flow: column nowrap;
 	box-sizing: border-box;
+	border-radius: 10px;
+	position: relative;
+	margin: 10px;
+	margin-bottom: 1.5em;
+	box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 
 	.title {
 		display: flex;
@@ -18,12 +22,13 @@
 			align-items: center;
 			width: 0%;
 			> span {
-				margin-left: 10px;
+				padding: 30px 23px 10px 10px;
 			}
 		}
 		button {
-			margin-right: -13px;
-			margin-top: -3px;
+			position: absolute;
+			right: -5px;
+			top: -9px;
 		}
 	}
 
@@ -36,35 +41,57 @@
 		}
 	}
 
+	.title-icon {
+		position: absolute;
+		left: -10px;
+		top: -10px;
+		padding: 2px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 20px;
+		height: 20px;
+		border: 1.5px solid #e0e0e0;
+		border-radius: 100%;
+		background: white;
+		mat-icon {
+			font-size: 16px;
+			width: 17px;
+			height: 16px;
+			line-height: 16px;
+		}
+	}
+
 	mat-spinner {
 		margin: 2px;
 		display: inline-block;
 		vertical-align: text-bottom;
 	}
 
-	mat-divider {
-		margin-top: $card-padding;
-		margin-bottom: $card-padding;
-		margin-left: -$card-padding;
-		margin-right: -$card-padding;
-	}
-
 	[body] {
 		cursor: pointer;
 		word-break: break-all;
 		word-break: break-word;
+		padding: 1px 12px;
 	}
 
 	[url] {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		padding: 0px 12px 5px;
 	}
 
 	[mat-button] {
 		min-width: 36px;
 		padding: 0;
 		color: darkgray;
+	}
+
+	[footer] {
+		padding: 7px 10px;
+		background: rgb(241 241 241 / 41%);
+		font-weight: 400;
 	}
 
 	.ellipsis-flex-text {

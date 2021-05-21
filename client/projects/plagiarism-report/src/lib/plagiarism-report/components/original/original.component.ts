@@ -22,7 +22,33 @@ import { EReportViewModel, ViewModeService } from '../../services/view-mode.serv
 	animations: [fadeIn],
 })
 export class OriginalComponent implements OnInit, OnDestroy {
-	translations: CopyleaksTranslations;
+	@ContentChildren(MatchComponent, { descendants: true })
+	public matchItems: QueryList<MatchComponent>;
+	public translations: CopyleaksTranslations;
+	public readonly MatchType = MatchType;
+	public readonly ExcludeReason = ExcludeReason;
+	public EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
+	public zoom = 1;
+	public direction: DirectionMode = 'ltr';
+	public mqPriority: number;
+	public viewMode: ViewMode;
+	public completeResult: CompleteResult;
+	public source: ScanSource;
+	public contentMode: ContentMode;
+	public activeMediaQueries: string[] = [];
+	public highlightedSource: string;
+	public currentPage = 1;
+	public originalTextMatches: SlicedMatch[][];
+	public sourceTextMatches: SlicedMatch[][];
+	public originalHtmlMatches: Match[];
+	public sourceHtmlMatches: Match[];
+
+	public get pages(): number[] {
+		return this.source && this.source.text.pages.startPosition;
+	}
+	public get hasUrl(): boolean {
+		return !!this.completeResult?.scannedDocument?.metadata?.finalUrl;
+	}
 	constructor(
 		private reportService: ReportService,
 		private layoutService: LayoutMediaQueryService,
@@ -30,30 +56,9 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		private matchService: MatchService,
 		private highlightService: HighlightService,
 		private translationService: CopyleaksTranslateService
-	) {}
-	get pages(): number[] {
-		return this.source && this.source.text.pages.startPosition;
-	}
-	public readonly MatchType = MatchType;
-	public readonly ExcludeReason = ExcludeReason;
-	public EXCLUDE_MESSAGE = EXCLUDE_MESSAGE;
-	public zoom = 1;
-	public direction: DirectionMode = 'ltr';
+	) { }
 
-	@ContentChildren(MatchComponent, { descendants: true })
-	matchItems: QueryList<MatchComponent>;
-	mqPriority: number;
-	viewMode: ViewMode;
-	completeResult: CompleteResult;
-	source: ScanSource;
-	contentMode: ContentMode;
-	activeMediaQueries: string[] = [];
-	highlightedSource: string;
-	currentPage = 1;
-	originalTextMatches: SlicedMatch[][];
-	sourceTextMatches: SlicedMatch[][];
-	originalHtmlMatches: Match[];
-	sourceHtmlMatches: Match[];
+
 
 	/**
 	 * get the current text matches while considering the current view mode
@@ -180,8 +185,16 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	}
 
 	/**
+	 * this will open the origianl/source url in a new tab
+	 */
+	openUrl() {
+		if (this.hasUrl) {
+			window.open(this.completeResult?.scannedDocument?.metadata?.finalUrl as string, '_blank');
+		}
+	}
+	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }
