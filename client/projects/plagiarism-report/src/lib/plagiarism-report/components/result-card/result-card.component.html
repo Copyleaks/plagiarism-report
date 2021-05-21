@@ -70,6 +70,8 @@
 		<p body
 		   (click)="onTitleClick()"
 		   *ngIf="preview.introduction">
+			<span *ngIf="preview.metadata?.author"
+				  class="author">{{ preview.metadata?.author}} <br></span>
 			{{ preview.introduction }}
 		</p>
 	</ng-container>

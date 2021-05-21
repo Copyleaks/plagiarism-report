@@ -23,6 +23,7 @@
 			width: 0%;
 			> span {
 				padding: 30px 23px 10px 10px;
+				color: rgb(103 81 81);
 			}
 		}
 		button {
@@ -73,6 +74,7 @@
 		word-break: break-all;
 		word-break: break-word;
 		padding: 1px 12px;
+		color: gray;
 	}
 
 	[url] {
@@ -80,6 +82,11 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		padding: 0px 12px 5px;
+		a {
+			text-decoration: none;
+			font-style: italic;
+			color: #17a1ff;
+		}
 	}
 
 	[mat-button] {
@@ -99,6 +106,12 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	.author {
+		color: red;
+		text-decoration: underline;
+		text-underline-offset: 1px;
 	}
 }
 
