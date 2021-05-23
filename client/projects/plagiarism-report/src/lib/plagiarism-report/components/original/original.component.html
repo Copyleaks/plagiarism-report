@@ -3,10 +3,6 @@
 		<label>{{ translations?.SUBMITTED_TEXT_SECTION?.TITLE || 'submitted text' }}</label>
 	</cr-panel-header>
 	<cr-panel-actions>
-		<cr-panel-action fxHide.lt-md
-						 *ngIf="hasUrl">
-			<ng-container *ngTemplateOutlet="menu__launch_url"></ng-container>
-		</cr-panel-action>
 		<cr-panel-action fxHide.lt-md>
 			<div id="cr-hint-go-to-next-match"></div>
 			<ng-container *ngTemplateOutlet="menu__next_match"></ng-container>
@@ -31,11 +27,17 @@
 						 *ngIf="!isHtml">
 			<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
 		</cr-panel-action>
+		<!--  -->
 		<cr-panel-action fxHide.lt-md
 						 *ngIf="!AlertPreviewViewMode">
-			<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
 			<div id="cr-hint-toggle-content"></div>
+			<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
 		</cr-panel-action>
+		<cr-panel-action fxHide.lt-md
+						 *ngIf="hasUrl">
+			<ng-container *ngTemplateOutlet="menu__launch_url"></ng-container>
+		</cr-panel-action>
+		<!--  -->
 		<cr-panel-action fxHide.gt-sm
 						 *ngIf="activeMediaQueries.includes('lt-md')">
 			<button mat-button
@@ -198,7 +200,8 @@
 <ng-template #menu__launch_url>
 	<button mat-button
 			[matTooltip]="translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
-			(click)="openUrl()">
+			(click)="openUrl()"
+			crClickStopPropagation>
 		<mat-icon>launch</mat-icon>
 	</button>
 </ng-template>

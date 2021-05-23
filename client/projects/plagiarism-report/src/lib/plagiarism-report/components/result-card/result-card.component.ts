@@ -27,12 +27,13 @@ import { COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN } from '../../utils/constants';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { DirectionService } from '../../services/direction.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'cr-result-card',
 	templateUrl: './result-card.component.html',
 	styleUrls: ['./result-card.component.scss'],
-	providers: [],
+	providers: [DatePipe]
 })
 export class ResultCardComponent implements OnInit, OnDestroy {
 	eResultPreviewType = EResultPreviewType;
@@ -42,6 +43,8 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	vcr: ViewContainerRef;
 	@Input()
 	public preview: ResultPreview;
+	public previewDate: string;
+	public metaDataToolTip: string;
 	public result: ScanResult;
 	public source: ScanSource;
 	public loading = true;
@@ -60,6 +63,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		}
 		return 'copyleaks.com';
 	}
+
 	get previewIconToolTip() {
 		if (this.preview) {
 			switch (this.preview.type) {
@@ -93,14 +97,17 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		}
 		return '';
 	}
+
+
 	constructor(
 		private translatesService: CopyleaksTranslateService,
 		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
 		public directionService: DirectionService,
+		private datePipe: DatePipe,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) {}
+	) { }
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -121,6 +128,30 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	}
 
 	/**
+	 * return the preview date from meta data
+	 */
+	private getPreviewDate() {
+		try {
+			const d = new Date(
+				this.preview?.metadata?.creationDate ??
+				this.preview?.metadata?.lastModificationDate ??
+				this.preview?.metadata?.publishDate
+			);
+			if (Object.prototype.toString.call(d) === '[object Date]') {
+				if (isNaN(d.getTime())) {
+					return null;
+				} else {
+					return this.datePipe.transform(d);
+				}
+			} else {
+				return null;
+			}
+		} catch {
+			return null;
+		}
+	}
+
+	/**
 	 * Life-cycle method
 	 * subscribe to:
 	 * - the scan result associated with this card
@@ -129,6 +160,18 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		this.translations = this.translatesService.translations;
 		if (!this.preview) {
 			return;
+		}
+
+		this.previewDate = this.getPreviewDate();
+
+		if (this.preview?.metadata?.author || this.previewDate) {
+			if (this.preview?.metadata?.author && this.previewDate) {
+				this.metaDataToolTip = `${this.preview?.metadata?.author} • ${this.previewDate}`;
+			} else if (this.preview?.metadata?.author) {
+				this.metaDataToolTip = `${this.preview?.metadata?.author}`;
+			} else {
+				this.metaDataToolTip = `${this.previewDate}`;
+			}
 		}
 
 		if (this.preview.component) {
@@ -193,5 +236,5 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

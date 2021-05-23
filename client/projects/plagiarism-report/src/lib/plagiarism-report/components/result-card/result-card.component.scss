@@ -6,7 +6,7 @@
 	box-sizing: border-box;
 	border-radius: 10px;
 	position: relative;
-	margin: 10px;
+	margin: 15px 10px 10px 10px;
 	margin-bottom: 1.5em;
 	box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 
@@ -45,21 +45,27 @@
 	.title-icon {
 		position: absolute;
 		left: -10px;
-		top: -10px;
+		top: -15px;
 		padding: 2px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 20px;
-		height: 20px;
+		width: 25px;
+		height: 25px;
 		border: 1.5px solid #e0e0e0;
 		border-radius: 100%;
 		background: white;
-		mat-icon {
+		.success-icon {
 			font-size: 16px;
 			width: 17px;
 			height: 16px;
 			line-height: 16px;
+		}
+		.error-icon {
+			font-size: 24px;
+			width: 24px;
+			height: 24px;
+			line-height: 24px;
 		}
 	}
 
@@ -108,11 +114,20 @@
 		text-overflow: ellipsis;
 	}
 
-	.author {
-		color: red;
-		text-decoration: underline;
-		text-underline-offset: 1px;
+	.meta-data {
+		font-style: italic;
+		margin-bottom: 5px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		.dot-divider {
+			margin: 0px 2px 0px 0px;
+		}
 	}
+}
+
+.result-loading {
+	padding: 16px 10px 0px 13px;
 }
 
 ::ng-deep .result-card-actions {

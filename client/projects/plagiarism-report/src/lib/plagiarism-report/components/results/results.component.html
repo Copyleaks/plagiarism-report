@@ -35,7 +35,8 @@
 			</button>
 		</cr-panel-action>
 	</cr-panel-actions>
-	<cr-panel-body fxLayout="column" fxFlex="100" id="cr-hint-results-card">
+	<cr-panel-body fxLayout="column" fxFlex="100">
+		<div id="cr-hint-results-card"></div>
 		<ng-container *ngIf="hasOverlay">
 			<div class="overlay-component-wrapper">
 				<ng-container #vcr></ng-container>
@@ -48,13 +49,14 @@
 		<virtual-scroller
 			*ngIf="previews"
 			[ngClass]="hasOverlay ? 'blur' : ''"
+			[bufferAmount]="7"
 			#scroll
 			fxFlex
 			[items]="previews | whitelist: 'id':focusedMatch?.ids"
 		>
 			<cr-result-card *ngFor="let preview of scroll.viewPortItems" [preview]="preview"></cr-result-card>
 		</virtual-scroller>
-		<virtual-scroller *ngIf="!previews" [ngClass]="hasOverlay ? 'blur' : ''" #scroll fxFlex [items]="[1, 2, 3]">
+		<virtual-scroller *ngIf="!previews" [ngClass]="hasOverlay ? 'blur' : ''" #scroll fxFlex [items]="[1, 2, 3, 4]">
 			<cr-result-card *ngFor="let preview of scroll.viewPortItems"></cr-result-card>
 		</virtual-scroller>
 		<div class="powered-by-section">

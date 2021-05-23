@@ -1,42 +1,52 @@
 <ng-container *ngIf="preview; else skeleton__card">
+
+	<!-- card-icon -->
+	<div class="title-icon">
+		<!-- when result is loading -->
+		<mat-spinner style="zoom:0.2"
+					 *ngIf="loading"></mat-spinner>
+
+		<!-- when result has error -->
+		<mat-icon class='error-icon'
+				  *ngIf="!loading && result === null"
+				  [matTooltip]="translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR"
+				  color="warn">
+			error
+		</mat-icon>
+
+		<!-- when result is loaded successfully and it is internal result-->
+		<mat-icon class='success-icon'
+				  *ngIf="!loading && result !== null && !preview.url"
+				  style="opacity: 0.5;"
+				  [matTooltip]="previewIconToolTip">
+			<ng-container [ngSwitch]="preview.type">
+				<ng-container *ngSwitchCase="eResultPreviewType.Batch">
+					dns
+				</ng-container>
+				<ng-container *ngSwitchCase="eResultPreviewType.Database">
+					dns
+				</ng-container>
+				<ng-container *ngSwitchDefault>
+					storage
+				</ng-container>
+			</ng-container>
+		</mat-icon>
+
+		<!-- when result is loaded successfully and it is external result-->
+		<img *ngIf="!loading && result !== null && preview.url"
+			 [matTooltip]="previewIconToolTip"
+			 [src]="'https://www.google.com/s2/favicons?domain=' + urlDomain" />
+	</div>
+
+	<!-- customer body design -->
 	<ng-container #vcr></ng-container>
 
+	<!-- default body design -->
 	<ng-container *ngIf="!preview?.component">
 		<div header
 			 class="title"
 			 [class]="'title-' + directionService.dir">
 			<div (click)="onTitleClick()">
-				<div>
-					<mat-spinner style="zoom:0.2"
-								 *ngIf="loading"></mat-spinner>
-				</div>
-				<div class="title-icon">
-					<mat-icon *ngIf="!loading && result === null"
-							  [matTooltip]="translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR"
-							  color="warn">
-						error
-					</mat-icon>
-
-					<mat-icon *ngIf="!loading && result !== null && !preview.url"
-							  style="opacity: 0.5;"
-							  [matTooltip]="previewIconToolTip">
-						<ng-container [ngSwitch]="preview.type">
-							<ng-container *ngSwitchCase="eResultPreviewType.Batch">
-								dns
-							</ng-container>
-							<ng-container *ngSwitchCase="eResultPreviewType.Database">
-								dns
-							</ng-container>
-							<ng-container *ngSwitchDefault>
-								storage
-							</ng-container>
-						</ng-container>
-					</mat-icon>
-
-					<img *ngIf="!loading && result !== null && preview.url"
-						 [matTooltip]="previewIconToolTip"
-						 [src]="'https://www.google.com/s2/favicons?domain=' + urlDomain" />
-				</div>
 				<span [ngClass]="{ 'ellipsis-flex-text': preview.type === eResultPreviewType.Internet }"
 					  [matTooltip]="preview.title"
 					  [matTooltipDisabled]="preview.type !== eResultPreviewType.Internet">
@@ -68,10 +78,18 @@
 		</div>
 
 		<p body
+		   *ngIf="preview.metadata?.author || previewDate"
+		   class="meta-data"
+		   #metaDataRef
+		   [matTooltip]='metaDataToolTip'>{{ preview.metadata?.author}}<span
+				  *ngIf="preview.metadata?.author && previewDate"
+				  class='dot-divider'> • </span>
+			<span *ngIf="previewDate">{{previewDate}}</span>
+		</p>
+
+		<p body
 		   (click)="onTitleClick()"
 		   *ngIf="preview.introduction">
-			<span *ngIf="preview.metadata?.author"
-				  class="author">{{ preview.metadata?.author}} <br></span>
 			{{ preview.introduction }}
 		</p>
 	</ng-container>
@@ -137,15 +155,17 @@
 </ng-container>
 
 <ng-template #skeleton__card>
-	<p>
+	<div class="result-loading">
+		<p>
+			<ngx-skeleton-loader></ngx-skeleton-loader>
+		</p>
 		<ngx-skeleton-loader></ngx-skeleton-loader>
-	</p>
-	<ngx-skeleton-loader></ngx-skeleton-loader>
-	<ngx-skeleton-loader></ngx-skeleton-loader>
-	<ngx-skeleton-loader></ngx-skeleton-loader>
-	<p>
 		<ngx-skeleton-loader></ngx-skeleton-loader>
-	</p>
+		<ngx-skeleton-loader></ngx-skeleton-loader>
+		<p>
+			<ngx-skeleton-loader></ngx-skeleton-loader>
+		</p>
+	</div>
 	<mat-divider></mat-divider>
 	<div footer
 		 fxLayout="row"

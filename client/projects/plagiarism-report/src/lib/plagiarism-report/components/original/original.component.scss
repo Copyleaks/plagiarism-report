@@ -1,4 +1,4 @@
-@import '../../../styles';
+@import "../../../styles";
 
 :host {
 	background-color: $background-color;
@@ -13,7 +13,7 @@
 		opacity: 0.7;
 	}
 
-	span[class*='cr-m-'] {
+	span[class*="cr-m-"] {
 		cursor: pointer;
 
 		&.cr-m-0 {
@@ -139,8 +139,8 @@ cr-panel {
 
 #cr-hint-toggle-content {
 	position: relative;
-	top: -30px;
-	right: -17px;
+	top: -14px;
+	left: -23px;
 }
 #cr-hint-go-to-next-match {
 	position: relative;
