@@ -130,22 +130,30 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * return the preview date from meta data
 	 */
 	private getPreviewDate() {
-		try {
-			const d = new Date(
-				this.preview?.metadata?.creationDate ??
-					this.preview?.metadata?.lastModificationDate ??
-					this.preview?.metadata?.publishDate
-			);
-			if (Object.prototype.toString.call(d) === '[object Date]') {
-				if (isNaN(d.getTime())) {
-					return null;
+		if (
+			this.preview?.metadata?.creationDate ||
+			this.preview?.metadata?.lastModificationDate ||
+			this.preview?.metadata?.publishDate
+		) {
+			try {
+				const d = new Date(
+					this.preview?.metadata?.creationDate ??
+						this.preview?.metadata?.lastModificationDate ??
+						this.preview?.metadata?.publishDate
+				);
+				if (Object.prototype.toString.call(d) === '[object Date]') {
+					if (isNaN(d.getTime())) {
+						return null;
+					} else {
+						return this.datePipe.transform(d);
+					}
 				} else {
-					return this.datePipe.transform(d);
+					return null;
 				}
-			} else {
+			} catch {
 				return null;
 			}
-		} catch {
+		} else {
 			return null;
 		}
 	}
