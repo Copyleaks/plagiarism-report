@@ -56,9 +56,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		private matchService: MatchService,
 		private highlightService: HighlightService,
 		private translationService: CopyleaksTranslateService
-	) { }
-
-
+	) {}
 
 	/**
 	 * get the current text matches while considering the current view mode
@@ -196,5 +194,5 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

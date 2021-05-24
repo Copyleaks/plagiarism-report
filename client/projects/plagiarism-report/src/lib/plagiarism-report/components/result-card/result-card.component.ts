@@ -33,7 +33,7 @@ import { DatePipe } from '@angular/common';
 	selector: 'cr-result-card',
 	templateUrl: './result-card.component.html',
 	styleUrls: ['./result-card.component.scss'],
-	providers: [DatePipe]
+	providers: [DatePipe],
 })
 export class ResultCardComponent implements OnInit, OnDestroy {
 	eResultPreviewType = EResultPreviewType;
@@ -98,7 +98,6 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		return '';
 	}
 
-
 	constructor(
 		private translatesService: CopyleaksTranslateService,
 		private componentFactoryResolver: ComponentFactoryResolver,
@@ -107,7 +106,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		private datePipe: DatePipe,
 		@Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
 		public messages: CopyleaksTextConfig
-	) { }
+	) {}
 
 	/**
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
@@ -134,8 +133,8 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		try {
 			const d = new Date(
 				this.preview?.metadata?.creationDate ??
-				this.preview?.metadata?.lastModificationDate ??
-				this.preview?.metadata?.publishDate
+					this.preview?.metadata?.lastModificationDate ??
+					this.preview?.metadata?.publishDate
 			);
 			if (Object.prototype.toString.call(d) === '[object Date]') {
 				if (isNaN(d.getTime())) {
@@ -170,7 +169,9 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 			const previewDate = this.previewDate;
 
 			// tslint:disable-next-line: max-line-length
-			this.metaDataToolTip = `${author ? author : ''}${author && organization ? ' • ' : ''}${organization ? organization : ''}${(author || organization) && previewDate ? ' • ' : ''}${previewDate ? previewDate : ''}`;
+			this.metaDataToolTip = `${author ? author : ''}${author && organization ? ' • ' : ''}${
+				organization ? organization : ''
+			}${(author || organization) && previewDate ? ' • ' : ''}${previewDate ? previewDate : ''}`;
 		}
 
 		if (this.preview.component) {
@@ -237,5 +238,5 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

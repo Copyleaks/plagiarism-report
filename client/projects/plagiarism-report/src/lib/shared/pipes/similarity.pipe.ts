@@ -5,7 +5,7 @@ import { PercentPipe } from '@angular/common';
 	name: 'similarity',
 })
 export class SimilarityPipe implements PipeTransform {
-	constructor(private percentPipe: PercentPipe) { }
+	constructor(private percentPipe: PercentPipe) {}
 	/**
 	 * Works like @angular/common PercentPipe but when value is larger than 0
 	 * and the result string is 0% , it returns < 1%.
