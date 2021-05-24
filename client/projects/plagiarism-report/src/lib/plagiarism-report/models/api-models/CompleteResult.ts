@@ -1,4 +1,5 @@
 import { Type } from '@angular/core';
+import { ResultCardComponent } from '../../components/result-card/result-card.component';
 import { ResultItem } from '../Matches';
 
 /** A basic response from Copyleaks api */
@@ -128,6 +129,7 @@ export interface ResultPreviewComponentBase {
 	setPreview: (preview: ResultPreviewBase) => void;
 	isLoading: (isLoading: boolean) => void;
 	setResult: (result: ResultItem) => void;
+	setParentRef?: (parent: ResultCardComponent) => void;
 }
 
 /** Type containing a preview of a result from the internet */

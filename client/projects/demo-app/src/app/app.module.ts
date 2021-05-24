@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ScanResultComponent } from './components/scan-result/scan-result.component';
 import { ReportResultsOverlayComponent } from './components/report-results-overlay/report-results-overlay.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
 	declarations: [
@@ -27,7 +29,9 @@ import { ReportResultsOverlayComponent } from './components/report-results-overl
 		MatListModule,
 		MatIconModule,
 		MatButtonModule,
-		MatListModule
+		MatListModule,
+		MatTooltipModule,
+		MatMenuModule
 	],
 	providers: [],
 	bootstrap: [AppComponent],

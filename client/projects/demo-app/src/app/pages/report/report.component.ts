@@ -331,9 +331,10 @@ export class ReportComponent implements OnInit, OnDestroy {
 		);
 		downloadedSource$.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 		completeResult$.subscribe(meta => {
-			// meta.results.batch = meta.results.batch.map(r => ({ ...r, component: ScanResultComponent }))
-			// meta.results.internet = meta.results.internet.map(r => ({ ...r, component: ScanResultComponent }))
-			// meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))
+			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: ScanResultComponent }))
+			meta.results.internet = meta.results.internet.map(r => ({ ...r, component: ScanResultComponent }))
+			meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))
+			meta.results.repositories = meta.results.repositories.map(r => ({ ...r, component: ScanResultComponent }))
 
 			this.copyleaksService.pushCompletedResult(meta);
 

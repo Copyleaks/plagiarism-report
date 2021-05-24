@@ -1,7 +1,10 @@
 <ng-container *ngIf="preview; else skeleton__card">
 
 	<!-- card-icon -->
-	<div class="title-icon">
+	<div class="title-icon"
+		 [matTooltip]="
+	(!loading && result === null) ? (translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR) :
+	(!loading && result !== null)  ? previewIconToolTip :null">
 		<!-- when result is loading -->
 		<mat-spinner style="zoom:0.2"
 					 *ngIf="loading"></mat-spinner>
@@ -9,7 +12,6 @@
 		<!-- when result has error -->
 		<mat-icon class='error-icon'
 				  *ngIf="!loading && result === null"
-				  [matTooltip]="translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR"
 				  color="warn">
 			error
 		</mat-icon>
@@ -17,8 +19,7 @@
 		<!-- when result is loaded successfully and it is internal result-->
 		<mat-icon class='success-icon'
 				  *ngIf="!loading && result !== null && !preview.url"
-				  style="opacity: 0.5;"
-				  [matTooltip]="previewIconToolTip">
+				  style="opacity: 0.5;">
 			<ng-container [ngSwitch]="preview.type">
 				<ng-container *ngSwitchCase="eResultPreviewType.Batch">
 					dns
@@ -34,12 +35,14 @@
 
 		<!-- when result is loaded successfully and it is external result-->
 		<img *ngIf="!loading && result !== null && preview.url"
-			 [matTooltip]="previewIconToolTip"
 			 [src]="'https://www.google.com/s2/favicons?domain=' + urlDomain" />
 	</div>
 
 	<!-- customer body design -->
-	<ng-container #vcr></ng-container>
+	<div *ngIf="preview?.component"
+		 class="custom-component-wrapper">
+		<ng-container #vcr></ng-container>
+	</div>
 
 	<!-- default body design -->
 	<ng-container *ngIf="!preview?.component">
@@ -78,11 +81,15 @@
 		</div>
 
 		<p body
-		   *ngIf="preview.metadata?.author || previewDate"
+		   *ngIf="preview.metadata?.author || preview.metadata?.organization || previewDate"
 		   class="meta-data"
 		   #metaDataRef
-		   [matTooltip]='metaDataToolTip'>{{ preview.metadata?.author}}<span
-				  *ngIf="preview.metadata?.author && previewDate"
+		   [matTooltip]='metaDataToolTip'>
+			<span>{{ preview.metadata?.author}}</span>
+			<span *ngIf="preview.metadata?.author && preview.metadata?.organization"
+				  class='dot-divider'> • </span>
+			<span *ngIf="preview.metadata?.organization">{{preview.metadata?.organization}}</span>
+			<span *ngIf="(preview.metadata?.author || preview.metadata?.organization) && previewDate"
 				  class='dot-divider'> • </span>
 			<span *ngIf="previewDate">{{previewDate}}</span>
 		</p>

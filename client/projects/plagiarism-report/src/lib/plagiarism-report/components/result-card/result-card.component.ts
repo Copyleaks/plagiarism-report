@@ -164,14 +164,13 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 
 		this.previewDate = this.getPreviewDate();
 
-		if (this.preview?.metadata?.author || this.previewDate) {
-			if (this.preview?.metadata?.author && this.previewDate) {
-				this.metaDataToolTip = `${this.preview?.metadata?.author} • ${this.previewDate}`;
-			} else if (this.preview?.metadata?.author) {
-				this.metaDataToolTip = `${this.preview?.metadata?.author}`;
-			} else {
-				this.metaDataToolTip = `${this.previewDate}`;
-			}
+		if (this.preview?.metadata?.author || this.preview?.metadata?.organization || this.previewDate) {
+			const author = this.preview?.metadata?.author;
+			const organization = this.preview?.metadata?.organization;
+			const previewDate = this.previewDate;
+
+			// tslint:disable-next-line: max-line-length
+			this.metaDataToolTip = `${author ? author : ''}${author && organization ? ' • ' : ''}${organization ? organization : ''}${(author || organization) && previewDate ? ' • ' : ''}${previewDate ? previewDate : ''}`;
 		}
 
 		if (this.preview.component) {
@@ -188,6 +187,8 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 					if (this.componentInstance.isLoading) {
 						this.componentInstance.isLoading(this.loading);
 					}
+
+					this.componentInstance.setParentRef(this);
 				}
 			}, 100);
 		}

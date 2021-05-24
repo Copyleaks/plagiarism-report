@@ -115,6 +115,7 @@ export class SuspectComponent implements OnInit, OnDestroy {
 
 			suspectPreview$.pipe(untilDestroy(this), truthy(), take(1)).subscribe(preview => {
 				this.preview = preview;
+				this.setupMatches();
 			});
 		});
 
@@ -139,6 +140,14 @@ export class SuspectComponent implements OnInit, OnDestroy {
 			const url = this.preview?.url || this.preview?.metadata?.finalUrl;
 			window.open(url, '_blank');
 		}
+	}
+
+	/**
+	 * Setup suspect and source Matches
+	 */
+	private setupMatches() {
+		this.highlightService.setSuspectHtmlMatch(null);
+		this.highlightService.setSuspectTextMatch(null);
 	}
 	/**
 	 * life-cycle method

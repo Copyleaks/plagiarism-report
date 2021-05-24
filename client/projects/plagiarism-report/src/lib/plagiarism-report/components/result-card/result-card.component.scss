@@ -10,6 +10,12 @@
 	margin-bottom: 1.5em;
 	box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
 
+	mat-spinner {
+		margin: 2px;
+		display: inline-block;
+		vertical-align: text-bottom;
+	}
+
 	.title {
 		display: flex;
 		font-weight: bold;
@@ -69,12 +75,6 @@
 		}
 	}
 
-	mat-spinner {
-		margin: 2px;
-		display: inline-block;
-		vertical-align: text-bottom;
-	}
-
 	[body] {
 		cursor: pointer;
 		word-break: break-all;
@@ -123,6 +123,10 @@
 		.dot-divider {
 			margin: 0px 2px 0px 0px;
 		}
+	}
+
+	.custom-component-wrapper {
+		min-height: 130px;
 	}
 }
 
