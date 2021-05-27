@@ -1,6 +1,8 @@
 <cr-panel fxFlex>
 	<cr-panel-header>
-		<label>{{ translates?.SUSPECT_SECTION?.TITLE || 'Suspect' }}</label>
+		<label [matTooltip]="preview?.title" class="suspect-title">
+			{{ preview?.title || translates?.SUSPECT_SECTION?.TITLE || 'Suspect' }}
+		</label>
 	</cr-panel-header>
 
 	<cr-panel-actions>

@@ -146,8 +146,8 @@ export class SuspectComponent implements OnInit, OnDestroy {
 	 * Setup suspect and source Matches
 	 */
 	private setupMatches() {
-		this.highlightService.setSuspectHtmlMatch(null);
-		this.highlightService.setSuspectTextMatch(null);
+		// this.highlightService.setSuspectHtmlMatch(null);
+		// this.highlightService.setSuspectTextMatch(null);
 	}
 	/**
 	 * life-cycle method

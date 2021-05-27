@@ -3,7 +3,11 @@
 :host {
 	background-color: $background-color;
 }
-
+.suspect-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-transform: none;
+}
 [text-container] {
 	white-space: pre-line;
 	padding: 1em;
