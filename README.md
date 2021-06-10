@@ -132,7 +132,7 @@ export class SomeComponent {
       for (const result of internet) {
         http
           .get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`)
-          .subscribe(scanResult => copyleaksService.pushScanResult(result.id, scanResult));
+          .subscribe(scanResult => copyleaksService.pushScanResult({ id: result.id, result: scanResult }));
       }
 
       // TODO:
@@ -140,14 +140,14 @@ export class SomeComponent {
       for (const result of database) {
         http
           .get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`)
-          .subscribe(scanResult => copyleaksService.pushScanResult(result.id, scanResult));
+          .subscribe(scanResult => copyleaksService.pushScanResult({ id: result.id, result: scanResult }));
       }
       // TODO:
       // USE YOUR RESULT ENDPOINT
       for (const result of batch) {
         http
           .get<ScanResult>(`/copyleaks/${scanId}/results/${result.id}`)
-          .subscribe(scanResult => copyleaksService.pushScanResult(result.id, scanResult));
+          .subscribe(scanResult => copyleaksService.pushScanResult({ id: result.id, result: scanResult }));
       }
     });
   }
