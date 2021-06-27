@@ -40,6 +40,10 @@
 	<span *ngIf="(preview.metadata?.author || preview.metadata?.organization) && parent.previewDate"
 		  class='dot-divider'> • </span>
 	<span *ngIf="parent?.previewDate">{{parent?.previewDate}}</span>
+	<ng-container *ngIf="preview.metadata?.submittedBy">
+		<br>
+		<span>Submitter: {{preview.metadata?.submittedBy}}</span>
+	</ng-container>
 </p>
 
 <p body
