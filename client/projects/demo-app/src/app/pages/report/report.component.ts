@@ -46,6 +46,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
+
+		// this.copyleaksService.setTotalResults(200);
+
 		// this.translateReport();
 		const config = this.configFromQuery(this.activatedRoute.snapshot.queryParamMap);
 		const query = this.queryFromConfig(config);

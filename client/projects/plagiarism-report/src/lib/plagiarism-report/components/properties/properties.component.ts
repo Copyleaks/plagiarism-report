@@ -46,6 +46,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public identical: number;
 	public minor: number;
 	public related: number;
+	public totalResults: number;
 
 	public customColors = [
 		{ name: 'Identical', value: '#ff6666' },
@@ -189,6 +190,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			options$,
 			hiddenResults$,
 			filteredPreviews$,
+			totalResults$,
 		} = this.reportService;
 
 		completeResult$.pipe(untilDestroy(this)).subscribe(meta => {
@@ -220,6 +222,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		options$.pipe(untilDestroy(this)).subscribe(options => (this.options = options));
+		totalResults$.pipe(untilDestroy(this)).subscribe(totalResults => (this.totalResults = totalResults));
 
 		this.statistics.statistics$.pipe(untilDestroy(this), truthy()).subscribe(value => {
 			this.stats = value;
@@ -255,9 +258,28 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 	get resultsFound() {
 		if (this.previewCount) {
-			return this.previewCount - this.hiddenResultsCount;
+			return this.previewCount;
 		}
 		return 0;
+	}
+
+	get totalViewedResults() {
+		if (this.previewCount) {
+			return this.totalResults ? this.totalResults : this.previewCount;
+		}
+		return 0;
+	}
+
+	get isShowingOnlyTopResults() {
+		return this.options?.showOnlyTopResults;
+	}
+
+	/**
+	 * Show all hidden results
+	 */
+	showAllResults() {
+		this.options.showOnlyTopResults = false;
+		this.reportService.configure({ options: this.options });
 	}
 
 	/**

@@ -25,6 +25,9 @@ export class ReportService implements OnDestroy {
 	private _previews = new BehaviorSubject<ResultPreview[]>(null);
 	private _results = new BehaviorSubject<ResultItem[]>([]);
 
+	// * optional total result
+	private _totalResults = new BehaviorSubject<number>(null);
+
 	// * configurable state
 	private _config = new BehaviorSubject<CopyleaksReportConfig>({ ...DEFAULT_REPORT_CONFIG });
 	private _progress = new BehaviorSubject<number>(null);
@@ -45,10 +48,12 @@ export class ReportService implements OnDestroy {
 			onScanSource$,
 			onReportConfig$,
 			filteredResultsIds$,
+			onTotalResultsChange$,
 		} = copyleaksService;
 		onCompleteResult$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
 		onResultPreview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
 		onProgress$.pipe(untilDestroy(this)).subscribe(progress => this.setProgress(progress));
+		onTotalResultsChange$.pipe(untilDestroy(this)).subscribe(totalResults => this.setTotalResults(totalResults));
 		onResultItems$.pipe(untilDestroy(this)).subscribe(resultItem => this.addDownloadedResults(resultItem));
 		onScanSource$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
 		onReportConfig$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
@@ -63,6 +68,8 @@ export class ReportService implements OnDestroy {
 	}
 
 	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(truthy(), take(1));
+
+	public totalResults$ = this._totalResults.asObservable();
 
 	public source$ = this._source.asObservable().pipe(truthy(), take(1));
 	public progress$ = this._progress.asObservable();
@@ -161,6 +168,14 @@ export class ReportService implements OnDestroy {
 	}
 
 	/**
+	 * set the total results observer
+	 * @param totalResults the total results amount
+	 */
+	public setTotalResults(totalResults: number) {
+		this._totalResults.next(totalResults);
+	}
+
+	/**
 	 * Pushes a new scan `source` to the source observer
 	 * @param source the scanned document source
 	 */
@@ -251,6 +266,7 @@ export class ReportService implements OnDestroy {
 		this._previews.complete();
 		this._results.complete();
 		this._progress.complete();
+		this._totalResults.complete();
 		this._hiddenResults.complete();
 		this._downloadClick.complete();
 		this._shareClick.complete();

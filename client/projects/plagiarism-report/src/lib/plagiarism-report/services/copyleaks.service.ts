@@ -29,6 +29,7 @@ export class CopyleaksService {
 	private readonly _config$ = new BehaviorSubject<CopyleaksReportConfig>({ ...DEFAULT_REPORT_CONFIG });
 	private readonly _destroy$ = new Subject();
 	private readonly _filteredResultsIds$ = new Subject<string[]>();
+	private readonly _totalResults$ = new Subject<number>();
 
 	public readonly onCompleteResult$ = this._complete$.asObservable();
 	public readonly onResultPreview$ = this._preview$.asObservable();
@@ -36,8 +37,17 @@ export class CopyleaksService {
 	public readonly onResultItems$ = this._results$.asObservable();
 	public readonly onProgress$ = this._progress$.asObservable();
 	public readonly onReportConfig$ = this._config$.asObservable();
+	public readonly onTotalResultsChange$ = this._totalResults$.asObservable();
 	public readonly filteredResultsIds$ = this._filteredResultsIds$.asObservable();
 	public readonly onDestroy$ = this._destroy$.asObservable();
+
+	/**
+	 * set total results (optional)
+	 * @param totalResults scan total results amount
+	 */
+	setTotalResults(totalResults: number) {
+		this._totalResults$.next(totalResults);
+	}
 
 	/**
 	 * Init/Set the filtered results.

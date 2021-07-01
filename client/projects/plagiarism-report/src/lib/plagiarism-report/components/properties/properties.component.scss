@@ -117,3 +117,12 @@ cr-expansion-panel-body {
 	position: relative;
 	top: -30px;
 }
+
+.show-all-result {
+	color: #17a1ff;
+	font-size: 11px;
+	&:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+}

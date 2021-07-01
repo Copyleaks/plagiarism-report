@@ -85,6 +85,7 @@
 			<div id="cr-hint-results-found"></div>
 			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
 				{{ resultsFound | shortNumber: 1 }}
+				<ng-container *ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults">+</ng-container>
 			</div>
 			<div
 				[matTooltip]="
@@ -97,6 +98,14 @@
 			>
 				{{ translations?.SCAN_PROPERTIES_SECTION?.RESULTS_FOUND || 'results found' }}
 				<span *ngIf="hiddenResultsCount" style="color: red;">*</span>
+			</div>
+
+			<div
+				*ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults"
+				class="show-all-result"
+				(click)="showAllResults()"
+			>
+				Show All
 			</div>
 		</div>
 
