@@ -84,7 +84,7 @@
 		<div prop [style.cursor]="isAlertsView ? 'pointer' : ''" (click)="isAlertsView && showScanningResult()">
 			<div id="cr-hint-results-found"></div>
 			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
-				{{ resultsFound | shortNumber: 1 }}
+				<span>{{ resultsFound | shortNumber: 1 }}</span>
 				<ng-container *ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults">+</ng-container>
 			</div>
 			<div
