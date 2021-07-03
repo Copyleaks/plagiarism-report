@@ -59,6 +59,7 @@ export const EXCLUDE_MESSAGE = {
 	6: 'Tables of content are omitted according to your settings',
 	7: 'Source code comments are omitted according to your settings',
 	0: 'Sensitive data are hidden according to your settings',
+	8: 'This text was not scanned because there were not enough pages. Please upgrade your plan in order to scan the entire document.'
 };
 
 /** Injection token used to override the default config of the report */

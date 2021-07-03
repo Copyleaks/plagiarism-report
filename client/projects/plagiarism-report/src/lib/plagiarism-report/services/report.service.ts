@@ -37,6 +37,7 @@ export class ReportService implements OnDestroy {
 	private _helpClick = new Subject<MouseEvent>();
 	private _shareClick = new Subject<MouseEvent>();
 	private _downloadClick = new Subject<MouseEvent>();
+	private _planUpgradeEvent = new Subject<number>();
 	private _configChange = new Subject<CopyleaksReportConfig>();
 
 	constructor(private copyleaksService: CopyleaksService) {
@@ -110,6 +111,7 @@ export class ReportService implements OnDestroy {
 
 	public helpClick$ = this._helpClick.asObservable();
 	public downloadClick$ = this._downloadClick.asObservable();
+	public planUpgradeEvent$ = this._planUpgradeEvent.asObservable();
 	public shareClick$ = this._shareClick.asObservable();
 	public configChange$ = this._configChange.asObservable();
 
@@ -205,6 +207,7 @@ export class ReportService implements OnDestroy {
 	public setHiddenResults(ids: string[]) {
 		this.copyleaksService.setFilteredResultsIds(ids);
 	}
+
 	/**
 	 * Pushes a new `event` to the help-click observer, indicating the help button was clicked
 	 * @param event native click event
@@ -212,6 +215,7 @@ export class ReportService implements OnDestroy {
 	public helpBtnClicked(event: MouseEvent) {
 		this._helpClick.next(event);
 	}
+
 	/**
 	 * Pushes a new `event` to the share-click observer, indicating the share button was clicked
 	 * @param event native click event
@@ -219,12 +223,25 @@ export class ReportService implements OnDestroy {
 	public shareBtnClicked(event: MouseEvent) {
 		this._shareClick.next(event);
 	}
+
 	/**
 	 * Pushes a new `event` to the download-click observer, indicating the download button was clicked
 	 * @param event native click event
 	 */
 	public downloadBtnClicked(event: MouseEvent) {
 		this._downloadClick.next(event);
+	}
+
+	/**
+	 * Pushes a new `event` to the plan-upgrade event observer, indicating the plan-upgrade event button was clicked
+	 */
+	public upgradePlanEvent() {
+		const completeResult = this._completeResult?.value;
+		let recommendedPagesAmount = completeResult.scannedDocument?.credits;
+		if (completeResult?.scannedDocument?.expectedCredits) {
+			recommendedPagesAmount = completeResult?.scannedDocument?.expectedCredits - completeResult.scannedDocument?.credits;
+		}
+		this._planUpgradeEvent.next(recommendedPagesAmount);
 	}
 
 	/**

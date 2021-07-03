@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CopyleaksReportConfig, CopyleaksService, DEFAULT_REPORT_CONFIG, ResultItem, CopyleaksTranslateService, CopyleaksTranslations } from 'projects/plagiarism-report/src/public-api';
+import { CopyleaksReportConfig, DEFAULT_REPORT_CONFIG, ResultItem, CopyleaksTranslateService, CopyleaksTranslations, CopyleaksService } from 'projects/plagiarism-report/src/public-api';
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ResultsService } from '../../results.service';
 import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
@@ -40,9 +40,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 	constructor(
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
-		private copyleaksService: CopyleaksService,
 		private resultsService: ResultsService,
-		private reportTranslationsSvc: CopyleaksTranslateService
+		private reportTranslationsSvc: CopyleaksTranslateService,
+		private copyleaksService: CopyleaksService
 	) { }
 
 	ngOnInit() {
@@ -136,6 +136,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					TABLES_OF_CONTENT: 'TABLES_OF_CONTENT_T',
 					SOURCE_CODE_COMMENTS: 'SOURCE_CODE_COMMENTS_T',
 					SENSITIVE_DATA: 'SENSITIVE_DATA_T',
+					PARTIAL_SCAN: 'PARTIAL_SCAN'
 				}
 			},
 			TIME_AGO: {
@@ -397,6 +398,10 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 	onBtnClick(event: any) {
 		console.log(event);
+	}
+
+	upgradePlan(recommendedPagesAmount: number) {
+		console.log(`upgrade plan, recommendedPagesAmount:${recommendedPagesAmount}`);
 	}
 
 	help() {

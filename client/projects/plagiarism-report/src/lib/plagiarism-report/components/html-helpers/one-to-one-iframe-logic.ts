@@ -32,11 +32,17 @@ function ready() {
 			prev[curr.dataset.gid].push(curr);
 			return prev;
 		}, {});
+
 		matches.forEach(elem => {
 			elem.addEventListener('click', onMatchClick);
 			elem.addEventListener('mouseenter', onMatchHover);
 			elem.addEventListener('mouseleave', onMatchHover);
 		});
+
+		document.querySelectorAll('span[exclude-partial-scan]')
+			.forEach(elem => {
+				elem.addEventListener('click', () => messageParent({ type: 'upgrade-plan' }))
+			});
 	}
 
 	function handleMessageFromParent(nativeEvent) {

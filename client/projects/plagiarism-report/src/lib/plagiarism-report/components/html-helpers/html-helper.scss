@@ -14,6 +14,11 @@ span[exclude] {
 	opacity: 0.75;
 }
 
+span[exclude-partial-scan] {
+	filter: blur(10px);
+	cursor: pointer;
+}
+
 span[match] {
 	cursor: pointer;
 	color: black;
@@ -27,27 +32,27 @@ span[ignored] {
 	font-style: italic;
 }
 
-span[match][data-type='0'] {
+span[match][data-type="0"] {
 	background-color: #ff6666;
 }
 
-span[match][data-type='0'].hover {
+span[match][data-type="0"].hover {
 	background-color: #ff8080;
 }
 
-span[match][data-type='1'] {
+span[match][data-type="1"] {
 	background-color: #ff9a9a;
 }
 
-span[match][data-type='1'].hover {
+span[match][data-type="1"].hover {
 	background-color: #ffb4b4;
 }
 
-span[match][data-type='2'] {
+span[match][data-type="2"] {
 	background-color: #ffd9b0;
 }
 
-span[match][data-type='2'].hover {
+span[match][data-type="2"].hover {
 	background-color: #ffe5ca;
 }
 

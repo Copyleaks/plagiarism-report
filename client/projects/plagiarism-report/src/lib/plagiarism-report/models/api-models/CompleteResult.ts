@@ -80,6 +80,7 @@ export interface ScannedDocument {
 	totalWords: number;
 	totalExcluded: number;
 	credits: number;
+	expectedCredits?: number;
 	creationTime: string;
 	metadata?: ResultMetaData;
 }

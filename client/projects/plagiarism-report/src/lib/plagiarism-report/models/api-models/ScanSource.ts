@@ -53,4 +53,5 @@ export enum ExcludeReason {
 	HtmlTemplate = 5,
 	TableOfContent = 6,
 	CodeComments = 7,
+	PartialScan = 8,
 }

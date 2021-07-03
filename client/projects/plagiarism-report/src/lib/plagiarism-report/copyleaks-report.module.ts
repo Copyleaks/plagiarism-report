@@ -56,6 +56,7 @@ import { NotificationsDialogComponent } from './components/notifications-dialog/
 import { AlertsComponent } from './components/alerts/alerts.component';
 import { AlertCardComponent } from './components/alert-card/alert-card.component';
 import { DirectionService } from './services/direction.service';
+import { ExcludePartialScanComponent } from './components/exclude-partial-scan/exclude-partial-scan.component';
 @NgModule({
 	declarations: [
 		CopyleaksReportComponent,
@@ -79,6 +80,7 @@ import { DirectionService } from './services/direction.service';
 		NotificationsDialogComponent,
 		AlertsComponent,
 		AlertCardComponent,
+		ExcludePartialScanComponent,
 	],
 	imports: [
 		CommonModule,

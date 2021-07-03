@@ -1,8 +1,9 @@
 import { ElementRef, HostBinding, HostListener, Renderer2, Directive } from '@angular/core';
-import { Match, MatchSelectEvent, MatchType, PostMessageEvent } from '../../models';
+import { ExcludeReason, Match, MatchSelectEvent, MatchType, PostMessageEvent } from '../../models';
 import { EXCLUDE_MESSAGE } from '../../utils/constants';
 import iframeStyle from './iframe-styles';
 import { CopyleaksTranslateService } from '../../services/copyleaks-translate.service';
+import { ReportService } from '../../services/report.service';
 
 @Directive()
 // tslint:disable-next-line: directive-class-suffix
@@ -24,7 +25,8 @@ export abstract class HtmlHelperBase {
 	constructor(
 		protected renderer: Renderer2,
 		protected element: ElementRef<HTMLIFrameElement>,
-		protected translateService?: CopyleaksTranslateService
+		protected reportService: ReportService,
+		protected translateService: CopyleaksTranslateService,
 	) {
 		const css = renderer.createElement('style') as HTMLStyleElement;
 		css.textContent = iframeStyle;
@@ -39,6 +41,7 @@ export abstract class HtmlHelperBase {
 					6: translations.SCAN_SETTINGS.OMITTED.TABLES_OF_CONTENT,
 					7: translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
 					0: translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
+					8: translations.SCAN_SETTINGS.OMITTED.PARTIAL_SCAN,
 				};
 			}
 		}
@@ -64,12 +67,21 @@ export abstract class HtmlHelperBase {
 			case 'match-select':
 				this.handleMatchSelect(pmevent);
 				break;
+			case 'upgrade-plan':
+				this.handleUpgradePlanEvent();
+				break;
 			case 'match-warn':
 				console.warn('match not found');
 				break;
 			default:
 				console.error('unknown event', pmevent);
 		}
+	}
+	/**
+	 * Handles the 'upgrade-plan' event
+	 */
+	handleUpgradePlanEvent() {
+		this.reportService.upgradePlanEvent();
 	}
 
 	protected get frame() {
@@ -110,7 +122,13 @@ export abstract class HtmlHelperBase {
 			let slice = this.html?.substring(curr.start, curr.end);
 			switch (curr.type) {
 				case MatchType.excluded:
-					slice = `<span exclude title="${this.EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;
+					if (curr.reason === ExcludeReason.PartialScan) {
+						slice =
+							`<span exclude-partial-scan data-type="${curr.type}" data-index="${i}" title="${this.EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;
+					}
+					else {
+						slice = `<span exclude title="${this.EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;
+					}
 					break;
 				case MatchType.none:
 					break;

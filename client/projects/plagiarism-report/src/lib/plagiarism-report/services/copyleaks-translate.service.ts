@@ -80,6 +80,7 @@ export interface CopyleaksTranslations {
 			TABLES_OF_CONTENT: string;
 			SOURCE_CODE_COMMENTS: string;
 			SENSITIVE_DATA: string;
+			PARTIAL_SCAN: string;
 		};
 	};
 	TIME_AGO?: {

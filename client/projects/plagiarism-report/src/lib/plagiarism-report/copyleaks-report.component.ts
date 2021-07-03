@@ -57,6 +57,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public download = new EventEmitter<MouseEvent>();
 	@Output()
 	public propertiesExpandChange = new EventEmitter<boolean>();
+	@Output()
+	public upgradePlan = new EventEmitter<number>();
 
 	@Input()
 	public dir: 'rtl' | 'ltr' = 'ltr';
@@ -86,11 +88,12 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 */
 	ngOnInit() {
 		this.directionService.setDir(this.dir);
-		const { viewMode$, helpClick$, shareClick$, downloadClick$, configChange$ } = this.reportService;
+		const { viewMode$, helpClick$, shareClick$, downloadClick$, configChange$, planUpgradeEvent$ } = this.reportService;
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		helpClick$.pipe(untilDestroy(this)).subscribe(data => this.help.emit(data));
 		shareClick$.pipe(untilDestroy(this)).subscribe(data => this.share.emit(data));
 		downloadClick$.pipe(untilDestroy(this)).subscribe(data => this.download.emit(data));
+		planUpgradeEvent$.pipe(untilDestroy(this)).subscribe(data => this.upgradePlan.emit(data));
 		configChange$.pipe(untilDestroy(this)).subscribe(config => this.configChange.emit(config));
 		this.hasResultsOverlay = !!this.config && !!this.config.resultsOverlayComponent;
 
@@ -115,5 +118,5 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 }

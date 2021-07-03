@@ -20,12 +20,12 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 	constructor(
 		renderer: Renderer2,
 		element: ElementRef<HTMLIFrameElement>,
-		private reportService: ReportService,
 		private highlightService: HighlightService,
 		private matchService: MatchService,
+		reportService: ReportService,
 		translateService: CopyleaksTranslateService
 	) {
-		super(renderer, element, translateService);
+		super(renderer, element, reportService, translateService);
 		const js = renderer.createElement('script') as HTMLScriptElement;
 		js.textContent = iframeScript;
 		this.script = js.outerHTML;
@@ -43,7 +43,7 @@ export class SourceHtmlHelperComponent extends HtmlHelperBase implements OnInit,
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() {}
+	ngOnDestroy() { }
 
 	/**
 	 * Life-cycle method
