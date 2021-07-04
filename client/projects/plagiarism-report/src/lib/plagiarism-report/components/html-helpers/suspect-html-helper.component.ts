@@ -43,7 +43,7 @@ export class SuspectHtmlHelperComponent extends HtmlHelperBase implements OnInit
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 
 	/**
 	 * Life-cycle method

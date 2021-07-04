@@ -39,10 +39,9 @@ function ready() {
 			elem.addEventListener('mouseleave', onMatchHover);
 		});
 
-		document.querySelectorAll('span[exclude-partial-scan]')
-			.forEach(elem => {
-				elem.addEventListener('click', () => messageParent({ type: 'upgrade-plan' }))
-			});
+		document.querySelectorAll('span[exclude-partial-scan]').forEach(elem => {
+			elem.addEventListener('click', () => messageParent({ type: 'upgrade-plan' }));
+		});
 	}
 
 	function handleMessageFromParent(nativeEvent) {

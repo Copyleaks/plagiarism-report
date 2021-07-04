@@ -26,7 +26,7 @@ export abstract class HtmlHelperBase {
 		protected renderer: Renderer2,
 		protected element: ElementRef<HTMLIFrameElement>,
 		protected reportService: ReportService,
-		protected translateService: CopyleaksTranslateService,
+		protected translateService: CopyleaksTranslateService
 	) {
 		const css = renderer.createElement('style') as HTMLStyleElement;
 		css.textContent = iframeStyle;
@@ -123,10 +123,10 @@ export abstract class HtmlHelperBase {
 			switch (curr.type) {
 				case MatchType.excluded:
 					if (curr.reason === ExcludeReason.PartialScan) {
-						slice =
-							`<span exclude-partial-scan data-type="${curr.type}" data-index="${i}" title="${this.EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;
-					}
-					else {
+						slice = `<span exclude-partial-scan data-type="${curr.type}" data-index="${i}" title="${
+							this.EXCLUDE_MESSAGE[curr.reason]
+						}">${slice}</span>`;
+					} else {
 						slice = `<span exclude title="${this.EXCLUDE_MESSAGE[curr.reason]}">${slice}</span>`;
 					}
 					break;

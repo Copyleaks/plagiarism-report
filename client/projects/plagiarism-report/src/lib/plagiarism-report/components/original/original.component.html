@@ -94,13 +94,18 @@
 					<ng-container *ngIf="textMatches; else clean">
 						<ng-container *ngFor="let partial of textMatches[currentPage - 1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{ partial.content }}</span>
-							<i *ngIf="partial.match.type === MatchType.excluded"
-							   [title]="EXCLUDE_MESSAGE[partial.match.reason]">
-								{{ partial.content }}
-							</i>
 							<span *ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
 								  [cr-match]="partial.match"
 								  origin="source">
+								{{ partial.content }}
+							</span>
+							<i *ngIf="partial.match.type === MatchType.excluded  && partial.match.reason != 8"
+							   [title]="EXCLUDE_MESSAGE[partial.match.reason]">
+								{{ partial.content }}
+							</i>
+							<span *ngIf="partial.match.type === MatchType.excluded && partial.match.reason == 8"
+								  [cr-exclude-partial-scan]="partial.match"
+								  [title]="EXCLUDE_MESSAGE[partial.match.reason]">
 								{{ partial.content }}
 							</span>
 						</ng-container>

@@ -29,7 +29,8 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 		private highlightService: HighlightService,
 		private matchService: MatchService,
 		reportService: ReportService,
-		translateService: CopyleaksTranslateService) {
+		translateService: CopyleaksTranslateService
+	) {
 		super(renderer, element, reportService, translateService);
 		const js = renderer.createElement('script') as HTMLScriptElement;
 		js.textContent = iframeScript;
@@ -98,5 +99,5 @@ export class OriginalHtmlHelperComponent extends HtmlHelperBase implements OnIni
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator
 	 */
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

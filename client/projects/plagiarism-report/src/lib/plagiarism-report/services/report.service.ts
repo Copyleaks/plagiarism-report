@@ -239,7 +239,8 @@ export class ReportService implements OnDestroy {
 		const completeResult = this._completeResult?.value;
 		let recommendedPagesAmount = completeResult.scannedDocument?.credits;
 		if (completeResult?.scannedDocument?.expectedCredits) {
-			recommendedPagesAmount = completeResult?.scannedDocument?.expectedCredits - completeResult.scannedDocument?.credits;
+			recommendedPagesAmount =
+				completeResult?.scannedDocument?.expectedCredits - completeResult.scannedDocument?.credits;
 		}
 		this._planUpgradeEvent.next(recommendedPagesAmount);
 	}

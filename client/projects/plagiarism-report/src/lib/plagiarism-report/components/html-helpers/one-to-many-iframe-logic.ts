@@ -35,12 +35,11 @@ function ready() {
 			elem.addEventListener('mouseleave', onMatchHover);
 		});
 
-		document.querySelectorAll('span[exclude-partial-scan]')
-			.forEach(elem => {
-				elem.addEventListener('click', () => messageParent({ type: 'upgrade-plan' }))
-				elem.addEventListener('mouseenter', onMatchHover);
-				elem.addEventListener('mouseleave', onMatchHover);
-			});
+		document.querySelectorAll('span[exclude-partial-scan]').forEach(elem => {
+			elem.addEventListener('click', () => messageParent({ type: 'upgrade-plan' }));
+			elem.addEventListener('mouseenter', onMatchHover);
+			elem.addEventListener('mouseleave', onMatchHover);
+		});
 	}
 
 	/**

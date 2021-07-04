@@ -8,10 +8,7 @@ import { ReportService } from '../../services/report.service';
 	template: '<ng-content></ng-content>',
 })
 export class ExcludePartialScanComponent {
-	constructor(
-		public element: ElementRef<HTMLElement>,
-		private reportService: ReportService
-	) { }
+	constructor(public element: ElementRef<HTMLElement>, private reportService: ReportService) {}
 
 	// tslint:disable-next-line:no-input-rename
 	@Input('cr-exclude-partial-scan')
@@ -24,5 +21,4 @@ export class ExcludePartialScanComponent {
 	public click() {
 		this.reportService.upgradePlanEvent();
 	}
-
 }
