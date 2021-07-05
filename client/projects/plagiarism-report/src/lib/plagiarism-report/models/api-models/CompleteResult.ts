@@ -114,6 +114,7 @@ export interface ResultMetaData {
 	publishDate?: string;
 	creationDate?: string;
 	lastModificationDate?: string;
+	submissionDate?: string;
 	submittedBy?: string;
 }
 
