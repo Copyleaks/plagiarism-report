@@ -104,7 +104,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		return (
 			this.progress &&
 			(this.progress >= 0 || this.progress < 100) &&
-			this.scanSummaryComponent && !this.scanSummeryComponentInstance
+			this.scanSummaryComponent &&
+			!this.scanSummeryComponentInstance
 		);
 	}
 	get done() {
