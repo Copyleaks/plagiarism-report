@@ -40,42 +40,54 @@
 		<!-- PROGRESS -->
 		<div prop>
 			<ng-container>
-				<div fxLayout="row nowrap" fxLayoutAlign="center center" fxLayoutGap="1em">
-					<div fxLayout="row nowrap" *ngIf="!done" fxLayoutAlign="center center">
-						<div header>&zwnj;</div>
-						<mat-spinner [diameter]="40"></mat-spinner>
+				<!--  -->
+				<ng-container #scanSummeryComponentVcr></ng-container>
+				<!--  -->
+				<ng-container *ngIf="!scanSummeryComponentInstance">
+					<div fxLayout="row nowrap" fxLayoutAlign="center center" fxLayoutGap="1em">
+						<div
+							fxLayout="
+					 row
+					 nowrap"
+							*ngIf="!done"
+							fxLayoutAlign="center center"
+						>
+							<div header>&zwnj;</div>
+							<mat-spinner [diameter]="40"></mat-spinner>
+						</div>
+						<div>
+							<div header>
+								<ng-container *ngIf="!done && progress !== null && !(scanSummaryComponent && progress == 100)">
+									{{ progress && progress / 100 | percent: '1.0' }}
+								</ng-container>
+								<ng-container *ngIf="done">
+									{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.DONE || 'done' }}
+								</ng-container>
+							</div>
+						</div>
 					</div>
 					<div>
-						<div header>
-							<ng-container *ngIf="!done && progress !== null">
-								{{ progress && progress / 100 | percent: '1.0' }}
-							</ng-container>
-							<ng-container *ngIf="done">
-								{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.DONE || 'done' }}
-							</ng-container>
-						</div>
+						<ng-container *ngIf="isScanning && !done">
+							{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.PROGRESS || 'Scanning' }}...
+						</ng-container>
+						<ng-container *ngIf="!isScanning && !done">
+							{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.LOADING || 'Loading' }}...
+						</ng-container>
+						<ng-container *ngIf="done">
+							<div
+								*ngIf="metadata"
+								[matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'"
+								[matTooltipDisabled]="hideCreationTime"
+							>
+								{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.SCANNED || 'Scanned' }}
+								<ng-container *ngIf="!hideCreationTime">
+									{{ metadata?.scannedDocument.creationTime | timeAgo }}
+								</ng-container>
+							</div>
+							<!--  -->
+						</ng-container>
 					</div>
-				</div>
-				<div>
-					<ng-container *ngIf="isScanning && !done">
-						{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.PROGRESS || 'Scanning' }}...
-					</ng-container>
-					<ng-container *ngIf="!isScanning && !done">
-						{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.LOADING || 'Loading' }}...
-					</ng-container>
-					<ng-container *ngIf="done">
-						<div
-							*ngIf="metadata"
-							[matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'"
-							[matTooltipDisabled]="hideCreationTime"
-						>
-							{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.SCANNED || 'Scanned' }}
-							<ng-container *ngIf="!hideCreationTime">
-								{{ metadata?.scannedDocument.creationTime | timeAgo }}
-							</ng-container>
-						</div>
-					</ng-container>
-				</div>
+				</ng-container>
 			</ng-container>
 		</div>
 

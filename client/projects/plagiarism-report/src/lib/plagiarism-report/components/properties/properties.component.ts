@@ -1,4 +1,17 @@
-import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+	Component,
+	ComponentFactoryResolver,
+	ComponentRef,
+	EventEmitter,
+	HostBinding,
+	Input,
+	OnDestroy,
+	OnInit,
+	Output,
+	Type,
+	ViewChild,
+	ViewContainerRef,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
@@ -14,6 +27,7 @@ import { take } from 'rxjs/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
 import { DirectionService } from '../../services/direction.service';
+import { IScanSummeryComponent } from '../../models/ScanProperties';
 
 @Component({
 	selector: 'cr-properties',
@@ -24,6 +38,8 @@ import { DirectionService } from '../../services/direction.service';
 export class PropertiesComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mobile') isMobile: boolean;
 
+	@Input()
+	public scanSummaryComponent: Type<IScanSummeryComponent>;
 	@Input()
 	public isDownloading = false;
 	@Input()
@@ -69,9 +85,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	@ViewChild('scanSummeryComponentVcr', { read: ViewContainerRef, static: false })
+	public scanSammeryComponentVcr: ViewContainerRef;
+	public scanSummeryComponentInstance: ComponentRef<IScanSummeryComponent>;
+
 	constructor(
-		// @Inject(COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN)
-		// public messages: CopyleaksTextConfig,
+		private componentFactoryResolver: ComponentFactoryResolver,
 		private reportService: ReportService,
 		private viewModeService: ViewModeService,
 		private layoutService: LayoutMediaQueryService,
@@ -82,10 +101,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	) {}
 
 	get isScanning() {
-		return this.progress && (this.progress >= 0 || this.progress < 100);
+		return (
+			this.progress &&
+			(this.progress >= 0 || this.progress < 100) &&
+			this.scanSummaryComponent && !this.scanSummeryComponentInstance
+		);
 	}
 	get done() {
-		return this.progress === 100;
+		return this.progress === 100 && (!this.scanSummaryComponent || this.scanSummeryComponentInstance);
 	}
 
 	get total(): number {
@@ -168,6 +191,29 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		options[type] = !options[type];
 		this.reportService.configure({ options });
 	}
+
+	/**
+	 * check if the results overlay component was passed
+	 */
+	private checkAndAddScanSummeryComponent() {
+		if (this.scanSummaryComponent) {
+			if (!this.scanSummeryComponentInstance) {
+				setTimeout(() => {
+					const factory = this.componentFactoryResolver.resolveComponentFactory(this.scanSummaryComponent);
+					if (!this.scanSummeryComponentInstance) {
+						const scanSummeryComponentInstance = this.scanSammeryComponentVcr?.createComponent(factory);
+						if (scanSummeryComponentInstance) {
+							this.scanSummeryComponentInstance = scanSummeryComponentInstance;
+							if (this.metadata) {
+								this.scanSummeryComponentInstance?.instance?.setCompleteResult(this.metadata);
+							}
+						}
+					}
+				}, 100);
+			}
+		}
+	}
+
 	/**
 	 * Life-cycle method
 	 * subscribe to:
@@ -195,6 +241,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 
 		completeResult$.pipe(untilDestroy(this)).subscribe(meta => {
 			this.metadata = meta;
+
+			this.scanSummeryComponentInstance?.instance?.setCompleteResult(this.metadata);
+
 			if (meta.filters && meta.filters.resultIds) {
 				filteredPreviews$.pipe(untilDestroy(this)).subscribe(previews => {
 					let counter = previews.length;
@@ -219,10 +268,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		help$.pipe(untilDestroy(this)).subscribe(help => (this.help = help));
 		share$.pipe(untilDestroy(this)).subscribe(share => (this.share = share));
 		download$.pipe(untilDestroy(this)).subscribe(download => (this.download = download));
-		progress$.pipe(untilDestroy(this)).subscribe(value => (this.progress = value));
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		options$.pipe(untilDestroy(this)).subscribe(options => (this.options = options));
 		totalResults$.pipe(untilDestroy(this)).subscribe(totalResults => (this.totalResults = totalResults));
+		progress$.pipe(untilDestroy(this)).subscribe(value => {
+			this.progress = value;
+			if (this.progress === 100) {
+				setTimeout(() => {
+					this.checkAndAddScanSummeryComponent();
+				}, 100);
+			}
+		});
 
 		this.statistics.statistics$.pipe(untilDestroy(this), truthy()).subscribe(value => {
 			this.stats = value;

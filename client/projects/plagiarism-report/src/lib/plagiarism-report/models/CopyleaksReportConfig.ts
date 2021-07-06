@@ -1,5 +1,6 @@
 import { CopyleaksReportOptions, CopyleaksResultCardAction } from './ResultsSettings';
 import { Type } from '@angular/core';
+import { IScanSummeryComponent } from './ScanProperties';
 
 /** possible view modes of the report */
 export type ViewMode = 'one-to-many' | 'one-to-one';
@@ -37,4 +38,6 @@ export interface CopyleaksReportConfig {
 	suspectId?: string;
 	/** The passed component will be displayed over the results, the Results and Scan Properties sections will be hidden */
 	resultsOverlayComponent?: Type<any>;
+	/** The passed component will be displayed on scan summary section at the properties bar when the scan is done */
+	scanSummaryComponent?: Type<IScanSummeryComponent>;
 }

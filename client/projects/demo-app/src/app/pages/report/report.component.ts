@@ -4,10 +4,11 @@ import { CopyleaksReportConfig, DEFAULT_REPORT_CONFIG, ResultItem, CopyleaksTran
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ResultsService } from '../../results.service';
 import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
-import { distinctUntilChanged, takeUntil, retry, take, map, catchError } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil, retry, take, map, catchError, delay } from 'rxjs/operators';
 import deepEqual from 'deep-equal';
 import { zip, from, interval, of, forkJoin } from 'rxjs';
 import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
+import { ReportScanSummeryComponent } from '../../components/report-scan-summery/report-scan-summery.component';
 
 // import * as IntroJs from "intro.js";
 @Component({
@@ -327,6 +328,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		const { onDestroy$: destroy$ } = this.copyleaksService;
 		const completeResult$ = this.resultsService.completeResult(scanId).pipe(
 			takeUntil(destroy$),
+			delay(5000),
 			retry(3)
 		);
 		const downloadedSource$ = this.resultsService.downloadedSource(scanId).pipe(
@@ -335,6 +337,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 		);
 		downloadedSource$.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 		completeResult$.subscribe(meta => {
+			if (meta.scannedDocument.expectedCredits != null && (meta.scannedDocument.expectedCredits != meta.scannedDocument.credits)) {
+				this.config = {
+					...this.config,
+					scanSummaryComponent: ReportScanSummeryComponent
+				}
+			}
 			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: ScanResultComponent }))
 			meta.results.internet = meta.results.internet.map(r => ({ ...r, component: ScanResultComponent }))
 			meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))

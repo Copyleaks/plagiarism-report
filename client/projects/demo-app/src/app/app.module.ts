@@ -13,12 +13,14 @@ import { ScanResultComponent } from './components/scan-result/scan-result.compon
 import { ReportResultsOverlayComponent } from './components/report-results-overlay/report-results-overlay.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { ReportScanSummeryComponent } from './components/report-scan-summery/report-scan-summery.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		ScanResultComponent,
-		ReportResultsOverlayComponent],
+		ReportResultsOverlayComponent,
+		ReportScanSummeryComponent],
 	imports: [
 		CommonModule,
 		BrowserModule,
@@ -35,6 +37,6 @@ import { MatMenuModule } from '@angular/material/menu';
 	],
 	providers: [],
 	bootstrap: [AppComponent],
-	entryComponents: [ScanResultComponent, ReportResultsOverlayComponent]
+	entryComponents: [ScanResultComponent, ReportResultsOverlayComponent, ReportScanSummeryComponent]
 })
 export class AppModule { }

@@ -1,5 +1,6 @@
 <cr-properties
 	*ngIf="!hasResultsOverlay"
+	[scanSummaryComponent]="config.scanSummaryComponent"
 	[isDownloading]="isDownloading"
 	[hideCreationTime]="hideCreationTime"
 	[expanded]="config.propertiesExpanded != null ? config.propertiesExpanded : true"
