@@ -52,7 +52,7 @@
 		"@types/node": "^12.12.47",
 		"codelyzer": "^5.1.2",
 		"jest": "^24.9.0",
-		"ng-packagr": "^9.0.0",
+		"ng-packagr": "^10.1.1",
 		"prettier": "^1.19.1",
 		"protractor": "^5.4.4",
 		"serialize-javascript": "^3.1.0",
