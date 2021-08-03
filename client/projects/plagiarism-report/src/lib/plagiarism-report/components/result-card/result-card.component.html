@@ -70,6 +70,10 @@
 			</mat-menu>
 		</div>
 
+		<div body class="meta-data" *ngIf="preview.type != eResultPreviewType.Internet && preview.metadata?.filename">
+			<span>{{ preview.metadata?.filename }}</span>
+		</div>
+
 		<div url *ngIf="preview.url">
 			<a [href]="preview.url" target="_blank">{{ preview.url }}</a>
 		</div>

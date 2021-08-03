@@ -343,10 +343,11 @@ export class ReportComponent implements OnInit, OnDestroy {
 					scanSummaryComponent: ReportScanSummeryComponent
 				}
 			}
-			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: ScanResultComponent }))
-			meta.results.internet = meta.results.internet.map(r => ({ ...r, component: ScanResultComponent }))
-			meta.results.database = meta.results.database.map(r => ({ ...r, component: ScanResultComponent }))
-			meta.results.repositories = meta.results.repositories && meta.results.repositories.map(r => ({ ...r, component: ScanResultComponent }))
+			const useCustomResultComponent = false;
+			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
+			meta.results.internet = meta.results.internet.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
+			meta.results.database = meta.results.database.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
+			meta.results.repositories = meta.results.repositories && meta.results.repositories.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
 
 			this.copyleaksService.pushCompletedResult(meta);
 

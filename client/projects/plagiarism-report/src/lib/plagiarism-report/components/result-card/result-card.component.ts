@@ -165,8 +165,13 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 */
 	ngOnInit() {
 		this.translations = this.translatesService.translations;
+
 		if (!this.preview) {
 			return;
+		}
+
+		if (this.preview?.metadata?.filename) {
+			this.preview.metadata.filename = decodeURIComponent(this.preview?.metadata?.filename);
 		}
 
 		this.previewDate = this.getPreviewDate();
