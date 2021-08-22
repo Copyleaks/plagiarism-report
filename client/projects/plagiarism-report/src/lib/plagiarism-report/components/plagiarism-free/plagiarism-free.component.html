@@ -1,6 +1,11 @@
 <img [src]="plagFreeImg | safe: 'url'" alt="Plagiarism free" />
 <label *ngIf="!isHighNotificationSeverity">
-	{{ translations?.PLAGIARISM_FREE || 'Plagiarism Free' }}
+	<ng-container *ngIf="(results$ | async).length">
+		{{ translations?.PLAGIARISM_FREE_WITH_RESULTS || 'No Plagiarism Found With Applied Filters' }}
+	</ng-container>
+	<ng-container *ngIf="!(results$ | async).length">
+		{{ translations?.PLAGIARISM_FREE || 'No Plagiarism Found' }}
+	</ng-container>
 </label>
 <label *ngIf="isHighNotificationSeverity">
 	{{ translations?.PLAGIARISM_FREE_WITH_NOTIFICATIONS || 'Cheating Detected' }}

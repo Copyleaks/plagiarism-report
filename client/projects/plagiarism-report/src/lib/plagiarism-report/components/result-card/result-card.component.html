@@ -70,11 +70,16 @@
 			</mat-menu>
 		</div>
 
-		<div body class="meta-data" *ngIf="preview.type != eResultPreviewType.Internet && preview.metadata?.filename">
+		<div
+			body
+			class="meta-data"
+			[title]="preview.metadata?.filename"
+			*ngIf="preview.type != eResultPreviewType.Internet && preview.metadata?.filename"
+		>
 			<span>{{ preview.metadata?.filename }}</span>
 		</div>
 
-		<div url *ngIf="preview.url">
+		<div url *ngIf="preview.url" [title]="preview.url">
 			<a [href]="preview.url" target="_blank">{{ preview.url }}</a>
 		</div>
 
@@ -86,10 +91,10 @@
 			[matTooltip]="metaDataToolTip"
 		>
 			<span>{{ preview.metadata?.author }}</span>
-			<span *ngIf="preview.metadata?.author && preview.metadata?.organization" class="dot-divider">•</span>
+			<span *ngIf="preview.metadata?.author && preview.metadata?.organization" class="dot-divider">&nbsp;•&nbsp;</span>
 			<span *ngIf="preview.metadata?.organization">{{ preview.metadata?.organization }}</span>
 			<span *ngIf="(preview.metadata?.author || preview.metadata?.organization) && previewDate" class="dot-divider">
-				•
+				&nbsp;•&nbsp;
 			</span>
 			<span *ngIf="previewDate">{{ previewDate }}</span>
 		</p>
