@@ -149,7 +149,7 @@
 										{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || model.name }}
 									</ng-container>
 									<ng-container *ngSwitchCase="'Related meaning'">
-										{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || model.name }}
+										{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
 									</ng-container>
 									<ng-container *ngSwitchCase="'Original'">
 										{{ translations?.SHARED?.MATCH_TYPES?.ORIGINAL || model.name }}
@@ -231,7 +231,7 @@
 					>
 						<div class="dot related" [ngStyle]="{ visibility: options?.showRelated ? 'visible' : 'hidden' }"></div>
 						<div text [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
-							{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Related Meaning' }}
+							{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
 						</div>
 						<span fxFlex></span>
 						<div *ngIf="options.showRelated || stats.relatedMeaning > 0">

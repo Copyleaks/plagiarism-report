@@ -18,6 +18,7 @@ import {
 } from '../utils/constants';
 
 import { Subject, BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class CopyleaksService {
@@ -39,13 +40,18 @@ export class CopyleaksService {
 	public readonly onReportConfig$ = this._config$.asObservable();
 	public readonly onTotalResultsChange$ = this._totalResults$.asObservable();
 	public readonly filteredResultsIds$ = this._filteredResultsIds$.asObservable();
+
+	// Delete result by Id
+	public readonly onDeleteResultById$ = new Subject<string>();
+	public readonly onDeleteProccessFinish$ = new Subject<CompleteResult>();
+
 	public readonly onDestroy$ = this._destroy$.asObservable();
 
 	/**
 	 * set total results (optional)
 	 * @param totalResults scan total results amount
 	 */
-	setTotalResults(totalResults: number) {
+	public setTotalResults(totalResults: number) {
 		this._totalResults$.next(totalResults);
 	}
 
@@ -53,8 +59,23 @@ export class CopyleaksService {
 	 * Init/Set the filtered results.
 	 * @param ids a list of results ids to be filtered.
 	 */
-	setFilteredResultsIds(ids: string[]) {
+	public setFilteredResultsIds(ids: string[]) {
 		this._filteredResultsIds$.next(ids);
+	}
+
+	/**
+	 * Delete result by id.
+	 * @param resultId deleted result id
+	 * @returns updated complete result after deletion
+	 */
+	public async deleteResultById(resultId: string) {
+		return new Promise<CompleteResult>((resolve, reject) => {
+			this.onDeleteProccessFinish$.pipe(take(1)).subscribe(
+				res => resolve(res),
+				err => reject(err)
+			);
+			this.onDeleteResultById$.next(resultId);
+		});
 	}
 
 	/**
@@ -62,7 +83,7 @@ export class CopyleaksService {
 	 * @see https://api.copyleaks.com/documentation/v3/webhooks/completed
 	 * @param result the completed result
 	 */
-	pushCompletedResult(result: CompleteResult) {
+	public pushCompletedResult(result: CompleteResult) {
 		if (!this.isCompleteResult(result)) {
 			throw new Error(COMPLETE_RESULT_VALIDATION_ERROR);
 		}
@@ -88,7 +109,7 @@ export class CopyleaksService {
 	 * @see https://api.copyleaks.com/documentation/v3/downloads/source
 	 * @param source the downloaded source
 	 */
-	pushDownloadedSource(source: ScanSource) {
+	public pushDownloadedSource(source: ScanSource) {
 		if (!this.isCorrectVersion(source)) {
 			throw new Error(VERSION_VALIDATION_ERROR);
 		}
@@ -97,12 +118,13 @@ export class CopyleaksService {
 		}
 		this._source$.next(source);
 	}
+
 	/**
 	 * Insert one or more downloaded scan result to the report.
 	 * @see https://api.copyleaks.com/documentation/v3/downloads/result
 	 * @param results one or more ResultItem object containing the result and the id of the result
 	 */
-	pushScanResult(results: ResultItem[] | ResultItem) {
+	public pushScanResult(results: ResultItem[] | ResultItem) {
 		results = [].concat(results);
 		for (const { id, result } of results) {
 			if (typeof id !== 'string') {
@@ -119,7 +141,7 @@ export class CopyleaksService {
 	 * Change the progress percentage in the report manualy
 	 * @param progress an integer between 0 ~ 100
 	 */
-	setProgress(progress: number) {
+	public setProgress(progress: number) {
 		this._progress$.next(progress);
 	}
 
@@ -128,7 +150,7 @@ export class CopyleaksService {
 	 * This function is used to sort the displayed results, you can add your own custom sort by overriding this function
 	 * @param previews the displayed results
 	 */
-	sortScanResults(previews: ResultPreview[]): ResultPreview[] {
+	public sortScanResults(previews: ResultPreview[]): ResultPreview[] {
 		return previews.sort((a, b) => b.matchedWords - a.matchedWords);
 	}
 
@@ -137,14 +159,14 @@ export class CopyleaksService {
 	 * allows passing partial configuration that will be complemented by the default configuration
 	 * @param config the complete/partial configuration object
 	 */
-	setConfig(config: CopyleaksReportConfig) {
+	public setConfig(config: CopyleaksReportConfig) {
 		this._config$.next({ ...config });
 	}
 
 	/**
 	 * This method will cause the `destroy$` observable to emit
 	 */
-	notifyDestroy() {
+	public notifyDestroy() {
 		this._destroy$.next();
 		this.setFilteredResultsIds([]);
 	}

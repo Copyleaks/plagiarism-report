@@ -10,6 +10,8 @@ import { zip, from, interval, of, forkJoin } from 'rxjs';
 import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
 import { ReportScanSummeryComponent } from '../../components/report-scan-summery/report-scan-summery.component';
 
+const USE_CUSTOM_RESULT_COMPONENT = false;
+
 // import * as IntroJs from "intro.js";
 @Component({
 	selector: 'app-report',
@@ -343,11 +345,11 @@ export class ReportComponent implements OnInit, OnDestroy {
 					scanSummaryComponent: ReportScanSummeryComponent
 				}
 			}
-			const useCustomResultComponent = false;
-			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
-			meta.results.internet = meta.results.internet.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
-			meta.results.database = meta.results.database.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
-			meta.results.repositories = meta.results.repositories && meta.results.repositories.map(r => ({ ...r, component: useCustomResultComponent ? ScanResultComponent : null }))
+
+			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
+			meta.results.internet = meta.results.internet.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
+			meta.results.database = meta.results.database.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
+			meta.results.repositories = meta.results.repositories && meta.results.repositories.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
 
 			this.copyleaksService.pushCompletedResult(meta);
 

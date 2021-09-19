@@ -165,7 +165,14 @@ export const calculateStatistics = (
 		.filter(match => match.type === MatchType.relatedMeaning)
 		.reduce((total, elem) => total + (elem.end - elem.start), 0);
 
+	let aggregatedScore = Math.min(
+		1,
+		(identicalCount + relatedMeaningCount + minorChangesCount) / (totalWords - totalExcluded)
+	);
+	aggregatedScore = isNaN(aggregatedScore) ? 0 : aggregatedScore;
+
 	return {
+		aggregatedScore,
 		identical: identicalCount,
 		relatedMeaning: relatedMeaningCount,
 		minorChanges: minorChangesCount,

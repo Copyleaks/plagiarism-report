@@ -2,6 +2,8 @@
  * Type that holds the statistic for a scan process
  */
 export interface ReportStatistics {
+	/** Total percentage of similar content compared to original submission. */
+	aggregatedScore?: number;
 	/** Number of identical words matched in this scan */
 	identical: number;
 	/** Number of minor changed words matched in this scan */

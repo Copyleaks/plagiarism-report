@@ -13,6 +13,7 @@ import {
 import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
 import { truthy } from '../utils/operators';
 import { CopyleaksService } from './copyleaks.service';
+import * as helpers from '../utils/statistics';
 
 /**
  * @todo implement saving options localstorage
@@ -50,6 +51,8 @@ export class ReportService implements OnDestroy {
 			onReportConfig$,
 			filteredResultsIds$,
 			onTotalResultsChange$,
+			onDeleteResultById$,
+			onDeleteProccessFinish$,
 		} = copyleaksService;
 		onCompleteResult$.pipe(untilDestroy(this)).subscribe(completeResult => this.setCompleteResult(completeResult));
 		onResultPreview$.pipe(untilDestroy(this)).subscribe(preview => this.addPreview(preview));
@@ -59,6 +62,7 @@ export class ReportService implements OnDestroy {
 		onScanSource$.pipe(untilDestroy(this)).subscribe(source => this.setSource(source));
 		onReportConfig$.pipe(untilDestroy(this)).subscribe(config => this.configure(config));
 		this.config$.pipe(untilDestroy(this)).subscribe(config => this._configChange.next(config));
+
 		combineLatest([this.source$, this.completeResult$])
 			.pipe(untilDestroy(this), take(1))
 			.subscribe(() => this._progress.next(100));
@@ -66,9 +70,52 @@ export class ReportService implements OnDestroy {
 		filteredResultsIds$
 			.pipe(untilDestroy(this), distinctUntilChanged())
 			.subscribe(ids => this._hiddenResults.next(ids));
+
+		onDeleteResultById$.pipe(untilDestroy(this)).subscribe(id => {
+			const currentCompleteResult = this._completeResult.value;
+
+			const statistics = helpers.calculateStatistics(
+				currentCompleteResult,
+				this._results.value.filter(r => r.id !== id),
+				{
+					showIdentical: true,
+					showMinorChanges: true,
+					showPageSources: true,
+					showOnlyTopResults: false,
+					showRelated: true,
+				}
+			);
+
+			this.setCompleteResult({
+				...currentCompleteResult,
+				scannedDocument: {
+					...currentCompleteResult.scannedDocument,
+					totalWords: statistics.total,
+					totalExcluded: statistics.omittedWords,
+				},
+				results: {
+					...currentCompleteResult.results,
+					batch: currentCompleteResult.results.batch.filter(r => r.id !== id),
+					internet: currentCompleteResult.results.internet.filter(r => r.id !== id),
+					database: currentCompleteResult.results.database.filter(r => r.id !== id),
+					repositories: currentCompleteResult.results.repositories?.filter(r => r.id !== id),
+					score: {
+						...currentCompleteResult.results.score,
+						aggregatedScore: statistics.aggregatedScore,
+						identicalWords: statistics.identical,
+						relatedMeaningWords: statistics.relatedMeaning,
+						minorChangedWords: statistics.minorChanges,
+					},
+				},
+			});
+
+			this._results.next(this._results.value.filter(r => r.id !== id));
+
+			onDeleteProccessFinish$.next(this._completeResult.value);
+		});
 	}
 
-	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(truthy(), take(1));
+	public completeResult$: Observable<CompleteResult> = this._completeResult.asObservable().pipe(truthy());
 
 	public totalResults$ = this._totalResults.asObservable();
 
@@ -102,6 +149,7 @@ export class ReportService implements OnDestroy {
 	public hiddenResults$ = this._hiddenResults.asObservable().pipe(distinctUntilChanged());
 	public results$ = this._results.asObservable().pipe(truthy());
 	public previews$ = this._previews.asObservable().pipe(truthy());
+
 	public filteredPreviews$ = combineLatest([this.previews$, this.hiddenResults$]).pipe(
 		map(([results, ids]) => results.filter(result => !ids.includes(result.id)))
 	);

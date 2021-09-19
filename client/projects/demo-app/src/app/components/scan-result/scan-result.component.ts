@@ -2,7 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ResultCardComponent } from 'projects/plagiarism-report/src/lib/plagiarism-report/components/result-card/result-card.component';
-import { ResultPreviewComponentBase, ResultPreviewBase, ResultItem, EResultPreviewType } from 'projects/plagiarism-report/src/public-api';
+import { ResultPreviewComponentBase, ResultPreviewBase, ResultItem, EResultPreviewType, CopyleaksService } from 'projects/plagiarism-report/src/public-api';
 
 @Component({
 	selector: 'app-scan-result',
@@ -18,7 +18,7 @@ export class ScanResultComponent implements ResultPreviewComponentBase, OnInit {
 	dir: string = 'ltr';
 	isSameAuthor: boolean = false;
 
-	constructor() { }
+	constructor(private copyleaksService: CopyleaksService) { }
 
 	ngOnInit() {
 	}
@@ -38,5 +38,9 @@ export class ScanResultComponent implements ResultPreviewComponentBase, OnInit {
 	}
 	onTitleClick() {
 		this.parent.onTitleClick();
+	}
+	async deleteResult() {
+		var updatedCompleteResult = await this.copyleaksService.deleteResultById(this.preview.id);
+		console.log(updatedCompleteResult);
 	}
 }
