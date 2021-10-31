@@ -70,14 +70,20 @@ export const findNests = (matches: Match[]): Match[][] => {
 	matches.sort((a, b) => a.start - b.start || a.end - b.end || a.type - b.type);
 	const nests: Match[][] = [[matches[0]]];
 	let nestFurthestEnd = matches[0].end;
+	let nestFurthestReason = matches[0].reason;
+
 	for (const interval of matches.slice(1)) {
-		if (interval.start > nestFurthestEnd) {
+		if (
+			interval.start > nestFurthestEnd ||
+			(interval.start === nestFurthestEnd && interval.reason !== nestFurthestReason)
+		) {
 			nests.push([interval]);
 			nestFurthestEnd = interval.end;
 		} else {
 			nests[nests.length - 1].push(interval);
 			nestFurthestEnd = Math.max(nestFurthestEnd, interval.end);
 		}
+		nestFurthestReason = interval.reason;
 	}
 	return nests;
 };
@@ -145,6 +151,7 @@ const mergeMatchesInNest = (matches: Match[]): Match[] => {
 			start = Object.entries(idMap).filter(([, value]) => value > 0).length === 0 ? undefined : index;
 		}
 	}
+
 	const result: Match[] = subMatches.slice(1).reduce(
 		(prev: Match[], curr: Match) => {
 			const last = prev[prev.length - 1];
