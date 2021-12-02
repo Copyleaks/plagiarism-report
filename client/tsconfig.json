@@ -9,14 +9,14 @@
 		"experimentalDecorators": true,
 		"noUnusedParameters": true,
 		"noUnusedLocals": true,
-		"module": "esnext",
+		"module": "es2020",
 		"moduleResolution": "node",
 		"allowSyntheticDefaultImports": true,
 		"resolveJsonModule": true,
 		"importHelpers": true,
 		"target": "es2015",
 		"typeRoots": ["node_modules/@types"],
-		"lib": ["dom", "es2019"],
+		"lib": ["dom", "es2019"],		
 		"paths": {
 			"plagiarism-report": ["dist/plagiarism-report"],
 			"plagiarism-report/*": ["dist/plagiarism-report/*"]

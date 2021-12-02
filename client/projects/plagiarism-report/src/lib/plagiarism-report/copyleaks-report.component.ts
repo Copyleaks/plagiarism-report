@@ -11,7 +11,8 @@ import {
 	Renderer2,
 	SimpleChanges,
 } from '@angular/core';
-import { version } from '../report-version.json';
+
+import packageInfo from '../report-version.json';
 import { untilDestroy } from '../shared/operators/untilDestroy';
 import { CopyleaksReportConfig, ViewMode } from './models/CopyleaksReportConfig';
 import { CopyleaksService } from './services/copyleaks.service';
@@ -79,7 +80,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		el: ElementRef,
 		renderer: Renderer2
 	) {
-		renderer.setAttribute(el.nativeElement, 'plagiarism-report-version', version);
+		renderer.setAttribute(el.nativeElement, 'plagiarism-report-version', packageInfo.version);
 	}
 
 	/**

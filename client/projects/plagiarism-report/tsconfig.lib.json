@@ -1,7 +1,8 @@
 {
 	"extends": "../../tsconfig.json",
-	"compilerOptions": {
-		"outDir": "../../out-tsc/lib",
+	"compilerOptions": {				
+    "outDir": "../../out-tsc/lib",
+    "declarationMap": true,
 		"target": "es2015",
 		"declaration": true,
 		"inlineSources": true,
@@ -15,13 +16,13 @@
 		]
 	},
 	"angularCompilerOptions": {
-		"annotateClosureCompiler": false,
+    "annotateClosureCompiler": false,
+    "compilationMode": "partial",
 		"skipTemplateCodegen": true,
 		"strictMetadataEmit": true,
 		"fullTemplateTypeCheck": true,
 		"strictInjectionParameters": true,
-		"enableResourceInlining": true,
-		"enableIvy": false
+    "enableResourceInlining": true
 	},
 	"exclude": [
 		"dist/**/*.*",
