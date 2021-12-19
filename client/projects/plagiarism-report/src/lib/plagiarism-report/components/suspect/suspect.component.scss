@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../../styles';
 
 :host {
@@ -99,7 +100,7 @@ cr-panel {
 	@for $i from 1 through 5 {
 		ngx-skeleton-loader:nth-child(5n + #{$i}) {
 			flex: 1;
-			width: percentage((random(30) + 70) / 100);
+			width: math.div(random(30) + 70, 100); // percentage((random(30) + 70) / 100);
 		}
 	}
 }
