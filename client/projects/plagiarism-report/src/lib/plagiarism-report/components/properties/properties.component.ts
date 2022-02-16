@@ -41,7 +41,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	@Input()
 	public scanSummaryComponent: Type<IScanSummeryComponent>;
 	@Input()
-	public isDownloading = false;
+	public isPDFDownloading = false;
 	@Input()
 	public hideCreationTime = false;
 	@Input()
@@ -78,8 +78,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	translations: CopyleaksTranslations;
 
 	get btnDownloadTooltip() {
-		if (this.isDownloading) {
-			return 'downloading...';
+		if (this.isPDFDownloading) {
+			return this.translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.DOWNLOADING || 'Downloading...';
 		} else {
 			return this.translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.DOWNLOAD || 'Download';
 		}

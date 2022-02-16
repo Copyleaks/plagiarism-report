@@ -44,7 +44,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	@Input()
 	public config: CopyleaksReportConfig;
 	@Input()
-	public isDownloading = false;
+	public isPDFDownloading = false;
 	@Input()
 	public hideCreationTime = false;
 

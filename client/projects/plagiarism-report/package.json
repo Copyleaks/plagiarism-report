@@ -6,7 +6,7 @@
 	},
 	"license": "SEE LICENSE IN LICENSE.md",
 	"homepage": "https://api.copyleaks.com",
-	"version": "3.1.14",
+	"version": "4.0.1",
 	"dependencies": {
 		"tslib": "^2.0.0"
 	},

@@ -6,27 +6,17 @@
 		"target": "es2015",
 		"declaration": true,
 		"inlineSources": true,
-		"types": [
-			"jest",
-			"node"
-		],
-		"lib": [
-			"dom",
-			"es2019"
-		]
+		"types": ["jest", "node"],
+		"lib": ["dom", "es2019"]
 	},
 	"angularCompilerOptions": {
 		"annotateClosureCompiler": false,
-		"compilationMode": "partial",
+		"compilationMode": "full",
 		"skipTemplateCodegen": true,
 		"strictMetadataEmit": true,
 		"fullTemplateTypeCheck": true,
 		"strictInjectionParameters": true,
 		"enableResourceInlining": true
 	},
-	"exclude": [
-		"dist/**/*.*",
-		"src/test.ts",
-		"**/*.spec.ts"
-	]
+	"exclude": ["dist/**/*.*", "src/test.ts", "**/*.spec.ts"]
 }

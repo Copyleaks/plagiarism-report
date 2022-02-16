@@ -36,6 +36,7 @@ export interface CopyleaksTranslations {
 			HELP?: string;
 			SHARE?: string;
 			DOWNLOAD?: string;
+			DOWNLOADING?: string;
 			SETTINGS?: string;
 		};
 	};

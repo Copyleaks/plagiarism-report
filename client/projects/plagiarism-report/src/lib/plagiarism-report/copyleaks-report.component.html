@@ -1,7 +1,7 @@
 <cr-properties
 	*ngIf="!hasResultsOverlay"
 	[scanSummaryComponent]="config.scanSummaryComponent"
-	[isDownloading]="isDownloading"
+	[isPDFDownloading]="isPDFDownloading"
 	[hideCreationTime]="hideCreationTime"
 	[expanded]="config.propertiesExpanded != null ? config.propertiesExpanded : true"
 	(expandChange)="propertiesExpandChange.emit($event)"

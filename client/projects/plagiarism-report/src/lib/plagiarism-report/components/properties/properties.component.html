@@ -22,7 +22,7 @@
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="download">
-			<button mat-button [disabled]="isDownloading" (click)="downloadClicked($event)">
+			<button mat-button [disabled]="isPDFDownloading" (click)="downloadClicked($event)">
 				<mat-icon [matTooltip]="btnDownloadTooltip">save_alt</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
