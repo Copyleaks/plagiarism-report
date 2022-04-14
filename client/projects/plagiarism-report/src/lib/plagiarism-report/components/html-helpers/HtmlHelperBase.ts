@@ -42,6 +42,7 @@ export abstract class HtmlHelperBase {
 					7: translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
 					0: translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
 					8: translations.SCAN_SETTINGS.OMITTED.PARTIAL_SCAN,
+					9: translations.SCAN_SETTINGS.OMITTED.CITATIONS,
 				};
 			}
 		}

@@ -78,6 +78,7 @@ export interface CopyleaksTranslations {
 		OMITTED?: {
 			QUOTATIONS: string;
 			REFERENCES: string;
+			CITATIONS: string;
 			HTML_TEMPLATES: string;
 			TABLES_OF_CONTENT: string;
 			SOURCE_CODE_COMMENTS: string;
