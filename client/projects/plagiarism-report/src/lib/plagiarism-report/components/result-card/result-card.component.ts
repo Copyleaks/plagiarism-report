@@ -171,7 +171,13 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		}
 
 		if (this.preview?.metadata?.filename) {
-			this.preview.metadata.filename = decodeURIComponent(this.preview?.metadata?.filename);
+			let filename = this.preview?.metadata?.filename;
+			try {
+				filename = decodeURIComponent(this.preview?.metadata?.filename);
+			} catch {
+				filename = this.preview?.metadata?.filename;
+			}
+			this.preview.metadata.filename = filename;
 		}
 
 		this.previewDate = this.getPreviewDate();
