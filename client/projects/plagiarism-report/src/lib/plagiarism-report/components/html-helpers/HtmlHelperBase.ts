@@ -137,7 +137,7 @@ export abstract class HtmlHelperBase {
 					slice = `<span match data-type="${curr.type}" data-index="${i}" data-gid="${curr.gid}">${slice}</span>`;
 					break;
 			}
-			return slice.concat(prev);
+			return slice ? slice?.concat(prev) : '';
 		}, '');
 		this.renderer.setAttribute(this.element.nativeElement, 'srcdoc', html + this.style + this.script);
 	}

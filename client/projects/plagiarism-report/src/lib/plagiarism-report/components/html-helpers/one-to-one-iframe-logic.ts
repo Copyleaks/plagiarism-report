@@ -160,8 +160,8 @@ function ready() {
 	 * @param event the default mouse event
 	 */
 	function onMatchHover(event: MouseEvent) {
-		const elem = event.target as HTMLSpanElement;
-		groups[elem.dataset.gid].forEach(el => el.classList.toggle('hover'));
+		const elem = event?.target as HTMLSpanElement;
+		groups[elem?.dataset?.gid]?.forEach(el => el?.classList?.toggle('hover'));
 	}
 }
 

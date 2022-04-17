@@ -1,22 +1,18 @@
-import { AfterContentInit, ContentChildren, Directive, Host, OnDestroy, QueryList } from '@angular/core';
+import { AfterContentInit, ContentChildren, Directive, Input, OnDestroy, QueryList } from '@angular/core';
 import { distinctUntilChanged, filter, take, withLatestFrom } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { HighlightService, TextMatchHighlightEvent } from '../../services/highlight.service';
 import { ReportService } from '../../services/report.service';
 import * as helpers from '../../utils/highlight-helpers';
 import { MatchComponent } from '../match/match.component';
-import { OriginalComponent } from '../original/original.component';
 
 @Directive({
 	selector: '[crOriginalTextHelper]',
 })
 export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy {
+	@Input() public host: { textMatches: any; currentPage: number };
 	private lastSelectedOriginalTextMatch: TextMatchHighlightEvent;
-	constructor(
-		@Host() private host: OriginalComponent,
-		private reportService: ReportService,
-		private highlightService: HighlightService
-	) {}
+	constructor(private reportService: ReportService, private highlightService: HighlightService) {}
 
 	@ContentChildren(MatchComponent)
 	private children: QueryList<MatchComponent>;
@@ -98,8 +94,8 @@ export class OriginalTextHelperDirective implements AfterContentInit, OnDestroy 
 			)
 			.subscribe(_ => {
 				setTimeout(() => {
-					const start = this.lastSelectedOriginalTextMatch.elem.match.start;
-					const end = this.lastSelectedOriginalTextMatch.elem.match.end;
+					const start = this.lastSelectedOriginalTextMatch?.elem?.match?.start;
+					const end = this.lastSelectedOriginalTextMatch?.elem?.match?.end;
 					const comp = this.children.find(item => item.match.start === start && item.match.end === end);
 					if (comp === null) {
 						throw new Error('Match component was not found in view');

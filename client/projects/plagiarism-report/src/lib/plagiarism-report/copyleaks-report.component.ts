@@ -42,7 +42,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	}
 
 	@Input()
-	public config: CopyleaksReportConfig;
+	public config: CopyleaksReportConfig = {};
 	@Input()
 	public isPDFDownloading = false;
 	@Input()
