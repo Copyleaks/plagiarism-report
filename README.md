@@ -37,8 +37,9 @@ Choose the version corresponding to your Angular version:
 
  Angular     | @copyleaks/plagiarism-report
  ----------- | -------------------
+ 13          | 4.x+              
  9           | 3.x+              
- 8           | 2.x+              
+ 8           | 2.x+               
 
 This library uses `@angular/material` and `@angular/flex-layout` as peer dependencies. If they are not already installed on your project, add them.
 
