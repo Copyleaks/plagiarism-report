@@ -43,6 +43,7 @@
 				<div
 					[fxShow]="suspect && !(hasHtml && isHtml)"
 					crSuspectTextHelper
+					[host]="this"
 					text-container
 					[ngStyle]="{ 'font-size': zoom + 'em' }"
 					[dir]="direction"

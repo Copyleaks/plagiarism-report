@@ -42,6 +42,7 @@ export abstract class HtmlHelperBase {
 					7: translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
 					0: translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
 					8: translations.SCAN_SETTINGS.OMITTED.PARTIAL_SCAN,
+					9: translations.SCAN_SETTINGS.OMITTED.CITATIONS,
 				};
 			}
 		}
@@ -136,7 +137,7 @@ export abstract class HtmlHelperBase {
 					slice = `<span match data-type="${curr.type}" data-index="${i}" data-gid="${curr.gid}">${slice}</span>`;
 					break;
 			}
-			return slice.concat(prev);
+			return slice ? slice?.concat(prev) : '';
 		}, '');
 		this.renderer.setAttribute(this.element.nativeElement, 'srcdoc', html + this.style + this.script);
 	}

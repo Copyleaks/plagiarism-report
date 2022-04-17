@@ -7,6 +7,7 @@ describe('StatisticsService', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			providers: [ReportService],
+			teardown: { destroyAfterEach: false },
 		});
 	});
 

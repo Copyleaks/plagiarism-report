@@ -158,6 +158,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 				7: this.translations.SCAN_SETTINGS.OMITTED.SOURCE_CODE_COMMENTS,
 				0: this.translations.SCAN_SETTINGS.OMITTED.SENSITIVE_DATA,
 				8: this.translations.SCAN_SETTINGS.OMITTED.PARTIAL_SCAN,
+				9: this.translations.SCAN_SETTINGS.OMITTED.CITATIONS,
 			};
 		}
 		const { completeResult$, source$, viewMode$, contentMode$, sourcePage$ } = this.reportService;

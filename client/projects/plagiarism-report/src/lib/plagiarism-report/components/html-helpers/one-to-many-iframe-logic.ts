@@ -142,8 +142,8 @@ function ready() {
 	 * @param event the default mouse event object
 	 */
 	function onMatchHover(event: MouseEvent): void {
-		const elem = event.target as HTMLSpanElement;
-		elem.classList.toggle('hover');
+		const elem = event?.target as HTMLSpanElement;
+		elem?.classList?.toggle('hover');
 	}
 }
 

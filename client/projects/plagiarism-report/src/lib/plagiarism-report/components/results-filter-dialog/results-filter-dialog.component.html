@@ -15,6 +15,17 @@
 	>
 		<span check-item>
 			{{ result.title }}
+			<br />
+			<!--  -->
+			<ng-container *ngIf="result?.url">
+				<a [href]="result?.url" target="_blank">
+					{{ result?.url }}
+				</a>
+			</ng-container>
+			<!--  -->
+			<ng-container *ngIf="!result?.url && result?.metadata?.filename">
+				{{ result?.metadata?.filename }}
+			</ng-container>
 		</span>
 		<mat-pseudo-checkbox [state]="isHidden(result) ? 'unchecked' : 'checked'"></mat-pseudo-checkbox>
 	</div>

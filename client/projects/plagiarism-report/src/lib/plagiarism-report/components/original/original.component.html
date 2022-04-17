@@ -49,6 +49,7 @@
 				<div
 					[fxShow]="source && !(hasHtml && isHtml) && isOneToMany"
 					crOriginalTextHelper
+					[host]="this"
 					text-container
 					[ngStyle]="{ 'font-size': zoom + 'em' }"
 					[dir]="direction"
@@ -87,6 +88,7 @@
 				<div
 					[fxShow]="source && !(hasHtml && isHtml) && !isOneToMany"
 					crSourceTextHelper
+					[host]="this"
 					text-container
 					[ngStyle]="{ 'font-size': zoom + 'em' }"
 					[dir]="direction"

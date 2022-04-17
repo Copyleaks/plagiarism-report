@@ -22,7 +22,6 @@
             "main": "projects/demo-app/src/main.ts",
             "polyfills": "projects/demo-app/src/polyfills.ts",
             "tsConfig": "projects/demo-app/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/demo-app/src/favicon.ico",
               "projects/demo-app/src/assets"
@@ -31,7 +30,13 @@
               "projects/demo-app/src/material-theme.scss",
               "projects/demo-app/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -44,7 +49,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -61,7 +65,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -99,19 +104,6 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/demo-app/tsconfig.app.json",
-              "projects/demo-app/tsconfig.spec.json",
-              "projects/demo-app/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -138,7 +130,7 @@
       "prefix": "cr",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/plagiarism-report/tsconfig.lib.json",
             "project": "projects/plagiarism-report/ng-package.json"
@@ -157,14 +149,10 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/plagiarism-report/tsconfig.lib.json",
-              "projects/plagiarism-report/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/plagiarism-report/src/*.ts"              
             ]
           }
         }
