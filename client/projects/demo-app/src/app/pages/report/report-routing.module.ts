@@ -6,12 +6,12 @@ import { ReportComponent } from './report.component';
 const routes: Routes = [
 	{
 		path: ':scanId',
-		component: ReportComponent
-	}
+		component: ReportComponent,
+	},
 ];
 
 @NgModule({
 	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule]
+	exports: [RouterModule],
 })
-export class ReportRoutingModule { }
+export class ReportRoutingModule {}

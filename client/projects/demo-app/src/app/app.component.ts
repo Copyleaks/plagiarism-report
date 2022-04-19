@@ -1,6 +1,9 @@
 // tslint:disable
 import { Component, OnInit } from '@angular/core';
-enum EViewMode { Dashboard, Fullscreen }
+enum EViewMode {
+	Dashboard,
+	Fullscreen,
+}
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
@@ -9,6 +12,6 @@ enum EViewMode { Dashboard, Fullscreen }
 export class AppComponent implements OnInit {
 	eViewMode = EViewMode;
 	viewMode = EViewMode.Dashboard;
-	constructor() { }
-	ngOnInit() { }
+	constructor() {}
+	ngOnInit() {}
 }

@@ -1,68 +1,59 @@
-<div header
-	 class="title"
-	 [class]="'title-' + dir">
+<div header class="title" [class]="'title-' + dir">
 	<div (click)="onTitleClick()">
-		<span [ngClass]="{ 'ellipsis-flex-text': preview.type === eResultPreviewType.Internet }"
-			  [matTooltip]="preview.title"
-			  [matTooltipDisabled]="preview.type !== eResultPreviewType.Internet">
+		<span
+			[ngClass]="{ 'ellipsis-flex-text': preview.type === eResultPreviewType.Internet }"
+			[matTooltip]="preview.title"
+			[matTooltipDisabled]="preview.type !== eResultPreviewType.Internet">
 			{{ preview.title }}
 		</span>
 	</div>
-	<button mat-icon-button
-			[matMenuTriggerFor]="menu">
+	<button mat-icon-button [matMenuTriggerFor]="menu">
 		<mat-icon>arrow_drop_down</mat-icon>
 	</button>
-	<mat-menu #menu="matMenu"
-			  class="result-card-actions">
-		<button mat-menu-item
-				(click)="parent.hideResult()">
-			Exclude
-		</button>
-		<button mat-menu-item
-				(click)="deleteResult()">
-			Delete
-		</button>
+	<mat-menu #menu="matMenu" class="result-card-actions">
+		<button mat-menu-item (click)="parent.hideResult()">Exclude</button>
+		<button mat-menu-item (click)="deleteResult()">Delete</button>
 	</mat-menu>
 </div>
 
-<div url
-	 *ngIf="preview.url">
-	<a [href]="preview.url"
-	   target="_blank">{{ preview.url }}</a>
+<div url *ngIf="preview.url">
+	<a [href]="preview.url" target="_blank">{{ preview.url }}</a>
 </div>
 
-<p body
-   *ngIf="preview.metadata?.author || preview.metadata?.organization || parent.previewDate"
-   class="meta-data"
-   #metaDataRef
-   [matTooltip]='parent?.metaDataToolTip'>
-	<span [ngClass]="{'same-author': isSameAuthor}"
-		  [matMenuTriggerFor]="isSameAuthor ? appMenu : null">{{ preview.metadata?.author}}</span>
-	<span *ngIf="preview.metadata?.author && preview.metadata?.organization"
-		  class='dot-divider'> • </span>
-	<span *ngIf="preview.metadata?.organization">{{preview.metadata?.organization}}</span>
-	<span *ngIf="(preview.metadata?.author || preview.metadata?.organization) && parent.previewDate"
-		  class='dot-divider'> • </span>
-	<span *ngIf="parent?.previewDate">{{parent?.previewDate}}</span>
+<p
+	body
+	*ngIf="preview.metadata?.author || preview.metadata?.organization || parent.previewDate"
+	class="meta-data"
+	#metaDataRef
+	[matTooltip]="parent?.metaDataToolTip">
+	<span [ngClass]="{ 'same-author': isSameAuthor }" [matMenuTriggerFor]="isSameAuthor ? appMenu : null">
+		{{ preview.metadata?.author }}
+	</span>
+	<span *ngIf="preview.metadata?.author && preview.metadata?.organization" class="dot-divider">•</span>
+	<span *ngIf="preview.metadata?.organization">{{ preview.metadata?.organization }}</span>
+	<span *ngIf="(preview.metadata?.author || preview.metadata?.organization) && parent.previewDate" class="dot-divider">
+		•
+	</span>
+	<span *ngIf="parent?.previewDate">{{ parent?.previewDate }}</span>
 	<ng-container *ngIf="preview.metadata?.submittedBy">
-		<br>
-		<span>Submitter: {{preview.metadata?.submittedBy}}</span>
+		<br />
+		<span>Submitter: {{ preview.metadata?.submittedBy }}</span>
 	</ng-container>
 </p>
 
-<p body
-   (click)="onTitleClick()"
-   *ngIf="preview.introduction">
+<p body (click)="onTitleClick()" *ngIf="preview.introduction">
 	{{ preview.introduction }}
 </p>
 
 <mat-menu #appMenu="matMenu">
-	<div class='same-author-menu-wrapper'>
-		<p>Looks like the author <b>"{{preview?.metadata?.author}}"</b> could be you.</p>
-		<div style="text-align: center;">
-			<button mat-stroked-button
-					color='primary'
-					(click)="parent.hideResult()">Exclude Results</button>
+	<div class="same-author-menu-wrapper">
+		<p>
+			Looks like the author
+			<b>"{{ preview?.metadata?.author }}"</b>
+			could be you.
+		</p>
+		<div style="text-align: center">
+			<button mat-stroked-button color="primary" (click)="parent.hideResult()">Exclude Results</button>
 		</div>
 	</div>
 </mat-menu>

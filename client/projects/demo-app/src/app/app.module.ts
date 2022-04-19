@@ -16,11 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ReportScanSummeryComponent } from './components/report-scan-summery/report-scan-summery.component';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		ScanResultComponent,
-		ReportResultsOverlayComponent,
-		ReportScanSummeryComponent],
+	declarations: [AppComponent, ScanResultComponent, ReportResultsOverlayComponent, ReportScanSummeryComponent],
 	imports: [
 		CommonModule,
 		BrowserModule,
@@ -33,10 +29,10 @@ import { ReportScanSummeryComponent } from './components/report-scan-summery/rep
 		MatButtonModule,
 		MatListModule,
 		MatTooltipModule,
-		MatMenuModule
+		MatMenuModule,
 	],
 	providers: [],
 	bootstrap: [AppComponent],
-	entryComponents: [ScanResultComponent, ReportResultsOverlayComponent, ReportScanSummeryComponent]
+	entryComponents: [ScanResultComponent, ReportResultsOverlayComponent, ReportScanSummeryComponent],
 })
-export class AppModule { }
+export class AppModule {}

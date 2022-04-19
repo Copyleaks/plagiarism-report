@@ -7,8 +7,7 @@
 			<button
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.HELP || 'Help'"
-				(click)="helpClicked($event)"
-			>
+				(click)="helpClicked($event)">
 				<mat-icon>help_outline</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
@@ -16,8 +15,7 @@
 			<button
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SHARE || 'Share'"
-				(click)="shareClicked($event)"
-			>
+				(click)="shareClicked($event)">
 				<mat-icon>share</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
@@ -30,8 +28,7 @@
 			<button
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SETTINGS || 'Settings'"
-				(click)="openSettingsDialog()"
-			>
+				(click)="openSettingsDialog()">
 				<mat-icon>settings</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
@@ -50,8 +47,7 @@
 					 row
 					 nowrap"
 							*ngIf="!done"
-							fxLayoutAlign="center center"
-						>
+							fxLayoutAlign="center center">
 							<div header>&zwnj;</div>
 							<mat-spinner [diameter]="40"></mat-spinner>
 						</div>
@@ -77,8 +73,7 @@
 							<div
 								*ngIf="metadata"
 								[matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'"
-								[matTooltipDisabled]="hideCreationTime"
-							>
+								[matTooltipDisabled]="hideCreationTime">
 								{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.SCANNED || 'Scanned' }}
 								<ng-container *ngIf="!hideCreationTime">
 									{{ metadata?.scannedDocument.creationTime | timeAgo }}
@@ -106,17 +101,15 @@
 						  ' ' +
 						  (translations?.SCAN_PROPERTIES_SECTION?.RESULTS_FOUND_TOOLTIP || 'Results have been filtered')
 						: null
-				"
-			>
+				">
 				{{ translations?.SCAN_PROPERTIES_SECTION?.RESULTS_FOUND || 'results found' }}
-				<span *ngIf="hiddenResultsCount" style="color: red;">*</span>
+				<span *ngIf="hiddenResultsCount" style="color: red">*</span>
 			</div>
 
 			<div
 				*ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults"
 				class="show-all-result"
-				(click)="showAllResults()"
-			>
+				(click)="showAllResults()">
 				Show All
 			</div>
 		</div>
@@ -125,8 +118,7 @@
 		<div
 			prop
 			*ngIf="stats && !previewsLoading; else skeleton__prop"
-			[matTooltip]="total + ' ' + (translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS_TOOPTIP || 'submitted words')"
-		>
+			[matTooltip]="total + ' ' + (translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS_TOOPTIP || 'submitted words')">
 			<div header>
 				{{ combined | shortNumber: 1 }}
 			</div>
@@ -138,8 +130,8 @@
 			<ng-container *ngIf="stats && !previewsLoading; else skeleton__stats">
 				<ngx-charts-pie-chart fxHide.lt-md [customColors]="customColors" [results]="chartData" [view]="[150, 150]">
 					<ng-template #tooltipTemplate let-model="model">
-						<div style="padding:0.5em" class="mat-typography">
-							<span style="font-size:1em;display: block">{{ model.value | number }}</span>
+						<div style="padding: 0.5em" class="mat-typography">
+							<span style="font-size: 1em; display: block">{{ model.value | number }}</span>
 							<span tooltip-text>
 								<ng-container [ngSwitch]="model.name">
 									<ng-container *ngSwitchCase="'Identical'">
@@ -177,8 +169,7 @@
 						"
 						fxLayout="row"
 						fxLayoutAlign="start center"
-						fxLayoutGap="0.5em"
-					>
+						fxLayoutGap="0.5em">
 						<div class="dot identical" [ngStyle]="{ visibility: options?.showIdentical ? 'visible' : 'hidden' }"></div>
 						<div text [ngClass]="{ 'cr-strike-out': !options?.showIdentical }">
 							{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }}
@@ -201,12 +192,10 @@
 						"
 						fxLayout="row"
 						fxLayoutAlign="center center"
-						fxLayoutGap="0.5em"
-					>
+						fxLayoutGap="0.5em">
 						<div
 							class="dot minor-changes"
-							[ngStyle]="{ visibility: options?.showMinorChanges ? 'visible' : 'hidden' }"
-						></div>
+							[ngStyle]="{ visibility: options?.showMinorChanges ? 'visible' : 'hidden' }"></div>
 						<div text [ngClass]="{ 'cr-strike-out': options?.showMinorChanges !== true }">
 							{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }}
 						</div>
@@ -227,8 +216,7 @@
 						"
 						fxLayout="row"
 						fxLayoutAlign="start center"
-						fxLayoutGap="0.5em"
-					>
+						fxLayoutGap="0.5em">
 						<div class="dot related" [ngStyle]="{ visibility: options?.showRelated ? 'visible' : 'hidden' }"></div>
 						<div text [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
 							{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
@@ -246,8 +234,7 @@
 						row
 						fxLayout="row"
 						fxLayoutAlign="start center"
-						fxLayoutGap="0.5em"
-					>
+						fxLayoutGap="0.5em">
 						<div class="dot omitted"></div>
 						<div text>
 							{{ translations?.SHARED?.MATCH_TYPES?.OMITTED_WORDS || 'Omitted Words' }}
@@ -260,7 +247,7 @@
 				</div>
 
 				<ng-template #statsSpinner>
-					<mat-spinner *ngIf="!stats" [diameter]="16" style="display: inline-block;"></mat-spinner>
+					<mat-spinner *ngIf="!stats" [diameter]="16" style="display: inline-block"></mat-spinner>
 				</ng-template>
 			</ng-container>
 		</div>
@@ -270,8 +257,7 @@
 			prop
 			id="cr-hint-results-score"
 			*ngIf="stats && !previewsLoading; else skeleton__prop"
-			[ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }"
-		>
+			[ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }">
 			<div header>
 				{{ score | percent: '1.0-1' }}
 			</div>
@@ -297,17 +283,15 @@
 	<div fxLayout="column">
 		<ngx-skeleton-loader
 			[theme]="{ width: '118px', height: '113px', margin: '1em' }"
-			appearance="circle"
-		></ngx-skeleton-loader>
+			appearance="circle"></ngx-skeleton-loader>
 	</div>
 
 	<div fxLayout="column" fxFlex fxLayoutAlign="space-evenly stretch">
 		<ng-container *ngFor="let x of 4 | array; let last = last">
-			<div fxLayout="row" fxLayoutGap="1em" style="padding:0em 0.5em" fxLayoutAlign="center center">
+			<div fxLayout="row" fxLayoutGap="1em" style="padding: 0em 0.5em" fxLayoutAlign="center center">
 				<ngx-skeleton-loader
 					appearance="circle"
-					[theme]="{ width: '1.75em', height: '1.75em', margin: '0px' }"
-				></ngx-skeleton-loader>
+					[theme]="{ width: '1.75em', height: '1.75em', margin: '0px' }"></ngx-skeleton-loader>
 				<ngx-skeleton-loader [theme]="{ margin: '0', width: '5em' }"></ngx-skeleton-loader>
 				<span fxFlex></span>
 				<ngx-skeleton-loader [theme]="{ margin: '0', width: '3em' }"></ngx-skeleton-loader>

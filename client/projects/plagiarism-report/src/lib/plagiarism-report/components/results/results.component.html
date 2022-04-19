@@ -1,7 +1,7 @@
 <cr-panel>
 	<cr-panel-header>
 		<!--  -->
-		<mat-spinner *ngIf="previews?.length && isLoadingResults" [diameter]="20" style="margin-right: 8px;"></mat-spinner>
+		<mat-spinner *ngIf="previews?.length && isLoadingResults" [diameter]="20" style="margin-right: 8px"></mat-spinner>
 		<!--  -->
 		{{ translations?.RESULTS_SECTION?.TITLE || 'Results' }}
 		<ng-container *ngIf="focusedMatch">
@@ -29,8 +29,7 @@
 						? hiddenResults.length + (translations?.RESULTS_SECTION?.FILTERED_RESULTS_TOOLTIP || ' results are hidden')
 						: translations?.RESULTS_SECTION?.FILTER_TOOLTIP || 'Filter results'
 				"
-				(click)="openFilterDialog()"
-			>
+				(click)="openFilterDialog()">
 				<mat-icon>filter_list</mat-icon>
 			</button>
 		</cr-panel-action>
@@ -44,16 +43,14 @@
 		</ng-container>
 		<cr-plagiarism-free
 			*ngIf="previews && previews.length === 0"
-			[ngClass]="hasOverlay ? 'blur' : ''"
-		></cr-plagiarism-free>
+			[ngClass]="hasOverlay ? 'blur' : ''"></cr-plagiarism-free>
 		<virtual-scroller
 			*ngIf="previews"
 			[ngClass]="hasOverlay ? 'blur' : ''"
 			[bufferAmount]="7"
 			#scroll
 			fxFlex
-			[items]="previews | whitelist: 'id':focusedMatch?.ids"
-		>
+			[items]="previews | whitelist: 'id':focusedMatch?.ids">
 			<cr-result-card *ngFor="let preview of scroll.viewPortItems" [preview]="preview"></cr-result-card>
 		</virtual-scroller>
 		<virtual-scroller *ngIf="!previews" [ngClass]="hasOverlay ? 'blur' : ''" #scroll fxFlex [items]="[1, 2, 3, 4]">
@@ -68,8 +65,7 @@
 	<button
 		mat-button
 		(click)="clearFocusedMatch()"
-		[matTooltip]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear filter'"
-	>
+		[matTooltip]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear filter'">
 		<mat-icon>close</mat-icon>
 	</button>
 </ng-template>

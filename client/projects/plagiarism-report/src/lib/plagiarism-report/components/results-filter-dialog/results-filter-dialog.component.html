@@ -11,8 +11,7 @@
 		fxLayout="row"
 		fxLayoutAlign="space-between center"
 		(click)="toggleResult(result)"
-		matRipple
-	>
+		matRipple>
 		<span check-item>
 			{{ result.title }}
 			<br />
@@ -30,7 +29,7 @@
 		<mat-pseudo-checkbox [state]="isHidden(result) ? 'unchecked' : 'checked'"></mat-pseudo-checkbox>
 	</div>
 </mat-dialog-content>
-<div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:1em">
+<div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 1em">
 	<a button-link href="javascript:void(0)" (click)="checkAll()">
 		{{
 			hidden.length === results.length

@@ -4,16 +4,14 @@
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.FIRST_PAGE || 'First page'"
 		(click)="goToPage(1)"
-		[disabled]="!hasPages || isFirstPage || disabled"
-	>
+		[disabled]="!hasPages || isFirstPage || disabled">
 		<mat-icon>first_page</mat-icon>
 	</button>
 	<button
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.PREV_PAGE || 'Previous page'"
 		(click)="back()"
-		[disabled]="!hasPages || isFirstPage || disabled"
-	>
+		[disabled]="!hasPages || isFirstPage || disabled">
 		<mat-icon>chevron_left</mat-icon>
 	</button>
 	<mat-form-field>
@@ -26,16 +24,14 @@
 			type="number"
 			[ngModelOptions]="{ updateOn: 'blur' }"
 			[(ngModel)]="currentPage"
-			[disabled]="!hasPages || disabled"
-		/>
+			[disabled]="!hasPages || disabled" />
 		<span matSuffix>{{ translations?.SHARED?.OF || 'of' }} {{ totalPages }}</span>
 	</mat-form-field>
 	<button
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.NEXT_PAGE || 'Next page'"
 		(click)="next()"
-		[disabled]="!hasPages || isLastPage || disabled"
-	>
+		[disabled]="!hasPages || isLastPage || disabled">
 		<mat-icon>chevron_right</mat-icon>
 	</button>
 	<button
@@ -43,8 +39,7 @@
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.LAST_PAGE || 'Last page'"
 		(click)="goToPage(totalPages)"
-		[disabled]="!hasPages || isLastPage || disabled"
-	>
+		[disabled]="!hasPages || isLastPage || disabled">
 		<mat-icon>last_page</mat-icon>
 	</button>
 </div>

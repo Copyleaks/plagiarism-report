@@ -7,21 +7,18 @@
 			'btn-notifications-error': severity == severities.High || severity == severities.VeryHigh,
 			'btn-notifications-warning': severity == severities.Medium,
 			'btn-enabled': (currentViewMode$ | async) == eReportViewModel.Alerts
-		}"
-	>
+		}">
 		<ng-container [ngSwitch]="severity">
 			<mat-icon *ngSwitchCase="severities.Medium">warning</mat-icon>
 			<mat-icon *ngSwitchCase="severities.High">error</mat-icon>
 			<mat-icon *ngSwitchCase="severities.VeryHigh">error</mat-icon>
 			<mat-icon *ngSwitchDefault>info</mat-icon>
 		</ng-container>
-		<span style="font-size: 13px;text-transform: uppercase;">
+		<span style="font-size: 13px; text-transform: uppercase">
 			<ng-container *ngIf="(currentViewMode$ | async) == eReportViewModel.ScanningResult; else hideAlerts">
 				see alerts
 			</ng-container>
-			<ng-template #hideAlerts>
-				hide alerts
-			</ng-template>
+			<ng-template #hideAlerts>hide alerts</ng-template>
 		</span>
 	</div>
 </ng-container>

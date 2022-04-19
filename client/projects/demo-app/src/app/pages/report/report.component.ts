@@ -1,6 +1,13 @@
 /* tslint:disable */
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CopyleaksReportConfig, DEFAULT_REPORT_CONFIG, ResultItem, CopyleaksTranslateService, CopyleaksTranslations, CopyleaksService } from 'projects/plagiarism-report/src/public-api';
+import {
+	CopyleaksReportConfig,
+	DEFAULT_REPORT_CONFIG,
+	ResultItem,
+	CopyleaksTranslateService,
+	CopyleaksTranslations,
+	CopyleaksService,
+} from 'projects/plagiarism-report/src/public-api';
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ResultsService } from '../../results.service';
 import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
@@ -16,7 +23,7 @@ const USE_CUSTOM_RESULT_COMPONENT = false;
 @Component({
 	selector: 'app-report',
 	templateUrl: './report.component.html',
-	styleUrls: ['./report.component.scss']
+	styleUrls: ['./report.component.scss'],
 })
 export class ReportComponent implements OnInit, OnDestroy {
 	public config: CopyleaksReportConfig = {
@@ -28,13 +35,13 @@ export class ReportComponent implements OnInit, OnDestroy {
 		resultCardActions: [
 			{
 				name: 'Action 1',
-				action: (result) => console.log(result)
+				action: result => console.log(result),
 			},
 			{
 				name: 'Action 2',
-				action: (result) => console.log(result)
-			}
-		]
+				action: result => console.log(result),
+			},
+		],
 		// resultsOverlayComponent: ReportResultsOverlayComponent
 	};
 	introJS: any;
@@ -46,10 +53,9 @@ export class ReportComponent implements OnInit, OnDestroy {
 		private resultsService: ResultsService,
 		private reportTranslationsSvc: CopyleaksTranslateService,
 		private copyleaksService: CopyleaksService
-	) { }
+	) {}
 
 	ngOnInit() {
-
 		// this.copyleaksService.setTotalResults(200);
 
 		// this.translateReport();
@@ -60,10 +66,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 			replaceUrl: true,
 		});
 		this.activatedRoute.queryParamMap
-			.pipe(
-				untilDestroy(this),
-				distinctUntilChanged(deepEqual)
-			)
+			.pipe(untilDestroy(this), distinctUntilChanged(deepEqual))
 			.subscribe(params => this.onQueryChange(params));
 
 		this.simulateSync(this.activatedRoute.snapshot.paramMap.get('scanId'));
@@ -83,7 +86,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					PROGRESS: 'PROGRESS_T',
 					DONE: 'DONE_T',
 					LOADING: 'LOADING_T',
-					SCANNED: 'SCANNED_T'
+					SCANNED: 'SCANNED_T',
 				},
 				RESULTS_FOUND: 'RESULTS_FOUND_T',
 				RESULTS_FOUND_TOOLTIP: 'RESULTS_FOUND_TOOLTIP_T',
@@ -94,42 +97,42 @@ export class ReportComponent implements OnInit, OnDestroy {
 					HELP: 'HELP_T',
 					SHARE: 'SHARE_T',
 					DOWNLOAD: 'DOWNLOAD_T',
-					SETTINGS: 'SETTINGS_T'
-				}
+					SETTINGS: 'SETTINGS_T',
+				},
 			},
 			SUBMITTED_TEXT_SECTION: {
-				TITLE: 'SUBMITTED_TEXT_TITLE'
+				TITLE: 'SUBMITTED_TEXT_TITLE',
 			},
 			SUSPECT_SECTION: {
-				TITLE: 'SUSPECT_TITLE'
+				TITLE: 'SUSPECT_TITLE',
 			},
 			RESULTS_SECTION: {
 				TITLE: 'RESULTS_TITLE_T',
 				FILTER_TOOLTIP: 'FILTER_TOOLTIP_T',
 				FILTERED_RESULTS_TOOLTIP: 'FILTERED_RESULTS_TOOLTIP_T',
-				CLEAR_FILTER: 'CLEAR_FILTER_T'
+				CLEAR_FILTER: 'CLEAR_FILTER_T',
 			},
 			RESULT_CARD: {
 				ACTIONS: {
-					EXCLUDE: 'EXCLUDE_T'
+					EXCLUDE: 'EXCLUDE_T',
 				},
 				SIMILAR_WORDS: 'SIMILAR_WORDS_T',
 				BATCH_RESULT_TOOLTIP: 'BATCH_RESULT_TOOLTIP_T',
 				INTERNAL_DATABASE_RESULT_TOOLTIP: 'INTERNAL_DATABASE_RESULT_TOOLTIP_T',
 				INTERNET_RESULT_TOOLTIP: 'INTERNET_RESULT_TOOLTIP_T',
 				REPOSITORY_RESULT_TOOLTIP: 'REPOSITORY_RESULT_TOOLTIP_T',
-				RESULT_ERROR: 'RESULT_ERROR_T'
+				RESULT_ERROR: 'RESULT_ERROR_T',
 			},
 			FILTER_DIALOG: {
 				TITLE: 'TITLE_T',
 				CHECK_ALL: 'CHECK_ALL_T',
 				UNCHECK_ALL: 'UNCHECK_ALL_T',
-				SEARCH_PLACHOLDER: 'SEARCH_PLACHOLDER_T'
+				SEARCH_PLACHOLDER: 'SEARCH_PLACHOLDER_T',
 			},
 			RESULTS_SETTINGS_DIALOG: {
 				TITLE: 'TITLE_T',
 				SHOW_TOP_100_RESULT: 'SHOW_TOP_100_RESULT_T',
-				SET_DEFAULT: 'SET_DEFAULT_T'
+				SET_DEFAULT: 'SET_DEFAULT_T',
 			},
 			SCAN_SETTINGS: {
 				OMITTED: {
@@ -140,8 +143,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 					TABLES_OF_CONTENT: 'TABLES_OF_CONTENT_T',
 					SOURCE_CODE_COMMENTS: 'SOURCE_CODE_COMMENTS_T',
 					SENSITIVE_DATA: 'SENSITIVE_DATA_T',
-					PARTIAL_SCAN: 'PARTIAL_SCAN'
-				}
+					PARTIAL_SCAN: 'PARTIAL_SCAN',
+				},
 			},
 			TIME_AGO: {
 				FEW_SECONDS_AGO: 'FEW_SECONDS_AGO_T',
@@ -154,7 +157,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 				MONTH_AGO: 'MONTH_AGO_T',
 				MONTHS_AGO: 'MONTHS_AGO_T',
 				YEAR_AGO: 'YEAR_AGO_T',
-				YEARS_AGO: 'YEARS_AGO_T'
+				YEARS_AGO: 'YEARS_AGO_T',
 			},
 			SHARED: {
 				ACTIONS: {
@@ -170,7 +173,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					NEXT_PAGE: 'NEXT_PAGE_T',
 					LAST_PAGE: 'LAST_PAGE_T',
 					PREV_PAGE: 'PREV_PAGE_T',
-					FIRST_PAGE: 'FIRST_PAGE_T'
+					FIRST_PAGE: 'FIRST_PAGE_T',
 				},
 				WORDS: 'WORDS_T',
 				MATCH_TYPES: {
@@ -183,12 +186,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 					RELATED_MEANING_TOOLTIP: 'RELATED_MEANING_TOOLTIP_T',
 					OMITTED_WORDS: 'OMITTED_WORDS_T',
 					OMITTED_WORDS_TOOLTIP: 'OMITTED_WORDS_TOOLTIP_T',
-					OMITTED_MATCH_TOOLTIP_TEXT: 'OMITTED_MATCH_TOOLTIP_TEXT_T'
+					OMITTED_MATCH_TOOLTIP_TEXT: 'OMITTED_MATCH_TOOLTIP_TEXT_T',
 				},
 				SAVE: 'SAVE_T',
 				POWERED_BY: 'POWERED_BY_T',
-				OF: 'OF_T'
-			}
+				OF: 'OF_T',
+			},
 		};
 
 		this.reportTranslationsSvc.setTranslations(translates);
@@ -256,15 +259,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 		this.resultsService
 			.completeResult(scanId)
 			.pipe(
-				takeUntil(destroy$),
+				takeUntil(destroy$)
 				// delay(5000)
 			)
 			.subscribe(({ results }) => {
 				zip(from(results.internet), interval(500))
-					.pipe(
-						takeUntil(destroy$),
-						take(results.internet.length)
-					)
+					.pipe(takeUntil(destroy$), take(results.internet.length))
 					.subscribe(([item]) => {
 						this.copyleaksService.pushNewResult({ internet: [item], database: [], batch: [], repositories: [] });
 						this.resultsService
@@ -274,10 +274,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					});
 
 				zip(from(results.database), interval(500))
-					.pipe(
-						takeUntil(destroy$),
-						take(results.database.length)
-					)
+					.pipe(takeUntil(destroy$), take(results.database.length))
 					.subscribe(([item]) => {
 						this.copyleaksService.pushNewResult({ internet: [], database: [item], batch: [], repositories: [] });
 						this.resultsService
@@ -286,13 +283,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 							.subscribe(data => this.copyleaksService.pushScanResult({ id: item.id, result: data }));
 					});
 
-
-
 				zip(from(results.batch), interval(500))
-					.pipe(
-						takeUntil(destroy$),
-						take(results.batch.length)
-					)
+					.pipe(takeUntil(destroy$), take(results.batch.length))
 					.subscribe(([item]) => {
 						this.copyleaksService.pushNewResult({ internet: [], database: [], batch: [item], repositories: [] });
 						this.resultsService
@@ -302,10 +294,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					});
 
 				zip(from(results.repositories), interval(500))
-					.pipe(
-						takeUntil(destroy$),
-						take(results.repositories.length)
-					)
+					.pipe(takeUntil(destroy$), take(results.repositories.length))
 					.subscribe(([item]) => {
 						this.copyleaksService.pushNewResult({ internet: [], database: [], batch: [], repositories: [item] });
 						this.resultsService
@@ -329,64 +318,96 @@ export class ReportComponent implements OnInit, OnDestroy {
 	 */
 	simulateSync(scanId: string) {
 		const { onDestroy$: destroy$ } = this.copyleaksService;
-		const completeResult$ = this.resultsService.completeResult(scanId).pipe(
-			takeUntil(destroy$),
-			delay(5000),
-			retry(3)
-		);
-		const downloadedSource$ = this.resultsService.downloadedSource(scanId).pipe(
-			takeUntil(destroy$),
-			retry(3)
-		);
+		const completeResult$ = this.resultsService.completeResult(scanId).pipe(takeUntil(destroy$), delay(5000), retry(3));
+		const downloadedSource$ = this.resultsService.downloadedSource(scanId).pipe(takeUntil(destroy$), retry(3));
 		downloadedSource$.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 		completeResult$.subscribe(meta => {
-			if (meta.scannedDocument.expectedCredits != null && (meta.scannedDocument.expectedCredits != meta.scannedDocument.credits)) {
+			if (
+				meta.scannedDocument.expectedCredits != null &&
+				meta.scannedDocument.expectedCredits != meta.scannedDocument.credits
+			) {
 				this.config = {
 					...this.config,
-					scanSummaryComponent: ReportScanSummeryComponent
-				}
+					scanSummaryComponent: ReportScanSummeryComponent,
+				};
 			}
 
-			meta.results.batch = meta.results.batch.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
-			meta.results.internet = meta.results.internet.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
-			meta.results.database = meta.results.database.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
-			meta.results.repositories = meta.results.repositories && meta.results.repositories.map(r => ({ ...r, component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null }))
+			meta.results.batch = meta.results.batch.map(r => ({
+				...r,
+				component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null,
+			}));
+			meta.results.internet = meta.results.internet.map(r => ({
+				...r,
+				component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null,
+			}));
+			meta.results.database = meta.results.database.map(r => ({
+				...r,
+				component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null,
+			}));
+			meta.results.repositories =
+				meta.results.repositories &&
+				meta.results.repositories.map(r => ({
+					...r,
+					component: USE_CUSTOM_RESULT_COMPONENT ? ScanResultComponent : null,
+				}));
 
 			this.copyleaksService.pushCompletedResult(meta);
 
 			// watch for results filter change
-			this.copyleaksService.filteredResultsIds$.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged()).subscribe(ids => {
-				if (meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) {
-					for (const id of meta.filters.resultIds) {
-						if (!ids.includes(id)) {
-							meta.filters.resultIds = meta.filters.resultIds.filter(fid => fid != id);
-							this.resultsService.newResult(meta.scannedDocument.scanId, id).pipe(
-								takeUntil(destroy$),
-								retry(5),
-								// delay(5000),
-								map(result => ({ id: id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
-								catchError(() => of({ id: id, result: null }))
-							).subscribe(res => {
-								this.copyleaksService.pushScanResult(res);
-							})
+			this.copyleaksService.filteredResultsIds$
+				.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged())
+				.subscribe(ids => {
+					if (meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) {
+						for (const id of meta.filters.resultIds) {
+							if (!ids.includes(id)) {
+								meta.filters.resultIds = meta.filters.resultIds.filter(fid => fid != id);
+								this.resultsService
+									.newResult(meta.scannedDocument.scanId, id)
+									.pipe(
+										takeUntil(destroy$),
+										retry(5),
+										// delay(5000),
+										map(
+											result =>
+												({
+													id: id,
+													result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null },
+												} as ResultItem)
+										),
+										catchError(() => of({ id: id, result: null }))
+									)
+									.subscribe(res => {
+										this.copyleaksService.pushScanResult(res);
+									});
+							}
 						}
 					}
-				}
-			});
+				});
 
 			const { internet, database, batch, repositories } = meta.results;
 			const requests = [
 				...internet,
 				...database,
 				...batch,
-				...(repositories && repositories.length ? repositories : [])]
-				.filter(res => !(meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) || !meta.filters.resultIds.includes(res.id))
+				...(repositories && repositories.length ? repositories : []),
+			]
+				.filter(
+					res =>
+						!(meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) ||
+						!meta.filters.resultIds.includes(res.id)
+				)
 				.map(item =>
 					this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 						takeUntil(destroy$),
 						retry(5),
 						// delay(5000),
-						map(result => ({ id: item.id, result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null } } as ResultItem)),
+						map(
+							result =>
+								({
+									id: item.id,
+									result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null },
+								} as ResultItem)
+						),
 						catchError(() => of({ id: item.id, result: null }))
 					)
 				);
@@ -417,7 +438,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 	}
 
 	help() {
-
 		// this.introJS = IntroJs();
 
 		if (this.introJS) {
@@ -428,48 +448,49 @@ export class ReportComponent implements OnInit, OnDestroy {
 				{
 					element: document.getElementById('cr-hint-go-to-next-match'),
 					hint: 'INTROJS.REPORT_HINTS.GO_TO_NEXT_MATCH',
-					hintPosition: 'top-right'
+					hintPosition: 'top-right',
 				},
 				{
 					element: document.getElementById('cr-hint-toggle-content'),
 					hint: 'INTROJS.REPORT_HINTS.TOGGLE_CONTENT',
-					hintPosition: 'top-right'
+					hintPosition: 'top-right',
 				},
 				{
 					element: document.getElementById('cr-hint-results-filter-list'),
 					hint: 'INTROJS.REPORT_HINTS.RESULTS_FILTER_LIST',
-					hintPosition: 'top-right'
+					hintPosition: 'top-right',
 				},
 				{
 					element: document.getElementById('cr-hint-results-card'),
 					hint: 'INTROJS.REPORT_HINTS.RESULTS_CARD',
-					hintPosition: 'top-left'
-				}
-			]
+					hintPosition: 'top-left',
+				},
+			];
 
 			if (this.preoprtiesExpanded) {
 				options.push(
 					{
 						element: document.getElementById('cr-hint-results-found'),
 						hint: 'INTROJS.REPORT_HINTS.RESULTS_FOUND',
-						hintPosition: 'top-middle'
+						hintPosition: 'top-middle',
 					},
 					{
 						element: document.getElementById('cr-hint-identical'),
 						hint: 'INTROJS.REPORT_HINTS.IDENTICAL',
-						hintPosition: 'middle-middle'
+						hintPosition: 'middle-middle',
 					},
 					{
 						element: document.getElementById('cr-hint-results-score'),
 						hint: 'The aggregate score is a percentage based on all of the results compared to the submitted text',
-						hintPosition: 'middle-right'
-					})
+						hintPosition: 'middle-right',
+					}
+				);
 			}
 
 			this.introJS.setOptions({
 				tooltipClass: 'copyleaks-intro-tooltip',
-				hints: options
-			})
+				hints: options,
+			});
 			this.introJS.showHints();
 		}
 	}
@@ -483,5 +504,5 @@ export class ReportComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	ngOnDestroy() { }
+	ngOnDestroy() {}
 }

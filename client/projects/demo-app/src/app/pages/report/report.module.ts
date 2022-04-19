@@ -10,7 +10,7 @@ import { CopyleaksReportModule } from 'projects/plagiarism-report/src/public-api
 	imports: [
 		CommonModule,
 		ReportRoutingModule,
-		CopyleaksReportModule.forRoot({ contentMode: 'text', share: true, download: false })
-	]
+		CopyleaksReportModule.forRoot({ contentMode: 'text', share: true, download: false }),
+	],
 })
-export class ReportModule { }
+export class ReportModule {}

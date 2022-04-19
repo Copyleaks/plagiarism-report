@@ -46,8 +46,7 @@
 					[host]="this"
 					text-container
 					[ngStyle]="{ 'font-size': zoom + 'em' }"
-					[dir]="direction"
-				>
+					[dir]="direction">
 					<ng-container *ngIf="textMatches; else clean">
 						<ng-container *ngFor="let partial of textMatches[currentPage - 1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{ partial.content }}</span>
@@ -73,8 +72,7 @@
 					showFirstLastButtons
 					[currentPage]="currentPage"
 					(page)="onPage($event)"
-					[totalPages]="pages.length"
-				></cr-mat-pagination>
+					[totalPages]="pages.length"></cr-mat-pagination>
 			</ng-container>
 			<cr-powered-by></cr-powered-by>
 		</div>
@@ -153,8 +151,7 @@
 				: translates?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
 		"
 		[disabled]="!hasHtml"
-		(click)="toggleContent()"
-	>
+		(click)="toggleContent()">
 		<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
 	</button>
 </ng-template>
@@ -167,8 +164,7 @@
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
-		(click)="openUrl()"
-	>
+		(click)="openUrl()">
 		<mat-icon>launch</mat-icon>
 	</button>
 </ng-template>
@@ -176,8 +172,7 @@
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
-		(click)="direction = 'rtl'"
-	>
+		(click)="direction = 'rtl'">
 		<mat-icon>format_align_right</mat-icon>
 	</button>
 </ng-template>
@@ -185,8 +180,7 @@
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
-		(click)="increaseFontSize()"
-	>
+		(click)="increaseFontSize()">
 		<mat-icon>zoom_in</mat-icon>
 	</button>
 </ng-template>
@@ -194,8 +188,7 @@
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
-		(click)="decreaseFontSize()"
-	>
+		(click)="decreaseFontSize()">
 		<mat-icon>zoom_out</mat-icon>
 	</button>
 </ng-template>
@@ -212,9 +205,8 @@
 		fxLayout="column"
 		fxLayoutAlign="start stretch"
 		fxLayoutGap="1em"
-		style="overflow: hidden;margin:1em"
-		skeleton__body
-	>
+		style="overflow: hidden; margin: 1em"
+		skeleton__body>
 		<ngx-skeleton-loader [theme]="{ height: '100%' }" *ngFor="let item of 20 | array; index as i"></ngx-skeleton-loader>
 	</div>
 </ng-template>

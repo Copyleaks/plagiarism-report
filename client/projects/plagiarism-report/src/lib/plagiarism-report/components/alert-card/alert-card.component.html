@@ -6,8 +6,7 @@
 		'alert-card-error': alert.severity === severity.High || alert.severity === severity.VeryHigh,
 		'alert-card-warning': alert.severity === severity.Medium
 	}"
-	fxLayoutGap="10px"
->
+	fxLayoutGap="10px">
 	<div fxLayout="row" class="alert-card-header" fxLayoutAlign="start center" fxLayoutGap="10px">
 		<ng-container [ngSwitch]="alert.severity">
 			<mat-icon *ngSwitchCase="severity.Medium">warning</mat-icon>
@@ -27,13 +26,13 @@
 		</div>
 	</div>
 
-	<div style="text-align: justify;">
+	<div style="text-align: justify">
 		{{ alert.message }}
 	</div>
 
 	<div class="actions" *ngIf="alert.helpLink || alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
 		<ng-container *ngIf="alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
-			<button mat-stroked-button *ngIf="!isSelected" style="font-weight: bolder;" (click)="toggleAlertPreview(alert)">
+			<button mat-stroked-button *ngIf="!isSelected" style="font-weight: bolder" (click)="toggleAlertPreview(alert)">
 				<mat-icon>visibility</mat-icon>
 				Preview
 			</button>

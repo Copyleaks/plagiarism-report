@@ -52,8 +52,7 @@
 					[host]="this"
 					text-container
 					[ngStyle]="{ 'font-size': zoom + 'em' }"
-					[dir]="direction"
-				>
+					[dir]="direction">
 					<ng-container *ngIf="textMatches; else clean">
 						<ng-container *ngFor="let partial of textMatches[currentPage - 1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{ partial.content }}</span>
@@ -61,23 +60,20 @@
 							<span
 								*ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
 								[cr-match]="partial.match"
-								origin="original"
-							>
+								origin="original">
 								{{ partial.content }}
 							</span>
 							<!--  -->
 							<i
 								*ngIf="partial.match.type === MatchType.excluded && partial.match.reason != 8"
-								[title]="EXCLUDE_MESSAGE[partial.match.reason]"
-							>
+								[title]="EXCLUDE_MESSAGE[partial.match.reason]">
 								{{ partial.content }}
 							</i>
 							<!--  -->
 							<span
 								*ngIf="partial.match.type === MatchType.excluded && partial.match.reason == 8"
 								[cr-exclude-partial-scan]="partial.match"
-								[title]="EXCLUDE_MESSAGE[partial.match.reason]"
-							>
+								[title]="EXCLUDE_MESSAGE[partial.match.reason]">
 								{{ partial.content }}
 							</span>
 						</ng-container>
@@ -91,29 +87,25 @@
 					[host]="this"
 					text-container
 					[ngStyle]="{ 'font-size': zoom + 'em' }"
-					[dir]="direction"
-				>
+					[dir]="direction">
 					<ng-container *ngIf="textMatches; else clean">
 						<ng-container *ngFor="let partial of textMatches[currentPage - 1]">
 							<span *ngIf="partial.match.type === MatchType.none">{{ partial.content }}</span>
 							<span
 								*ngIf="partial.match.type !== MatchType.none && partial.match.type !== MatchType.excluded"
 								[cr-match]="partial.match"
-								origin="source"
-							>
+								origin="source">
 								{{ partial.content }}
 							</span>
 							<i
 								*ngIf="partial.match.type === MatchType.excluded && partial.match.reason != 8"
-								[title]="EXCLUDE_MESSAGE[partial.match.reason]"
-							>
+								[title]="EXCLUDE_MESSAGE[partial.match.reason]">
 								{{ partial.content }}
 							</i>
 							<span
 								*ngIf="partial.match.type === MatchType.excluded && partial.match.reason == 8"
 								[cr-exclude-partial-scan]="partial.match"
-								[title]="EXCLUDE_MESSAGE[partial.match.reason]"
-							>
+								[title]="EXCLUDE_MESSAGE[partial.match.reason]">
 								{{ partial.content }}
 							</span>
 						</ng-container>
@@ -139,8 +131,7 @@
 				*ngIf="!(hasHtml && isHtml) && pages?.length !== 1"
 				showFirstLastButtons
 				(page)="onPage($event)"
-				[totalPages]="pages?.length || 1"
-			></cr-mat-pagination>
+				[totalPages]="pages?.length || 1"></cr-mat-pagination>
 
 			<cr-powered-by *ngIf="!isOneToMany"></cr-powered-by>
 		</div>
@@ -159,8 +150,7 @@
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
 		(click)="onJumpToNextMatchClick()"
-		crClickStopPropagation
-	>
+		crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__next_match"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Next Match' }}
 	</button>
@@ -170,8 +160,7 @@
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
 		(click)="onJumpToNextMatchClick(false)"
-		crClickStopPropagation
-	>
+		crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__prev_match"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Previous Match' }}
 	</button>
@@ -206,8 +195,7 @@
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
 		(click)="openUrl()"
-		crClickStopPropagation
-	>
+		crClickStopPropagation>
 		<mat-icon>launch</mat-icon>
 	</button>
 </ng-template>
@@ -218,8 +206,7 @@
 		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
-		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'"
-	>
+		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'">
 		<mat-icon>arrow_downward</mat-icon>
 	</button>
 </ng-template>
@@ -230,8 +217,7 @@
 		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
-		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'"
-	>
+		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'">
 		<mat-icon>arrow_upward</mat-icon>
 	</button>
 </ng-template>
@@ -245,8 +231,7 @@
 				: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
 		"
 		[disabled]="!hasHtml"
-		(click)="toggleContent()"
-	>
+		(click)="toggleContent()">
 		<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
 	</button>
 </ng-template>
@@ -254,8 +239,7 @@
 	<button
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'"
-		(click)="direction = 'ltr'"
-	>
+		(click)="direction = 'ltr'">
 		<mat-icon>format_align_left</mat-icon>
 	</button>
 </ng-template>
@@ -263,8 +247,7 @@
 	<button
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
-		(click)="direction = 'rtl'"
-	>
+		(click)="direction = 'rtl'">
 		<mat-icon>format_align_right</mat-icon>
 	</button>
 </ng-template>
@@ -272,8 +255,7 @@
 	<button
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
-		(click)="increaseFontSize()"
-	>
+		(click)="increaseFontSize()">
 		<mat-icon>zoom_in</mat-icon>
 	</button>
 </ng-template>
@@ -281,8 +263,7 @@
 	<button
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
-		(click)="decreaseFontSize()"
-	>
+		(click)="decreaseFontSize()">
 		<mat-icon>zoom_out</mat-icon>
 	</button>
 </ng-template>
@@ -295,8 +276,7 @@
 		fxLayout="row nowrap"
 		fxLayoutGap="0.5em"
 		fxLayoutAlign.lt-md="center stretch"
-		fxLayoutAlign="start stretch"
-	>
+		fxLayoutAlign="start stretch">
 		<ngx-skeleton-loader [theme]="{ width: '2em', height: '2em' }"></ngx-skeleton-loader>
 		<ngx-skeleton-loader [theme]="{ width: '2em', height: '2em' }"></ngx-skeleton-loader>
 		<ngx-skeleton-loader fxFlex [theme]="{ width: '100%', minWidth: '2em', height: '2em' }"></ngx-skeleton-loader>
@@ -311,9 +291,8 @@
 		fxLayout="column"
 		fxLayoutAlign="start stretch"
 		fxLayoutGap="1em"
-		style="overflow: hidden;margin:1em"
-		skeleton__body
-	>
+		style="overflow: hidden; margin: 1em"
+		skeleton__body>
 		<ngx-skeleton-loader [theme]="{ height: '100%' }" *ngFor="let item of 20 | array"></ngx-skeleton-loader>
 	</div>
 </ng-template>

@@ -2,7 +2,7 @@
 	<h3>Alerts</h3>
 </div>
 <mat-dialog-content>
-	<div fxLayout="column" style="padding-bottom: 5px;" fxLayoutGap="20px">
+	<div fxLayout="column" style="padding-bottom: 5px" fxLayoutGap="20px">
 		<ng-container *ngFor="let alert of notification?.alerts">
 			<cr-alert-card [alert]="alert" (afterToggleError)="closeDialog()"></cr-alert-card>
 		</ng-container>

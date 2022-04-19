@@ -1,10 +1,7 @@
-<div>
-    Custom Component
-</div>
-<div *ngIf="completeResult"
-     [matTooltip]="completeResult?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
-    Scanned
-    <ng-container>
-        {{ completeResult?.scannedDocument.creationTime | date }}
-    </ng-container>
+<div>Custom Component</div>
+<div *ngIf="completeResult" [matTooltip]="completeResult?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'">
+	Scanned
+	<ng-container>
+		{{ completeResult?.scannedDocument.creationTime | date }}
+	</ng-container>
 </div>

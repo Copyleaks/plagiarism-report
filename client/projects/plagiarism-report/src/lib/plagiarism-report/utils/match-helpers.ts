@@ -219,25 +219,24 @@ export const paginateMatches = (content: string, pages: number[], matches: Match
  * @param content name of the content to extract from ( text | html )
  * @param subject name of the subject to extract from ( source | suspected)
  */
-const extractMatches = (comparison: ComparisonKey, content: ContentKey, subject: SubjectResultKey) => (
-	item: ResultItem
-) => {
-	const { result, id } = item;
-	if (!result || !result[content] || !result[content].comparison) {
-		return [];
-	}
-	const gids = result[content].comparison[comparison].groupId || [];
-	const { starts, lengths } = result[content].comparison[comparison][subject].chars;
-	return starts.map(
-		(start, i): Match => ({
-			start,
-			end: start + lengths[i],
-			type: MatchType[comparison],
-			ids: [id],
-			gid: gids[i],
-		})
-	);
-};
+const extractMatches =
+	(comparison: ComparisonKey, content: ContentKey, subject: SubjectResultKey) => (item: ResultItem) => {
+		const { result, id } = item;
+		if (!result || !result[content] || !result[content].comparison) {
+			return [];
+		}
+		const gids = result[content].comparison[comparison].groupId || [];
+		const { starts, lengths } = result[content].comparison[comparison][subject].chars;
+		return starts.map(
+			(start, i): Match => ({
+				start,
+				end: start + lengths[i],
+				type: MatchType[comparison],
+				ids: [id],
+				gid: gids[i],
+			})
+		);
+	};
 
 /**
  * Higher order function that returns a function that extracts Excluded intervals from the source document

@@ -1,8 +1,8 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 //@import "~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss";
 
 $custom-typography: mat-typography-config(
-  $font-family: "Open Sans"
+	$font-family: 'Open Sans',
 );
 
 @include mat-core($custom-typography);
@@ -11,37 +11,37 @@ $custom-typography: mat-typography-config(
 // hue. Available color palettes: https://material.io/design/color/
 
 $mat-copyleaks: (
-  50: #ffebee,
-  100: #bbdefb,
-  200: #90caf9,
-  300: #64b5f6,
-  400: #42a5f5,
-  500: #17a1ff,
-  600: #1e88e5,
-  700: #1976d2,
-  800: #1565c0,
-  900: #0d47a1,
-  A100: #82b1ff,
-  A200: #448aff,
-  A400: #2979ff,
-  A700: #2962ff,
-  AGreen: #2cc54e,
-  contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $light-primary-text,
-    400: $light-primary-text,
-    500: $light-primary-text,
-    600: $light-primary-text,
-    700: $light-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $light-primary-text,
-    A400: $light-primary-text,
-    A700: $light-primary-text
-  )
+	50: #ffebee,
+	100: #bbdefb,
+	200: #90caf9,
+	300: #64b5f6,
+	400: #42a5f5,
+	500: #17a1ff,
+	600: #1e88e5,
+	700: #1976d2,
+	800: #1565c0,
+	900: #0d47a1,
+	A100: #82b1ff,
+	A200: #448aff,
+	A400: #2979ff,
+	A700: #2962ff,
+	AGreen: #2cc54e,
+	contrast: (
+		50: $dark-primary-text,
+		100: $dark-primary-text,
+		200: $dark-primary-text,
+		300: $light-primary-text,
+		400: $light-primary-text,
+		500: $light-primary-text,
+		600: $light-primary-text,
+		700: $light-primary-text,
+		800: $light-primary-text,
+		900: $light-primary-text,
+		A100: $dark-primary-text,
+		A200: $light-primary-text,
+		A400: $light-primary-text,
+		A700: $light-primary-text,
+	),
 );
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker

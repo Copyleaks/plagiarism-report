@@ -1,7 +1,5 @@
 <cr-panel>
-	<cr-panel-header>
-		Alerts
-	</cr-panel-header>
+	<cr-panel-header>Alerts</cr-panel-header>
 	<cr-panel-actions>
 		<cr-panel-action>
 			<button mat-button matTooltip="Close alerts" (click)="hideAlerts()">
@@ -21,8 +19,7 @@
 			<ng-container *ngFor="let alert of notification?.alerts">
 				<cr-alert-card
 					[ngClass]="{ 'alert-opacity': selectedAlert && selectedAlert.code !== alert.code }"
-					[alert]="alert"
-				></cr-alert-card>
+					[alert]="alert"></cr-alert-card>
 			</ng-container>
 		</div>
 		<div class="powered-by-section">
