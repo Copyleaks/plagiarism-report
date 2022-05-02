@@ -5,6 +5,7 @@
 	<cr-expansion-panel-menu>
 		<cr-expansion-panel-menu-item *ngIf="help">
 			<button
+				title="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.HELP || 'Help'"
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.HELP || 'Help'"
 				(click)="helpClicked($event)">
@@ -13,6 +14,7 @@
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="share">
 			<button
+				title="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SHARE || 'Share'"
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SHARE || 'Share'"
 				(click)="shareClicked($event)">
@@ -20,13 +22,16 @@
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="download">
-			<button mat-button [disabled]="isPDFDownloading" (click)="downloadClicked($event)">
+			<button
+			title="btnDownloadTooltip" 
+			mat-button [disabled]="isPDFDownloading" (click)="downloadClicked($event)">
 				<mat-icon [matTooltip]="btnDownloadTooltip">save_alt</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item>
 			<button
 				mat-button
+				title="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SETTINGS || 'Settings'"
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SETTINGS || 'Settings'"
 				(click)="openSettingsDialog()">
 				<mat-icon>settings</mat-icon>
@@ -49,7 +54,9 @@
 							*ngIf="!done"
 							fxLayoutAlign="center center">
 							<div header>&zwnj;</div>
-							<mat-spinner [diameter]="40"></mat-spinner>
+							<mat-spinner 
+							title="Spinner"
+							[diameter]="40"></mat-spinner>
 						</div>
 						<div>
 							<div header>
@@ -247,7 +254,8 @@
 				</div>
 
 				<ng-template #statsSpinner>
-					<mat-spinner *ngIf="!stats" [diameter]="16" style="display: inline-block"></mat-spinner>
+					<mat-spinner title="Spinner"
+					*ngIf="!stats" [diameter]="16" style="display: inline-block"></mat-spinner>
 				</ng-template>
 			</ng-container>
 		</div>

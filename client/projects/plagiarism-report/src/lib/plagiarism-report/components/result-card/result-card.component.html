@@ -10,7 +10,7 @@
 				: null
 		">
 		<!-- when result is loading -->
-		<mat-spinner style="zoom: 0.2" *ngIf="loading"></mat-spinner>
+		<mat-spinner title="Spinner" style="zoom: 0.2" *ngIf="loading"></mat-spinner>
 
 		<!-- when result has error -->
 		<mat-icon class="error-icon" *ngIf="!loading && result === null" color="warn">error</mat-icon>
@@ -26,6 +26,7 @@
 
 		<!-- when result is loaded successfully and it is external result-->
 		<img
+			role="presentation"
 			*ngIf="!loading && result !== null && preview.url"
 			[src]="'https://www.google.com/s2/favicons?domain=' + urlDomain" />
 	</div>
@@ -46,14 +47,20 @@
 					{{ preview.title }}
 				</span>
 			</div>
-			<button mat-icon-button [matMenuTriggerFor]="menu">
+			<button 
+			title="Toggle Menu"
+			mat-icon-button [matMenuTriggerFor]="menu">
 				<mat-icon>arrow_drop_down</mat-icon>
 			</button>
 			<mat-menu #menu="matMenu" class="result-card-actions">
-				<button mat-menu-item (click)="hideResult()">
+				<button 
+				title="translations?.RESULT_CARD?.ACTIONS?.EXCLUDE || 'Exclude'"
+				mat-menu-item (click)="hideResult()">
 					{{ translations?.RESULT_CARD?.ACTIONS?.EXCLUDE || 'Exclude' }}
 				</button>
-				<button *ngFor="let action of resultCardActions" mat-menu-item (click)="action.action(preview)">
+				<button 
+				title="action.name"
+				*ngFor="let action of resultCardActions" mat-menu-item (click)="action.action(preview)">
 					{{ action.name }}
 				</button>
 			</mat-menu>
@@ -117,7 +124,7 @@
 			<!--  -->
 			<ng-container *ngIf="!source">
 				<div>
-					<mat-spinner [diameter]="30"></mat-spinner>
+					<mat-spinner title="Spinner" [diameter]="30"></mat-spinner>
 				</div>
 			</ng-container>
 			<!--  -->
