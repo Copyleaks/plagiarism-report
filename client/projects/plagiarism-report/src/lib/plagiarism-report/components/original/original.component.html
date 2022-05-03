@@ -145,14 +145,16 @@
 <!-- menu -->
 <mat-menu #appMenu>
 	<button 
-	title="translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
+	title="Open URL in a new tab"
 	mat-menu-item *ngIf="hasUrl" (click)="openUrl()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__launch_url"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab' }}
 	</button>
 	<button
 		mat-menu-item
-		title="translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Next Match'"
+		title="Next Match"
+		tabindex="0"
+		role="button"
 		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
@@ -162,7 +164,9 @@
 		{{ translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Next Match' }}
 	</button>
 	<button
-		title="translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Previous Match'"
+		title="Previous Match"
+		tabindex="0"
+		role="button"
 		mat-menu-item
 		[disabled]="
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
@@ -174,6 +178,8 @@
 	</button>
 	<button 
 	title="Switch mode"
+	tabindex="0"
+	role="button"
 	mat-menu-item [disabled]="!hasHtml" (click)="toggleContent()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__toggle_content"></ng-container>
 		{{
@@ -183,25 +189,33 @@
 		}}
 	</button>
 	<button 
-	title="translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align Left'"
+	title="Align Left"
+	tabindex="0"
+	role="button"
 	mat-menu-item *ngIf="!isHtml" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align Left' }}
 	</button>
 	<button 
-	title="translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align Right'"
+	title="Align Right"
+	tabindex="0"
+	role="button"
 	mat-menu-item *ngIf="!isHtml" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align Right' }}
 	</button>
 	<button 
-	title="translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase Font Size'"
+	title="Increase Font Size"
+	tabindex="0"
+	role="button"
 	mat-menu-item *ngIf="!isHtml" (click)="increaseFontSize()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase Font Size' }}
 	</button>
 	<button 
-	title="translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease Font Size'"
+	tabindex="0"
+	role="button"
+	title="Decrease Font Size"
 	mat-menu-item *ngIf="!isHtml" (click)="decreaseFontSize()" crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease Font Size' }}
@@ -210,7 +224,9 @@
 
 <ng-template #menu__launch_url>
 	<button
-		title="translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
+		title="Open URL in a new tab"
+		tabindex="0"
+		role="button"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
 		(click)="openUrl()"
@@ -220,7 +236,9 @@
 </ng-template>
 <ng-template #menu__next_match>
 	<button
-		title="translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'"
+		title="Go to next match"
+		tabindex="0"
+		role="button"
 		mat-button
 		(click)="onJumpToNextMatchClick()"
 		[disabled]="
@@ -232,7 +250,9 @@
 </ng-template>
 <ng-template #menu__prev_match>
 	<button
-		title="translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'"
+		title="Go to previous match"
+		tabindex="0"
+		role="button"
 		mat-button
 		(click)="onJumpToNextMatchClick(false)"
 		[disabled]="
@@ -245,6 +265,8 @@
 <ng-template #menu__toggle_content>
 	<button
 		title="Switch mode"
+		tabindex="0"
+		role="button"
 		mat-button
 		*ngIf="!AlertPreviewViewMode"
 		[matTooltip]="
@@ -259,7 +281,9 @@
 </ng-template>
 <ng-template #menu__align_left>
 	<button
-		title="translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'"
+		title="Align left"
+		tabindex="0"
+		role="button"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'"
 		(click)="direction = 'ltr'">
@@ -268,7 +292,9 @@
 </ng-template>
 <ng-template #menu__align_right>
 	<button
-		title="translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
+		title="Align right"
+		tabindex="0"
+		role="button"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
 		(click)="direction = 'rtl'">
@@ -277,7 +303,9 @@
 </ng-template>
 <ng-template #menu__font_inc>
 	<button
-		title="translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
+		title="Increase font size"
+		tabindex="0"
+		role="button"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
 		(click)="increaseFontSize()">
@@ -287,7 +315,9 @@
 <ng-template #menu__font_dec>
 	<button
 		mat-button
-		title="translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
+		title="Decrease font size"
+		role="button"
+		tabindex="0"
 		[matTooltip]="translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
 		(click)="decreaseFontSize()">
 		<mat-icon>zoom_out</mat-icon>
