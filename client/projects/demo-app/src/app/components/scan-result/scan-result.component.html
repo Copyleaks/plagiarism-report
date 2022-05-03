@@ -23,7 +23,9 @@
 </div>
 
 <div url *ngIf="preview.url">
-	<a [href]="preview.url" target="_blank">{{ preview.url }}</a>
+	<a 
+	title="preview.url"
+	[href]="preview.url" target="_blank">{{ preview.url }}</a>
 </div>
 
 <p

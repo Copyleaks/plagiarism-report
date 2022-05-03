@@ -30,7 +30,9 @@
 	</div>
 </mat-dialog-content>
 <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 1em">
-	<a button-link href="javascript:void(0)" (click)="checkAll()">
+	<a 	
+	title="toggle"
+	button-link href="javascript:void(0)" (click)="checkAll()">
 		{{
 			hidden.length === results.length
 				? translations?.FILTER_DIALOG?.CHECK_ALL || 'check all'
