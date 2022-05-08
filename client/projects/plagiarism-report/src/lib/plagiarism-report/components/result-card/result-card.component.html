@@ -105,7 +105,7 @@
 	<mat-divider></mat-divider>
 
 	<div footer fxLayout="row" fxLayoutAlign="space-between center">
-		<div [ngClass]="{ 'text-identical': true }" *ngIf="source">
+		<div [ngClass]="{ 'text-identical': true }" *ngIf="source" style="color: #af514a ;">
 			{{ (similarWords$ | async) / (source?.metadata.words - source?.metadata.excluded) | similarity }}
 			{{ translations?.RESULT_CARD?.SIMILAR_WORDS || 'similar words' }}
 		</div>
@@ -133,10 +133,10 @@
 			</ng-container>
 			<!--  -->
 			<ng-container *ngIf="source">
-				<div class="text-identical" >
+				<div class="text-identical" >				
 					{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }} -
 					{{ result?.statistics.identical / (source?.metadata.words - source?.metadata.excluded) | similarity }}
-					{{ translations?.SHARED?.WORDS || 'words' }}
+					{{ translations?.SHARED?.WORDS || 'words' }}				
 				</div>
 				<div class="text-minor-changes">
 					{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }} -
