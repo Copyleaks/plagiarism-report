@@ -353,6 +353,13 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 			this.copyleaksService.pushCompletedResult(meta);
 
+			// watch for score change
+			this.copyleaksService.scoreUpdate$
+				.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged())
+				.subscribe(score => {
+					console.log(score);
+				});
+
 			// watch for results filter change
 			this.copyleaksService.filteredResultsIds$
 				.pipe(untilDestroy(this), takeUntil(this.copyleaksService.onDestroy$), distinctUntilChanged())

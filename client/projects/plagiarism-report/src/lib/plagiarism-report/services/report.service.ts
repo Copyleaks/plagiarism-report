@@ -211,7 +211,7 @@ export class ReportService implements OnDestroy {
 		}
 
 		if (completeResult.filters && completeResult.filters.resultIds) {
-			this.copyleaksService.setFilteredResultsIds(completeResult.filters.resultIds);
+			this.setHiddenResults(completeResult.filters.resultIds);
 		}
 
 		this._completeResult.next(completeResult);
@@ -253,7 +253,23 @@ export class ReportService implements OnDestroy {
 	 * @param ids the ids to hide
 	 */
 	public setHiddenResults(ids: string[]) {
-		this.copyleaksService.setFilteredResultsIds(ids);
+		const currentCompleteResult = this._completeResult?.value;
+		let aggregatedScore = null;
+		if (currentCompleteResult) {
+			const statistics = helpers.calculateStatistics(
+				currentCompleteResult,
+				this._results.value.filter(r => !ids.includes(r.id)),
+				{
+					showIdentical: true,
+					showMinorChanges: true,
+					showPageSources: true,
+					showOnlyTopResults: false,
+					showRelated: true,
+				}
+			);
+			aggregatedScore = statistics.aggregatedScore;
+		}
+		this.copyleaksService.setFilteredResultsIds(ids, aggregatedScore);
 	}
 
 	/**
