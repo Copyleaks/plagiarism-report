@@ -133,7 +133,7 @@
 			</ng-container>
 			<!--  -->
 			<ng-container *ngIf="source">
-				<div class="text-identical">
+				<div class="text-identical" >
 					{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }} -
 					{{ result?.statistics.identical / (source?.metadata.words - source?.metadata.excluded) | similarity }}
 					{{ translations?.SHARED?.WORDS || 'words' }}
