@@ -1,7 +1,11 @@
 <cr-panel>
 	<cr-panel-header>
 		<!--  -->
-		<mat-spinner title="Spinner" *ngIf="previews?.length && isLoadingResults" [diameter]="20" style="margin-right: 8px"></mat-spinner>
+		<mat-spinner
+			title="Spinner"
+			*ngIf="previews?.length && isLoadingResults"
+			[diameter]="20"
+			style="margin-right: 8px"></mat-spinner>
 		<!--  -->
 		{{ translations?.RESULTS_SECTION?.TITLE || 'Results' }}
 		<ng-container *ngIf="focusedMatch">
@@ -66,7 +70,7 @@
 </cr-panel>
 <ng-template #menu__show_results>
 	<button
-		title="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear filter'"
+		[title]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear filter'"
 		mat-button
 		(click)="clearFocusedMatch()"
 		[matTooltip]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear filter'">

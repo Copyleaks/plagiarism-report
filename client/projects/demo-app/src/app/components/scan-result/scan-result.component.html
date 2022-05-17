@@ -7,27 +7,17 @@
 			{{ preview.title }}
 		</span>
 	</div>
-	<button 
-	title="Toggle Menu"
-	tabindex="0"
-	role="button"
-	mat-icon-button [matMenuTriggerFor]="menu">
+	<button title="Toggle Menu" tabindex="0" role="button" mat-icon-button [matMenuTriggerFor]="menu">
 		<mat-icon>arrow_drop_down</mat-icon>
 	</button>
 	<mat-menu #menu="matMenu" class="result-card-actions">
-		<button 
-		title="Exclude"
-		mat-menu-item (click)="parent.hideResult()">Exclude</button>
-		<button 
-		title="Delete"
-		mat-menu-item (click)="deleteResult()">Delete</button>
+		<button title="Exclude" mat-menu-item (click)="parent.hideResult()">Exclude</button>
+		<button title="Delete" mat-menu-item (click)="deleteResult()">Delete</button>
 	</mat-menu>
 </div>
 
 <div url *ngIf="preview.url">
-	<a 
-	title="preview.url"
-	[href]="preview.url" target="_blank">{{ preview.url }}</a>
+	<a title="preview.url" [href]="preview.url" target="_blank">{{ preview.url }}</a>
 </div>
 
 <p

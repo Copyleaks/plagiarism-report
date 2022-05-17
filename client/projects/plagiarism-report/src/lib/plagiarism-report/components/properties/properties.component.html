@@ -6,8 +6,8 @@
 		<cr-expansion-panel-menu-item *ngIf="help">
 			<button
 				title="Help"
-				tabindex="0"	
-				role="button"			
+				tabindex="0"
+				role="button"
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.HELP || 'Help'"
 				(click)="helpClicked($event)">
@@ -27,10 +27,12 @@
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="download">
 			<button
-			tabindex="0"
-			role="button"
-			title="btnDownloadTooltip" 
-			mat-button [disabled]="isPDFDownloading" (click)="downloadClicked($event)">
+				tabindex="0"
+				role="button"
+				[title]="btnDownloadTooltip"
+				mat-button
+				[disabled]="isPDFDownloading"
+				(click)="downloadClicked($event)">
 				<mat-icon [matTooltip]="btnDownloadTooltip">save_alt</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
@@ -62,9 +64,7 @@
 							*ngIf="!done"
 							fxLayoutAlign="center center">
 							<div header>&zwnj;</div>
-							<mat-spinner 
-							title="Spinner"
-							[diameter]="40"></mat-spinner>
+							<mat-spinner title="Spinner" [diameter]="40"></mat-spinner>
 						</div>
 						<div>
 							<div header>
@@ -143,7 +143,12 @@
 		<!-- STATS -->
 		<div stats [fxFlexOrder.lt-md]="-5" fxLayout="row nowrap" fxLayoutAlign="stretch stretch">
 			<ng-container *ngIf="stats && !previewsLoading; else skeleton__stats">
-				<ngx-charts-pie-chart role="presentation" fxHide.lt-md [customColors]="customColors" [results]="chartData" [view]="[150, 150]">
+				<ngx-charts-pie-chart
+					role="presentation"
+					fxHide.lt-md
+					[customColors]="customColors"
+					[results]="chartData"
+					[view]="[150, 150]">
 					<ng-template #tooltipTemplate let-model="model">
 						<div style="padding: 0.5em" class="mat-typography">
 							<span style="font-size: 1em; display: block">{{ model.value | number }}</span>
@@ -262,8 +267,7 @@
 				</div>
 
 				<ng-template #statsSpinner>
-					<mat-spinner title="Spinner"
-					*ngIf="!stats" [diameter]="16" style="display: inline-block"></mat-spinner>
+					<mat-spinner title="Spinner" *ngIf="!stats" [diameter]="16" style="display: inline-block"></mat-spinner>
 				</ng-template>
 			</ng-container>
 		</div>
