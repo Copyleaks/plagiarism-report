@@ -30,6 +30,7 @@ export class CopyleaksService {
 	private readonly _config$ = new BehaviorSubject<CopyleaksReportConfig>({ ...DEFAULT_REPORT_CONFIG });
 	private readonly _destroy$ = new Subject();
 	private readonly _filteredResultsIds$ = new Subject<string[]>();
+	private readonly _scoreUpdate$ = new Subject<number>();
 	private readonly _totalResults$ = new Subject<number>();
 
 	public readonly onCompleteResult$ = this._complete$.asObservable();
@@ -40,6 +41,7 @@ export class CopyleaksService {
 	public readonly onReportConfig$ = this._config$.asObservable();
 	public readonly onTotalResultsChange$ = this._totalResults$.asObservable();
 	public readonly filteredResultsIds$ = this._filteredResultsIds$.asObservable();
+	public readonly scoreUpdate$ = this._scoreUpdate$.asObservable();
 
 	// Delete result by Id
 	public readonly onDeleteResultById$ = new Subject<string>();
@@ -58,9 +60,11 @@ export class CopyleaksService {
 	/**
 	 * Init/Set the filtered results.
 	 * @param ids a list of results ids to be filtered.
+	 * @param newAggregatedScore updated score after filter.
 	 */
-	public setFilteredResultsIds(ids: string[]) {
+	public setFilteredResultsIds(ids: string[], newAggregatedScore: number) {
 		this._filteredResultsIds$.next(ids);
+		this._scoreUpdate$.next(newAggregatedScore);
 	}
 
 	/**
@@ -168,7 +172,7 @@ export class CopyleaksService {
 	 */
 	public notifyDestroy() {
 		this._destroy$.next();
-		this.setFilteredResultsIds([]);
+		this.setFilteredResultsIds([], null);
 	}
 
 	// Simple object validation
