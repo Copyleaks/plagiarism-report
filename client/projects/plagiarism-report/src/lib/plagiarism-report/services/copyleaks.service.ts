@@ -19,6 +19,7 @@ import {
 
 import { Subject, BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
+//import { exit } from 'process';
 
 @Injectable()
 export class CopyleaksService {
@@ -48,7 +49,7 @@ export class CopyleaksService {
 	public readonly onDeleteProccessFinish$ = new Subject<CompleteResult>();
 
 	public readonly onDestroy$ = this._destroy$.asObservable();
-
+	//private readonly cssError = 'font-weight: bold;color:blue;';
 	/**
 	 * set total results (optional)
 	 * @param totalResults scan total results amount
@@ -89,11 +90,25 @@ export class CopyleaksService {
 	 */
 	public pushCompletedResult(result: CompleteResult) {
 		if (!this.isCompleteResult(result)) {
-			throw new Error(COMPLETE_RESULT_VALIDATION_ERROR);
+			//throw new Error(COMPLETE_RESULT_VALIDATION_ERROR);
+			this.showExtendedError(COMPLETE_RESULT_VALIDATION_ERROR, result);		
+			return;			
 		}
 		this._complete$.next(result);
 	}
+	
+    // private showCssFormatedError(css, type, source?) {		
+	// 	console.error('%c' + `ErrorType: ${type}\nSource: ${JSON.stringify(source)}`, css);
+	// }
 
+	private showExtendedError(type, userResult) {		
+		console.error(
+			type.errorText, 
+			'\nExample of complete result:', 
+			type.completeResult,
+		    '\nUser-provided result:', userResult
+		  );
+	}
 	/**
 	 * Insert an incoming new scan result to the report.
 	 * @see https://api.copyleaks.com/documentation/v3/webhooks/new-result
@@ -101,7 +116,9 @@ export class CopyleaksService {
 	 */
 	public pushNewResult(result: NewResult) {
 		if (!this.isNewResult(result)) {
-			throw new Error(NEW_RESULT_VALIDATION_ERROR);
+			//throw new Error(NEW_RESULT_VALIDATION_ERROR);
+			this.showExtendedError(NEW_RESULT_VALIDATION_ERROR, result);
+			return;
 		}
 		[...result.internet, ...result.database, ...result.batch, ...result.repositories].forEach(prev => {
 			this._preview$.next(prev);
@@ -115,10 +132,14 @@ export class CopyleaksService {
 	 */
 	public pushDownloadedSource(source: ScanSource) {
 		if (!this.isCorrectVersion(source)) {
-			throw new Error(VERSION_VALIDATION_ERROR);
+			//throw new Error(VERSION_VALIDATION_ERROR);
+			this.showExtendedError(VERSION_VALIDATION_ERROR, source);
+			return;
 		}
 		if (!this.isScanSource(source)) {
-			throw new Error(SCAN_SOURCE_VALIDATION_ERROR);
+			//throw new Error(SCAN_SOURCE_VALIDATION_ERROR);
+			this.showExtendedError(SCAN_SOURCE_VALIDATION_ERROR, source);
+			return;
 		}
 		this._source$.next(source);
 	}
@@ -135,7 +156,9 @@ export class CopyleaksService {
 				throw new Error(`Argument "id" must be a string`);
 			}
 			if (result != null && !this.isScanResult(result)) {
-				throw new Error(SCAN_RESULT_VALIDATION_ERROR);
+				//throw new Error(SCAN_RESULT_VALIDATION_ERROR);
+				this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
+				return;
 			}
 		}
 		this._results$.next(results);
