@@ -96,13 +96,13 @@ export class CopyleaksService {
 		this._complete$.next(result);
 	}
 
-	private showExtendedError(type, userResult) {
+	private showExtendedError(type: any, userResult: any) {
 		console.error(
 			type.errorText,
 			'\nActual supplied argument:\n',
 			userResult,
 			'\nExpected argument should look like:\n',
-			type.completeResult,
+			type.result,
 			'\nFor more info, visit ' + type.visitUrl
 		);
 	}
