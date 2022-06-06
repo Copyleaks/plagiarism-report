@@ -6,7 +6,7 @@ This allows you to view Copyleaks plagiarism report on your website. The report 
 
 ## [Live demo][demo]
 
-![](https://copyleaks.com/assets/images/shared/opening-message-new.gif)
+![](https://app.copyleaks.com/assets/images/shared/opening-message-new.gif)
 
 [![demo:img]][demo:edit]
 
