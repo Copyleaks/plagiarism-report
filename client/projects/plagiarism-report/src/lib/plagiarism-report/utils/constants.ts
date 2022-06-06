@@ -51,7 +51,7 @@ export const MAX_TEXT_ZOOM = 4;
 /** Min font size zoom level */
 export const MIN_TEXT_ZOOM = 0.5;
 
-const msgWrongArgumentText = 'Wrong argument supplied. Provided data should be match the type ';
+const msgWrongArgumentText = 'Wrong argument supplied. Provided data should match the type ';
 
 /** User messages for text exclusion cases */
 export const EXCLUDE_MESSAGE = {
