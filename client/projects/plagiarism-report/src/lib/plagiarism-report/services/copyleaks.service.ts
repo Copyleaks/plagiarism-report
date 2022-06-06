@@ -103,10 +103,9 @@ export class CopyleaksService {
 
 	private showExtendedError(type, userResult) {		
 		console.error(
-			type.errorText, 
-			'\nExample of complete result:', 
-			type.completeResult,
-		    '\nUser-provided result:', userResult
+			type.errorText, 			
+		    '\nActual supplied argument:\n', userResult,
+			'\nExpected argument should look like:\n', type.completeResult,
 		  );
 	}
 	/**
@@ -155,7 +154,7 @@ export class CopyleaksService {
 			if (typeof id !== 'string') {
 				throw new Error(`Argument "id" must be a string`);
 			}
-			if (result != null && !this.isScanResult(result)) {
+			if (result != null && this.isScanResult(result)) {
 				//throw new Error(SCAN_RESULT_VALIDATION_ERROR);
 				this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
 				return;
