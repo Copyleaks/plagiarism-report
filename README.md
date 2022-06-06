@@ -262,6 +262,8 @@ As an alternative you can create an Angular web application that uses this libra
 
 Modifying the component is allowed according to the [License](./license).
 
+## Accessibility
+The [VPAT report (PDF)](./accessibility/PlagiarismReport-VPAT.pdf) can be downloaded from accessibility section 
 ## Additional Reading Sources
 
 - [Showing Progress on the report](./ADVANCE_README_PROGRESS.md).
