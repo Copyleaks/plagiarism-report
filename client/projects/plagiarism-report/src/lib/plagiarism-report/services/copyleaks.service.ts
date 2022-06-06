@@ -89,20 +89,22 @@ export class CopyleaksService {
 	 * @param result the completed result
 	 */
 	public pushCompletedResult(result: CompleteResult) {
-		if (!this.isCompleteResult(result)) {		
-			this.showExtendedError(COMPLETE_RESULT_VALIDATION_ERROR, result);		
-			return;			
+		if (!this.isCompleteResult(result)) {
+			this.showExtendedError(COMPLETE_RESULT_VALIDATION_ERROR, result);
+			return;
 		}
 		this._complete$.next(result);
-	}  
+	}
 
-	private showExtendedError(type, userResult) {		
+	private showExtendedError(type, userResult) {
 		console.error(
-			type.errorText, 			
-		    '\nActual supplied argument:\n', userResult,
-			'\nExpected argument should look like:\n', type.completeResult,
+			type.errorText,
+			'\nActual supplied argument:\n',
+			userResult,
+			'\nExpected argument should look like:\n',
+			type.completeResult,
 			'\nFor more info, visit ' + type.visitUrl
-		  );
+		);
 	}
 	/**
 	 * Insert an incoming new scan result to the report.
@@ -110,7 +112,7 @@ export class CopyleaksService {
 	 * @param result the new result
 	 */
 	public pushNewResult(result: NewResult) {
-		if (!this.isNewResult(result)) {			
+		if (!this.isNewResult(result)) {
 			this.showExtendedError(NEW_RESULT_VALIDATION_ERROR, result);
 			return;
 		}
@@ -125,11 +127,11 @@ export class CopyleaksService {
 	 * @param source the downloaded source
 	 */
 	public pushDownloadedSource(source: ScanSource) {
-		if (!this.isCorrectVersion(source)) {		
+		if (!this.isCorrectVersion(source)) {
 			this.showExtendedError(VERSION_VALIDATION_ERROR, source);
 			return;
 		}
-		if (!this.isScanSource(source)) {			
+		if (!this.isScanSource(source)) {
 			this.showExtendedError(SCAN_SOURCE_VALIDATION_ERROR, source);
 			return;
 		}
@@ -147,7 +149,7 @@ export class CopyleaksService {
 			if (typeof id !== 'string') {
 				throw new Error(`Argument "id" must be a string`);
 			}
-			if (result != null && !this.isScanResult(result)) {				
+			if (result != null && !this.isScanResult(result)) {
 				this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
 				return;
 			}
