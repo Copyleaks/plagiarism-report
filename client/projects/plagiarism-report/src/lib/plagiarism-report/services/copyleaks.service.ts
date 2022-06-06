@@ -89,23 +89,19 @@ export class CopyleaksService {
 	 * @param result the completed result
 	 */
 	public pushCompletedResult(result: CompleteResult) {
-		if (!this.isCompleteResult(result)) {
-			//throw new Error(COMPLETE_RESULT_VALIDATION_ERROR);
+		if (!this.isCompleteResult(result)) {		
 			this.showExtendedError(COMPLETE_RESULT_VALIDATION_ERROR, result);		
 			return;			
 		}
 		this._complete$.next(result);
-	}
-	
-    // private showCssFormatedError(css, type, source?) {		
-	// 	console.error('%c' + `ErrorType: ${type}\nSource: ${JSON.stringify(source)}`, css);
-	// }
+	}  
 
 	private showExtendedError(type, userResult) {		
 		console.error(
 			type.errorText, 			
 		    '\nActual supplied argument:\n', userResult,
 			'\nExpected argument should look like:\n', type.completeResult,
+			'\nFor more info, visit ' + type.visitUrl
 		  );
 	}
 	/**
@@ -114,8 +110,7 @@ export class CopyleaksService {
 	 * @param result the new result
 	 */
 	public pushNewResult(result: NewResult) {
-		if (!this.isNewResult(result)) {
-			//throw new Error(NEW_RESULT_VALIDATION_ERROR);
+		if (!this.isNewResult(result)) {			
 			this.showExtendedError(NEW_RESULT_VALIDATION_ERROR, result);
 			return;
 		}
@@ -130,13 +125,11 @@ export class CopyleaksService {
 	 * @param source the downloaded source
 	 */
 	public pushDownloadedSource(source: ScanSource) {
-		if (!this.isCorrectVersion(source)) {
-			//throw new Error(VERSION_VALIDATION_ERROR);
+		if (!this.isCorrectVersion(source)) {		
 			this.showExtendedError(VERSION_VALIDATION_ERROR, source);
 			return;
 		}
-		if (!this.isScanSource(source)) {
-			//throw new Error(SCAN_SOURCE_VALIDATION_ERROR);
+		if (!this.isScanSource(source)) {			
 			this.showExtendedError(SCAN_SOURCE_VALIDATION_ERROR, source);
 			return;
 		}
@@ -154,8 +147,7 @@ export class CopyleaksService {
 			if (typeof id !== 'string') {
 				throw new Error(`Argument "id" must be a string`);
 			}
-			if (result != null && this.isScanResult(result)) {
-				//throw new Error(SCAN_RESULT_VALIDATION_ERROR);
+			if (result != null && !this.isScanResult(result)) {				
 				this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
 				return;
 			}
