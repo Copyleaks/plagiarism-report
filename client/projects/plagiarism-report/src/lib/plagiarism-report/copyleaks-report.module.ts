@@ -57,8 +57,10 @@ import { AlertsComponent } from './components/alerts/alerts.component';
 import { AlertCardComponent } from './components/alert-card/alert-card.component';
 import { DirectionService } from './services/direction.service';
 import { ExcludePartialScanComponent } from './components/exclude-partial-scan/exclude-partial-scan.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 @NgModule({
 	declarations: [
+		SpinnerComponent,
 		CopyleaksReportComponent,
 		PropertiesComponent,
 		ResultsComponent,

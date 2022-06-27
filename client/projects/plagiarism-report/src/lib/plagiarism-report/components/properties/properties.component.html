@@ -57,14 +57,10 @@
 				<!--  -->
 				<ng-container *ngIf="!scanSummeryComponentInstance">
 					<div fxLayout="row nowrap" fxLayoutAlign="center center" fxLayoutGap="1em">
-						<div
-							fxLayout="
-					 row
-					 nowrap"
-							*ngIf="!done"
-							fxLayoutAlign="center center">
+						<div fxLayout="row nowrap" *ngIf="!done" fxLayoutAlign="center center">
 							<div header>&zwnj;</div>
-							<mat-spinner title="Spinner" [diameter]="40"></mat-spinner>
+							<!-- <mat-spinner title="Spinner" [diameter]="40"></mat-spinner> -->
+							<cls-spinner width="50px"></cls-spinner>
 						</div>
 						<div>
 							<div header>
