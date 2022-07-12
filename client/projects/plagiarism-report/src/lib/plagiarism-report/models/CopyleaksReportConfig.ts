@@ -28,6 +28,8 @@ export interface CopyleaksReportConfig {
 	share?: boolean;
 	/** The visibility state of the download button in properties section */
 	download?: boolean;
+	/** The visibility state of the download button in properties section */
+	settings?: boolean;
 	/** The visibility state of the back button in `one-to-one` view */
 	disableSuspectBackButton?: boolean;
 	/** The id of the scan the report is displaying */

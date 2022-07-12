@@ -36,10 +36,11 @@
 				<mat-icon [matTooltip]="btnDownloadTooltip">save_alt</mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
-		<cr-expansion-panel-menu-item>
+		<cr-expansion-panel-menu-item [style.display]="!settings ? 'none' : ''">
 			<button
 				mat-button
 				title="Settings"
+				id="cr-properties-settings-button"
 				tabindex="0"
 				role="button"
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SETTINGS || 'Settings'"

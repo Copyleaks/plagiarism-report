@@ -77,7 +77,7 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		private copyleaksService: CopyleaksService,
 		private viewModeService: ViewModeService,
 		private directionService: DirectionService,
-		el: ElementRef,
+		public el: ElementRef,
 		renderer: Renderer2
 	) {
 		renderer.setAttribute(el.nativeElement, 'plagiarism-report-version', packageInfo.version);

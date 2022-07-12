@@ -30,6 +30,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 		share: true,
 		help: true,
 		download: true,
+		settings: false,
 		disableSuspectBackButton: false,
 		contentMode: 'text',
 		resultCardActions: [

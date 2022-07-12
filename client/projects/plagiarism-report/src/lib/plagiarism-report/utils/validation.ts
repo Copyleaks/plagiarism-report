@@ -67,6 +67,10 @@ export const isCopyleaksReportConfig = (config: CopyleaksReportConfig, logErrors
 		logErrors && console.warn('config.download should be a boolean');
 		return false;
 	}
+	if (config.settings !== undefined && typeof config.settings !== 'boolean') {
+		logErrors && console.warn('config.settings should be a boolean');
+		return false;
+	}
 	if (config.options !== undefined && !isCopyleaksReportOptions(config.options, logErrors)) {
 		return false;
 	}

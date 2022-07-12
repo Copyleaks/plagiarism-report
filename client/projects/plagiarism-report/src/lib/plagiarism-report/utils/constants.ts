@@ -21,6 +21,7 @@ export const DEFAULT_OPTIONS: CopyleaksReportOptions = {
 export const DEFAULT_REPORT_CONFIG: CopyleaksReportConfig = {
 	contentMode: 'html',
 	download: false,
+	settings: true,
 	help: false,
 	disableSuspectBackButton: false,
 	options: { ...DEFAULT_OPTIONS },

@@ -55,6 +55,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public help: boolean;
 	public share: boolean;
 	public download: boolean;
+	public settings: boolean;
 	public previewCount = 0;
 	public hiddenResultsCount = 0;
 	public metadata: CompleteResult;
@@ -230,6 +231,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			help$,
 			share$,
 			download$,
+			settings$,
 			completeResult$,
 			progress$,
 			previews$,
@@ -269,6 +271,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		help$.pipe(untilDestroy(this)).subscribe(help => (this.help = help));
 		share$.pipe(untilDestroy(this)).subscribe(share => (this.share = share));
 		download$.pipe(untilDestroy(this)).subscribe(download => (this.download = download));
+		settings$.pipe(untilDestroy(this)).subscribe(settings => (this.settings = settings));
 		viewMode$.pipe(untilDestroy(this)).subscribe(viewMode => (this.viewMode = viewMode));
 		options$.pipe(untilDestroy(this)).subscribe(options => (this.options = options));
 		totalResults$.pipe(untilDestroy(this)).subscribe(totalResults => (this.totalResults = totalResults));

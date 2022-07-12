@@ -133,6 +133,7 @@ export class ReportService implements OnDestroy {
 	public suspectId$ = this.config$.pipe(map(x => x.suspectId));
 	public help$ = this.config$.pipe(map(x => x.help));
 	public download$ = this.config$.pipe(map(x => x.download));
+	public settings$ = this.config$.pipe(map(x => x.settings));
 	public share$ = this.config$.pipe(map(x => x.share));
 	public options$ = this.config$.pipe(map(x => x.options));
 	public resultCardActions$ = this.config$.pipe(map(x => x.resultCardActions));
