@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,48 +16,46 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SatPopoverModule } from '@ncstate/sat-popover';
-import { PieChartModule, ChartCommonModule } from '@swimlane/ngx-charts';
+import { ChartCommonModule, PieChartModule } from '@swimlane/ngx-charts';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ExpansionPanelModule } from '../expansion-panel/expansion-panel.module';
+import { MatPaginationModule } from '../mat-pagination/mat-pagination.module';
 import { PanelModule } from '../panel/panel.module';
 import { SharedModule } from '../shared/shared.module';
+import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component';
 import { OriginalComponent } from './components/original/original.component';
+import { PoweredByComponent } from './components/powered-by/powered-by.component';
 import { PropertiesComponent } from './components/properties/properties.component';
 import { ResultCardComponent } from './components/result-card/result-card.component';
 import { ResultsFilterDialogComponent } from './components/results-filter-dialog/results-filter-dialog.component';
-import { OptionsDialogComponent } from './components/options-dialog/options-dialog.component';
 import { ResultsComponent } from './components/results/results.component';
 import { SuspectComponent } from './components/suspect/suspect.component';
-import { CopyleaksReportComponent } from './copyleaks-report.component';
-import { MatPaginationModule } from '../mat-pagination/mat-pagination.module';
-import { PoweredByComponent } from './components/powered-by/powered-by.component';
+import { CopyleaksReportComponent, CustomReportActionComponent } from './copyleaks-report.component';
 
-import {
-	DEFAULT_REPORT_CONFIG,
-	COPYLEAKS_CONFIG_INJECTION_TOKEN,
-	COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN,
-	DEFAULT_TEXT_CONFIG,
-} from './utils/constants';
-import { CopyleaksReportConfig } from './models';
+import { VirtualScrollerModule } from 'ngx-virtual-scroller';
+import { AlertCardComponent } from './components/alert-card/alert-card.component';
+import { AlertsComponent } from './components/alerts/alerts.component';
+import { ExcludePartialScanComponent } from './components/exclude-partial-scan/exclude-partial-scan.component';
 import { OriginalHtmlHelperComponent } from './components/html-helpers/original-html-helper.component';
 import { SourceHtmlHelperComponent } from './components/html-helpers/source-html-helper.component';
 import { SuspectHtmlHelperComponent } from './components/html-helpers/suspect-html-helper.component';
 import { MatchComponent } from './components/match/match.component';
-import { OriginalTextHelperDirective } from './components/text-helpers/original-text-helper.directive';
-import { SuspectTextHelperDirective } from './components/text-helpers/suspect-text-helper.directive';
-import { SourceTextHelperDirective } from './components/text-helpers/source-text-helper.directive';
-import { CopyleaksService } from './services/copyleaks.service';
-import { VirtualScrollerModule } from 'ngx-virtual-scroller';
+import { NotificationsDialogComponent } from './components/notifications-dialog/notifications-dialog.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 import { PlagiarismFreeComponent } from './components/plagiarism-free/plagiarism-free.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { OriginalTextHelperDirective } from './components/text-helpers/original-text-helper.directive';
+import { SourceTextHelperDirective } from './components/text-helpers/source-text-helper.directive';
+import { SuspectTextHelperDirective } from './components/text-helpers/suspect-text-helper.directive';
+import { CopyleaksReportConfig } from './models';
 import { CopyleaksTextConfig } from './models/CopyleaksTextConfig';
 import { CopyleaksTranslateService } from './services/copyleaks-translate.service';
-import { NotificationsComponent } from './components/notifications/notifications.component';
-import { NotificationsDialogComponent } from './components/notifications-dialog/notifications-dialog.component';
-import { AlertsComponent } from './components/alerts/alerts.component';
-import { AlertCardComponent } from './components/alert-card/alert-card.component';
+import { CopyleaksService } from './services/copyleaks.service';
 import { DirectionService } from './services/direction.service';
-import { ExcludePartialScanComponent } from './components/exclude-partial-scan/exclude-partial-scan.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
+import {
+	COPYLEAKS_CONFIG_INJECTION_TOKEN,
+	COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, DEFAULT_REPORT_CONFIG, DEFAULT_TEXT_CONFIG
+} from './utils/constants';
 @NgModule({
 	declarations: [
 		SpinnerComponent,
@@ -83,6 +81,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 		AlertsComponent,
 		AlertCardComponent,
 		ExcludePartialScanComponent,
+		CustomReportActionComponent,
 	],
 	imports: [
 		CommonModule,
@@ -119,7 +118,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 		{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
 	],
 	entryComponents: [OptionsDialogComponent, ResultsFilterDialogComponent, NotificationsDialogComponent],
-	exports: [CopyleaksReportComponent],
+	exports: [CopyleaksReportComponent, CustomReportActionComponent],
 })
 export class CopyleaksReportModule {
 	/**

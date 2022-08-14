@@ -121,3 +121,9 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	 */
 	ngOnDestroy() {}
 }
+
+@Component({
+	selector: 'cr-custom-report-action',
+	template: '<cr-expansion-panel-menu-item><ng-content></ng-content></cr-expansion-panel-menu-item>',
+})
+export class CustomReportActionComponent {}
