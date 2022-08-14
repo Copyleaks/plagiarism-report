@@ -60,7 +60,6 @@
 					<div fxLayout="row nowrap" fxLayoutAlign="center center" fxLayoutGap="1em">
 						<div fxLayout="row nowrap" *ngIf="!done" fxLayoutAlign="center center">
 							<div header>&zwnj;</div>
-							<!-- <mat-spinner title="Spinner" [diameter]="40"></mat-spinner> -->
 							<cls-spinner width="50px"></cls-spinner>
 						</div>
 						<div>
@@ -99,7 +98,6 @@
 		</div>
 
 		<!-- RESULTS FOUND -->
-		<!-- [style.color]="hiddenResultsCount? '#ff8400' : ''" -->
 		<div prop [style.cursor]="isAlertsView ? 'pointer' : ''" (click)="isAlertsView && showScanningResult()">
 			<div id="cr-hint-results-found"></div>
 			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
