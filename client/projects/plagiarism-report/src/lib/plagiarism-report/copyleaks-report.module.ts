@@ -54,7 +54,9 @@ import { CopyleaksService } from './services/copyleaks.service';
 import { DirectionService } from './services/direction.service';
 import {
 	COPYLEAKS_CONFIG_INJECTION_TOKEN,
-	COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, DEFAULT_REPORT_CONFIG, DEFAULT_TEXT_CONFIG
+	COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN,
+	DEFAULT_REPORT_CONFIG,
+	DEFAULT_TEXT_CONFIG,
 } from './utils/constants';
 @NgModule({
 	declarations: [
