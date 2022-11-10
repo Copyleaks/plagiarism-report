@@ -7,6 +7,8 @@ import {
 	CopyleaksTranslateService,
 	CopyleaksTranslations,
 	CopyleaksService,
+	DatabaseResultPreview,
+	RepositoryResultPreview,
 } from 'projects/plagiarism-report/src/public-api';
 import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { ResultsService } from '../../results.service';
@@ -392,7 +394,22 @@ export class ReportComponent implements OnInit, OnDestroy {
 					}
 				});
 
-			const { internet, database, batch, repositories } = meta.results;
+			let disableStudentInternalAccess = true;
+			let database: DatabaseResultPreview[] = [];
+			let repositories: RepositoryResultPreview[] = [];
+			if (disableStudentInternalAccess) {
+				database = meta?.results?.database;
+				repositories = meta?.results?.repositories;
+				let z = [...database, ...(repositories && repositories.length ? repositories : [])].map(item => {
+					return {
+						id: item.id,
+						result: null,
+						disabled: true,
+					} as ResultItem;
+				});
+				this.copyleaksService.pushScanResult(z);
+			}
+			const { internet, batch } = meta.results;
 			const requests = [
 				...internet,
 				...database,
@@ -414,6 +431,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 								({
 									id: item.id,
 									result: { ...result, component: this.useResultComponent() ? ScanResultComponent : null },
+									disabled: false,
 								} as ResultItem)
 						),
 						catchError(() => of({ id: item.id, result: null }))

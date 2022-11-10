@@ -3,17 +3,17 @@
 	<div
 		class="title-icon"
 		[matTooltip]="
-			!loading && result === null
+			!loading && result === null && !disabled
 				? translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR
 				: !loading && result !== null
 				? previewIconToolTip
 				: null
 		">
 		<!-- when result is loading -->
-		<mat-spinner title="Spinner" style="zoom: 0.2" *ngIf="loading"></mat-spinner>
+		<mat-spinner title="Spinner" style="zoom: 0.2" *ngIf="loading && result === null && disabled"></mat-spinner>
 
 		<!-- when result has error -->
-		<mat-icon class="error-icon" *ngIf="!loading && result === null" color="warn">error</mat-icon>
+		<mat-icon class="error-icon" *ngIf="!loading && result === null && !disabled" color="warn">error</mat-icon>
 
 		<!-- when result is loaded successfully and it is internal result-->
 		<mat-icon class="success-icon" *ngIf="!loading && result !== null && !preview.url" style="opacity: 0.5">
@@ -23,6 +23,7 @@
 				<ng-container *ngSwitchDefault>storage</ng-container>
 			</ng-container>
 		</mat-icon>
+		<mat-icon class="success-icon" *ngIf="disabled" style="opacity: 0.5">dns</mat-icon>
 
 		<!-- when result is loaded successfully and it is external result-->
 		<img
@@ -38,7 +39,11 @@
 
 	<!-- default body design -->
 	<ng-container *ngIf="!preview?.component">
-		<div header class="title" [class]="'title-' + directionService.dir">
+		<div
+			header
+			class="title"
+			[style.cursor]="!result && disabled ? 'default' : 'pointer'"
+			[class]="'title-' + directionService.dir">
 			<div (click)="onTitleClick()">
 				<span
 					[ngClass]="{ 'ellipsis-flex-text': preview.type === eResultPreviewType.Internet }"
@@ -91,7 +96,11 @@
 			<span *ngIf="previewDate">{{ previewDate }}</span>
 		</p>
 
-		<p body (click)="onTitleClick()" *ngIf="preview.introduction">
+		<p
+			body
+			(click)="onTitleClick()"
+			*ngIf="preview.introduction"
+			[style.cursor]="!result && disabled ? 'default' : 'pointer'">
 			{{ preview.introduction }}
 		</p>
 	</ng-container>

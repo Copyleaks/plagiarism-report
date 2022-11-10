@@ -7,6 +7,7 @@ import { ExcludeReason } from '.';
 export interface ResultItem {
 	id: string;
 	result?: ScanResult;
+	disabled?: boolean;
 }
 
 /** Simple range type */

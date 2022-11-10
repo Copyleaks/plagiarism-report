@@ -54,6 +54,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	public similarWords$: Observable<number>;
 	public resultCardActions: CopyleaksResultCardAction[] = [];
 	public translations: CopyleaksTranslations;
+	public disabled: boolean;
 	private componentInstance: ResultPreviewComponentBase;
 
 	get urlDomain() {
@@ -221,6 +222,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 				this.source = source;
 				this.result = result.result;
 				this.loading = false;
+				this.disabled = result.disabled;
 				if (this.componentInstance) {
 					if (this.componentInstance.isLoading) {
 						this.componentInstance.isLoading(this.loading);

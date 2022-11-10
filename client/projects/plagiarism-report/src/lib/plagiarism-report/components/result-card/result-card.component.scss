@@ -19,7 +19,6 @@
 	.title {
 		display: flex;
 		font-weight: bold;
-		cursor: pointer;
 		word-wrap: break-word;
 		margin-top: -10px;
 		> div {
@@ -75,7 +74,6 @@
 	}
 
 	[body] {
-		cursor: pointer;
 		word-break: break-all;
 		word-break: break-word;
 		padding: 1px 12px;

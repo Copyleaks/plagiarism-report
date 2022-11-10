@@ -11,7 +11,7 @@ import {
 import {
 	COMPLETE_RESULT_VALIDATION_ERROR,
 	NEW_RESULT_VALIDATION_ERROR,
-	SCAN_RESULT_VALIDATION_ERROR,
+	// SCAN_RESULT_VALIDATION_ERROR,
 	SCAN_SOURCE_VALIDATION_ERROR,
 	VERSION_VALIDATION_ERROR,
 	DEFAULT_REPORT_CONFIG,
@@ -150,8 +150,8 @@ export class CopyleaksService {
 				throw new Error(`Argument "id" must be a string`);
 			}
 			if (result != null && !this.isScanResult(result)) {
-				this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
-				return;
+				// this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
+				// return;
 			}
 		}
 		this._results$.next(results);
