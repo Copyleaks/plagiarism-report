@@ -2,15 +2,9 @@
 	<!-- card-icon -->
 	<div
 		class="title-icon"
-		[matTooltip]="
-			!loading && result === null && !disabled
-				? translations?.RESULT_CARD?.RESULT_ERROR || messages.RESULT_PUSH_ERROR
-				: !loading && result !== null
-				? previewIconToolTip
-				: null
-		">
+		[matTooltip]="titleIconTooltip">
 		<!-- when result is loading -->
-		<mat-spinner title="Spinner" style="zoom: 0.2" *ngIf="loading && result === null && disabled"></mat-spinner>
+		<mat-spinner title="Spinner" style="zoom: 0.2" *ngIf="loading"></mat-spinner>
 
 		<!-- when result has error -->
 		<mat-icon class="error-icon" *ngIf="!loading && result === null && !disabled" color="warn">error</mat-icon>
@@ -23,8 +17,8 @@
 				<ng-container *ngSwitchDefault>storage</ng-container>
 			</ng-container>
 		</mat-icon>
-		<mat-icon class="success-icon" *ngIf="disabled" style="opacity: 0.5">dns</mat-icon>
-
+		<!-- when result is disabled (locked) -->
+		<mat-icon class="success-icon" *ngIf="disabled" style="opacity: 0.5">lock</mat-icon>
 		<!-- when result is loaded successfully and it is external result-->
 		<img
 			role="presentation"

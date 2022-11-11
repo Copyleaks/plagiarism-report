@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
-	CompleteResult,
-	NewResult,
-	ScanResult,
-	ScanSource,
-	ResultPreview,
-	ResultItem,
-	CopyleaksReportConfig,
+	CompleteResult, CopyleaksReportConfig, NewResult, ResultItem, ResultPreview, ScanResult,
+	ScanSource
 } from '../models';
 import {
-	COMPLETE_RESULT_VALIDATION_ERROR,
-	NEW_RESULT_VALIDATION_ERROR,
+	COMPLETE_RESULT_VALIDATION_ERROR, DEFAULT_REPORT_CONFIG, NEW_RESULT_VALIDATION_ERROR, SCAN_RESULT_VALIDATION_ERROR,
 	// SCAN_RESULT_VALIDATION_ERROR,
 	SCAN_SOURCE_VALIDATION_ERROR,
-	VERSION_VALIDATION_ERROR,
-	DEFAULT_REPORT_CONFIG,
+	VERSION_VALIDATION_ERROR
 } from '../utils/constants';
 
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 //import { exit } from 'process';
 
@@ -150,8 +143,8 @@ export class CopyleaksService {
 				throw new Error(`Argument "id" must be a string`);
 			}
 			if (result != null && !this.isScanResult(result)) {
-				// this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
-				// return;
+				this.showExtendedError(SCAN_RESULT_VALIDATION_ERROR, result);
+				return;
 			}
 		}
 		this._results$.next(results);

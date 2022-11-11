@@ -99,6 +99,16 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 		return '';
 	}
 
+	get titleIconTooltip() {
+		return !this.loading && this.result === null && !this.disabled
+			? this.translations?.RESULT_CARD?.RESULT_ERROR || this.messages.RESULT_PUSH_ERROR
+			: !this.loading && this.result !== null
+			? this.previewIconToolTip
+			: !this.loading && this.result === null && this.disabled
+			? 'You do not have access to this result'
+			: null;
+	}
+
 	constructor(
 		private translatesService: CopyleaksTranslateService,
 		private componentFactoryResolver: ComponentFactoryResolver,

@@ -1,23 +1,18 @@
 /* tslint:disable */
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-	CopyleaksReportConfig,
-	DEFAULT_REPORT_CONFIG,
-	ResultItem,
-	CopyleaksTranslateService,
-	CopyleaksTranslations,
-	CopyleaksService,
-	DatabaseResultPreview,
-	RepositoryResultPreview,
-} from 'projects/plagiarism-report/src/public-api';
-import { Router, ActivatedRoute, ParamMap, Params } from '@angular/router';
-import { ResultsService } from '../../results.service';
-import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
-import { distinctUntilChanged, takeUntil, retry, take, map, catchError, delay } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import deepEqual from 'deep-equal';
-import { zip, from, interval, of, forkJoin } from 'rxjs';
-import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
+import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
+import {
+	CopyleaksReportConfig, CopyleaksService, CopyleaksTranslateService,
+	CopyleaksTranslations, DEFAULT_REPORT_CONFIG,
+	ResultItem
+} from 'projects/plagiarism-report/src/public-api';
+import { forkJoin, from, interval, of, zip } from 'rxjs';
+import { catchError, delay, distinctUntilChanged, map, retry, take, takeUntil } from 'rxjs/operators';
 import { ReportScanSummeryComponent } from '../../components/report-scan-summery/report-scan-summery.component';
+import { ScanResultComponent } from '../../components/scan-result/scan-result.component';
+import { ResultsService } from '../../results.service';
 
 const USE_CUSTOM_RESULT_COMPONENT = false;
 
@@ -394,22 +389,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 					}
 				});
 
-			let disableStudentInternalAccess = true;
-			let database: DatabaseResultPreview[] = [];
-			let repositories: RepositoryResultPreview[] = [];
-			if (disableStudentInternalAccess) {
-				database = meta?.results?.database;
-				repositories = meta?.results?.repositories;
-				let z = [...database, ...(repositories && repositories.length ? repositories : [])].map(item => {
-					return {
-						id: item.id,
-						result: null,
-						disabled: true,
-					} as ResultItem;
-				});
-				this.copyleaksService.pushScanResult(z);
-			}
-			const { internet, batch } = meta.results;
+			let lockInternalResult = true;
+			const { internet, batch, database, repositories } = meta.results;
 			const requests = [
 				...internet,
 				...database,
@@ -421,11 +402,19 @@ export class ReportComponent implements OnInit, OnDestroy {
 						!(meta.filters && meta.filters.resultIds && meta.filters.resultIds.length) ||
 						!meta.filters.resultIds.includes(res.id)
 				)
-				.map(item =>
-					this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
+				.map(item => {
+					// is locked result.
+					if (
+						lockInternalResult &&
+						[...database, ...(repositories && repositories.length ? repositories : [])].find(d => d.id == item.id)
+					) {
+						return of({ id: item.id, result: null, disabled: true });
+					}
+
+					return this.resultsService.newResult(meta.scannedDocument.scanId, item.id).pipe(
 						takeUntil(destroy$),
 						retry(5),
-						// delay(5000),
+						delay(5000),
 						map(
 							result =>
 								({
@@ -435,8 +424,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 								} as ResultItem)
 						),
 						catchError(() => of({ id: item.id, result: null }))
-					)
-				);
+					);
+				});
 			forkJoin(requests).subscribe(items => {
 				this.copyleaksService.pushScanResult(items);
 			});
