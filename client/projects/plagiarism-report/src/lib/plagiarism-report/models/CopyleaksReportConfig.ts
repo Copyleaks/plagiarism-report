@@ -42,6 +42,4 @@ export interface CopyleaksReportConfig {
 	resultsOverlayComponent?: Type<any>;
 	/** The passed component will be displayed on scan summary section at the properties bar when the scan is done */
 	scanSummaryComponent?: Type<IScanSummeryComponent>;
-	// /** The disable state will prevent student to access internal db & repository results **/
-	// disableStudentInternalAccess?: boolean;
 }
