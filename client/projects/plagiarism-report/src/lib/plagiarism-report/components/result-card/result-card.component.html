@@ -1,8 +1,6 @@
 <ng-container *ngIf="preview; else skeleton__card">
 	<!-- card-icon -->
-	<div
-		class="title-icon"
-		[matTooltip]="titleIconTooltip">
+	<div class="title-icon" [matTooltip]="titleIconTooltip">
 		<!-- when result is loading -->
 		<mat-spinner title="Spinner" style="zoom: 0.2" *ngIf="loading"></mat-spinner>
 

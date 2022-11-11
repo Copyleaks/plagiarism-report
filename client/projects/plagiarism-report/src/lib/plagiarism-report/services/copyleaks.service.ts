@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import {
-	CompleteResult, CopyleaksReportConfig, NewResult, ResultItem, ResultPreview, ScanResult,
-	ScanSource
+	CompleteResult,
+	CopyleaksReportConfig,
+	NewResult,
+	ResultItem,
+	ResultPreview,
+	ScanResult,
+	ScanSource,
 } from '../models';
 import {
-	COMPLETE_RESULT_VALIDATION_ERROR, DEFAULT_REPORT_CONFIG, NEW_RESULT_VALIDATION_ERROR, SCAN_RESULT_VALIDATION_ERROR,
+	COMPLETE_RESULT_VALIDATION_ERROR,
+	DEFAULT_REPORT_CONFIG,
+	NEW_RESULT_VALIDATION_ERROR,
+	SCAN_RESULT_VALIDATION_ERROR,
 	// SCAN_RESULT_VALIDATION_ERROR,
 	SCAN_SOURCE_VALIDATION_ERROR,
-	VERSION_VALIDATION_ERROR
+	VERSION_VALIDATION_ERROR,
 } from '../utils/constants';
 
 import { BehaviorSubject, Subject } from 'rxjs';

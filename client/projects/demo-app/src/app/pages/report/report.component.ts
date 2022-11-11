@@ -4,9 +4,12 @@ import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import deepEqual from 'deep-equal';
 import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
 import {
-	CopyleaksReportConfig, CopyleaksService, CopyleaksTranslateService,
-	CopyleaksTranslations, DEFAULT_REPORT_CONFIG,
-	ResultItem
+	CopyleaksReportConfig,
+	CopyleaksService,
+	CopyleaksTranslateService,
+	CopyleaksTranslations,
+	DEFAULT_REPORT_CONFIG,
+	ResultItem,
 } from 'projects/plagiarism-report/src/public-api';
 import { forkJoin, from, interval, of, zip } from 'rxjs';
 import { catchError, delay, distinctUntilChanged, map, retry, take, takeUntil } from 'rxjs/operators';
