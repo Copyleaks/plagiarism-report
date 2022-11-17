@@ -4,9 +4,12 @@ import { ActivatedRoute, ParamMap, Params, Router } from '@angular/router';
 import deepEqual from 'deep-equal';
 import { untilDestroy } from 'projects/plagiarism-report/src/lib/shared/operators/untilDestroy';
 import {
-	CopyleaksReportConfig, CopyleaksService, CopyleaksTranslateService,
-	CopyleaksTranslations, DEFAULT_REPORT_CONFIG,
-	ResultItem
+	CopyleaksReportConfig,
+	CopyleaksService,
+	CopyleaksTranslateService,
+	CopyleaksTranslations,
+	DEFAULT_REPORT_CONFIG,
+	ResultItem,
 } from 'projects/plagiarism-report/src/public-api';
 import { forkJoin, from, interval, of, zip } from 'rxjs';
 import { catchError, delay, distinctUntilChanged, map, retry, take, takeUntil } from 'rxjs/operators';
@@ -316,7 +319,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 	 */
 	simulateSync(scanId: string) {
 		const { onDestroy$: destroy$ } = this.copyleaksService;
-		const completeResult$ = this.resultsService.completeResult(scanId).pipe(takeUntil(destroy$), delay(5000), retry(3));
+		const completeResult$ = this.resultsService.completeResult(scanId).pipe(takeUntil(destroy$), retry(3));
 		const downloadedSource$ = this.resultsService.downloadedSource(scanId).pipe(takeUntil(destroy$), retry(3));
 		downloadedSource$.subscribe(source => this.copyleaksService.pushDownloadedSource(source));
 		completeResult$.subscribe(meta => {
