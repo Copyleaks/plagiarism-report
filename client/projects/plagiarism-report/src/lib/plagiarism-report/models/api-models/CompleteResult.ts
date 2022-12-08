@@ -104,7 +104,16 @@ export interface ResultPreviewBase {
 	url?: string | void;
 	component?: Type<ResultPreviewComponentBase>;
 	metadata?: ResultMetaData;
+	tags?: ResultTag[];
 }
+
+/** Type of tag for result preview tags */
+export interface ResultTag {
+	code: string;
+	title: string;
+	description: string;
+}
+
 /** Type for complete result meta data for scanned docuemnts and result preview */
 export interface ResultMetaData {
 	finalUrl?: string;
