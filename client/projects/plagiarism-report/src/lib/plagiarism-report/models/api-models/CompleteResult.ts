@@ -126,6 +126,12 @@ export interface ResultMetaData {
 	lastModificationDate?: string;
 	submissionDate?: string;
 	submittedBy?: string;
+	customMetadata?: ICustomMetaData[];
+}
+/** custom meta data */
+export interface ICustomMetaData {
+	key?: string;
+	value?: string;
 }
 
 /** result preview types  */
