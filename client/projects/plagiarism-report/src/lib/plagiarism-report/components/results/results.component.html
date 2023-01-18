@@ -1,11 +1,11 @@
 <cr-panel>
 	<cr-panel-header>
 		<!--  -->
-		<mat-spinner
+		<cls-spinner
+			style="margin-right: 8px"
 			title="Spinner"
 			*ngIf="previews?.length && isLoadingResults"
-			[diameter]="20"
-			style="margin-right: 8px"></mat-spinner>
+			width="20px"></cls-spinner>
 		<!--  -->
 		{{ translations?.RESULTS_SECTION?.TITLE || 'Results' }}
 		<ng-container *ngIf="focusedMatch">

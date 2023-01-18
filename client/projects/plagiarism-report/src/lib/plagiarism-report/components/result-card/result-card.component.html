@@ -2,7 +2,7 @@
 	<!-- card-icon -->
 	<div class="title-icon" [matTooltip]="titleIconTooltip">
 		<!-- when result is loading -->
-		<mat-spinner title="Spinner" style="zoom: 0.2" *ngIf="loading"></mat-spinner>
+		<cls-spinner *ngIf="loading" title="Spinner" width="20px"></cls-spinner>
 
 		<!-- when result has error -->
 		<mat-icon class="error-icon" *ngIf="!loading && result === null && !disabled" color="warn">error</mat-icon>
@@ -123,7 +123,7 @@
 			<!--  -->
 			<ng-container *ngIf="!source">
 				<div>
-					<mat-spinner title="Spinner" [diameter]="30"></mat-spinner>
+					<cls-spinner title="Spinner" width="30px"></cls-spinner>
 				</div>
 			</ng-container>
 			<!--  -->
