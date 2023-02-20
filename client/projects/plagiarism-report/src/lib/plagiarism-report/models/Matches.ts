@@ -45,6 +45,8 @@ export enum MatchType {
 
 	// custom
 	suspectedCharacterReplacement = 100,
+	// custom
+	aiText = 101,
 }
 
 /**

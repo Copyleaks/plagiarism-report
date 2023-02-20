@@ -99,7 +99,8 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	get AlertPreviewViewMode() {
 		return (
 			this.viewModeService?.reportViewMode$?.value === EReportViewModel.Alerts &&
-			this.viewModeService?.selectedAlert?.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE
+			(this.viewModeService?.selectedAlert?.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE ||
+				this.viewModeService?.selectedAlert?.code === ALERTS.SUSPECTED_AI_TEXT_DETECTED)
 		);
 	}
 	/**

@@ -1,7 +1,9 @@
 import {
 	Comparison,
 	ComparisonKey,
+	CompleteResultNotificationAlert,
 	ContentKey,
+	CopyleaksReportOptions,
 	EndpointKind,
 	Match,
 	MatchEndpoint,
@@ -10,9 +12,8 @@ import {
 	ScanSource,
 	SlicedMatch,
 	SubjectResultKey,
-	CopyleaksReportOptions,
-	CompleteResultNotificationAlert,
 } from '../models';
+import { AIMatch, AIScanResult, AIScanResultMatch, EMatchClassification } from '../models/AIMatch';
 
 /** A reduce function to extrace `MatchEndpoint`s */
 const extractMatchEndpoints = (acc: MatchEndpoint[], curr: Match): MatchEndpoint[] => {
@@ -361,6 +362,7 @@ export const processSuspectedCharacterMatches = (
 	source: ScanSource,
 	alertToMatch: CompleteResultNotificationAlert
 ): SlicedMatch[][] => {
+	debugger;
 	const matches: Match[] = [];
 	const data: {
 		starts: number[];
@@ -376,6 +378,41 @@ export const processSuspectedCharacterMatches = (
 			});
 		}
 	}
+
+	const grouped = matches;
+	const filled = fillMissingGaps(grouped, source.text.value.length);
+	return paginateMatches(source.text.value, source.text.pages.startPosition, filled);
+};
+
+/**
+ * This function will process notifications and generate a list of match intervals that will help
+ * highlight the source text.
+ * @param source the scan source
+ * @param alertToMatch alert to process
+ */
+export const processAICheatingMatches = (
+	source: ScanSource,
+	alertToMatch: CompleteResultNotificationAlert
+): SlicedMatch[][] => {
+	const matches: Match[] = [];
+	var scanResult = JSON.parse(alertToMatch.additionalData) as AIScanResult;
+	scanResult?.results?.forEach(result => {
+		result?.matches?.forEach((match: AIScanResultMatch) => {
+			const mappedMatches = match?.text.chars?.starts?.map(
+				(start, idx) =>
+					({
+						start,
+						end: start + match.text.chars.lengths[idx],
+						type: result.classification == EMatchClassification.AI ? MatchType.aiText : MatchType.none,
+						ids: [],
+						classification: result.classification,
+						probability: result.probability,
+						totalWords: match.text.words.lengths[idx],
+					} as AIMatch)
+			);
+			if (mappedMatches) matches.push(...mappedMatches);
+		});
+	});
 
 	const grouped = matches;
 	const filled = fillMissingGaps(grouped, source.text.value.length);

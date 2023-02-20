@@ -1,27 +1,27 @@
 import {
 	ChangeDetectorRef,
 	Component,
+	ComponentFactoryResolver,
+	ElementRef,
 	HostBinding,
 	OnDestroy,
 	OnInit,
-	ComponentFactoryResolver,
 	ViewChild,
 	ViewContainerRef,
-	ElementRef,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { combineLatest } from 'rxjs';
+import { delay, filter } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { Match, ResultPreview, CopyleaksReportConfig } from '../../models';
+import { IMAGES } from '../../assets/images';
+import { CopyleaksReportConfig, Match, ResultPreview } from '../../models';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
+import { CopyleaksService } from '../../services/copyleaks.service';
+import { DirectionService } from '../../services/direction.service';
 import { HighlightService } from '../../services/highlight.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
-import { IMAGES } from '../../assets/images';
-import { CopyleaksService } from '../../services/copyleaks.service';
-import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
-import { DirectionService } from '../../services/direction.service';
-import { delay, filter } from 'rxjs/operators';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',

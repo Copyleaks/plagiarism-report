@@ -30,8 +30,18 @@
 		{{ alert.message }}
 	</div>
 
-	<div class="actions" *ngIf="alert.helpLink || alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
-		<ng-container *ngIf="alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE">
+	<div
+		class="actions"
+		*ngIf="
+			alert.helpLink ||
+			alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE ||
+			alert.code == alertsConstants.SUSPECTED_AI_TEXT_DETECTED
+		">
+		<ng-container
+			*ngIf="
+				alert.code == alertsConstants.SUSPECTED_CHARACTER_REPLACEMENT_CODE ||
+				alert.code == alertsConstants.SUSPECTED_AI_TEXT_DETECTED
+			">
 			<button mat-stroked-button *ngIf="!isSelected" style="font-weight: bolder" (click)="toggleAlertPreview(alert)">
 				<mat-icon>visibility</mat-icon>
 				Preview

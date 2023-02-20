@@ -242,6 +242,8 @@ export class MatchService implements OnDestroy {
 			let text: SlicedMatch[][];
 			if (this.viewModeService?.selectedAlert?.code === ALERTS.SUSPECTED_CHARACTER_REPLACEMENT_CODE) {
 				text = helpers.processSuspectedCharacterMatches(source, this.viewModeService.selectedAlert);
+			} else if (this.viewModeService?.selectedAlert?.code === ALERTS.SUSPECTED_AI_TEXT_DETECTED) {
+				text = helpers.processAICheatingMatches(source, this.viewModeService.selectedAlert);
 			} else {
 				text = helpers.processSourceText([], settings, source);
 			}
