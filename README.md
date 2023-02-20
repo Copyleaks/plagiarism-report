@@ -255,8 +255,8 @@ You can use it like so:
 
 **My website is not using Angular 8+, can I use this component?**
 
-No, this component is supported by Angular `v8.x`+.
-As an alternative you can create an Angular web application that uses this library, and include it in your website using routing. This solution should work without any framework or with other web framework/libraries such as React, AngularJs.
+No, this component requires Angular 'v8.x'+.
+Alternatively, you can create an Angular web application that uses this library and include it in your website using routing. This solution should work with any web framework.
 
 **Can I modify this component for my own usage?**
 
