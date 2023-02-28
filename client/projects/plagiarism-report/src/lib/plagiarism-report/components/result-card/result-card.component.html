@@ -11,13 +11,16 @@
 		<mat-icon class="error-icon" *ngIf="!loading && result === null" color="warn">error</mat-icon>
 
 		<!-- when result is loaded successfully and it is internal result-->
-		<mat-icon class="success-icon" *ngIf="!loading && !disabled && result !== null && !preview.url" style="opacity: 0.5">
+		<mat-icon
+			class="success-icon"
+			*ngIf="!loading && !disabled && result !== null && !preview.url"
+			style="opacity: 0.5">
 			<ng-container [ngSwitch]="preview.type">
 				<ng-container *ngSwitchCase="eResultPreviewType.Batch">dns</ng-container>
 				<ng-container *ngSwitchCase="eResultPreviewType.Database">dns</ng-container>
 				<ng-container *ngSwitchDefault>storage</ng-container>
 			</ng-container>
-		</mat-icon>		
+		</mat-icon>
 
 		<!-- when result is loaded successfully and it is external result-->
 		<img
@@ -36,7 +39,7 @@
 		<div
 			header
 			class="title"
-			[style.cursor]="!result && disabled ? 'default' : 'pointer'"
+			[style.cursor]="disabled ? 'default' : 'pointer'"
 			[class]="'title-' + directionService.dir">
 			<div (click)="onTitleClick()">
 				<span
@@ -90,11 +93,7 @@
 			<span *ngIf="previewDate">{{ previewDate }}</span>
 		</p>
 
-		<p
-			body
-			(click)="onTitleClick()"
-			*ngIf="preview.introduction"
-			[style.cursor]="!result && disabled ? 'default' : 'pointer'">
+		<p body (click)="onTitleClick()" *ngIf="preview.introduction" [style.cursor]="disabled ? 'default' : 'pointer'">
 			{{ preview.introduction }}
 		</p>
 	</ng-container>

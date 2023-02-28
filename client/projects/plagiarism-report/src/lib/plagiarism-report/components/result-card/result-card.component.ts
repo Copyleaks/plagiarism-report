@@ -100,11 +100,11 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	}
 
 	get titleIconTooltip() {
-		return !this.loading && this.result === null && !this.disabled
+		return !this.loading && this.result === null
 			? this.translations?.RESULT_CARD?.RESULT_ERROR || this.messages.RESULT_PUSH_ERROR
-			: !this.loading && this.result !== null
+			: !this.loading && this.result !== null && !this.disabled
 			? this.previewIconToolTip
-			: !this.loading && this.result === null && this.disabled
+			: !this.loading && this.disabled
 			? 'You do not have access to this result'
 			: null;
 	}
@@ -123,7 +123,7 @@ export class ResultCardComponent implements OnInit, OnDestroy {
 	 * Card click handler, will update the suspect id and switch to one-to-one view mode
 	 */
 	onTitleClick() {
-		if (this.result) {
+		if (this.result && !this.disabled) {
 			this.reportService.configure({ viewMode: 'one-to-one', suspectId: this.preview.id });
 		}
 	}
