@@ -6,7 +6,7 @@
 	},
 	"license": "SEE LICENSE IN LICENSE.md",
 	"homepage": "https://api.copyleaks.com",
-	"version": "4.1.19",
+	"version": "4.1.20",
 	"peerDependencies": {
 		"@angular/common": "^13.1.1",
 		"@angular/core": "^13.1.1",
