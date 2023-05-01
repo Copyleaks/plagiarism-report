@@ -4,11 +4,9 @@
 
 This allows you to view Copyleaks plagiarism report on your website. The report is based on Copyleaks scan results you downloaded via [Copyleaks API][api]. By using this component you can view the report anytime without being restricted by the Copyleaks expiration policy and control access policy to the information for your users.
 
-## [Live demo][demo]
+## [Demo][demo:repo]
 
 ![](https://app.copyleaks.com/assets/images/shared/opening-message-new.gif)
-
-[![demo:img]][demo:edit]
 
 ## Setup instructions
 [<img src="https://user-images.githubusercontent.com/58811253/163325328-0cdb2900-9bff-45d1-86e3-0a53fc15e64c.png" width="50%">](https://player.vimeo.com/video/698567593?h=dca8fd648a "Copyleaks plagiarism report guide")
@@ -278,7 +276,6 @@ The [VPAT report (PDF)](https://copyleaks.com/accessibility/) can be downloaded 
 [api:submit:file]: https://api.copyleaks.com/documentation/v3/education/submit/file
 [copyleaks]: https://copyleaks.com
 [demo]: https://codesandbox.io/s/github/Copyleaks/plagiarism-report-demo/tree/master/?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark&view=preview
-[demo:img]: https://codesandbox.io/static/img/play-codesandbox.svg
-[demo:edit]: https://codesandbox.io/s/github/Copyleaks/plagiarism-report-demo/tree/master/?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fapp%2Fapp.component.ts&theme=dark&view=preview
+[demo:repo]: https://github.com/Copyleaks/plagiarism-report-demo
 [npm:page]: https://www.npmjs.com/package/@copyleaks/plagiarism-report
 [npm:badge]: https://img.shields.io/npm/v/@copyleaks/plagiarism-report.svg?style=flat-square
