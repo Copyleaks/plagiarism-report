@@ -61,7 +61,12 @@
 					{{ suspect && (suspect.text.value | slice: pages[currentPage - 1]:pages[currentPage]) }}
 				</ng-template>
 
-				<iframe title="Document" fxFlex [fxShow]="hasHtml && isHtml" cr-suspect-html-helper></iframe>
+				<iframe
+					sandbox="allow-scripts"
+					title="Document"
+					fxFlex
+					[fxShow]="hasHtml && isHtml"
+					cr-suspect-html-helper></iframe>
 			</div>
 		</div>
 

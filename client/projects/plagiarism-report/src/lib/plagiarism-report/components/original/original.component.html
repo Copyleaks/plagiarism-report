@@ -118,10 +118,18 @@
 				</ng-template>
 
 				<!-- html for one-to-many -->
-				<iframe title="Original Document" [fxShow]="hasHtml && isHtml && isOneToMany" cr-original-html-helper></iframe>
+				<iframe
+					sandbox="allow-scripts"
+					title="Original Document"
+					[fxShow]="hasHtml && isHtml && isOneToMany"
+					cr-original-html-helper></iframe>
 
 				<!-- html for one to one -->
-				<iframe title="Source Document" [fxShow]="hasHtml && isHtml && !isOneToMany" cr-source-html-helper></iframe>
+				<iframe
+					sandbox="allow-scripts"
+					title="Source Document"
+					[fxShow]="hasHtml && isHtml && !isOneToMany"
+					cr-source-html-helper></iframe>
 			</div>
 		</div>
 

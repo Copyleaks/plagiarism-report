@@ -19,8 +19,6 @@ export abstract class HtmlHelperBase {
 	protected matches: Match[];
 	/** sets the seamsless attribute to the iframe */
 	@HostBinding('attr.seamless') readonly seamless = true;
-	/** sets the sandbox attribute to the iframe */
-	@HostBinding('attr.sandbox') readonly sandbox = 'allow-scripts';
 
 	constructor(
 		protected renderer: Renderer2,
