@@ -4,42 +4,37 @@
 		<div left role="navigation">
 			<mat-list>
 				<div mat-subheader style="color: #646464">DEMOS</div>
-				<mat-list-item [routerLink]="'demo1/default'">
+				<mat-list-item routerLink="demo1/report/bundle">
 					<button
 						role="button"
-						title="Default"
+						title="Bundle"
 						mat-raised-button
 						style="width: 100%; background-color: #1378ab"
-						[routerLink]="'demo1/default'"
+						routerLink="demo1/report/bundle"
 						color="primary">
-						Default
+						Bundle
 					</button>
 				</mat-list-item>
-				<mat-list-item [routerLink]="'demo2/filter'">
+				<mat-list-item routerLink="demo2/report/ai">
 					<button
 						role="button"
-						title="Include Filter"
+						title="AI Only"
 						mat-raised-button
 						style="width: 100%; background-color: #cf1204"
-						[routerLink]="'demo2/filter'"
+						routerLink="demo2/report/ai"
 						color="warn">
-						Include Filter
+						AI Only
 					</button>
 				</mat-list-item>
-				<mat-list-item [routerLink]="'demo1/uxuiglpkdgr3wop9'">
+				<mat-list-item routerLink="demo3/report/plagiarism">
 					<button
 						role="button"
-						title="Include Alerts"
+						title="Plagiarism"
 						mat-raised-button
 						style="width: 100%; background-color: #cf1204"
-						[routerLink]="'demo1/uxuiglpkdgr3wop9'"
+						routerLink="demo3/report/plagiarism"
 						color="warn">
-						Include Alerts
-					</button>
-				</mat-list-item>
-				<mat-list-item routerLink="main">
-					<button role="button" title="Main Page" mat-raised-button style="width: 100%" routerLink="main">
-						Main Page
+						Plagiarism Only
 					</button>
 				</mat-list-item>
 			</mat-list>

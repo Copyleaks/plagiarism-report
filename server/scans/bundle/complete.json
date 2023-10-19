@@ -1,0 +1,162 @@
+{
+  "scannedDocument": {
+    "scanId": "bundle",
+    "totalWords": 3860,
+    "totalExcluded": 0,
+    "credits": 16,
+    "expectedCredits": 16,
+    "creationTime": "2023-10-18T14:17:09.667805Z",
+    "metadata": {
+      "finalUrl": null,
+      "canonicalUrl": null,
+      "author": null,
+      "organization": null,
+      "filename": "aiandhuman.txt",
+      "publishDate": null,
+      "creationDate": null,
+      "lastModificationDate": null,
+      "submissionDate": null,
+      "submittedBy": null,
+      "submitterAuthorId": null,
+      "customMetadata": null
+    },
+    "enabled": {
+      "plagiarismDetection": true,
+      "aiDetection": true
+    }
+  },
+  "results": {
+    "internet": [],
+    "database": [
+      {
+        "isLocked": false,
+        "scanId": null,
+        "id": "1f47c571cc",
+        "title": "Copyleaks Internal Database",
+        "introduction": "No introduction available.",
+        "matchedWords": 30,
+        "identicalWords": 8,
+        "similarWords": 0,
+        "paraphrasedWords": 22,
+        "metadata": {
+          "finalUrl": null,
+          "canonicalUrl": null,
+          "author": null,
+          "organization": null,
+          "filename": null,
+          "publishDate": null,
+          "creationDate": null,
+          "lastModificationDate": null,
+          "submissionDate": null,
+          "submittedBy": null,
+          "submitterAuthorId": null,
+          "customMetadata": []
+        },
+        "tags": []
+      },
+      {
+        "isLocked": false,
+        "scanId": null,
+        "id": "59a9d15d25",
+        "title": "Copyleaks Internal Database",
+        "introduction": "No introduction available.",
+        "matchedWords": 50,
+        "identicalWords": 0,
+        "similarWords": 0,
+        "paraphrasedWords": 50,
+        "metadata": {
+          "finalUrl": null,
+          "canonicalUrl": null,
+          "author": null,
+          "organization": null,
+          "filename": null,
+          "publishDate": null,
+          "creationDate": null,
+          "lastModificationDate": null,
+          "submissionDate": null,
+          "submittedBy": null,
+          "submitterAuthorId": null,
+          "customMetadata": []
+        },
+        "tags": []
+      },
+      {
+        "isLocked": false,
+        "scanId": null,
+        "id": "ddb015e2b4",
+        "title": "Copyleaks Internal Database",
+        "introduction": "No introduction available.",
+        "matchedWords": 3860,
+        "identicalWords": 3860,
+        "similarWords": 0,
+        "paraphrasedWords": 0,
+        "metadata": {
+          "finalUrl": null,
+          "canonicalUrl": null,
+          "author": null,
+          "organization": null,
+          "filename": null,
+          "publishDate": null,
+          "creationDate": null,
+          "lastModificationDate": null,
+          "submissionDate": null,
+          "submittedBy": null,
+          "submitterAuthorId": null,
+          "customMetadata": []
+        },
+        "tags": []
+      },
+      {
+        "isLocked": false,
+        "scanId": null,
+        "id": "f4b9c8a456",
+        "title": "Copyleaks Internal Database",
+        "introduction": "No introduction available.",
+        "matchedWords": 3860,
+        "identicalWords": 3860,
+        "similarWords": 0,
+        "paraphrasedWords": 0,
+        "metadata": {
+          "finalUrl": null,
+          "canonicalUrl": null,
+          "author": null,
+          "organization": null,
+          "filename": null,
+          "publishDate": null,
+          "creationDate": null,
+          "lastModificationDate": null,
+          "submissionDate": null,
+          "submittedBy": null,
+          "submitterAuthorId": null,
+          "customMetadata": []
+        },
+        "tags": []
+      }
+    ],
+    "batch": [],
+    "repositories": [],
+    "score": {
+      "identicalWords": 3860,
+      "minorChangedWords": 0,
+      "relatedMeaningWords": 0,
+      "aggregatedScore": 100.0
+    }
+  },
+  "notifications": {
+    "alerts": [
+      {
+        "additionalData": "{\"results\":[{\"classification\":2,\"probability\":0.89558977,\"matches\":[{\"text\":{\"chars\":{\"starts\":[0],\"lengths\":[1469]},\"words\":{\"starts\":[0],\"lengths\":[261]}}}]},{\"classification\":1,\"probability\":0.57863295,\"matches\":[{\"text\":{\"chars\":{\"starts\":[1469],\"lengths\":[289]},\"words\":{\"starts\":[261],\"lengths\":[52]}}}]},{\"classification\":2,\"probability\":0.839808,\"matches\":[{\"text\":{\"chars\":{\"starts\":[1758],\"lengths\":[2870]},\"words\":{\"starts\":[313],\"lengths\":[513]}}}]},{\"classification\":1,\"probability\":0.56843835,\"matches\":[{\"text\":{\"chars\":{\"starts\":[4628],\"lengths\":[725]},\"words\":{\"starts\":[826],\"lengths\":[129]}}}]},{\"classification\":2,\"probability\":0.82967824,\"matches\":[{\"text\":{\"chars\":{\"starts\":[5353],\"lengths\":[2673]},\"words\":{\"starts\":[955],\"lengths\":[475]}}}]},{\"classification\":1,\"probability\":0.56839854,\"matches\":[{\"text\":{\"chars\":{\"starts\":[8026],\"lengths\":[725]},\"words\":{\"starts\":[1430],\"lengths\":[129]}}}]},{\"classification\":2,\"probability\":0.82959634,\"matches\":[{\"text\":{\"chars\":{\"starts\":[8751],\"lengths\":[2673]},\"words\":{\"starts\":[1559],\"lengths\":[475]}}}]},{\"classification\":1,\"probability\":0.5684461,\"matches\":[{\"text\":{\"chars\":{\"starts\":[11424],\"lengths\":[725]},\"words\":{\"starts\":[2034],\"lengths\":[129]}}}]},{\"classification\":2,\"probability\":0.88721764,\"matches\":[{\"text\":{\"chars\":{\"starts\":[12149],\"lengths\":[1857]},\"words\":{\"starts\":[2163],\"lengths\":[330]}}}]},{\"classification\":1,\"probability\":0.5786216,\"matches\":[{\"text\":{\"chars\":{\"starts\":[14006],\"lengths\":[289]},\"words\":{\"starts\":[2493],\"lengths\":[52]}}}]},{\"classification\":2,\"probability\":0.8991132,\"matches\":[{\"text\":{\"chars\":{\"starts\":[14295],\"lengths\":[1815]},\"words\":{\"starts\":[2545],\"lengths\":[329]}}}]},{\"classification\":1,\"probability\":0.56840384,\"matches\":[{\"text\":{\"chars\":{\"starts\":[16110],\"lengths\":[725]},\"words\":{\"starts\":[2874],\"lengths\":[129]}}}]},{\"classification\":2,\"probability\":0.8296852,\"matches\":[{\"text\":{\"chars\":{\"starts\":[16835],\"lengths\":[2673]},\"words\":{\"starts\":[3003],\"lengths\":[475]}}}]},{\"classification\":1,\"probability\":0.56841046,\"matches\":[{\"text\":{\"chars\":{\"starts\":[19508],\"lengths\":[725]},\"words\":{\"starts\":[3478],\"lengths\":[129]}}}]},{\"classification\":2,\"probability\":0.7501249,\"matches\":[{\"text\":{\"chars\":{\"starts\":[20233],\"lengths\":[1067]},\"words\":{\"starts\":[3607],\"lengths\":[186]}}}]},{\"classification\":1,\"probability\":0.57821685,\"matches\":[{\"text\":{\"chars\":{\"starts\":[21300],\"lengths\":[374]},\"words\":{\"starts\":[3793],\"lengths\":[67]}}}]}],\"summary\":{\"human\":0.21139896,\"ai\":0.78860104},\"modelVersion\":\"v3\",\"translationProvider\":0,\"scannedDocument\":{}}",
+        "code": "suspected-ai-text",
+        "helpLink": null,
+        "message": "We are unable to verify that the text was written by a human.",
+        "severity": 4,
+        "title": "Suspected Cheating: AI Text detected"
+      }
+    ]
+  },
+  "hasPdfReport": true,
+  "filters": null,
+  "status": 0,
+  "error": null,
+  "developerPayload": ""
+}

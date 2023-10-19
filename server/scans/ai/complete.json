@@ -1,0 +1,57 @@
+{
+  "scannedDocument": {
+    "scanId": "ai",
+    "totalWords": 292,
+    "totalExcluded": 0,
+    "credits": 2,
+    "expectedCredits": 2,
+    "creationTime": "2023-10-19T10:52:04.104616Z",
+    "metadata": {
+      "finalUrl": null,
+      "canonicalUrl": null,
+      "author": null,
+      "organization": null,
+      "filename": "your-file.html",
+      "publishDate": null,
+      "creationDate": null,
+      "lastModificationDate": null,
+      "submissionDate": null,
+      "submittedBy": null,
+      "submitterAuthorId": null,
+      "customMetadata": null
+    },
+    "enabled": {
+      "plagiarismDetection": false,
+      "aiDetection": true
+    }
+  },
+  "results": {
+    "internet": [],
+    "database": [],
+    "batch": [],
+    "repositories": [],
+    "score": {
+      "identicalWords": 0,
+      "minorChangedWords": 0,
+      "relatedMeaningWords": 0,
+      "aggregatedScore": 0.0
+    }
+  },
+  "notifications": {
+    "alerts": [
+      {
+        "additionalData": "{\"results\":[{\"classification\":2,\"probability\":0.9022339,\"matches\":[{\"text\":{\"chars\":{\"starts\":[0],\"lengths\":[2200]},\"words\":{\"starts\":[0],\"lengths\":[292]}}}]}],\"summary\":{\"human\":0.0,\"ai\":1.0},\"modelVersion\":\"v3\",\"translationProvider\":0,\"scannedDocument\":{}}",
+        "code": "suspected-ai-text",
+        "helpLink": null,
+        "message": "We are unable to verify that the text was written by a human.",
+        "severity": 4,
+        "title": "Suspected Cheating: AI Text detected"
+      }
+    ]
+  },
+  "hasPdfReport": true,
+  "filters": null,
+  "status": 0,
+  "error": null,
+  "developerPayload": ""
+}

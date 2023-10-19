@@ -4,7 +4,9 @@
 	[isPDFDownloading]="isPDFDownloading"
 	[hideCreationTime]="hideCreationTime"
 	[expanded]="config.propertiesExpanded != null ? config.propertiesExpanded : true"
-	(expandChange)="propertiesExpandChange.emit($event)">
+	(expandChange)="propertiesExpandChange.emit($event)"
+	(upgrade)="upgradeProduct.emit($event)"
+	[showUpgradeButton]="showProductUpgradeButton">
 	<ng-content select="cr-custom-report-action"></ng-content>
 </cr-properties>
 

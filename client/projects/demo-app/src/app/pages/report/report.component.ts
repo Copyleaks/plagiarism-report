@@ -9,6 +9,7 @@ import {
 	CopyleaksTranslateService,
 	CopyleaksTranslations,
 	DEFAULT_REPORT_CONFIG,
+	ECRPackageProducts,
 	ResultItem,
 } from 'projects/plagiarism-report/src/public-api';
 import { forkJoin, from, interval, of, zip } from 'rxjs';
@@ -392,7 +393,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 					}
 				});
 
-			let lockInternalResult = true;
+			let lockInternalResult = false;
 			const { internet, batch, database, repositories } = meta.results;
 			const requests = [
 				...internet,
@@ -453,6 +454,10 @@ export class ReportComponent implements OnInit, OnDestroy {
 
 	upgradePlan(recommendedPagesAmount: number) {
 		console.log(`upgrade plan, recommendedPagesAmount:${recommendedPagesAmount}`);
+	}
+
+	upgradeProduct(product: ECRPackageProducts) {
+		alert(`Upgraded product: ${ECRPackageProducts[product]}`);
 	}
 
 	help() {

@@ -7,6 +7,7 @@ import { ReportService } from './report.service';
 export enum EReportViewModel {
 	ScanningResult,
 	Alerts,
+	AIView
 }
 
 @Injectable()
@@ -14,15 +15,19 @@ export class ViewModeService implements OnDestroy {
 	private readonly _reportViewMode$ = new BehaviorSubject<EReportViewModel>(EReportViewModel.ScanningResult);
 	private _selectedAlert: CompleteResultNotificationAlert;
 	private _unsub = new Subject();
+
 	get reportViewMode$() {
 		return this._reportViewMode$;
 	}
+
 	get selectedAlert() {
 		return this._selectedAlert;
 	}
+
 	set selectedAlert(alert: CompleteResultNotificationAlert) {
 		this._selectedAlert = alert;
 	}
+
 	constructor(private reportService: ReportService) {
 		this.reportService.completeResult$
 			.pipe(
@@ -51,6 +56,7 @@ export class ViewModeService implements OnDestroy {
 				// }
 			});
 	}
+	
 	/**
 	 * change the view of the report
 	 * @param mode view mode

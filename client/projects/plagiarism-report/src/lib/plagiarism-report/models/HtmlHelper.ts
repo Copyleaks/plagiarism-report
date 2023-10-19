@@ -37,3 +37,7 @@ export interface MatchWarnEvent extends BasePostMessageEvent {
 export interface UpgradePlanEvent extends BasePostMessageEvent {
 	type: 'upgrade-plan';
 }
+export enum ECRPackageProducts {
+	plagiairsm,
+	ai,
+}

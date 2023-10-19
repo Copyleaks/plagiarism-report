@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
 const path = require("path");
-const bearerToken = "<<copyleaks api token>>";
+const bearerToken = "181D26BFA7795E388E80A0D3B23C9E99BF81591FE06F4F83F9A7610CD9DC07E2";
 
 function ensureDirectoryExistence(filePath) {
   var dirname = path.dirname(filePath);
@@ -61,7 +61,8 @@ if (args.length !== 1) {
   console.error("Error: Download should take exactly one argument which is a scan-id");
   process.exit(1);
 }
-const completePath = `scans/${args[0]}/complete.json`;
+const completePath = `${args[0]}/complete.json`;
+console.log(completePath);
 if (!fs.existsSync(completePath)) {
   throw new Error(`file: ${completePath} is missing`);
 }
