@@ -52,7 +52,7 @@ export class MatchService implements OnDestroy {
 				if (_timeout) {
 					clearTimeout(_timeout);
 				}
-				if (viewMode === EReportViewModel.Alerts) {
+				if (viewMode === EReportViewModel.Alerts || viewMode === EReportViewModel.AIView) {
 					this.processAlertMatches(options, source);
 				} else {
 					_timeout = setTimeout(

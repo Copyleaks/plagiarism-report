@@ -50,6 +50,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public hideCreationTime = false;
 	@Input()
 	public showProductUpgradeButton = false;
+	@Input()
+	public showAIContentProperty = true;
 
 	@Output()
 	public configChange = new EventEmitter<CopyleaksReportConfig>();

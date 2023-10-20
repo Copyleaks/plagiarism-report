@@ -336,52 +336,54 @@
 		</div>
 
 		<!-- % AI -->
-		<div
-			prop
-			id="cr-hint-results-score"
-			*ngIf="stats && !previewsLoading; else skeleton__prop"
-			[ngClass]="{
-				disabled_score: aiScore == null,
-				low: aiScore != null && aiScore <= 0.1,
-				medium: aiScore > 0.1 && aiScore <= 0.5,
-				high: aiScore > 0.5
-			}">
-			<div header>
-				<ng-container *ngIf="aiScore != null">{{ aiScore | percent: '1.0-1' }}</ng-container>
-				<ng-container *ngIf="aiScore == null">N/A</ng-container>
+		<ng-container *ngIf="showAIContentProperty">
+			<div
+				prop
+				id="cr-hint-results-score"
+				*ngIf="stats && !previewsLoading; else skeleton__prop"
+				[ngClass]="{
+					disabled_score: aiScore == null,
+					low: aiScore != null && aiScore <= 0.1,
+					medium: aiScore > 0.1 && aiScore <= 0.5,
+					high: aiScore > 0.5
+				}">
+				<div header>
+					<ng-container *ngIf="aiScore != null">{{ aiScore | percent: '1.0-1' }}</ng-container>
+					<ng-container *ngIf="aiScore == null">N/A</ng-container>
+				</div>
+				<div>
+					<span>
+						{{ translations?.SCAN_PROPERTIES_SECTION?.AiContent || 'ai content' }}{{ isShowingPartialStats ? '*' : '' }}
+					</span>
+				</div>
+				<!-- View -->
+				<button
+					*ngIf="reportViewMode !== eReportViewMode.AIView && isPlagiarismEnabled && isAiDetectionEnabled"
+					class="btn-view"
+					mat-stroked-button
+					color="basic"
+					(click)="showAiView()">
+					<mat-icon class="mat-18">visibility</mat-icon>
+					View
+				</button>
+				<!-- Upgrade -->
+				<button
+					*ngIf="!isAiDetectionEnabled && showUpgradeButton"
+					(click)="upgrade.emit(eCRPackageProducts.ai)"
+					class="btn-upgrade"
+					mat-stroked-button
+					color="basic">
+					<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M13.1531 7.6355C13.666 7.27341 14.001 6.67607 14.001 6.00049C14.001 4.89592 13.1055 4.00049 12.001 4.00049C10.8964 4.00049 10.001 4.89592 10.001 6.00049C10.001 6.69982 10.3599 7.31531 10.9036 7.67281C9.84466 9.34691 8.40096 11.8147 8.40096 12.8253C7.83778 11.4693 6.28214 10.5836 4.9844 10.0586C5.17624 9.75158 5.28711 9.3888 5.28711 9.00012C5.28711 7.89555 4.39168 7.00012 3.28711 7.00012C2.18254 7.00012 1.28711 7.89555 1.28711 9.00012C1.28711 10.1047 2.18254 11.0001 3.28711 11.0001C3.31361 11.0001 3.34 10.9996 3.36625 10.9986L5.00096 17.9995H19.001L20.6428 10.968C20.759 10.989 20.8787 11 21.001 11C22.1055 11 23.001 10.1046 23.001 9C23.001 7.89543 22.1055 7 21.001 7C19.8964 7 19.001 7.89543 19.001 9C19.001 9.35977 19.096 9.69736 19.2622 9.98904C17.9757 10.5038 16.3376 11.4075 15.6817 12.8253C15.6817 11.6225 14.2328 9.24225 13.1531 7.6355ZM5.07272 19.9995C5.0252 19.6702 5.00096 19.3361 5.00096 18.9995H12.001H19.001C19.001 19.3361 18.9767 19.6702 18.9292 19.9995H5.07272Z"
+							fill="#3F9AF5" />
+					</svg>
+					Upgrade
+				</button>
 			</div>
-			<div>
-				<span>
-					{{ translations?.SCAN_PROPERTIES_SECTION?.AiContent || 'ai content' }}{{ isShowingPartialStats ? '*' : '' }}
-				</span>
-			</div>
-			<!-- View -->
-			<button
-				*ngIf="reportViewMode !== eReportViewMode.AIView && isPlagiarismEnabled && isAiDetectionEnabled"
-				class="btn-view"
-				mat-stroked-button
-				color="basic"
-				(click)="showAiView()">
-				<mat-icon class="mat-18">visibility</mat-icon>
-				View
-			</button>
-			<!-- Upgrade -->
-			<button
-				*ngIf="!isAiDetectionEnabled && showUpgradeButton"
-				(click)="upgrade.emit(eCRPackageProducts.plagiairsm)"
-				class="btn-upgrade"
-				mat-stroked-button
-				color="basic">
-				<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path
-						fill-rule="evenodd"
-						clip-rule="evenodd"
-						d="M13.1531 7.6355C13.666 7.27341 14.001 6.67607 14.001 6.00049C14.001 4.89592 13.1055 4.00049 12.001 4.00049C10.8964 4.00049 10.001 4.89592 10.001 6.00049C10.001 6.69982 10.3599 7.31531 10.9036 7.67281C9.84466 9.34691 8.40096 11.8147 8.40096 12.8253C7.83778 11.4693 6.28214 10.5836 4.9844 10.0586C5.17624 9.75158 5.28711 9.3888 5.28711 9.00012C5.28711 7.89555 4.39168 7.00012 3.28711 7.00012C2.18254 7.00012 1.28711 7.89555 1.28711 9.00012C1.28711 10.1047 2.18254 11.0001 3.28711 11.0001C3.31361 11.0001 3.34 10.9996 3.36625 10.9986L5.00096 17.9995H19.001L20.6428 10.968C20.759 10.989 20.8787 11 21.001 11C22.1055 11 23.001 10.1046 23.001 9C23.001 7.89543 22.1055 7 21.001 7C19.8964 7 19.001 7.89543 19.001 9C19.001 9.35977 19.096 9.69736 19.2622 9.98904C17.9757 10.5038 16.3376 11.4075 15.6817 12.8253C15.6817 11.6225 14.2328 9.24225 13.1531 7.6355ZM5.07272 19.9995C5.0252 19.6702 5.00096 19.3361 5.00096 18.9995H12.001H19.001C19.001 19.3361 18.9767 19.6702 18.9292 19.9995H5.07272Z"
-						fill="#3F9AF5" />
-				</svg>
-				Upgrade
-			</button>
-		</div>
+		</ng-container>
 	</cr-expansion-panel-body>
 </cr-expansion-panel>
 

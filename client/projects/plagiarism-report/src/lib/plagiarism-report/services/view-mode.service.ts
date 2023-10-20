@@ -1,13 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { CompleteResultNotificationAlert } from '../models';
+import { CompleteResult, CompleteResultNotificationAlert } from '../models';
 import { ReportService } from './report.service';
+import { ALERTS } from '../utils/constants';
 
 export enum EReportViewModel {
 	ScanningResult,
 	Alerts,
-	AIView
+	AIView,
 }
 
 @Injectable()
@@ -35,28 +36,38 @@ export class ViewModeService implements OnDestroy {
 				filter(c => !!c.notifications && !!c.notifications.alerts && !!c.notifications.alerts.length)
 			)
 			.subscribe(completeResult => {
-				const hasAlerts = completeResult.notifications?.alerts?.length;
+				if (this.reportService.isPlagiarismEnabled()) {
+					const hasAlerts = completeResult.notifications?.alerts?.filter(
+						s => s.code != ALERTS.SUSPECTED_AI_TEXT_DETECTED
+					).length;
 
-				const hasResults =
-					!!completeResult.results?.batch?.length ||
-					!!completeResult.results?.internet?.length ||
-					!!completeResult.results?.database?.length ||
-					!!completeResult.results?.repositories?.length;
+					const hasResults =
+						!!completeResult.results?.batch?.length ||
+						!!completeResult.results?.internet?.length ||
+						!!completeResult.results?.database?.length ||
+						!!completeResult.results?.repositories?.length;
 
-				if (hasAlerts && !hasResults) {
-					this._reportViewMode$.next(EReportViewModel.Alerts);
+					if (hasAlerts && !hasResults) {
+						this._reportViewMode$.next(EReportViewModel.Alerts);
+					}
+				} else if (this.reportService.isAiDetectionEnabled()) {
+					this.showAIAlertView(completeResult);
 				}
-				// const alertSeverities = completeResult.notifications.alerts.map(s => +s.severity);
-				// const severity = Math.max(...alertSeverities);
-				// if (
-				// 	severity === CompleteResultNotificationAlertSeverity.High ||
-				// 	severity === CompleteResultNotificationAlertSeverity.VeryHigh
-				// ) {
-				// 	this._reportViewMode$.next(EReportViewModel.Alerts);
-				// }
 			});
 	}
-	
+
+	showAIAlertView(completeResult: CompleteResult) {
+		this.reportService.configure({ contentMode: 'text' });
+
+		const aiAlert = completeResult.notifications?.alerts?.find(s => s.code == ALERTS.SUSPECTED_AI_TEXT_DETECTED);
+
+		if (aiAlert) {
+			this._selectedAlert = aiAlert;
+		}
+
+		this._reportViewMode$.next(EReportViewModel.AIView);
+	}
+
 	/**
 	 * change the view of the report
 	 * @param mode view mode

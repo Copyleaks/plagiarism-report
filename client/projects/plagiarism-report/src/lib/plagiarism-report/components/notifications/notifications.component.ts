@@ -7,6 +7,7 @@ import { filter } from 'rxjs/operators';
 import { CompleteResultNotificationAlertSeverity } from '../../models';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
 import { BehaviorSubject } from 'rxjs';
+import { ALERTS } from '../../utils/constants';
 @Component({
 	selector: 'cr-notifications',
 	templateUrl: './notifications.component.html',
@@ -34,9 +35,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				filter(c => !!c.notifications && !!c.notifications.alerts && !!c.notifications.alerts.length)
 			)
 			.subscribe(completeResult => {
-				const alertSeverities = completeResult.notifications.alerts.map(s => +s.severity);
-				this.severity = Math.max(...alertSeverities);
-				this.severityChange.emit(this.severity);
+				const notifications = JSON.parse(JSON.stringify(completeResult.notifications));
+				notifications.alerts = notifications.alerts.filter(n => n.code != ALERTS.SUSPECTED_AI_TEXT_DETECTED);
+				if (notifications.alerts.length) {
+					const alertSeverities = notifications.alerts.map(s => +s.severity);
+					this.severity = Math.max(...alertSeverities);
+					this.severityChange.emit(this.severity);
+				}
 			});
 	}
 	/**

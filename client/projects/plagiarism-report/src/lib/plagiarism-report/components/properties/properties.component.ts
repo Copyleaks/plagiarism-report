@@ -54,6 +54,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public expanded = true;
 	@Input()
 	public showUpgradeButton = false;
+	@Input()
+	public showAIContentProperty = true;
 
 	@Output()
 	public upgrade = new EventEmitter<ECRPackageProducts>();
@@ -193,7 +195,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	}
 
 	showAiView() {
-		this.viewModeService.changeViewMode$(EReportViewModel.AIView);
+		this.viewModeService.showAIAlertView(this.metadata);
 	}
 
 	/**
