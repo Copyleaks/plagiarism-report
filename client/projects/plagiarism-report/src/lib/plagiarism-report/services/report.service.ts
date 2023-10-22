@@ -342,6 +342,14 @@ export class ReportService implements OnDestroy {
 		this._config.next(Object.assign(this._config.value, config));
 	}
 
+	public hasNonAIAlerts() {
+		const completeResult = this._completeResult.value;
+		if (completeResult?.notifications?.alerts?.filter(s => s.code != ALERTS.SUSPECTED_AI_TEXT_DETECTED).length > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	public isPlagiarismEnabled() {
 		const completeResult = this._completeResult.value;
 		if (completeResult) {

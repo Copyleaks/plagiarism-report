@@ -24,7 +24,7 @@ import {
 	ViewMode,
 } from '../../models';
 import { IScanSummeryComponent } from '../../models/ScanProperties';
-import { CompleteResult } from '../../models/api-models/CompleteResult';
+import { CompleteResult, CompleteResultNotificationAlertSeverity } from '../../models/api-models/CompleteResult';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { DirectionService } from '../../services/direction.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
@@ -43,6 +43,8 @@ import { OptionsDialogComponent } from '../options-dialog/options-dialog.compone
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mobile') isMobile: boolean;
+
+	@ViewChild('notificationsRef') notifications;
 
 	@Input()
 	public scanSummaryComponent: Type<IScanSummeryComponent>;
@@ -79,7 +81,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public minor: number;
 	public related: number;
 	public totalResults: number;
-
+	public notificationSeverity: CompleteResultNotificationAlertSeverity;
+	public eNotificationSeverities = CompleteResultNotificationAlertSeverity;
 	public reportViewMode: EReportViewModel;
 	public eReportViewMode = EReportViewModel;
 
@@ -135,13 +138,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	get total(): number {
 		return this.metadata.scannedDocument.totalWords;
 	}
+
 	get combined() {
 		return this.stats.identical + this.stats.relatedMeaning + this.stats.minorChanges;
+	}
+
+	get hasNonAIAlerts() {
+		return this.reportService.hasNonAIAlerts();
 	}
 
 	get isPlagiarismEnabled() {
 		return this.reportService.isPlagiarismEnabled();
 	}
+
 	get plagiarismScore() {
 		if (this.reportService.isPlagiarismEnabled()) {
 			const res = Math.min(1, this.combined / (this.stats.total - this.stats.omittedWords));
@@ -153,6 +162,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	get isAiDetectionEnabled() {
 		return this.reportService.isAiDetectionEnabled();
 	}
+
 	get aiScore() {
 		return this.reportService.getAiScore();
 	}
@@ -185,6 +195,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			return true;
 		}
 		return false;
+	}
+
+	get isAiView() {
+		return this.viewModeService?.reportViewMode$?.value === this.eReportViewMode.AIView;
 	}
 
 	/**
@@ -380,8 +394,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Show all hidden results
 	 */
 	showAllResults() {
+		this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
 		this.options.showOnlyTopResults = false;
 		this.reportService.configure({ options: this.options });
+	}
+
+	showAlerts() {
+		this.viewModeService.selectedAlert = null;
+		this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
 	}
 
 	/**

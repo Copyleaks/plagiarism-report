@@ -295,27 +295,48 @@
 				</span>
 			</div>
 
-			<ng-container
-				*ngIf="
-					isPlagiarismEnabled &&
-					(reportViewMode == eReportViewMode.ScanningResult || reportViewMode == eReportViewMode.Alerts)
-				">
-				<cr-notifications></cr-notifications>
+			<ng-container *ngIf="isPlagiarismEnabled && hasNonAIAlerts && !isAiView">
+				<cr-notifications #notificationsRef></cr-notifications>
 			</ng-container>
 			<!-- View -->
+			<section class="score-group-buttons">
+				<button
+					matTooltip="SEE ALERTS"
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && hasNonAIAlerts && isAiView"
+					class="side-icon-button"
+					mat-icon-button
+					(click)="showAlerts()"
+					[ngClass]="{
+						'btn-notifications-error':
+							notificationSeverity == eNotificationSeverities.High ||
+							notificationSeverity == eNotificationSeverities.VeryHigh,
+						'btn-notifications-warning': notificationSeverity == eNotificationSeverities.Medium
+					}">
+					<ng-container [ngSwitch]="notificationSeverity">
+						<mat-icon *ngSwitchCase="eNotificationSeverities.Medium">warning</mat-icon>
+						<mat-icon *ngSwitchCase="eNotificationSeverities.High">error</mat-icon>
+						<mat-icon *ngSwitchCase="eNotificationSeverities.VeryHigh">error</mat-icon>
+						<mat-icon *ngSwitchDefault>info</mat-icon>
+					</ng-container>
+				</button>
+				<button
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && isAiView"
+					class="btn-view"
+					mat-stroked-button
+					color="basic"
+					(click)="showScanningResult()">
+					<mat-icon class="mat-18">visibility</mat-icon>
+					View
+				</button>
+			</section>
+			<!-- Viewing -->
 			<button
-				*ngIf="
-					reportViewMode !== eReportViewMode.ScanningResult &&
-					reportViewMode !== eReportViewMode.Alerts &&
-					isPlagiarismEnabled &&
-					isAiDetectionEnabled
-				"
-				class="btn-view"
+				*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && !hasNonAIAlerts && !isAiView"
+				class="btn-viewing"
 				mat-stroked-button
 				color="basic"
-				(click)="showScanningResult()">
-				<mat-icon class="mat-18">visibility</mat-icon>
-				View
+				disabled>
+				Viewed
 			</button>
 			<!-- Upgrade -->
 			<button
@@ -353,18 +374,27 @@
 				</div>
 				<div>
 					<span>
-						{{ translations?.SCAN_PROPERTIES_SECTION?.AiContent || 'ai content' }}{{ isShowingPartialStats ? '*' : '' }}
+						{{ translations?.SCAN_PROPERTIES_SECTION?.AiContent || 'ai content' }}
 					</span>
 				</div>
 				<!-- View -->
 				<button
-					*ngIf="reportViewMode !== eReportViewMode.AIView && isPlagiarismEnabled && isAiDetectionEnabled"
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && !isAiView"
 					class="btn-view"
 					mat-stroked-button
 					color="basic"
 					(click)="showAiView()">
 					<mat-icon class="mat-18">visibility</mat-icon>
 					View
+				</button>
+				<!-- Viewing -->
+				<button
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && isAiView"
+					class="btn-viewing"
+					mat-stroked-button
+					color="basic"
+					disabled>
+					Viewed
 				</button>
 				<!-- Upgrade -->
 				<button
