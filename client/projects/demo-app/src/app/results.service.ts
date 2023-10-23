@@ -8,12 +8,12 @@ import { CompleteResult, ScanSource, ScanResult } from 'projects/plagiarism-repo
 export class ResultsService {
 	constructor(private http: HttpClient) {}
 	public completeResult(scanId: string) {
-		return this.http.get<CompleteResult>(`http://localhost:4206/${scanId}/complete.json`);
+		return this.http.get<CompleteResult>(`assets/scans/${scanId}/complete.json`);
 	}
 	public downloadedSource(scanId: string) {
-		return this.http.get<ScanSource>(`http://localhost:4206/${scanId}/source.json`);
+		return this.http.get<ScanSource>(`assets/scans/${scanId}/source.json`);
 	}
 	public newResult(scanId: string, resultId: string) {
-		return this.http.get<ScanResult>(`http://localhost:4206/${scanId}/results/${resultId}.json`);
+		return this.http.get<ScanResult>(`assets/scans/${scanId}/results/${resultId}.json`);
 	}
 }
