@@ -361,7 +361,7 @@ export const processSourceText = (
 export const processSuspectedCharacterMatches = (
 	source: ScanSource,
 	alertToMatch: CompleteResultNotificationAlert
-): SlicedMatch[][] => {	
+): SlicedMatch[][] => {
 	const matches: Match[] = [];
 	const data: {
 		starts: number[];

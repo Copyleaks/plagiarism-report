@@ -36,9 +36,9 @@ export class AlertCardComponent implements OnDestroy {
 		} else {
 			this.viewModeService.selectedAlert = alert;
 		}
-		
+
 		this.reportService.configure({ contentMode: 'text' });
-		
+
 		setTimeout(() => {
 			this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
 
