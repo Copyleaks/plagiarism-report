@@ -10,10 +10,11 @@ import {
 	ScanSource,
 	EResultPreviewType,
 } from '../models';
-import { DEFAULT_REPORT_CONFIG } from '../utils/constants';
+import { ALERTS, DEFAULT_REPORT_CONFIG } from '../utils/constants';
 import { truthy } from '../utils/operators';
 import { CopyleaksService } from './copyleaks.service';
 import * as helpers from '../utils/statistics';
+import { AIScanResult } from '../models/AIMatch';
 
 /**
  * @todo implement saving options localstorage
@@ -339,6 +340,52 @@ export class ReportService implements OnDestroy {
 	 */
 	public configure(config: CopyleaksReportConfig) {
 		this._config.next(Object.assign(this._config.value, config));
+	}
+
+	public hasNonAIAlerts() {
+		const completeResult = this._completeResult.value;
+		if (completeResult?.notifications?.alerts?.filter(s => s.code != ALERTS.SUSPECTED_AI_TEXT_DETECTED).length > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public isPlagiarismEnabled() {
+		const completeResult = this._completeResult.value;
+		if (completeResult) {
+			if (completeResult?.scannedDocument?.enabled?.plagiarismDetection != null)
+				return completeResult?.scannedDocument?.enabled?.plagiarismDetection;
+		}
+		return true;
+	}
+
+	public isAiDetectionEnabled() {
+		const completeResult = this._completeResult.value;
+		if (completeResult) {
+			if (completeResult?.scannedDocument?.enabled?.aiDetection) return true;
+
+			return (
+				completeResult?.notifications?.alerts?.length &&
+				completeResult?.notifications?.alerts.filter(alert => alert.code == ALERTS.SUSPECTED_AI_TEXT_DETECTED).length ==
+					1
+			);
+		}
+		return false;
+	}
+
+	public getAiScore() {
+		if (this.isAiDetectionEnabled()) {
+			const completeResult = this._completeResult.value;
+			const aiAlert = completeResult.notifications.alerts.find(
+				alert => alert.code == ALERTS.SUSPECTED_AI_TEXT_DETECTED
+			);
+			if (aiAlert) {
+				const aiData = JSON.parse(aiAlert.additionalData) as AIScanResult;
+				return aiData.summary.ai;
+			}
+			return 0;
+		}
+		return null;
 	}
 
 	/** Completes all subjects to prevent memory leak */

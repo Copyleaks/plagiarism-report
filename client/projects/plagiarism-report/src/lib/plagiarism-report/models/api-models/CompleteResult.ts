@@ -83,6 +83,12 @@ export interface ScannedDocument {
 	expectedCredits?: number;
 	creationTime: string;
 	metadata?: ResultMetaData;
+	enabled?: ScannedDocumentEnabled;
+}
+
+export interface ScannedDocumentEnabled {
+	plagiarismDetection?: boolean;
+	aiDetection?: boolean;
 }
 
 /** Type representing a summary of the reuslts of a scanned document */

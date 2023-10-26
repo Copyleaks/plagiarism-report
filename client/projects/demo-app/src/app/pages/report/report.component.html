@@ -1,9 +1,12 @@
 <cr-copyleaks-report
 	[config]="config"
+	[showProductUpgradeButton]="true"
+	[showAIContentProperty]="true"
 	(configChange)="onConfigChange($event)"
 	(help)="help()"
 	(share)="onBtnClick($event)"
 	(upgradePlan)="upgradePlan($event)"
+	(upgradeProduct)="upgradeProduct($event)"
 	(propertiesExpandChange)="onPropertiesExpandChange($event)"
 	(download)="onBtnClick($event)">
 	<!-- <cr-custom-report-action>

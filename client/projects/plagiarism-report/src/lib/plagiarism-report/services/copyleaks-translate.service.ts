@@ -32,6 +32,7 @@ export interface CopyleaksTranslations {
 		SIMILAR_WORDS?: string;
 		SIMILAR_WORDS_TOOPTIP?: string;
 		MATCH?: string;
+		PLAGIARISM?: string;
 		ACTIONS?: {
 			HELP?: string;
 			SHARE?: string;

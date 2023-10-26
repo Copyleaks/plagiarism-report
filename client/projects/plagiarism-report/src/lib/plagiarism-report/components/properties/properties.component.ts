@@ -14,20 +14,26 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { take } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
-import { CopyleaksReportOptions, ReportStatistics, ViewMode, CopyleaksTextConfig } from '../../models';
-import { CompleteResult } from '../../models/api-models/CompleteResult';
+import {
+	CopyleaksReportOptions,
+	CopyleaksTextConfig,
+	ECRPackageProducts,
+	ReportStatistics,
+	ViewMode,
+} from '../../models';
+import { IScanSummeryComponent } from '../../models/ScanProperties';
+import { CompleteResult, CompleteResultNotificationAlertSeverity } from '../../models/api-models/CompleteResult';
+import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
+import { DirectionService } from '../../services/direction.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { StatisticsService } from '../../services/statistics.service';
+import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
+import { DEFAULT_TEXT_CONFIG } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
 import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
-import { DEFAULT_TEXT_CONFIG } from '../../utils/constants';
-import { take } from 'rxjs/operators';
-import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
-import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
-import { DirectionService } from '../../services/direction.service';
-import { IScanSummeryComponent } from '../../models/ScanProperties';
 
 @Component({
 	selector: 'cr-properties',
@@ -38,6 +44,8 @@ import { IScanSummeryComponent } from '../../models/ScanProperties';
 export class PropertiesComponent implements OnInit, OnDestroy {
 	@HostBinding('class.mobile') isMobile: boolean;
 
+	@ViewChild('notificationsRef') notifications;
+
 	@Input()
 	public scanSummaryComponent: Type<IScanSummeryComponent>;
 	@Input()
@@ -46,6 +54,15 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public hideCreationTime = false;
 	@Input()
 	public expanded = true;
+	@Input()
+	public showUpgradeButton = false;
+	@Input()
+	public showAIContentProperty = true;
+
+	@Output()
+	public upgrade = new EventEmitter<ECRPackageProducts>();
+	public eCRPackageProducts = ECRPackageProducts;
+
 	@Output()
 	public expandChange = new EventEmitter();
 
@@ -64,6 +81,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	public minor: number;
 	public related: number;
 	public totalResults: number;
+	public notificationSeverity: CompleteResultNotificationAlertSeverity;
+	public eNotificationSeverities = CompleteResultNotificationAlertSeverity;
+	public reportViewMode: EReportViewModel;
+	public eReportViewMode = EReportViewModel;
 
 	public customColors = [
 		{ name: 'Identical', value: '#ff6666' },
@@ -109,6 +130,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			!this.scanSummeryComponentInstance
 		);
 	}
+
 	get done() {
 		return this.progress === 100 && (!this.scanSummaryComponent || this.scanSummeryComponentInstance);
 	}
@@ -116,18 +138,40 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	get total(): number {
 		return this.metadata.scannedDocument.totalWords;
 	}
+
 	get combined() {
 		return this.stats.identical + this.stats.relatedMeaning + this.stats.minorChanges;
 	}
-	get score() {
-		const res = Math.min(1, this.combined / (this.stats.total - this.stats.omittedWords));
-		return isNaN(res) ? 0 : res;
+
+	get hasNonAIAlerts() {
+		return this.reportService.hasNonAIAlerts();
 	}
+
+	get isPlagiarismEnabled() {
+		return this.reportService.isPlagiarismEnabled();
+	}
+
+	get plagiarismScore() {
+		if (this.reportService.isPlagiarismEnabled()) {
+			const res = Math.min(1, this.combined / (this.stats.total - this.stats.omittedWords));
+			return isNaN(res) ? 0 : res;
+		}
+		return null;
+	}
+
+	get isAiDetectionEnabled() {
+		return this.reportService.isAiDetectionEnabled();
+	}
+
+	get aiScore() {
+		return this.reportService.getAiScore();
+	}
+
 	get severity() {
-		if (this.score <= 0.1) {
+		if (this.plagiarismScore <= 0.1) {
 			return 'low';
 		}
-		if (this.score <= 0.5) {
+		if (this.plagiarismScore <= 0.5) {
 			return 'medium';
 		}
 		return 'high';
@@ -153,11 +197,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		return false;
 	}
 
+	get isAiView() {
+		return this.viewModeService?.reportViewMode$?.value === this.eReportViewMode.AIView;
+	}
+
 	/**
 	 * this function will move to scanning result view mode
 	 */
 	showScanningResult() {
 		this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
+	}
+
+	showAiView() {
+		this.viewModeService.showAIAlertView(this.metadata);
 	}
 
 	/**
@@ -295,6 +347,10 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 			];
 		});
 		this.layoutService.isMobile$.pipe(untilDestroy(this)).subscribe(value => (this.isMobile = value));
+
+		this.viewModeService.reportViewMode$.pipe(untilDestroy(this)).subscribe(viewMode => {
+			this.reportViewMode = viewMode;
+		});
 	}
 
 	/**
@@ -338,8 +394,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 	 * Show all hidden results
 	 */
 	showAllResults() {
+		this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
 		this.options.showOnlyTopResults = false;
 		this.reportService.configure({ options: this.options });
+	}
+
+	showAlerts() {
+		this.viewModeService.selectedAlert = null;
+		this.viewModeService.changeViewMode$(EReportViewModel.Alerts);
 	}
 
 	/**

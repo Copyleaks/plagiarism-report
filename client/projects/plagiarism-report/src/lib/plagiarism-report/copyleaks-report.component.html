@@ -4,7 +4,10 @@
 	[isPDFDownloading]="isPDFDownloading"
 	[hideCreationTime]="hideCreationTime"
 	[expanded]="config.propertiesExpanded != null ? config.propertiesExpanded : true"
-	(expandChange)="propertiesExpandChange.emit($event)">
+	(expandChange)="propertiesExpandChange.emit($event)"
+	(upgrade)="upgradeProduct.emit($event)"
+	[showUpgradeButton]="showProductUpgradeButton"
+	[showAIContentProperty]="showAIContentProperty">
 	<ng-content select="cr-custom-report-action"></ng-content>
 </cr-properties>
 
@@ -14,7 +17,7 @@
 	fxLayoutAlign="start stretch"
 	fxLayout.lt-sm="column nowrap"
 	[class]="'cr-report-' + dir">
-	<cr-original></cr-original>
+	<cr-original [style.margin-right]="reportViewMode == eReportViewModel.ScanningResult ? '1em' : ''"></cr-original>
 	<ng-container *ngIf="reportViewMode == eReportViewModel.ScanningResult">
 		<cr-suspect [fxShow]="isOneToOne"></cr-suspect>
 		<cr-results [fxShow]="isOneToMany"></cr-results>

@@ -4,6 +4,7 @@ import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { CompleteResultNotification } from '../../models';
 import { ReportService } from '../../services/report.service';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
+import { ALERTS } from '../../utils/constants';
 
 @Component({
 	selector: 'cr-alerts',
@@ -26,7 +27,10 @@ export class AlertsComponent implements OnInit, OnDestroy {
 				filter(c => !!c.notifications && !!c.notifications.alerts && !!c.notifications.alerts.length)
 			)
 			.subscribe(completeResult => {
-				this.notification = completeResult.notifications;
+				this.notification = JSON.parse(JSON.stringify(completeResult.notifications));
+				if (this.notification) {
+					this.notification.alerts = this.notification.alerts.filter(n => n.code != ALERTS.SUSPECTED_AI_TEXT_DETECTED);
+				}
 			});
 	}
 	/**

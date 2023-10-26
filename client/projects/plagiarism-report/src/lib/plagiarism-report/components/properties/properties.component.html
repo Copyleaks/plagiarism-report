@@ -98,193 +98,322 @@
 			</ng-container>
 		</div>
 
-		<!-- RESULTS FOUND -->
-		<div prop [style.cursor]="isAlertsView ? 'pointer' : ''" (click)="isAlertsView && showScanningResult()">
-			<div id="cr-hint-results-found"></div>
-			<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
-				<span>{{ resultsFound | shortNumber: 1 }}</span>
-				<ng-container *ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults">+</ng-container>
-			</div>
-			<div
-				[matTooltip]="
-					hiddenResultsCount
-						? hiddenResultsCount +
-						  ' ' +
-						  (translations?.SCAN_PROPERTIES_SECTION?.RESULTS_FOUND_TOOLTIP || 'Results have been filtered')
-						: null
-				">
-				{{ translations?.SCAN_PROPERTIES_SECTION?.RESULTS_FOUND || 'results found' }}
-				<span *ngIf="hiddenResultsCount" style="color: red">*</span>
-			</div>
-
-			<div
-				*ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults"
-				class="show-all-result"
-				(click)="showAllResults()">
-				Show All
-			</div>
-		</div>
-
-		<!-- # COPIED WORDS -->
-		<div
-			prop
-			*ngIf="stats && !previewsLoading; else skeleton__prop"
-			[matTooltip]="total + ' ' + (translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS_TOOPTIP || 'submitted words')">
-			<div header>
-				{{ combined | shortNumber: 1 }}
-			</div>
-			<div>{{ translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS || 'similar words' }}</div>
-		</div>
-
-		<!-- STATS -->
-		<div stats [fxFlexOrder.lt-md]="-5" fxLayout="row nowrap" fxLayoutAlign="stretch stretch">
-			<ng-container *ngIf="stats && !previewsLoading; else skeleton__stats">
-				<ngx-charts-pie-chart
-					role="presentation"
-					fxHide.lt-md
-					[customColors]="customColors"
-					[results]="chartData"
-					[view]="[150, 150]">
-					<ng-template #tooltipTemplate let-model="model">
-						<div style="padding: 0.5em" class="mat-typography">
-							<span style="font-size: 1em; display: block">{{ model.value | number }}</span>
-							<span tooltip-text>
-								<ng-container [ngSwitch]="model.name">
-									<ng-container *ngSwitchCase="'Identical'">
-										{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || model.name }}
-									</ng-container>
-									<ng-container *ngSwitchCase="'Minor changes'">
-										{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || model.name }}
-									</ng-container>
-									<ng-container *ngSwitchCase="'Related meaning'">
-										{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
-									</ng-container>
-									<ng-container *ngSwitchCase="'Original'">
-										{{ translations?.SHARED?.MATCH_TYPES?.ORIGINAL || model.name }}
-									</ng-container>
-									<ng-container *ngSwitchDefault>
-										{{ model.name }}
-									</ng-container>
-								</ng-container>
-								{{ translations?.SHARED?.WORDS || 'words' }}
-							</span>
-						</div>
-					</ng-template>
-				</ngx-charts-pie-chart>
-
-				<div legend fxLayout="column" fxFlex fxLayoutAlign="space-evenly stretch">
-					<div
-						row
-						id="cr-hint-identical"
-						(click)="toggleComparison('showIdentical')"
-						[matTooltip]="
-							options?.showIdentical
-								? translations?.SHARED?.MATCH_TYPES?.IDENTICAL_TOOLTIP || messages.IDENTICAL_TOOLTIP_TEXT
-								: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
-								  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
-						"
-						fxLayout="row"
-						fxLayoutAlign="start center"
-						fxLayoutGap="0.5em">
-						<div class="dot identical" [ngStyle]="{ visibility: options?.showIdentical ? 'visible' : 'hidden' }"></div>
-						<div text [ngClass]="{ 'cr-strike-out': !options?.showIdentical }">
-							{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }}
-						</div>
-						<span fxFlex></span>
-
-						<div *ngIf="options.showIdentical || stats.identical > 0">
-							{{ stats?.identical / stats?.total | similarity: '1.0-1' }}
-						</div>
-					</div>
-					<mat-divider></mat-divider>
-					<div
-						row
-						(click)="toggleComparison('showMinorChanges')"
-						[matTooltip]="
-							options?.showMinorChanges
-								? translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES_TOOLTIP || messages.MINOR_CHANGES_TOOLTIP_TEXT
-								: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
-								  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
-						"
-						fxLayout="row"
-						fxLayoutAlign="center center"
-						fxLayoutGap="0.5em">
-						<div
-							class="dot minor-changes"
-							[ngStyle]="{ visibility: options?.showMinorChanges ? 'visible' : 'hidden' }"></div>
-						<div text [ngClass]="{ 'cr-strike-out': options?.showMinorChanges !== true }">
-							{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }}
-						</div>
-						<span fxFlex></span>
-						<div *ngIf="options.showMinorChanges || stats.minorChanges > 0">
-							{{ stats?.minorChanges / stats?.total | percent: '1.0-1' }}
-						</div>
-					</div>
-					<mat-divider></mat-divider>
-					<div
-						row
-						(click)="toggleComparison('showRelated')"
-						[matTooltip]="
-							options?.showRelated
-								? translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING_TOOLTIP || messages.RELATED_MEANING_TOOLTIP_TEXT
-								: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
-								  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
-						"
-						fxLayout="row"
-						fxLayoutAlign="start center"
-						fxLayoutGap="0.5em">
-						<div class="dot related" [ngStyle]="{ visibility: options?.showRelated ? 'visible' : 'hidden' }"></div>
-						<div text [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
-							{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
-						</div>
-						<span fxFlex></span>
-						<div *ngIf="options.showRelated || stats.relatedMeaning > 0">
-							{{ stats?.relatedMeaning / stats?.total | percent: '1.0-1' }}
-						</div>
-					</div>
-					<mat-divider></mat-divider>
-					<div
-						[matTooltip]="
-							translations?.SHARED?.MATCH_TYPES?.OMITTED_WORDS_TOOLTIP || messages.OMITTED_WORDS_TOOLTIP_TEXT
-						"
-						row
-						fxLayout="row"
-						fxLayoutAlign="start center"
-						fxLayoutGap="0.5em">
-						<div class="dot omitted"></div>
-						<div text>
-							{{ translations?.SHARED?.MATCH_TYPES?.OMITTED_WORDS || 'Omitted Words' }}
-						</div>
-						<span fxFlex></span>
-						<div>
-							{{ stats && metadata.scannedDocument.totalExcluded / stats?.total | percent: '1.0-1' }}
-						</div>
-					</div>
+		<ng-container *ngIf="isPlagiarismEnabled">
+			<!-- RESULTS FOUND -->
+			<div prop [style.cursor]="isAlertsView ? 'pointer' : ''" (click)="isAlertsView && showScanningResult()">
+				<div id="cr-hint-results-found"></div>
+				<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
+					<span>{{ resultsFound | shortNumber: 1 }}</span>
+					<ng-container *ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults">+</ng-container>
+				</div>
+				<div
+					[matTooltip]="
+						hiddenResultsCount
+							? hiddenResultsCount +
+							  ' ' +
+							  (translations?.SCAN_PROPERTIES_SECTION?.RESULTS_FOUND_TOOLTIP || 'Results have been filtered')
+							: null
+					">
+					{{ translations?.SCAN_PROPERTIES_SECTION?.RESULTS_FOUND || 'results found' }}
+					<span *ngIf="hiddenResultsCount" style="color: red">*</span>
 				</div>
 
-				<ng-template #statsSpinner>
-					<cls-spinner title="Spinner" *ngIf="!stats" width="16px" style="display: inline-block"></cls-spinner>
-				</ng-template>
-			</ng-container>
-		</div>
+				<div
+					*ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults"
+					class="show-all-result"
+					(click)="showAllResults()">
+					Show All
+				</div>
+			</div>
 
-		<!-- % MATCH -->
+			<!-- # COPIED WORDS -->
+			<div
+				prop
+				*ngIf="stats && !previewsLoading; else skeleton__prop"
+				[matTooltip]="
+					total + ' ' + (translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS_TOOPTIP || 'submitted words')
+				">
+				<div header>
+					{{ combined | shortNumber: 1 }}
+				</div>
+				<div>{{ translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS || 'similar words' }}</div>
+			</div>
+
+			<!-- STATS -->
+			<div stats [fxFlexOrder.lt-md]="-5" fxLayout="row nowrap" fxLayoutAlign="stretch stretch">
+				<ng-container *ngIf="stats && !previewsLoading; else skeleton__stats">
+					<ngx-charts-pie-chart
+						role="presentation"
+						fxHide.lt-md
+						[customColors]="customColors"
+						[results]="chartData"
+						[view]="[150, 150]">
+						<ng-template #tooltipTemplate let-model="model">
+							<div style="padding: 0.5em" class="mat-typography">
+								<span style="font-size: 1em; display: block">{{ model.value | number }}</span>
+								<span tooltip-text>
+									<ng-container [ngSwitch]="model.name">
+										<ng-container *ngSwitchCase="'Identical'">
+											{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || model.name }}
+										</ng-container>
+										<ng-container *ngSwitchCase="'Minor changes'">
+											{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || model.name }}
+										</ng-container>
+										<ng-container *ngSwitchCase="'Related meaning'">
+											{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
+										</ng-container>
+										<ng-container *ngSwitchCase="'Original'">
+											{{ translations?.SHARED?.MATCH_TYPES?.ORIGINAL || model.name }}
+										</ng-container>
+										<ng-container *ngSwitchDefault>
+											{{ model.name }}
+										</ng-container>
+									</ng-container>
+									{{ translations?.SHARED?.WORDS || 'words' }}
+								</span>
+							</div>
+						</ng-template>
+					</ngx-charts-pie-chart>
+
+					<div legend fxLayout="column" fxFlex fxLayoutAlign="space-evenly stretch">
+						<div
+							row
+							id="cr-hint-identical"
+							(click)="toggleComparison('showIdentical')"
+							[matTooltip]="
+								options?.showIdentical
+									? translations?.SHARED?.MATCH_TYPES?.IDENTICAL_TOOLTIP || messages.IDENTICAL_TOOLTIP_TEXT
+									: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
+									  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
+							"
+							fxLayout="row"
+							fxLayoutAlign="start center"
+							fxLayoutGap="0.5em">
+							<div
+								class="dot identical"
+								[ngStyle]="{ visibility: options?.showIdentical ? 'visible' : 'hidden' }"></div>
+							<div text [ngClass]="{ 'cr-strike-out': !options?.showIdentical }">
+								{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }}
+							</div>
+							<span fxFlex></span>
+
+							<div *ngIf="options.showIdentical || stats.identical > 0">
+								{{ stats?.identical / stats?.total | similarity: '1.0-1' }}
+							</div>
+						</div>
+						<mat-divider></mat-divider>
+						<div
+							row
+							(click)="toggleComparison('showMinorChanges')"
+							[matTooltip]="
+								options?.showMinorChanges
+									? translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES_TOOLTIP || messages.MINOR_CHANGES_TOOLTIP_TEXT
+									: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
+									  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
+							"
+							fxLayout="row"
+							fxLayoutAlign="center center"
+							fxLayoutGap="0.5em">
+							<div
+								class="dot minor-changes"
+								[ngStyle]="{ visibility: options?.showMinorChanges ? 'visible' : 'hidden' }"></div>
+							<div text [ngClass]="{ 'cr-strike-out': options?.showMinorChanges !== true }">
+								{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }}
+							</div>
+							<span fxFlex></span>
+							<div *ngIf="options.showMinorChanges || stats.minorChanges > 0">
+								{{ stats?.minorChanges / stats?.total | percent: '1.0-1' }}
+							</div>
+						</div>
+						<mat-divider></mat-divider>
+						<div
+							row
+							(click)="toggleComparison('showRelated')"
+							[matTooltip]="
+								options?.showRelated
+									? translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING_TOOLTIP || messages.RELATED_MEANING_TOOLTIP_TEXT
+									: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
+									  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
+							"
+							fxLayout="row"
+							fxLayoutAlign="start center"
+							fxLayoutGap="0.5em">
+							<div class="dot related" [ngStyle]="{ visibility: options?.showRelated ? 'visible' : 'hidden' }"></div>
+							<div text [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
+								{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
+							</div>
+							<span fxFlex></span>
+							<div *ngIf="options.showRelated || stats.relatedMeaning > 0">
+								{{ stats?.relatedMeaning / stats?.total | percent: '1.0-1' }}
+							</div>
+						</div>
+						<mat-divider></mat-divider>
+						<div
+							[matTooltip]="
+								translations?.SHARED?.MATCH_TYPES?.OMITTED_WORDS_TOOLTIP || messages.OMITTED_WORDS_TOOLTIP_TEXT
+							"
+							row
+							fxLayout="row"
+							fxLayoutAlign="start center"
+							fxLayoutGap="0.5em">
+							<div class="dot omitted"></div>
+							<div text>
+								{{ translations?.SHARED?.MATCH_TYPES?.OMITTED_WORDS || 'Omitted Words' }}
+							</div>
+							<span fxFlex></span>
+							<div>
+								{{ stats && metadata.scannedDocument.totalExcluded / stats?.total | percent: '1.0-1' }}
+							</div>
+						</div>
+					</div>
+
+					<ng-template #statsSpinner>
+						<cls-spinner title="Spinner" *ngIf="!stats" width="16px" style="display: inline-block"></cls-spinner>
+					</ng-template>
+				</ng-container>
+			</div>
+		</ng-container>
+
+		<!-- % PLAGIARISM -->
 		<div
 			prop
 			id="cr-hint-results-score"
 			*ngIf="stats && !previewsLoading; else skeleton__prop"
-			[ngClass]="{ low: score <= 0.1, medium: score > 0.1 && score <= 0.5, high: score > 0.5 }">
+			[ngClass]="{
+				disabled_score: plagiarismScore == null,
+				low: plagiarismScore != null && plagiarismScore <= 0.1,
+				medium: plagiarismScore > 0.1 && plagiarismScore <= 0.5,
+				high: plagiarismScore > 0.5
+			}">
 			<div header>
-				{{ score | percent: '1.0-1' }}
+				<ng-container *ngIf="plagiarismScore != null">{{ plagiarismScore | percent: '1.0-1' }}</ng-container>
+				<ng-container *ngIf="plagiarismScore == null">N/A</ng-container>
 			</div>
 			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
-				<span>{{ translations?.SCAN_PROPERTIES_SECTION?.MATCH || 'match' }}{{ isShowingPartialStats ? '*' : '' }}</span>
+				<span>
+					{{ translations?.SCAN_PROPERTIES_SECTION?.PLAGIARISM || 'plagiarism' }}{{ isShowingPartialStats ? '*' : '' }}
+				</span>
 			</div>
 
-			<ng-container>
-				<cr-notifications></cr-notifications>
+			<ng-container *ngIf="isPlagiarismEnabled && hasNonAIAlerts && !isAiView">
+				<cr-notifications #notificationsRef></cr-notifications>
 			</ng-container>
+			<!-- View -->
+			<section class="score-group-buttons">
+				<button
+					matTooltip="SEE ALERTS"
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && hasNonAIAlerts && isAiView"
+					class="side-icon-button"
+					mat-icon-button
+					(click)="showAlerts()"
+					[ngClass]="{
+						'btn-notifications-error':
+							notificationSeverity == eNotificationSeverities.High ||
+							notificationSeverity == eNotificationSeverities.VeryHigh,
+						'btn-notifications-warning': notificationSeverity == eNotificationSeverities.Medium
+					}">
+					<ng-container [ngSwitch]="notificationSeverity">
+						<mat-icon *ngSwitchCase="eNotificationSeverities.Medium">warning</mat-icon>
+						<mat-icon *ngSwitchCase="eNotificationSeverities.High">error</mat-icon>
+						<mat-icon *ngSwitchCase="eNotificationSeverities.VeryHigh">error</mat-icon>
+						<mat-icon *ngSwitchDefault>info</mat-icon>
+					</ng-container>
+				</button>
+				<button
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && isAiView"
+					class="btn-view"
+					mat-stroked-button
+					color="basic"
+					(click)="showScanningResult()">
+					<mat-icon class="mat-18">visibility</mat-icon>
+					View
+				</button>
+			</section>
+			<!-- Viewing -->
+			<button
+				*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && !hasNonAIAlerts && !isAiView"
+				class="btn-viewing"
+				mat-stroked-button
+				color="basic"
+				disabled>
+				Viewing
+			</button>
+			<!-- Upgrade -->
+			<button
+				*ngIf="!isPlagiarismEnabled && showUpgradeButton"
+				(click)="upgrade.emit(eCRPackageProducts.plagiairsm)"
+				class="btn-upgrade"
+				mat-stroked-button
+				color="basic">
+				<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path
+						fill-rule="evenodd"
+						clip-rule="evenodd"
+						d="M13.1531 7.6355C13.666 7.27341 14.001 6.67607 14.001 6.00049C14.001 4.89592 13.1055 4.00049 12.001 4.00049C10.8964 4.00049 10.001 4.89592 10.001 6.00049C10.001 6.69982 10.3599 7.31531 10.9036 7.67281C9.84466 9.34691 8.40096 11.8147 8.40096 12.8253C7.83778 11.4693 6.28214 10.5836 4.9844 10.0586C5.17624 9.75158 5.28711 9.3888 5.28711 9.00012C5.28711 7.89555 4.39168 7.00012 3.28711 7.00012C2.18254 7.00012 1.28711 7.89555 1.28711 9.00012C1.28711 10.1047 2.18254 11.0001 3.28711 11.0001C3.31361 11.0001 3.34 10.9996 3.36625 10.9986L5.00096 17.9995H19.001L20.6428 10.968C20.759 10.989 20.8787 11 21.001 11C22.1055 11 23.001 10.1046 23.001 9C23.001 7.89543 22.1055 7 21.001 7C19.8964 7 19.001 7.89543 19.001 9C19.001 9.35977 19.096 9.69736 19.2622 9.98904C17.9757 10.5038 16.3376 11.4075 15.6817 12.8253C15.6817 11.6225 14.2328 9.24225 13.1531 7.6355ZM5.07272 19.9995C5.0252 19.6702 5.00096 19.3361 5.00096 18.9995H12.001H19.001C19.001 19.3361 18.9767 19.6702 18.9292 19.9995H5.07272Z"
+						fill="#3F9AF5" />
+				</svg>
+				Upgrade
+			</button>
 		</div>
+
+		<!-- % AI -->
+		<ng-container *ngIf="showAIContentProperty">
+			<div
+				prop
+				id="cr-hint-results-score"
+				*ngIf="stats && !previewsLoading; else skeleton__prop"
+				[ngClass]="{
+					disabled_score: aiScore == null,
+					low: aiScore != null && aiScore <= 0.1,
+					medium: aiScore > 0.1 && aiScore <= 0.5,
+					high: aiScore > 0.5
+				}">
+				<div header>
+					<ng-container *ngIf="aiScore != null">{{ aiScore | percent: '1.0-1' }}</ng-container>
+					<ng-container *ngIf="aiScore == null">N/A</ng-container>
+				</div>
+				<div>
+					<span>
+						{{ translations?.SCAN_PROPERTIES_SECTION?.AiContent || 'ai content' }}
+					</span>
+				</div>
+				<!-- View -->
+				<button
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && !isAiView"
+					class="btn-view"
+					mat-stroked-button
+					color="basic"
+					(click)="showAiView()">
+					<mat-icon class="mat-18">visibility</mat-icon>
+					View
+				</button>
+				<!-- Viewing -->
+				<button
+					*ngIf="isPlagiarismEnabled && isAiDetectionEnabled && isAiView"
+					class="btn-viewing"
+					mat-stroked-button
+					color="basic"
+					disabled>
+					Viewing
+				</button>
+				<!-- Upgrade -->
+				<button
+					*ngIf="!isAiDetectionEnabled && showUpgradeButton"
+					(click)="upgrade.emit(eCRPackageProducts.ai)"
+					class="btn-upgrade"
+					mat-stroked-button
+					color="basic">
+					<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M13.1531 7.6355C13.666 7.27341 14.001 6.67607 14.001 6.00049C14.001 4.89592 13.1055 4.00049 12.001 4.00049C10.8964 4.00049 10.001 4.89592 10.001 6.00049C10.001 6.69982 10.3599 7.31531 10.9036 7.67281C9.84466 9.34691 8.40096 11.8147 8.40096 12.8253C7.83778 11.4693 6.28214 10.5836 4.9844 10.0586C5.17624 9.75158 5.28711 9.3888 5.28711 9.00012C5.28711 7.89555 4.39168 7.00012 3.28711 7.00012C2.18254 7.00012 1.28711 7.89555 1.28711 9.00012C1.28711 10.1047 2.18254 11.0001 3.28711 11.0001C3.31361 11.0001 3.34 10.9996 3.36625 10.9986L5.00096 17.9995H19.001L20.6428 10.968C20.759 10.989 20.8787 11 21.001 11C22.1055 11 23.001 10.1046 23.001 9C23.001 7.89543 22.1055 7 21.001 7C19.8964 7 19.001 7.89543 19.001 9C19.001 9.35977 19.096 9.69736 19.2622 9.98904C17.9757 10.5038 16.3376 11.4075 15.6817 12.8253C15.6817 11.6225 14.2328 9.24225 13.1531 7.6355ZM5.07272 19.9995C5.0252 19.6702 5.00096 19.3361 5.00096 18.9995H12.001H19.001C19.001 19.3361 18.9767 19.6702 18.9292 19.9995H5.07272Z"
+							fill="#3F9AF5" />
+					</svg>
+					Upgrade
+				</button>
+			</div>
+		</ng-container>
 	</cr-expansion-panel-body>
 </cr-expansion-panel>
 

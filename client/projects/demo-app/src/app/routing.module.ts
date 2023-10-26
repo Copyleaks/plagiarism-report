@@ -4,21 +4,21 @@ import { RouterModule, Routes } from '@angular/router';
 /** Routes for router module */
 const routes: Routes = [
 	{
-		path: 'demo1',
+		path: 'demo1/report',
 		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
-		path: 'demo2',
+		path: 'demo2/report',
 		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
-		path: 'main',
-		loadChildren: () => import(`./pages/main-page/main-page-routing.module`).then(mod => mod.MainPageRoutingModule),
+		path: 'demo3/report',
+		loadChildren: () => import(`./pages/report/report.module`).then(mod => mod.ReportModule),
 	},
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'demo1/default',
+		redirectTo: 'demo1/report/bundle',
 	},
 ];
 

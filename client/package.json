@@ -4,7 +4,7 @@
 	"scripts": {
 		"ng": "ng",
 		"start": "ng serve demo-app",
-		"build": "ng build",
+		"build": "ng build demo-app",
 		"lint": "ng lint",
 		"lib:pack": "npm pack ./dist/plagiarism-report",
 		"local:package": "npm run lib:prettier && npm run lib:build && npm run lib:pack",

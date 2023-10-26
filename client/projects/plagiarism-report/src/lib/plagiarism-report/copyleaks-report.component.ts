@@ -22,6 +22,7 @@ import { MatchService } from './services/match.service';
 import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
 import { EReportViewModel, ViewModeService } from './services/view-mode.service';
+import { ECRPackageProducts } from './models';
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
@@ -47,6 +48,10 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public isPDFDownloading = false;
 	@Input()
 	public hideCreationTime = false;
+	@Input()
+	public showProductUpgradeButton = false;
+	@Input()
+	public showAIContentProperty = true;
 
 	@Output()
 	public configChange = new EventEmitter<CopyleaksReportConfig>();
@@ -60,6 +65,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	public propertiesExpandChange = new EventEmitter<boolean>();
 	@Output()
 	public upgradePlan = new EventEmitter<number>();
+	@Output()
+	public upgradeProduct = new EventEmitter<ECRPackageProducts>();
 
 	@Input()
 	public dir: 'rtl' | 'ltr' = 'ltr';
