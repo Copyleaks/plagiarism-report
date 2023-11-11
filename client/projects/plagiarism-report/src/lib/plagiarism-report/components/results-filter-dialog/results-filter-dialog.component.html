@@ -1,8 +1,11 @@
 <div mat-dialog-title>{{ translations?.FILTER_DIALOG?.TITLE || 'Results Filter' }}</div>
 <mat-form-field floatLabel="never">
 	<mat-icon matSuffix>search</mat-icon>
-	<mat-placeholder>{{ translations?.FILTER_DIALOG?.SEARCH_PLACHOLDER || 'Filter By Results' }}</mat-placeholder>
-	<input matInput type="search" [(ngModel)]="query" />
+	<input
+		matInput
+		[placeholder]="translations?.FILTER_DIALOG?.SEARCH_PLACHOLDER || 'Filter By Results'"
+		type="search"
+		[(ngModel)]="query" />
 </mat-form-field>
 <mat-dialog-content>
 	<div
