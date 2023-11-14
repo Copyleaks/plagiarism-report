@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
 import { CopyleaksReportOptions } from '../../models/ResultsSettings';
 import { ReportService } from '../../services/report.service';

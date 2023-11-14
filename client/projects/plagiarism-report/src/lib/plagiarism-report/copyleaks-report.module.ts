@@ -2,19 +2,19 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatRippleModule } from '@angular/material/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPseudoCheckboxModule, MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import { ChartCommonModule, PieChartModule } from '@swimlane/ngx-charts';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -59,67 +59,68 @@ import {
 	DEFAULT_TEXT_CONFIG,
 } from './utils/constants';
 @NgModule({
-    declarations: [
-        SpinnerComponent,
-        CopyleaksReportComponent,
-        PropertiesComponent,
-        ResultsComponent,
-        OriginalComponent,
-        ResultCardComponent,
-        SuspectComponent,
-        OptionsDialogComponent,
-        ResultsFilterDialogComponent,
-        PoweredByComponent,
-        MatchComponent,
-        OriginalHtmlHelperComponent,
-        SourceHtmlHelperComponent,
-        SuspectHtmlHelperComponent,
-        OriginalTextHelperDirective,
-        SourceTextHelperDirective,
-        SuspectTextHelperDirective,
-        PlagiarismFreeComponent,
-        NotificationsComponent,
-        NotificationsDialogComponent,
-        AlertsComponent,
-        AlertCardComponent,
-        ExcludePartialScanComponent,
-        CustomReportActionComponent,
-    ],
-    imports: [
-        CommonModule,
-        PanelModule,
-        SharedModule,
-        ExpansionPanelModule,
-        MatIconModule,
-        FormsModule,
-        MatDividerModule,
-        MatButtonModule,
-        FlexLayoutModule,
-        ChartCommonModule,
-        PieChartModule,
-        SatPopoverModule,
-        MatTooltipModule,
-        MatDialogModule,
-        MatInputModule,
-        MatMenuModule,
-        MatListModule,
-        MatCheckboxModule,
-        MatSlideToggleModule,
-        MatPaginatorModule,
-        MatRippleModule,
-        NgxSkeletonLoaderModule,
-        MatPaginationModule,
-        MatProgressSpinnerModule,
-        VirtualScrollerModule,
-    ],
-    providers: [
-        CopyleaksService,
-        CopyleaksTranslateService,
-        DirectionService,
-        { provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
-        { provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
-    ],
-    exports: [CopyleaksReportComponent, CustomReportActionComponent]
+	declarations: [
+		SpinnerComponent,
+		CopyleaksReportComponent,
+		PropertiesComponent,
+		ResultsComponent,
+		OriginalComponent,
+		ResultCardComponent,
+		SuspectComponent,
+		OptionsDialogComponent,
+		ResultsFilterDialogComponent,
+		PoweredByComponent,
+		MatchComponent,
+		OriginalHtmlHelperComponent,
+		SourceHtmlHelperComponent,
+		SuspectHtmlHelperComponent,
+		OriginalTextHelperDirective,
+		SourceTextHelperDirective,
+		SuspectTextHelperDirective,
+		PlagiarismFreeComponent,
+		NotificationsComponent,
+		NotificationsDialogComponent,
+		AlertsComponent,
+		AlertCardComponent,
+		ExcludePartialScanComponent,
+		CustomReportActionComponent,
+	],
+	imports: [
+		CommonModule,
+		PanelModule,
+		SharedModule,
+		ExpansionPanelModule,
+		MatIconModule,
+		FormsModule,
+		MatDividerModule,
+		MatButtonModule,
+		FlexLayoutModule,
+		ChartCommonModule,
+		PieChartModule,
+		SatPopoverModule,
+		MatTooltipModule,
+		MatDialogModule,
+		MatInputModule,
+		MatMenuModule,
+		MatListModule,
+		MatCheckboxModule,
+		MatSlideToggleModule,
+		MatPaginatorModule,
+		MatRippleModule,
+		NgxSkeletonLoaderModule,
+		MatPaginationModule,
+		MatProgressSpinnerModule,
+        MatPseudoCheckboxModule,
+		VirtualScrollerModule,
+	],
+	providers: [
+		CopyleaksService,
+		CopyleaksTranslateService,
+		DirectionService,
+		{ provide: COPYLEAKS_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_REPORT_CONFIG } },
+		{ provide: COPYLEAKS_TEXT_CONFIG_INJECTION_TOKEN, useValue: { ...DEFAULT_TEXT_CONFIG } },
+	],
+	exports: [CopyleaksReportComponent, CustomReportActionComponent],
 })
 export class CopyleaksReportModule {
 	/**

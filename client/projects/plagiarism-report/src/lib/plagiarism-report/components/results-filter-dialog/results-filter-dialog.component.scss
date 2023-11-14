@@ -62,6 +62,7 @@ mat-form-field {
 }
 
 @include gt-sm {
+	/* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version. */
 	mat-dialog-content {
 		height: 50vh;
 		width: 60vh;

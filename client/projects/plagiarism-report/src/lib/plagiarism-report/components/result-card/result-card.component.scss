@@ -131,7 +131,7 @@
 
 ::ng-deep .result-card-actions {
 	min-height: unset;
-	.mat-menu-content:not(:empty) {
+	.mat-mdc-menu-content:not(:empty) {
 		padding-top: 0px;
 		padding-bottom: 0px;
 	}
