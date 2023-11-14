@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutingModule } from './routing.module';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 import { ScanResultComponent } from './components/scan-result/scan-result.component';
 import { ReportResultsOverlayComponent } from './components/report-results-overlay/report-results-overlay.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
 import { ReportScanSummeryComponent } from './components/report-scan-summery/report-scan-summery.component';
 
 @NgModule({

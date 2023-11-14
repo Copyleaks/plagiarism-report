@@ -3,7 +3,7 @@ import { CompleteResultNotification } from '../../models';
 import { ReportService } from '../../services/report.service';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
 import { filter } from 'rxjs/operators';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 
 @Component({
 	selector: 'cr-notifications-dialog',

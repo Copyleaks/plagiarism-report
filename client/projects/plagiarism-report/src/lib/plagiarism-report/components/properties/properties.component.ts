@@ -12,7 +12,7 @@ import {
 	ViewChild,
 	ViewContainerRef,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { take } from 'rxjs/operators';
 import { untilDestroy } from '../../../shared/operators/untilDestroy';
