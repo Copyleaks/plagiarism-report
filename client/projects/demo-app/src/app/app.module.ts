@@ -16,23 +16,22 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ReportScanSummeryComponent } from './components/report-scan-summery/report-scan-summery.component';
 
 @NgModule({
-	declarations: [AppComponent, ScanResultComponent, ReportResultsOverlayComponent, ReportScanSummeryComponent],
-	imports: [
-		CommonModule,
-		BrowserModule,
-		BrowserAnimationsModule,
-		HttpClientModule,
-		FlexLayoutModule,
-		RoutingModule,
-		MatListModule,
-		MatIconModule,
-		MatButtonModule,
-		MatListModule,
-		MatTooltipModule,
-		MatMenuModule,
-	],
-	providers: [],
-	bootstrap: [AppComponent],
-	entryComponents: [ScanResultComponent, ReportResultsOverlayComponent, ReportScanSummeryComponent],
+    declarations: [AppComponent, ScanResultComponent, ReportResultsOverlayComponent, ReportScanSummeryComponent],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        FlexLayoutModule,
+        RoutingModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+        MatListModule,
+        MatTooltipModule,
+        MatMenuModule,
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -138,8 +138,7 @@
 				}
 			}
 		}
-	},
-	"defaultProject": "plagiarism-report",
+  },
 	"cli": {
 		"analytics": false
 	}
