@@ -66,7 +66,7 @@
 						<div>
 							<div header>
 								<ng-container *ngIf="!done && progress !== null && !(scanSummaryComponent && progress == 100)">
-									{{ progress && progress / 100 | percent: '1.0' }}
+									{{ progress && progress / 100 | percent : '1.0' }}
 								</ng-container>
 								<ng-container *ngIf="done">
 									{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.DONE || 'done' }}
@@ -84,7 +84,7 @@
 						<ng-container *ngIf="done">
 							<div
 								*ngIf="metadata"
-								[matTooltip]="metadata?.scannedDocument.creationTime | date: 'MMMM d, y, h:mm:ss a'"
+								[matTooltip]="metadata?.scannedDocument.creationTime | date : 'MMMM d, y, h:mm:ss a'"
 								[matTooltipDisabled]="hideCreationTime">
 								{{ translations?.SCAN_PROPERTIES_SECTION?.SCANNING?.SCANNED || 'Scanned' }}
 								<ng-container *ngIf="!hideCreationTime">
@@ -103,7 +103,7 @@
 			<div prop [style.cursor]="isAlertsView ? 'pointer' : ''" (click)="isAlertsView && showScanningResult()">
 				<div id="cr-hint-results-found"></div>
 				<div header [matTooltip]="resultsFound >= 1000 ? (resultsFound | number) + ' results' : null">
-					<span>{{ resultsFound | shortNumber: 1 }}</span>
+					<span>{{ resultsFound | shortNumber : 1 }}</span>
 					<ng-container *ngIf="resultsFound < totalViewedResults && isShowingOnlyTopResults">+</ng-container>
 				</div>
 				<div
@@ -134,7 +134,7 @@
 					total + ' ' + (translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS_TOOPTIP || 'submitted words')
 				">
 				<div header>
-					{{ combined | shortNumber: 1 }}
+					{{ combined | shortNumber : 1 }}
 				</div>
 				<div>{{ translations?.SCAN_PROPERTIES_SECTION?.SIMILAR_WORDS || 'similar words' }}</div>
 			</div>
@@ -198,7 +198,7 @@
 							<span fxFlex></span>
 
 							<div *ngIf="options.showIdentical || stats.identical > 0">
-								{{ stats?.identical / stats?.total | similarity: '1.0-1' }}
+								{{ stats?.identical / stats?.total | similarity : '1.0-1' }}
 							</div>
 						</div>
 						<mat-divider></mat-divider>
@@ -222,7 +222,7 @@
 							</div>
 							<span fxFlex></span>
 							<div *ngIf="options.showMinorChanges || stats.minorChanges > 0">
-								{{ stats?.minorChanges / stats?.total | percent: '1.0-1' }}
+								{{ stats?.minorChanges / stats?.total | percent : '1.0-1' }}
 							</div>
 						</div>
 						<mat-divider></mat-divider>
@@ -244,7 +244,7 @@
 							</div>
 							<span fxFlex></span>
 							<div *ngIf="options.showRelated || stats.relatedMeaning > 0">
-								{{ stats?.relatedMeaning / stats?.total | percent: '1.0-1' }}
+								{{ stats?.relatedMeaning / stats?.total | percent : '1.0-1' }}
 							</div>
 						</div>
 						<mat-divider></mat-divider>
@@ -262,7 +262,7 @@
 							</div>
 							<span fxFlex></span>
 							<div>
-								{{ stats && metadata.scannedDocument.totalExcluded / stats?.total | percent: '1.0-1' }}
+								{{ stats && metadata.scannedDocument.totalExcluded / stats?.total | percent : '1.0-1' }}
 							</div>
 						</div>
 					</div>
@@ -286,12 +286,12 @@
 				high: plagiarismScore > 0.5
 			}">
 			<div header>
-				<ng-container *ngIf="plagiarismScore != null">{{ plagiarismScore | percent: '1.0-1' }}</ng-container>
+				<ng-container *ngIf="plagiarismScore != null">{{ plagiarismScore | percent : '1.0-1' }}</ng-container>
 				<ng-container *ngIf="plagiarismScore == null">N/A</ng-container>
 			</div>
 			<div [matTooltip]="isShowingPartialStats ? 'Some matches are ommited according to your settings' : null">
 				<span>
-					{{ translations?.SCAN_PROPERTIES_SECTION?.PLAGIARISM || 'plagiarism' }}{{ isShowingPartialStats ? '*' : '' }}
+					{{ translations?.SCAN_PROPERTIES_SECTION?.PLAGIARISM || 'matches' }}{{ isShowingPartialStats ? '*' : '' }}
 				</span>
 			</div>
 
@@ -369,7 +369,7 @@
 					high: aiScore > 0.5
 				}">
 				<div header>
-					<ng-container *ngIf="aiScore != null">{{ aiScore | percent: '1.0-1' }}</ng-container>
+					<ng-container *ngIf="aiScore != null">{{ aiScore | percent : '1.0-1' }}</ng-container>
 					<ng-container *ngIf="aiScore == null">N/A</ng-container>
 				</div>
 				<div>

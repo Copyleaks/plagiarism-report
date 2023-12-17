@@ -58,7 +58,7 @@
 				</div>
 				<!-- text without match highlighting -->
 				<ng-template #clean>
-					{{ suspect && (suspect.text.value | slice: pages[currentPage - 1]:pages[currentPage]) }}
+					{{ suspect && (suspect.text.value | slice : pages[currentPage - 1] : pages[currentPage]) }}
 				</ng-template>
 
 				<iframe

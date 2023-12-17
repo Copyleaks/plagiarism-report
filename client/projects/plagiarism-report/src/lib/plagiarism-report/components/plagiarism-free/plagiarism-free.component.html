@@ -1,10 +1,10 @@
-<img [src]="plagFreeImg | safe: 'url'" alt="Plagiarism free" />
+<img [src]="plagFreeImg | safe : 'url'" alt="Matches free" />
 <label *ngIf="!isHighNotificationSeverity">
 	<ng-container *ngIf="(results$ | async).length">
-		{{ translations?.PLAGIARISM_FREE_WITH_RESULTS || 'No Plagiarism Found With Applied Filters' }}
+		{{ translations?.PLAGIARISM_FREE_WITH_RESULTS || 'No Matches Found With Applied Filters' }}
 	</ng-container>
 	<ng-container *ngIf="!(results$ | async).length">
-		{{ translations?.PLAGIARISM_FREE || 'No Plagiarism Found' }}
+		{{ translations?.PLAGIARISM_FREE || 'No Matches Found' }}
 	</ng-container>
 </label>
 <label *ngIf="isHighNotificationSeverity">

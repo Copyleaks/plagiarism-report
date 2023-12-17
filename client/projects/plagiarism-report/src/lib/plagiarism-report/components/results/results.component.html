@@ -57,7 +57,7 @@
 			[bufferAmount]="7"
 			#scroll
 			fxFlex
-			[items]="previews | whitelist: 'id':focusedMatch?.ids">
+			[items]="previews | whitelist : 'id' : focusedMatch?.ids">
 			<cr-result-card *ngFor="let preview of scroll.viewPortItems" [preview]="preview"></cr-result-card>
 		</virtual-scroller>
 		<virtual-scroller *ngIf="!previews" [ngClass]="hasOverlay ? 'blur' : ''" #scroll fxFlex [items]="[1, 2, 3, 4]">

@@ -10,7 +10,7 @@
 <mat-dialog-content>
 	<div
 		result
-		*ngFor="let result of results | search: 'title,id':query"
+		*ngFor="let result of results | search : 'title,id' : query"
 		fxLayout="row"
 		fxLayoutAlign="space-between center"
 		(click)="toggleResult(result)"

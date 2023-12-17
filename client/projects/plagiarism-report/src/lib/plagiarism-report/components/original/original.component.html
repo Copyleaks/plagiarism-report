@@ -114,7 +114,7 @@
 
 				<!-- text without match highlighting -->
 				<ng-template #clean>
-					{{ source && (source.text.value | slice: pages[currentPage - 1]:pages[currentPage]) }}
+					{{ source && (source.text.value | slice : pages[currentPage - 1] : pages[currentPage]) }}
 				</ng-template>
 
 				<!-- html for one-to-many -->
