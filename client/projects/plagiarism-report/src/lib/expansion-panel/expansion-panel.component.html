@@ -1,5 +1,16 @@
 <div fxLayout="row nowrap" fxLayoutAlign="start stretch" top>
-	<h3 class="expension-btn" mat-icon-button fxFlex top-title (click)="toggle()" aria-label="Click to see more information about scan properties." aria-controls="body" disableRipple matTooltip="Toggle" role="button" (keyup.enter)="toggle()">
+	<h3
+		class="expension-btn"
+		mat-icon-button
+		fxFlex
+		top-title
+		(click)="toggle()"
+		aria-label="Click to see more information about scan properties."
+		aria-controls="body"
+		disableRipple
+		[matTooltip]="expanded ? 'Click to Collapse' : 'Click to Expand'"
+		role="button"
+		(keyup.enter)="toggle()">
 		<ng-container [ngTemplateOutlet]="title"></ng-container>
 		<mat-icon>{{ expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
 	</h3>

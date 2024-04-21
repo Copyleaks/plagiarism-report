@@ -58,6 +58,7 @@ import {
 	DEFAULT_REPORT_CONFIG,
 	DEFAULT_TEXT_CONFIG,
 } from './utils/constants';
+import { IconRegistryService } from './services/icon-registry.service';
 @NgModule({
 	declarations: [
 		SpinnerComponent,
@@ -113,6 +114,7 @@ import {
 		VirtualScrollerModule,
 	],
 	providers: [
+		IconRegistryService,
 		CopyleaksService,
 		CopyleaksTranslateService,
 		DirectionService,

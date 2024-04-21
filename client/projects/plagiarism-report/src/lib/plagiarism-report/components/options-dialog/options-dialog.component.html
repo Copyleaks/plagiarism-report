@@ -3,7 +3,9 @@
 	<div>
 		<mat-slide-toggle
 			[(ngModel)]="options.showOnlyTopResults"
-			[aria-label]="options.showOnlyTopResults ? 'Slide to show only top 100 relevant results. On':'Slide to show only top 100 relevant results. Off'">
+			[aria-label]="
+				!options.showOnlyTopResults ? 'Check to show only top 100 results' : 'Un-checked to show all the results'
+			">
 			{{ translations?.RESULTS_SETTINGS_DIALOG?.SHOW_TOP_100_RESULT || 'Show only top 100 relevant results' }}
 		</mat-slide-toggle>
 	</div>
@@ -15,9 +17,7 @@
 			ariachec
 			[(ngModel)]="options.showIdentical"
 			[aria-label]="
-				options.showIdentical
-					? 'Check or un-check to include or exclude identical results from report - Checked'
-					: 'Check or un-check to include or exclude identical results from report - Un-checked'
+				!options.showIdentical ? 'Check to include identical results' : 'Un-Check to exclude identical results'
 			">
 			{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }}
 		</mat-checkbox>
@@ -27,8 +27,8 @@
 			[(ngModel)]="options.showMinorChanges"
 			[aria-label]="
 				options.showMinorChanges
-					? 'Check or un-check to include or exclude results with minor changes from report - Checked'
-					: 'Check or un-check to include or exclude results with minor changes from report - Un-checked'
+					? 'Check to include minor changes results'
+					: 'Un-check to exclude minor changes results'
 			">
 			{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }}
 		</mat-checkbox>
@@ -37,9 +37,7 @@
 		<mat-checkbox
 			[(ngModel)]="options.showRelated"
 			[aria-label]="
-				options.showRelated
-					? 'Check or un-check to include or exclude related results from report - Checked'
-					: 'Check or un-check to include or exclude related results from report - Un-checked'
+				!options.showRelated ? 'Check to include paraphrased results' : 'Un-check to exclude paraphrased results '
 			">
 			{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
 		</mat-checkbox>

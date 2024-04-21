@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class IconRegistryService {
 	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {}
 
@@ -57,8 +55,11 @@ export class IconRegistryService {
 		/** close icon */
 		this.iconRegistry.addSvgIconLiteral('close', this.sanitizer.bypassSecurityTrustHtml(this.close));
 
-    /** close_black_color icon */
-		this.iconRegistry.addSvgIconLiteral('close_black_color', this.sanitizer.bypassSecurityTrustHtml(this.close_black_color));
+		/** close_black_color icon */
+		this.iconRegistry.addSvgIconLiteral(
+			'close_black_color',
+			this.sanitizer.bypassSecurityTrustHtml(this.close_black_color)
+		);
 
 		/** filter_list icon */
 		this.iconRegistry.addSvgIconLiteral('filter_list', this.sanitizer.bypassSecurityTrustHtml(this.filter_list));
@@ -187,7 +188,7 @@ export class IconRegistryService {
     </svg>
   `;
 
-  /** close icon black color */
+	/** close icon black color */
 	close_black_color = `
     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000">
       <path d="M0 0h24v24H0z" fill="none"/>

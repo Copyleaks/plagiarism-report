@@ -29,8 +29,9 @@
 			class="checkbox-outline-size"
 			[checked]="!isHidden(result)"
 			(change)="toggleResult(result)"
-			[aria-label]="!isHidden(result) ? 'Check or un-check to include or exclude this result from report - Checked':'Check or un-check to include or exclude this result from report - Un-checked'"
-			></mat-checkbox>
+			[aria-label]="
+				isHidden(result) ? 'Check to include this result' : 'Un-check to exclude this result'
+			"></mat-checkbox>
 	</div>
 </mat-dialog-content>
 <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 1em">
@@ -50,7 +51,7 @@
 		mat-raised-button
 		(click)="close(true)"
 		color="primary"
-		aria-label="Saves the filtered results - the results that should be included or excluded.">
+		aria-label="Saves the filtered results.">
 		{{ translations?.SHARED?.SAVE || 'SAVE' }}
 	</button>
 </div>

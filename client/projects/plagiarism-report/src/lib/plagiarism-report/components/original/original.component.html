@@ -33,7 +33,7 @@
 		</cr-panel-action>
 		<!--  -->
 		<cr-panel-action fxHide.gt-sm *ngIf="activeMediaQueries.includes('lt-md')">
-			<button mat-button [matMenuTriggerFor]="appMenu" aria-label="Opens actions menu.">
+			<button mat-button [matMenuTriggerFor]="appMenu" aria-label="More Options">
 				<mat-icon>more_vert</mat-icon>
 			</button>
 		</cr-panel-action>
@@ -273,19 +273,25 @@
 <ng-template #menu__toggle_content>
 	<button
 		aria-label="Switch report to text mode or rich text mode."
-		title="Switch mode"
 		tabindex="0"
 		role="button"
 		mat-button
 		*ngIf="!AlertPreviewViewMode"
 		[matTooltip]="
-			isHtml
-				? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'
-				: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
+			hasHtml
+				? isHtml
+					? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'
+					: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
+				: 'No HTML version was found for this report'
 		"
 		[disabled]="!hasHtml"
 		(click)="toggleContent()">
-		<mat-icon [svgIcon]="isHtml ? 'title' : 'insert_photo'"></mat-icon>
+		<ng-container *ngIf="hasHtml">
+			<mat-icon [svgIcon]="isHtml ? 'title' : 'insert_photo'"></mat-icon>
+		</ng-container>
+		<ng-container *ngIf="!hasHtml">
+			<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
+		</ng-container>
 	</button>
 </ng-template>
 <ng-template #menu__align_left>

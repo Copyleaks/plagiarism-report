@@ -1,6 +1,6 @@
 <div mat-pagination-wrapper dir="ltr">
 	<button
-		aria-label="Go to first page."
+		aria-label="Go to the first page."
 		*ngIf="showFirstLastButtons"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.FIRST_PAGE || 'First page'"
@@ -9,7 +9,7 @@
 		<mat-icon>first_page</mat-icon>
 	</button>
 	<button
-		aria-label="Go to Previous page."
+		aria-label="Go to the previous page."
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.PREV_PAGE || 'Previous page'"
 		(click)="back()"
@@ -31,7 +31,7 @@
 		<span matSuffix>{{ translations?.SHARED?.OF || 'of' }} {{ totalPages }}</span>
 	</mat-form-field>
 	<button
-		aria-label="Go to next page."
+		aria-label="Go to the next page."
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.NEXT_PAGE || 'Next page'"
 		(click)="next()"
@@ -39,7 +39,7 @@
 		<mat-icon>chevron_right</mat-icon>
 	</button>
 	<button
-		aria-label="Go to last page."
+		aria-label="Go to the last page."
 		*ngIf="showFirstLastButtons"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.LAST_PAGE || 'Last page'"
