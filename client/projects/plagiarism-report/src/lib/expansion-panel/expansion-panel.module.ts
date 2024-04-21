@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 		ExpansionPanelMenuItemComponent,
 		ExpansionPanelBodyComponent,
 	],
-	imports: [CommonModule, MatDividerModule, FlexLayoutModule, MatRippleModule, MatButtonModule, MatIconModule],
+	imports: [CommonModule, MatDividerModule, FlexLayoutModule, MatRippleModule, MatButtonModule, MatIconModule,MatTooltipModule],
 	exports: [
 		ExpansionPanelComponent,
 		ExpansionPanelTitleComponent,

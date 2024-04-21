@@ -33,7 +33,7 @@
 		</cr-panel-action>
 		<!--  -->
 		<cr-panel-action fxHide.gt-sm *ngIf="activeMediaQueries.includes('lt-md')">
-			<button mat-button [matMenuTriggerFor]="appMenu">
+			<button mat-button [matMenuTriggerFor]="appMenu" aria-label="More Options">
 				<mat-icon>more_vert</mat-icon>
 			</button>
 		</cr-panel-action>
@@ -149,10 +149,12 @@
 <!-- menu -->
 <mat-menu #appMenu>
 	<button title="Open URL in a new tab" mat-menu-item *ngIf="hasUrl" (click)="openUrl()" crClickStopPropagation>
-		<ng-container *ngTemplateOutlet="menu__launch_url"></ng-container>
+		<!-- <ng-container *ngTemplateOutlet="menu__launch_url"></ng-container> -->
+		<mat-icon svgIcon="launch"></mat-icon>
 		{{ translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab' }}
 	</button>
 	<button
+		aria-label="Go to next match."
 		mat-menu-item
 		title="Next Match"
 		tabindex="0"
@@ -227,6 +229,7 @@
 
 <ng-template #menu__launch_url>
 	<button
+		aria-label="Open URL in a new tab."
 		title="Open URL in a new tab"
 		tabindex="0"
 		role="button"
@@ -234,11 +237,12 @@
 		[matTooltip]="translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
 		(click)="openUrl()"
 		crClickStopPropagation>
-		<mat-icon>launch</mat-icon>
+		<mat-icon svgIcon="launch"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__next_match>
 	<button
+		aria-label="Go to next match."
 		title="Go to next match"
 		tabindex="0"
 		role="button"
@@ -248,11 +252,12 @@
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
 		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'">
-		<mat-icon>arrow_downward</mat-icon>
+		<mat-icon svgIcon="arrow_downward"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__prev_match>
 	<button
+		aria-label="Go to previous match."
 		title="Go to previous match"
 		tabindex="0"
 		role="button"
@@ -262,68 +267,79 @@
 			(isHtml && (!htmlMatches || htmlMatches?.length === 0)) || (!isHtml && (!textMatches || textMatches.length === 0))
 		"
 		[matTooltip]="translations?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'">
-		<mat-icon>arrow_upward</mat-icon>
+		<mat-icon svgIcon="arrow_upward"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__toggle_content>
 	<button
-		title="Switch mode"
+		aria-label="Switch report to text mode or rich text mode."
 		tabindex="0"
 		role="button"
 		mat-button
 		*ngIf="!AlertPreviewViewMode"
 		[matTooltip]="
-			isHtml
-				? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'
-				: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
+			hasHtml
+				? isHtml
+					? translations?.SHARED?.ACTIONS?.SWITCH_TO_TEXTUAL_MODE || 'Switch to textual mode'
+					: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
+				: 'No HTML version was found for this report'
 		"
 		[disabled]="!hasHtml"
 		(click)="toggleContent()">
-		<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
+		<ng-container *ngIf="hasHtml">
+			<mat-icon [svgIcon]="isHtml ? 'title' : 'insert_photo'"></mat-icon>
+		</ng-container>
+		<ng-container *ngIf="!hasHtml">
+			<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
+		</ng-container>
 	</button>
 </ng-template>
 <ng-template #menu__align_left>
 	<button
+		aria-label="Align content to left."
 		title="Align left"
 		tabindex="0"
 		role="button"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'"
 		(click)="direction = 'ltr'">
-		<mat-icon>format_align_left</mat-icon>
+		<mat-icon svgIcon="format_align_left"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_right>
 	<button
+		aria-label="Align content to right."
 		title="Align right"
 		tabindex="0"
 		role="button"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
 		(click)="direction = 'rtl'">
-		<mat-icon>format_align_right</mat-icon>
+		<mat-icon svgIcon="format_align_right"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__font_inc>
 	<button
+		aria-label="Increase font size."
 		title="Increase font size"
 		tabindex="0"
 		role="button"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
 		(click)="increaseFontSize()">
-		<mat-icon>zoom_in</mat-icon>
+		<mat-icon svgIcon="zoom_in"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__font_dec>
 	<button
+		aria-label="Decrease font size."
 		mat-button
 		title="Decrease font size"
 		role="button"
 		tabindex="0"
 		[matTooltip]="translations?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
 		(click)="decreaseFontSize()">
-		<mat-icon>zoom_out</mat-icon>
+		<mat-icon svgIcon="zoom_out"></mat-icon>
 	</button>
 </ng-template>
 

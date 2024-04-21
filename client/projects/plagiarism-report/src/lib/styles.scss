@@ -153,3 +153,7 @@ $legend-dot-border: $dot-border-size solid #707070;
 .copyleaks-report-dialog .mat-dialog-container {
 	padding: 0;
 }
+
+.cdk-keyboard-focused{
+	outline: 2px solid black !important;
+}

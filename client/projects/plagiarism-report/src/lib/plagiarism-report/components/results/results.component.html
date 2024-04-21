@@ -36,8 +36,9 @@
 						? hiddenResults.length + (translations?.RESULTS_SECTION?.FILTERED_RESULTS_TOOLTIP || ' results are hidden')
 						: translations?.RESULTS_SECTION?.FILTER_TOOLTIP || 'Filter results'
 				"
-				(click)="openFilterDialog()">
-				<mat-icon>filter_list</mat-icon>
+				(click)="openFilterDialog()"
+				aria-label="Opens a dialog to filter out results from report.">
+				<mat-icon [svgIcon]="hiddenResults.length ? 'filter_list_color_red':'filter_list'"></mat-icon>
 			</button>
 		</cr-panel-action>
 	</cr-panel-actions>

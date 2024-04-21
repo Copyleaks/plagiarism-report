@@ -23,12 +23,13 @@ import { ReportService } from './services/report.service';
 import { StatisticsService } from './services/statistics.service';
 import { EReportViewModel, ViewModeService } from './services/view-mode.service';
 import { ECRPackageProducts } from './models';
+import { IconRegistryService } from './services/icon-registry.service';
 @Component({
 	selector: 'cr-copyleaks-report',
 	templateUrl: 'copyleaks-report.component.html',
 	styleUrls: ['./copyleaks-report.component.scss'],
 	animations: [],
-	providers: [ReportService, StatisticsService, MatchService, HighlightService, ViewModeService],
+	providers: [ReportService, StatisticsService, MatchService, HighlightService, ViewModeService, IconRegistryService],
 })
 export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 	@HostBinding('class.mat-typography')
@@ -85,7 +86,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		private viewModeService: ViewModeService,
 		private directionService: DirectionService,
 		public el: ElementRef,
-		renderer: Renderer2
+		renderer: Renderer2,
+		private iconRegistryService: IconRegistryService
 	) {
 		renderer.setAttribute(el.nativeElement, 'plagiarism-report-version', packageInfo.version);
 	}
@@ -108,6 +110,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		this.viewModeService.reportViewMode$
 			.pipe(untilDestroy(this))
 			.subscribe(viewMode => (this.reportViewMode = viewMode));
+		
+		this.iconRegistryService.init()
 	}
 
 	/**

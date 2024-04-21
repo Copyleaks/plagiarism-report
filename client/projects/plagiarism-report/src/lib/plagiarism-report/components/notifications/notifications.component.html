@@ -1,13 +1,14 @@
 <ng-container *ngIf="severity">
-	<div
-		matRipple
+	<button
+		mat-icon-button
 		(click)="toggleView()"
 		class="btn-notifications-new"
 		[ngClass]="{
 			'btn-notifications-error': severity == severities.High || severity == severities.VeryHigh,
 			'btn-notifications-warning': severity == severities.Medium,
 			'btn-enabled': (currentViewMode$ | async) == eReportViewModel.Alerts
-		}">
+		}"
+		disableRipple>
 		<ng-container [ngSwitch]="severity">
 			<mat-icon *ngSwitchCase="severities.Medium">warning</mat-icon>
 			<mat-icon *ngSwitchCase="severities.High">error</mat-icon>
@@ -20,5 +21,5 @@
 			</ng-container>
 			<ng-template #hideAlerts>hide alerts</ng-template>
 		</span>
-	</div>
+	</button>
 </ng-container>

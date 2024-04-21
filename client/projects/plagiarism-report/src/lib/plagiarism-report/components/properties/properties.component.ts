@@ -360,6 +360,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		this.dialogService.open<OptionsDialogComponent, ReportService>(OptionsDialogComponent, {
 			direction: this.directionService.dir,
 			data: this.reportService,
+			ariaLabel: 'Choose type of the results that you want to filter out from the report.',
 		});
 	}
 
