@@ -20,6 +20,7 @@
 		justify-content: space-between;
 		word-wrap: break-word;
 		margin-top: 17px;
+		padding-bottom: 10px;
 
 		.result-title-btn {
 			// flex: 1;
@@ -154,8 +155,8 @@
 		}
 	}
 }
-.link-styles{
+.link-styles {
 	font-style: italic;
-    color: #107ac3;
+	color: #107ac3;
 	text-decoration: unset;
 }
