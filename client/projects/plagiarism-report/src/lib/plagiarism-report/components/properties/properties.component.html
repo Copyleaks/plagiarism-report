@@ -5,39 +5,46 @@
 	<cr-expansion-panel-menu>
 		<cr-expansion-panel-menu-item *ngIf="help">
 			<button
+				aria-label="Click for help."
 				title="Help"
 				tabindex="0"
 				role="button"
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.HELP || 'Help'"
 				(click)="helpClicked($event)">
-				<mat-icon>help_outline</mat-icon>
+				<mat-icon svgIcon="help_outline"></mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="share">
 			<button
+				aria-label="Click to share report."
 				title="Share"
 				tabindex="0"
 				role="button"
 				mat-button
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SHARE || 'Share'"
 				(click)="shareClicked($event)">
-				<mat-icon>share</mat-icon>
+				<mat-icon svgIcon="share"></mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
 		<cr-expansion-panel-menu-item *ngIf="download">
 			<button
+				aria-label="Click to download report."
+				aria-hidden="true"
 				tabindex="0"
 				role="button"
+				[matTooltip]="btnDownloadTooltip ? btnDownloadTooltip : 'Download'"
 				[title]="btnDownloadTooltip"
 				mat-button
 				[disabled]="isPDFDownloading"
 				(click)="downloadClicked($event)">
-				<mat-icon [matTooltip]="btnDownloadTooltip">save_alt</mat-icon>
+				<mat-icon svgIcon="save_alt"></mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
-		<cr-expansion-panel-menu-item [style.display]="!settings ? 'none' : ''">
+		<!-- [style.display]="!settings ? 'none' : ''" -->
+		<cr-expansion-panel-menu-item>
 			<button
+				aria-label="Click to open settings."
 				mat-button
 				title="Settings"
 				id="cr-properties-settings-button"
@@ -45,9 +52,10 @@
 				role="button"
 				[matTooltip]="translations?.SCAN_PROPERTIES_SECTION?.ACTIONS?.SETTINGS || 'Settings'"
 				(click)="openSettingsDialog()">
-				<mat-icon>settings</mat-icon>
+				<mat-icon svgIcon="settings"></mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
+
 		<ng-content></ng-content>
 	</cr-expansion-panel-menu>
 	<cr-expansion-panel-body fxLayout="row nowrap">
@@ -176,9 +184,12 @@
 					</ngx-charts-pie-chart>
 
 					<div legend fxLayout="column" fxFlex fxLayoutAlign="space-evenly stretch">
-						<div
+						<button
+							mat-button
 							row
+							class="cr-hint-button"
 							id="cr-hint-identical"
+							aria-label="Include or exclude identical results."
 							(click)="toggleComparison('showIdentical')"
 							[matTooltip]="
 								options?.showIdentical
@@ -186,9 +197,7 @@
 									: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
 									  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
 							"
-							fxLayout="row"
-							fxLayoutAlign="start center"
-							fxLayoutGap="0.5em">
+							disableRipple>
 							<div
 								class="dot identical"
 								[ngStyle]="{ visibility: options?.showIdentical ? 'visible' : 'hidden' }"></div>
@@ -200,10 +209,13 @@
 							<div *ngIf="options.showIdentical || stats.identical > 0">
 								{{ stats?.identical / stats?.total | similarity : '1.0-1' }}
 							</div>
-						</div>
+						</button>
 						<mat-divider></mat-divider>
-						<div
+						<button
+							mat-button
 							row
+							class="cr-hint-button"
+							aria-label="Include or exclude results with minor changes."
 							(click)="toggleComparison('showMinorChanges')"
 							[matTooltip]="
 								options?.showMinorChanges
@@ -211,9 +223,7 @@
 									: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
 									  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
 							"
-							fxLayout="row"
-							fxLayoutAlign="center center"
-							fxLayoutGap="0.5em">
+							disableRipple>
 							<div
 								class="dot minor-changes"
 								[ngStyle]="{ visibility: options?.showMinorChanges ? 'visible' : 'hidden' }"></div>
@@ -224,10 +234,13 @@
 							<div *ngIf="options.showMinorChanges || stats.minorChanges > 0">
 								{{ stats?.minorChanges / stats?.total | percent : '1.0-1' }}
 							</div>
-						</div>
+						</button>
 						<mat-divider></mat-divider>
-						<div
+						<button
+							mat-button
 							row
+							class="cr-hint-button"
+							aria-label="Include or exclude paraphrased results."
 							(click)="toggleComparison('showRelated')"
 							[matTooltip]="
 								options?.showRelated
@@ -235,9 +248,7 @@
 									: translations?.SHARED?.MATCH_TYPES?.OMITTED_MATCH_TOOLTIP_TEXT ||
 									  messages.MATCH_TYPE_OMITTED_TOOLTIP_TEXT
 							"
-							fxLayout="row"
-							fxLayoutAlign="start center"
-							fxLayoutGap="0.5em">
+							disableRipple>
 							<div class="dot related" [ngStyle]="{ visibility: options?.showRelated ? 'visible' : 'hidden' }"></div>
 							<div text [ngClass]="{ 'cr-strike-out': options?.showRelated !== true }">
 								{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }}
@@ -246,7 +257,8 @@
 							<div *ngIf="options.showRelated || stats.relatedMeaning > 0">
 								{{ stats?.relatedMeaning / stats?.total | percent : '1.0-1' }}
 							</div>
-						</div>
+						</button>
+
 						<mat-divider></mat-divider>
 						<div
 							[matTooltip]="

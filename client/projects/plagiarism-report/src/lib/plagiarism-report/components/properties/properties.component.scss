@@ -188,3 +188,17 @@ cr-expansion-panel-body {
 		margin-top: -5px;
 	}
 }
+
+.cr-hint-button{
+	border-radius: unset;
+	font-weight: 400;
+	line-height: normal;
+	::ng-deep{
+		.mat-button-wrapper{
+			display: flex;
+			place-content: center flex-start;
+			align-items: center;
+			gap: 0.5em
+		}
+	}
+}

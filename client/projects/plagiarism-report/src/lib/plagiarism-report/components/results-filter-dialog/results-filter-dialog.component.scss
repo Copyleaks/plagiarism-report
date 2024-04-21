@@ -67,3 +67,36 @@ mat-form-field {
 		width: 60vh;
 	}
 }
+
+.check-uncheck-all-btn {
+	color: #0000ee;
+	font-weight: 400;
+	font-size: 14px;
+	text-decoration: underline;
+
+	text-transform: capitalize;
+	::ng-deep {
+		.mat-button-focus-overlay {
+			background-color: transparent !important;
+		}
+	}
+}
+
+.cdk-keyboard-focused {
+	outline: 2px solid black !important;
+}
+
+.result-item-meta-data-container {
+	padding: 2px;
+	overflow: hidden;
+	.result-item-meta-data-link {
+		max-width: 695px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+.checkbox-outline-size {
+	height: 16px;
+	line-height: 12px;
+}

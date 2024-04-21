@@ -1,5 +1,6 @@
 <div mat-pagination-wrapper dir="ltr">
 	<button
+		aria-label="Go to first page."
 		*ngIf="showFirstLastButtons"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.FIRST_PAGE || 'First page'"
@@ -8,6 +9,7 @@
 		<mat-icon>first_page</mat-icon>
 	</button>
 	<button
+		aria-label="Go to Previous page."
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.PREV_PAGE || 'Previous page'"
 		(click)="back()"
@@ -16,6 +18,7 @@
 	</button>
 	<mat-form-field>
 		<input
+			aria-label="Enter page number to go to."
 			matInput
 			(blur)="onInputBlur($event)"
 			[min]="1"
@@ -28,6 +31,7 @@
 		<span matSuffix>{{ translations?.SHARED?.OF || 'of' }} {{ totalPages }}</span>
 	</mat-form-field>
 	<button
+		aria-label="Go to next page."
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.NEXT_PAGE || 'Next page'"
 		(click)="next()"
@@ -35,6 +39,7 @@
 		<mat-icon>chevron_right</mat-icon>
 	</button>
 	<button
+		aria-label="Go to last page."
 		*ngIf="showFirstLastButtons"
 		mat-button
 		[matTooltip]="translations?.SHARED?.ACTIONS?.LAST_PAGE || 'Last page'"

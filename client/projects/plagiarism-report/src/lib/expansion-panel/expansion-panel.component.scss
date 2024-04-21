@@ -30,3 +30,24 @@ $panel-border: 1px solid #e6e6e6;
 :host(cr-expansion-panel-menu-item) {
 	display: flex;
 }
+.expension-btn{
+	display: flex;
+	margin-bottom: 0;
+    justify-content: center;
+    align-items: center;
+	border-radius: unset;
+	height: auto;
+	line-height: normal;
+	font-weight: 500;
+	::ng-deep{
+		.mat-button-wrapper{
+			display: flex;
+			align-items: center;
+			place-content: center;
+			white-space: break-spaces;
+		}
+	}
+	&:focus-visible{
+		outline: 2px solid black !important;
+	}
+}

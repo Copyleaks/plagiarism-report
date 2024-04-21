@@ -1,15 +1,14 @@
 <div fxLayout="row nowrap" fxLayoutAlign="start stretch" top>
-	<span fxLayout="row" fxLayoutAlign="center center" fxFlex top-title matRipple (click)="toggle()">
+	<h3 class="expension-btn" mat-icon-button fxFlex top-title (click)="toggle()" aria-label="Click to see more information about scan properties." aria-controls="body" disableRipple matTooltip="Toggle" role="button" (keyup.enter)="toggle()">
 		<ng-container [ngTemplateOutlet]="title"></ng-container>
 		<mat-icon>{{ expanded ? 'expand_less' : 'expand_more' }}</mat-icon>
-	</span>
+	</h3>
 	<div>
 		<ng-container [ngTemplateOutlet]="menu"></ng-container>
 	</div>
 </div>
-<div [@expandCollapse]="expanded ? 'open' : 'close'" body>
-	<!-- <div body> -->
-	<mat-divider *ngIf="expanded"></mat-divider>
+<div *ngIf="expanded" [@expandCollapse]="expanded ? 'open' : 'close'" body id="body">
+	<mat-divider></mat-divider>
 	<ng-container [ngTemplateOutlet]="body"></ng-container>
 </div>
 

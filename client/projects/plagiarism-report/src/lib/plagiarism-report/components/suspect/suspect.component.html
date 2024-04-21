@@ -128,23 +128,39 @@
 		<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
 		{{ translates?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align Right' }}
 	</button>
-	<button mat-menu-item *ngIf="!isHtml" (click)="increaseFontSize()" crClickStopPropagation>
+	<button
+		mat-menu-item
+		*ngIf="!isHtml"
+		(click)="increaseFontSize()"
+		crClickStopPropagation
+		>
 		<ng-container *ngTemplateOutlet="menu__font_inc"></ng-container>
 		{{ translates?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase Font Size' }}
 	</button>
-	<button mat-menu-item *ngIf="!isHtml" (click)="decreaseFontSize()" crClickStopPropagation>
+	<button
+		mat-menu-item
+		*ngIf="!isHtml"
+		(click)="decreaseFontSize()"
+		crClickStopPropagation
+		>
 		<ng-container *ngTemplateOutlet="menu__font_dec"></ng-container>
 		{{ translates?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease Font Size' }}
 	</button>
 </mat-menu>
 <ng-template #menu__next_match>
-	<button mat-button [matTooltip]="translates?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'">
-		<mat-icon>arrow_downward</mat-icon>
+	<button
+		mat-button
+		[matTooltip]="translates?.SHARED?.ACTIONS?.GO_TO_NEXT_MATCH || 'Go to next match'"
+		aria-label="Go to next match.">
+		<mat-icon svgIcon="arrow_downward"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__prev_match>
-	<button mat-button [matTooltip]="translates?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'">
-		<mat-icon>arrow_upward</mat-icon>
+	<button
+		mat-button
+		[matTooltip]="translates?.SHARED?.ACTIONS?.GO_TO_PREV_MATCH || 'Go to previous match'"
+		aria-label="Go to previous match.">
+		<mat-icon svgIcon="arrow_upward"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__toggle_html>
@@ -158,50 +174,58 @@
 				: translates?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
 		"
 		[disabled]="!hasHtml"
-		(click)="toggleContent()">
-		<mat-icon>{{ isHtml ? 'title' : 'insert_photo' }}</mat-icon>
+		(click)="toggleContent()"
+		aria-label="Switch report to text mode or rich text mode.">
+		<mat-icon [svgIcon]="isHtml ? 'title' : 'insert_photo'"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_left>
-	<button mat-button [matTooltip]="translates?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'" (click)="direction = 'ltr'">
-		<mat-icon>format_align_left</mat-icon>
+	<button
+		mat-button
+		[matTooltip]="translates?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align left'"
+		(click)="direction = 'ltr'"
+		aria-label="Align content to left.">
+		<mat-icon svgIcon="format_align_left"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__launch_url>
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab'"
-		(click)="openUrl()">
-		<mat-icon>launch</mat-icon>
+		(click)="openUrl()"
+		aria-label="Opens the result source link in a new tab.">
+		<mat-icon svgIcon="launch"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__align_right>
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align right'"
-		(click)="direction = 'rtl'">
-		<mat-icon>format_align_right</mat-icon>
+		(click)="direction = 'rtl'"
+		aria-label="Align content to right.">
+		<mat-icon svgIcon="format_align_right"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__font_inc>
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.INCREASE_FONT_SIZE || 'Increase font size'"
-		(click)="increaseFontSize()">
-		<mat-icon>zoom_in</mat-icon>
+		(click)="increaseFontSize()"
+		aria-label="Increase font size.">
+		<mat-icon svgIcon="zoom_in"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__font_dec>
 	<button
 		mat-button
 		[matTooltip]="translates?.SHARED?.ACTIONS?.DECREASE_FONT_SIZE || 'Decrease font size'"
-		(click)="decreaseFontSize()">
-		<mat-icon>zoom_out</mat-icon>
+		(click)="decreaseFontSize()" aria-label="Decrease font size.">
+		<mat-icon svgIcon="zoom_out"></mat-icon>
 	</button>
 </ng-template>
 <ng-template #menu__show_results>
-	<button mat-button [matTooltip]="translates?.SHARED?.ACTIONS?.CLOSE || 'Close'" (click)="goBack()">
-		<mat-icon>close</mat-icon>
+	<button mat-button [matTooltip]="translates?.SHARED?.ACTIONS?.CLOSE || 'Close'" (click)="goBack()" aria-label="Go back to all results view.">
+		<mat-icon svgIcon="close"></mat-icon>
 	</button>
 </ng-template>
 

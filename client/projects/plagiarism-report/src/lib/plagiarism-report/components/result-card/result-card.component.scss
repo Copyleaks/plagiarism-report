@@ -17,32 +17,60 @@
 	.title {
 		display: flex;
 		font-weight: bold;
+		justify-content: space-between;
 		word-wrap: break-word;
-		margin-top: -10px;
-		> div {
-			flex: 1;
-			display: flex;
-			align-items: center;
-			width: 0%;
-			> span {
-				padding: 30px 23px 10px 10px;
+		margin-top: 17px;
+
+		.result-title-btn {
+			// flex: 1;
+			// display: flex;
+			// align-items: center;
+			// width: 0%;
+			width: auto;
+			height: auto;
+			line-height: normal;
+			border-radius: unset;
+			padding: 0px 10px;
+			.result-title {
+				// padding: 30px 23px 10px 10px;
+				max-width: 450px;
+				display: block;
+				font-weight: bold;
+				color: black;
 			}
 		}
-		button {
-			position: absolute;
-			right: -5px;
-			top: -9px;
+
+		.menu-toggle-button {
+			padding: 0;
+			width: 24px;
+			height: 24px;
+			line-height: normal;
+			top: -16px;
 		}
+		// > div {
+		// 	flex: 1;
+		// 	display: flex;
+		// 	align-items: center;
+		// 	width: 0%;
+		// 	> span {
+		// 		padding: 30px 23px 10px 10px;
+		// 	}
+		// }
+		// button {
+		// 	position: absolute;
+		// 	right: -5px;
+		// 	top: -9px;
+		// }
 	}
 
-	.title-rtl {
-		> div {
-			> span {
-				margin-left: 0px;
-				margin-right: 10px;
-			}
-		}
-	}
+	// .title-rtl {
+	// 	> div {
+	// 		> span {
+	// 			margin-left: 0px;
+	// 			margin-right: 10px;
+	// 		}
+	// 	}
+	// }
 
 	.title-icon {
 		position: absolute;
@@ -135,4 +163,22 @@
 		padding-top: 0px;
 		padding-bottom: 0px;
 	}
+}
+
+.result-introduction-btn {
+	width: auto;
+	height: auto;
+	line-height: normal;
+	::ng-deep {
+		.mat-button-wrapper {
+			word-break: normal;
+			padding: 1px 12px;
+			color: #47575f;
+		}
+	}
+}
+.link-styles{
+	font-style: italic;
+    color: #107ac3;
+	text-decoration: unset;
 }

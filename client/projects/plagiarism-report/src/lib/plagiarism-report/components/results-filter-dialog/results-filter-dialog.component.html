@@ -2,6 +2,7 @@
 <mat-form-field floatLabel="never">
 	<mat-icon matSuffix>search</mat-icon>
 	<input
+		aria-label="Search for specific result."
 		matInput
 		[placeholder]="translations?.FILTER_DIALOG?.SEARCH_PLACHOLDER || 'Filter By Results'"
 		type="search"
@@ -12,40 +13,53 @@
 		result
 		*ngFor="let result of results | search : 'title,id' : query"
 		fxLayout="row"
-		fxLayoutAlign="space-between center"
-		(click)="toggleResult(result)"
-		matRipple>
-		<span check-item>
-			{{ result.title }}
-			<br />
-			<!--  -->
+		fxLayoutAlign="space-between center">
+		<div fxLayout="column" class="result-item-meta-data-container">
+			<span class="result-item-meta-data-title">{{ result.title }}</span>
 			<ng-container *ngIf="result?.url">
-				<a [href]="result?.url" target="_blank">
+				<a [href]="result?.url" target="_blank" aria-label="Result source link." class="result-item-meta-data-link">
 					{{ result?.url }}
 				</a>
 			</ng-container>
-			<!--  -->
 			<ng-container *ngIf="!result?.url && result?.metadata?.filename">
 				{{ result?.metadata?.filename }}
 			</ng-container>
-		</span>
-		<mat-pseudo-checkbox [state]="isHidden(result) ? 'unchecked' : 'checked'"></mat-pseudo-checkbox>
+		</div>
+		<mat-checkbox
+			class="checkbox-outline-size"
+			[checked]="!isHidden(result)"
+			(change)="toggleResult(result)"
+			[aria-label]="!isHidden(result) ? 'Check or un-check to include or exclude this result from report - Checked':'Check or un-check to include or exclude this result from report - Un-checked'"
+			></mat-checkbox>
 	</div>
 </mat-dialog-content>
 <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 1em">
-	<a title="toggle" button-link href="javascript:void(0)" (click)="checkAll()">
+	<button
+		mat-button
+		class="check-uncheck-all-btn"
+		(click)="checkAll()"
+		aria-label="Includes or excludes all results from report."
+		disableRipple>
 		{{
 			hidden.length === results.length
 				? translations?.FILTER_DIALOG?.CHECK_ALL || 'check all'
 				: translations?.FILTER_DIALOG?.UNCHECK_ALL || 'uncheck all'
 		}}
-	</a>
-
-	<button mat-raised-button (click)="close(true)" color="primary">
+	</button>
+	<button
+		mat-raised-button
+		(click)="close(true)"
+		color="primary"
+		aria-label="Saves the filtered results - the results that should be included or excluded.">
 		{{ translations?.SHARED?.SAVE || 'SAVE' }}
 	</button>
 </div>
 
-<button close mat-icon-button (click)="close()" [class]="'close-' + directionService.dir">
-	<mat-icon>close</mat-icon>
+<button
+	close
+	mat-icon-button
+	(click)="close()"
+	[class]="'close-' + directionService.dir"
+	aria-label="Closes the results filter dialog.">
+	<mat-icon svgIcon="close_black_color"></mat-icon>
 </button>

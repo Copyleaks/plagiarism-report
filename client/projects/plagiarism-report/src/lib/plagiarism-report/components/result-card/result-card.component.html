@@ -24,7 +24,7 @@
 
 		<!-- when result is loaded successfully and it is external result-->
 		<img
-			role="presentation"
+			alt="Result image"
 			*ngIf="!loading && result !== null && preview.url"
 			[src]="'https://www.google.com/s2/favicons?domain=' + urlDomain" />
 	</div>
@@ -36,21 +36,30 @@
 
 	<!-- default body design -->
 	<ng-container *ngIf="!preview?.component">
-		<div
-			header
-			class="title"
-			[style.cursor]="disabled ? 'default' : 'pointer'"
-			[class]="'title-' + directionService.dir">
-			<div (click)="onTitleClick()">
+		<div header class="title" [class]="'title-' + directionService.dir">
+			<button
+				[disabled]="disabled"
+				class="result-title-btn"
+				mat-button
+				(click)="onTitleClick()"
+				aria-label="Click to see report against this result.">
 				<span
+					class="result-title"
 					[ngClass]="{ 'ellipsis-flex-text': preview.type === eResultPreviewType.Internet }"
 					[matTooltip]="preview.title"
 					[matTooltipDisabled]="preview.type !== eResultPreviewType.Internet">
 					{{ preview.title }}
 				</span>
-			</div>
-			<button title="Toggle Menu" tabindex="0" role="button" mat-icon-button [matMenuTriggerFor]="menu">
-				<mat-icon>arrow_drop_down</mat-icon>
+			</button>
+			<button
+				class="menu-toggle-button"
+				title="Toggle Menu"
+				aria-label="Opens up options menu for this result."
+				aria-haspopup="menu"
+				mat-icon-button
+				[matMenuTriggerFor]="menu"
+				matTooltip="Toggle Menu">
+				<mat-icon svgIcon="arrow_drop_down"></mat-icon>
 			</button>
 			<mat-menu #menu="matMenu" class="result-card-actions">
 				<button [title]="translations?.RESULT_CARD?.ACTIONS?.EXCLUDE || 'Exclude'" mat-menu-item (click)="hideResult()">
@@ -58,6 +67,7 @@
 				</button>
 				<button
 					title="action.name"
+					aria-label="Click to choose option."
 					*ngFor="let action of resultCardActions"
 					mat-menu-item
 					(click)="action.action(preview)">
@@ -74,9 +84,9 @@
 			<span>{{ preview.metadata?.filename }}</span>
 		</div>
 
-		<div url *ngIf="preview.url" [title]="preview.url">
-			<a [href]="preview.url" [title]="preview.url" target="_blank">{{ preview.url }}</a>
-		</div>
+		<a class="link-styles" url *ngIf="preview.url" [href]="preview.url" [title]="preview.url" target="_blank">
+			{{ preview.url }}
+		</a>
 
 		<p
 			body
@@ -92,8 +102,15 @@
 			</span>
 			<span *ngIf="previewDate">{{ previewDate }}</span>
 		</p>
-
-		<p body (click)="onTitleClick()" *ngIf="preview.introduction" [style.cursor]="disabled ? 'default' : 'pointer'">
+		<p
+			body
+			tabindex="0"
+			role="button"
+			(keyup.enter)="onTitleClick()"
+			(click)="onTitleClick()"
+			*ngIf="preview.introduction"
+			[style.cursor]="disabled ? 'default' : 'pointer'"
+			aria-label="Click to see report against this result.">
 			{{ preview.introduction }}
 		</p>
 	</ng-container>
@@ -112,15 +129,20 @@
 			fxLayoutGap="1em"
 			style="height: 28px"
 			[satPopoverAnchor]="popover"
-			satPopoverHover>
+			satPopoverHover
+			[tabIndex]="0"
+			aria-label="See result similarity types."
+			aria-haspopup="true"
+			role="button"
+			(keyup.enter)="popover.toggle()">
 			<span class="dot identical"></span>
 			<span class="dot minor-changes"></span>
 			<span class="dot related"></span>
 		</div>
 	</div>
 
-	<sat-popover #popover horizontalAlign="before">
-		<div fxLayout="column nowrap" fxLayoutAlign="start start" class="sat-tooltip mat-typography">
+	<sat-popover #popover horizontalAlign="before" [restoreFocus]="true" [autoFocus]="true">
+		<div fxLayout="column nowrap" fxLayoutAlign="start start" class="sat-tooltip mat-typography" [tabIndex]="0">
 			<!--  -->
 			<ng-container *ngIf="!source">
 				<div>
