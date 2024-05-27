@@ -110,8 +110,8 @@ export class CopyleaksReportComponent implements OnInit, OnDestroy, OnChanges {
 		this.viewModeService.reportViewMode$
 			.pipe(untilDestroy(this))
 			.subscribe(viewMode => (this.reportViewMode = viewMode));
-		
-		this.iconRegistryService.init()
+
+		this.iconRegistryService.init();
 	}
 
 	/**
