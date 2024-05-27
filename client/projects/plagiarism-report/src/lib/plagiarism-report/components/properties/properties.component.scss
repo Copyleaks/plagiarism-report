@@ -6,6 +6,14 @@
 	background-color: $background-color;
 }
 
+cr-expansion-panel-title{
+	h3{
+		margin: 0;
+		font-size: 14px;
+		font-weight: 500;
+	}
+}
+
 cr-expansion-panel {
 	margin: 1em 1em 0em 1em;
 	background-color: #fff;

@@ -8,6 +8,7 @@ import { ReportService } from '../../services/report.service';
 import { truthy } from '../../utils/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { DirectionService } from '../../services/direction.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
 	selector: 'cr-results-filter-dialog',
@@ -20,11 +21,15 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	hiddenSubscription: Subscription;
 	results: ResultPreview[];
 	translations: CopyleaksTranslations;
+
+	checkedAllResults = false
+
 	constructor(
 		private translatesService: CopyleaksTranslateService,
 		private dialogRef: MatDialogRef<ResultsFilterDialogComponent>,
 		public directionService: DirectionService,
-		@Inject(MAT_DIALOG_DATA) private reportSerivce: ReportService
+		@Inject(MAT_DIALOG_DATA) private reportSerivce: ReportService,
+		private announcer: LiveAnnouncer
 	) {}
 
 	/**
@@ -56,6 +61,9 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 		} else {
 			this.hidden = [];
 		}
+		this.checkedAllResults = !this.checkedAllResults
+
+		this.announcer.announce(this.checkedAllResults ? 'All results unchecked':'All results checked','assertive')
 	}
 
 	/**

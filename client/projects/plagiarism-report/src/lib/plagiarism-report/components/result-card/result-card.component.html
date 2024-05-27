@@ -84,7 +84,7 @@
 			<span>{{ preview.metadata?.filename }}</span>
 		</div>
 
-		<a class="link-styles" url *ngIf="preview.url" [href]="preview.url" [title]="preview.url" target="_blank">
+		<a class="link-styles" *ngIf="preview.url" [href]="preview.url" [title]="preview.url" target="_blank">
 			{{ preview.url }}
 		</a>
 
@@ -131,7 +131,7 @@
 			[satPopoverAnchor]="popover"
 			satPopoverHover
 			[tabIndex]="0"
-			aria-label="See result similarity types."
+			aria-label="Use the enter key to see result similarity types."
 			aria-haspopup="true"
 			role="button"
 			(keyup.enter)="popover.toggle()">
@@ -154,17 +154,17 @@
 				<div class="text-identical">
 					{{ translations?.SHARED?.MATCH_TYPES?.IDENTICAL || 'Identical' }} -
 					{{ result?.statistics.identical / (source?.metadata.words - source?.metadata.excluded) | similarity }}
-					{{ translations?.SHARED?.WORDS || 'words' }}
+					{{ translations?.SHARED?.WORDS || 'words' }}.
 				</div>
 				<div class="text-minor-changes">
 					{{ translations?.SHARED?.MATCH_TYPES?.MINOR_CHANGES || 'Minor Changes' }} -
 					{{ result?.statistics.minorChanges / (source?.metadata.words - source?.metadata.excluded) | similarity }}
-					{{ translations?.SHARED?.WORDS || 'words' }}
+					{{ translations?.SHARED?.WORDS || 'words' }}.
 				</div>
 				<div class="text-related">
 					{{ translations?.SHARED?.MATCH_TYPES?.RELATED_MEANING || 'Paraphrased' }} -
 					{{ result?.statistics.relatedMeaning / (source?.metadata.words - source?.metadata.excluded) | similarity }}
-					{{ translations?.SHARED?.WORDS || 'words' }}
+					{{ translations?.SHARED?.WORDS || 'words' }}.
 				</div>
 			</ng-container>
 			<!--  -->

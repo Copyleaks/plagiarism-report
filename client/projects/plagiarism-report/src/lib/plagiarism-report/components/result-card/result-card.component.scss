@@ -38,6 +38,7 @@
 				display: block;
 				font-weight: bold;
 				color: black;
+				text-wrap: wrap;
 			}
 		}
 
@@ -110,9 +111,10 @@
 
 	.ellipsis-flex-text {
 		flex: 1;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		text-wrap: wrap;
+		// white-space: nowrap;
+		// overflow: hidden;
+		// text-overflow: ellipsis;
 	}
 
 	.meta-data {
@@ -159,4 +161,6 @@
 	font-style: italic;
 	color: #107ac3;
 	text-decoration: unset;
+	word-wrap: break-word;
+	padding: 0px 12px 5px;
 }

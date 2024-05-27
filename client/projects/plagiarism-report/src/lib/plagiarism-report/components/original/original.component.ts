@@ -14,6 +14,7 @@ import { MatchComponent } from '../match/match.component';
 import { switchMapTo, distinctUntilChanged } from 'rxjs/operators';
 import { CopyleaksTranslateService, CopyleaksTranslations } from '../../services/copyleaks-translate.service';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
 	selector: 'cr-original',
@@ -55,7 +56,8 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		private viewModeService: ViewModeService,
 		private matchService: MatchService,
 		private highlightService: HighlightService,
-		private translationService: CopyleaksTranslateService
+		private translationService: CopyleaksTranslateService,
+		private announcer: LiveAnnouncer
 	) {}
 
 	/**
@@ -109,6 +111,8 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 */
 	decreaseFontSize(amount: number = TEXT_FONT_SIZE_UNIT) {
 		this.zoom = Math.max(this.zoom - amount, MIN_TEXT_ZOOM);
+
+		this.announcer.announce('Font size decreased','assertive')
 	}
 
 	/**
@@ -117,12 +121,16 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 */
 	increaseFontSize(amount: number = TEXT_FONT_SIZE_UNIT) {
 		this.zoom = Math.min(this.zoom + amount, MAX_TEXT_ZOOM);
+
+		this.announcer.announce('Font size increased','assertive')
 	}
 	/**
 	 * toggles between `text` and `html` content mode
 	 */
 	toggleContent() {
 		this.reportService.configure({ contentMode: this.isHtml ? 'text' : 'html' });
+
+		this.announcer.announce('Mode changed','assertive')
 	}
 
 	/**
@@ -131,6 +139,8 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	 */
 	onJumpToNextMatchClick(next: boolean = true) {
 		this.highlightService.jump(next);
+
+		this.announcer.announce('Moved','assertive')
 	}
 
 	/**
@@ -193,6 +203,13 @@ export class OriginalComponent implements OnInit, OnDestroy {
 			window.open(this.completeResult?.scannedDocument?.metadata?.finalUrl as string, '_blank');
 		}
 	}
+
+	changeTextAlign(direction : DirectionMode){
+		this.direction = direction;
+		
+		this.announcer.announce('Aligned','assertive')
+	}
+
 	/**
 	 * Life-cycle method
 	 * empty for `untilDestroy` rxjs operator

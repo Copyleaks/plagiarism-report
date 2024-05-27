@@ -18,8 +18,8 @@
 			<ng-container *ngTemplateOutlet="menu__show_results"></ng-container>
 		</cr-panel-action>
 		<cr-panel-action *ngIf="isMobile">
-			<button mat-button [disabled]="!previews" (click)="isActive = !isActive">
-				<mat-icon>{{ isActive ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
+			<button mat-button [disabled]="!previews" (click)="isActive = !isActive" aria-label="expend actions">
+				<mat-icon [svgIcon]="isActive ? 'arrow_downward' : 'arrow_upward'"></mat-icon>
 			</button>
 		</cr-panel-action>
 		<cr-panel-action *ngIf="!isMobile || isActive">
@@ -71,10 +71,11 @@
 </cr-panel>
 <ng-template #menu__show_results>
 	<button
-		[title]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear filter'"
+		aria-label="Clear focused results"
+		[title]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear focused'"
 		mat-button
 		(click)="clearFocusedMatch()"
-		[matTooltip]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear filter'">
+		[matTooltip]="translations?.RESULTS_SECTION?.CLEAR_FILTER || 'Clear focused'">
 		<mat-icon>close</mat-icon>
 	</button>
 </ng-template>
