@@ -189,16 +189,16 @@ cr-expansion-panel-body {
 	}
 }
 
-.cr-hint-button{
+.cr-hint-button {
 	border-radius: unset;
 	font-weight: 400;
 	line-height: normal;
-	::ng-deep{
-		.mat-button-wrapper{
+	::ng-deep {
+		.mat-button-wrapper {
 			display: flex;
 			place-content: center flex-start;
 			align-items: center;
-			gap: 0.5em
+			gap: 0.5em;
 		}
 	}
 }

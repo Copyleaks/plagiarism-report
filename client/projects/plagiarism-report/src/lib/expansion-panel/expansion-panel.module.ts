@@ -22,7 +22,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 		ExpansionPanelMenuItemComponent,
 		ExpansionPanelBodyComponent,
 	],
-	imports: [CommonModule, MatDividerModule, FlexLayoutModule, MatRippleModule, MatButtonModule, MatIconModule,MatTooltipModule],
+	imports: [
+		CommonModule,
+		MatDividerModule,
+		FlexLayoutModule,
+		MatRippleModule,
+		MatButtonModule,
+		MatIconModule,
+		MatTooltipModule,
+	],
 	exports: [
 		ExpansionPanelComponent,
 		ExpansionPanelTitleComponent,

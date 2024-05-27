@@ -47,11 +47,7 @@
 				: translations?.FILTER_DIALOG?.UNCHECK_ALL || 'uncheck all'
 		}}
 	</button>
-	<button
-		mat-raised-button
-		(click)="close(true)"
-		color="primary"
-		aria-label="Saves the filtered results.">
+	<button mat-raised-button (click)="close(true)" color="primary" aria-label="Saves the filtered results.">
 		{{ translations?.SHARED?.SAVE || 'SAVE' }}
 	</button>
 </div>
