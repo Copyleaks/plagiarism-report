@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 /** animation for expanding and collapsing an element's height */
 export const expandCollapseAnimation = trigger('expandCollapse', [
@@ -30,6 +31,9 @@ export class ExpansionPanelComponent {
 	@Input() disabled = false;
 	@Output() expandChange = new EventEmitter();
 	protected animationState = 'close';
+
+	constructor(private announcer: LiveAnnouncer) {}
+
 	/**
 	 * Flips the expansion panel `expanded` state.
 	 *
@@ -42,6 +46,8 @@ export class ExpansionPanelComponent {
 		if (this.expandChange) {
 			this.expandChange.emit(this.expanded);
 		}
+
+		this.announcer.announce(this.expanded ? 'Scan properties expended':'Scan properties collapsed','assertive')
 	}
 }
 

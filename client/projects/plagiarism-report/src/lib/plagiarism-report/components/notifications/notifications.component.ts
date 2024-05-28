@@ -8,6 +8,7 @@ import { CompleteResultNotificationAlertSeverity } from '../../models';
 import { EReportViewModel, ViewModeService } from '../../services/view-mode.service';
 import { BehaviorSubject } from 'rxjs';
 import { ALERTS } from '../../utils/constants';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 @Component({
 	selector: 'cr-notifications',
 	templateUrl: './notifications.component.html',
@@ -22,7 +23,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	constructor(
 		private matDialog: MatDialog,
 		private viewModeService: ViewModeService,
-		private reportService: ReportService
+		private reportService: ReportService,
+		private announcer: LiveAnnouncer
 	) {}
 	/**
 	 * Life-cycle method
@@ -64,6 +66,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		} else {
 			this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
 		}
+
+		this.announcer.announce('toggled','assertive')
 	}
 	/**
 	 * Life-cycle method

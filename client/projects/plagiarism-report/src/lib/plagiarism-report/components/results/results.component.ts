@@ -22,6 +22,7 @@ import { HighlightService } from '../../services/highlight.service';
 import { LayoutMediaQueryService } from '../../services/layout-media-query.service';
 import { ReportService } from '../../services/report.service';
 import { ResultsFilterDialogComponent } from '../results-filter-dialog/results-filter-dialog.component';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 @Component({
 	selector: 'cr-results',
 	templateUrl: './results.component.html',
@@ -47,7 +48,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		private translationsService: CopyleaksTranslateService,
 		private directionService: DirectionService,
 		private cd: ChangeDetectorRef,
-		private elementRef: ElementRef<HTMLElement>
+		private elementRef: ElementRef<HTMLElement>,
+		private announcer: LiveAnnouncer
 	) {}
 
 	@HostBinding('class.active') isActive = false;
@@ -157,6 +159,8 @@ export class ResultsComponent implements OnInit, OnDestroy {
 	clearFocusedMatch() {
 		this.highlightService.setOriginalTextMatch(null);
 		this.highlightService.setOriginalHtmlMatch(null);
+
+		this.announcer.announce('Cleared focused','assertive')
 	}
 
 	/**

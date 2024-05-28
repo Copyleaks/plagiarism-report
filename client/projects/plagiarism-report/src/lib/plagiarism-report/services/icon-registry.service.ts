@@ -75,6 +75,51 @@ export class IconRegistryService {
 			'arrow_drop_down',
 			this.sanitizer.bypassSecurityTrustHtml(this.arrow_drop_down)
 		);
+
+		/** first_page icon */
+		this.iconRegistry.addSvgIconLiteral('first_page', this.sanitizer.bypassSecurityTrustHtml(this.first_page));
+
+		/** first_page_disabled icon */
+		this.iconRegistry.addSvgIconLiteral(
+			'first_page_disabled',
+			this.sanitizer.bypassSecurityTrustHtml(this.first_page_disabled)
+		);
+
+		/** chevron_left icon */
+		this.iconRegistry.addSvgIconLiteral('chevron_left', this.sanitizer.bypassSecurityTrustHtml(this.chevron_left));
+
+		/** chevron_left_disabled icon */
+		this.iconRegistry.addSvgIconLiteral(
+			'chevron_left_disabled',
+			this.sanitizer.bypassSecurityTrustHtml(this.chevron_left_disabled)
+		);
+
+		/** chevron_right icon */
+		this.iconRegistry.addSvgIconLiteral('chevron_right', this.sanitizer.bypassSecurityTrustHtml(this.chevron_right));
+
+		/** chevron_right_disabled icon */
+		this.iconRegistry.addSvgIconLiteral(
+			'chevron_right_disabled',
+			this.sanitizer.bypassSecurityTrustHtml(this.chevron_right_disabled)
+		);
+
+		/** last_page icon */
+		this.iconRegistry.addSvgIconLiteral('last_page', this.sanitizer.bypassSecurityTrustHtml(this.last_page));
+
+		/** last_page_disabled icon */
+		this.iconRegistry.addSvgIconLiteral(
+			'last_page_disabled',
+			this.sanitizer.bypassSecurityTrustHtml(this.last_page_disabled)
+		);
+
+		/** more_vert icon */
+		this.iconRegistry.addSvgIconLiteral('more_vert', this.sanitizer.bypassSecurityTrustHtml(this.more_vert));
+
+		/** expand_less icon */
+		this.iconRegistry.addSvgIconLiteral('expand_less', this.sanitizer.bypassSecurityTrustHtml(this.expand_less));
+
+		/** expand_more icon */
+		this.iconRegistry.addSvgIconLiteral('expand_more', this.sanitizer.bypassSecurityTrustHtml(this.expand_more));
 	}
 
 	/** help_outline icon */
@@ -219,4 +264,90 @@ export class IconRegistryService {
       <path d="M7 10l5 5 5-5z"/>
     </svg>
   `;
+
+	/** first_page icon */
+	first_page = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+		<path d="M24 0v24H0V0h24z" fill="none" opacity=".87"/>
+		<path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM6 6h2v12H6V6z"/>
+	</svg>
+  `;
+
+	/** first_page icon disabled */
+	first_page_disabled = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#00000042">
+		<path d="M24 0v24H0V0h24z" fill="none" opacity=".87"/>
+		<path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM6 6h2v12H6V6z"/>
+	</svg>
+  `;
+
+	/** chevron_left icon */
+	chevron_left = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+		<path d="M0 0h24v24H0V0z" fill="none"/>
+		<path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/>
+	</svg>
+  `;
+
+	/** chevron_left icon disabled */
+	chevron_left_disabled = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#00000042">
+		<path d="M0 0h24v24H0V0z" fill="none"/>
+		<path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/>
+	</svg>
+  `;
+
+	/** chevron_right icon */
+	chevron_right = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+		<path d="M0 0h24v24H0V0z" fill="none"/>
+		<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/>
+	</svg> 
+  `;
+
+	/** chevron_right icon disabled */
+	chevron_right_disabled = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#00000042">
+		<path d="M0 0h24v24H0V0z" fill="none"/>
+		<path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/>
+	</svg> 
+  `;
+
+	/** last_page icon */
+	last_page = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+		<path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/>
+		<path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"/>
+	</svg> 
+  `;
+
+	/** last_page icon disabled */
+	last_page_disabled = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#00000042">
+		<path d="M0 0h24v24H0V0z" fill="none" opacity=".87"/>
+		<path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM16 6h2v12h-2V6z"/>
+	</svg> 
+  `;
+
+	/** more_vert icon */
+	more_vert = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+		<path d="M0 0h24v24H0V0z" fill="none"/>
+		<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+	</svg>
+  `;
+
+	expand_less = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+		<path d="M0 0h24v24H0V0z" fill="none"/>
+		<path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14l-6-6z"/>
+	</svg>
+	`;
+
+	expand_more = `
+	<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368">
+		<path d="M24 24H0V0h24v24z" fill="none" opacity=".87"/>
+		<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/>
+	</svg>
+	`;
 }

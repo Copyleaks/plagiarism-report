@@ -1,6 +1,8 @@
 <cr-expansion-panel [expanded]="expanded" (expandChange)="onExpandChange($event)">
 	<cr-expansion-panel-title>
-		{{ translations?.SCAN_PROPERTIES_SECTION?.TITLE || 'SCAN PROPERTIES' }}
+		<h3 class="expension-panel-title" aria-hidden="true">
+			{{ translations?.SCAN_PROPERTIES_SECTION?.TITLE || 'SCAN PROPERTIES' }}
+		</h3>
 	</cr-expansion-panel-title>
 	<cr-expansion-panel-menu>
 		<cr-expansion-panel-menu-item *ngIf="help">
@@ -30,8 +32,6 @@
 		<cr-expansion-panel-menu-item *ngIf="download">
 			<button
 				aria-label="Click to download report."
-				aria-hidden="true"
-				tabindex="0"
 				role="button"
 				[matTooltip]="btnDownloadTooltip ? btnDownloadTooltip : 'Download'"
 				[title]="btnDownloadTooltip"
@@ -41,7 +41,8 @@
 				<mat-icon svgIcon="save_alt"></mat-icon>
 			</button>
 		</cr-expansion-panel-menu-item>
-		<cr-expansion-panel-menu-item [style.display]="!settings ? 'none' : ''">
+		<!-- Click to download report. -->
+		<cr-expansion-panel-menu-item>
 			<button
 				aria-label="Click to open settings."
 				mat-button
@@ -188,7 +189,7 @@
 							row
 							class="cr-hint-button"
 							id="cr-hint-identical"
-							aria-label="Include or exclude identical results."
+							[attr.aria-label]="'Identical results' + (stats?.identical / stats?.total | similarity : '1.0-1')"
 							(click)="toggleComparison('showIdentical')"
 							[matTooltip]="
 								options?.showIdentical
@@ -214,7 +215,7 @@
 							mat-button
 							row
 							class="cr-hint-button"
-							aria-label="Include or exclude results with minor changes."
+							[attr.aria-label]="'Minor Changes results' + (stats?.minorChanges / stats?.total | similarity : '1.0-1')"
 							(click)="toggleComparison('showMinorChanges')"
 							[matTooltip]="
 								options?.showMinorChanges
@@ -239,7 +240,7 @@
 							mat-button
 							row
 							class="cr-hint-button"
-							aria-label="Include or exclude paraphrased results."
+							[attr.aria-label]="'Paraphrased results' + (stats?.relatedMeaning / stats?.total | similarity : '1.0-1')"
 							(click)="toggleComparison('showRelated')"
 							[matTooltip]="
 								options?.showRelated

@@ -34,6 +34,7 @@ import { EReportViewModel, ViewModeService } from '../../services/view-mode.serv
 import { DEFAULT_TEXT_CONFIG } from '../../utils/constants';
 import { truthy } from '../../utils/operators';
 import { OptionsDialogComponent } from '../options-dialog/options-dialog.component';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
 	selector: 'cr-properties',
@@ -119,7 +120,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		private dialogService: MatDialog,
 		private statistics: StatisticsService,
 		private directionService: DirectionService,
-		private translationsService: CopyleaksTranslateService
+		private translationsService: CopyleaksTranslateService,
+		private announcer: LiveAnnouncer
 	) {}
 
 	get isScanning() {
@@ -244,6 +246,23 @@ export class PropertiesComponent implements OnInit, OnDestroy {
 		const options = { ...this.options };
 		options[type] = !options[type];
 		this.reportService.configure({ options });
+
+		let announcerMsg = '';
+
+		switch (type) {
+			case 'showIdentical':
+				announcerMsg = options[type] ? 'Identical results included' : 'Identical results omitted';
+				break;
+			case 'showMinorChanges':
+				announcerMsg = options[type] ? 'Minor Changes results included' : 'Minor Changes results omitted';
+				break;
+			case 'showRelated':
+				announcerMsg = options[type] ? 'Paraphrased results included' : 'Paraphrased results omitted';
+				break;
+			default:
+				break;
+		}
+		this.announcer.announce(announcerMsg, 'assertive');
 	}
 
 	/**

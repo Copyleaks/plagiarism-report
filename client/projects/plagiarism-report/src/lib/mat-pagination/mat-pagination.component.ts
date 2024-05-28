@@ -4,6 +4,7 @@ import {
 	CopyleaksTranslateService,
 	CopyleaksTranslations,
 } from '../plagiarism-report/services/copyleaks-translate.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 export interface PageChangeEvent {
 	currentPage: number;
@@ -52,7 +53,7 @@ export class MatPaginationComponent implements OnInit {
 	set showFirstLastButtons(value) {
 		this._showFirstLastButtons = coerceBooleanProperty(value);
 	}
-	constructor(private translationsService: CopyleaksTranslateService) {}
+	constructor(private translationsService: CopyleaksTranslateService, private announcer: LiveAnnouncer) {}
 	/**
 	 * init translations on component init
 	 */
@@ -71,6 +72,8 @@ export class MatPaginationComponent implements OnInit {
 			totalPages: this.totalPages,
 			previousPage,
 		});
+
+		this.announcer.announce('Moved page','assertive')
 	}
 	/**
 	 * Navigate to the previous page.
@@ -84,6 +87,8 @@ export class MatPaginationComponent implements OnInit {
 			totalPages: this.totalPages,
 			previousPage,
 		});
+
+		this.announcer.announce('Moved page','assertive')
 	}
 	/**
 	 * Navigate to page.
@@ -97,6 +102,8 @@ export class MatPaginationComponent implements OnInit {
 			totalPages: this.totalPages,
 			previousPage,
 		});
+
+		this.announcer.announce('Moved page','assertive')
 	}
 
 	/**

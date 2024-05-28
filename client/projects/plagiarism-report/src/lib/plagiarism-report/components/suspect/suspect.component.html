@@ -25,8 +25,8 @@
 			<ng-container *ngTemplateOutlet="menu__launch_url"></ng-container>
 		</cr-panel-action>
 		<cr-panel-action fxHide.gt-sm *ngIf="isMobile">
-			<button mat-button [matMenuTriggerFor]="appMenu">
-				<mat-icon>more_vert</mat-icon>
+			<button mat-button [matMenuTriggerFor]="appMenu" aria-label="More Options">
+				<mat-icon svgIcon="more_vert"></mat-icon>
 			</button>
 		</cr-panel-action>
 		<cr-panel-action *ngIf="!disableBackButton">
