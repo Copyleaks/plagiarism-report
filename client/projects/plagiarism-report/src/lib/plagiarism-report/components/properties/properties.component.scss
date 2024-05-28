@@ -6,8 +6,8 @@
 	background-color: $background-color;
 }
 
-cr-expansion-panel-title{
-	h3{
+cr-expansion-panel-title {
+	h3 {
 		margin: 0;
 		font-size: 14px;
 		font-weight: 500;
@@ -51,7 +51,7 @@ cr-expansion-panel-body {
 	.disabled_score {
 		color: #212121;
 		[header] {
-			color: #a0a9bf;
+			color: #8590a2;
 			font-weight: 500;
 			margin-bottom: 0px;
 			font-size: 32px !important;
@@ -125,12 +125,12 @@ cr-expansion-panel-body {
 	}
 }
 
-// #cr-hint-results-score {
-// 	display: inline-block;
-// 	position: relative;
-// 	top: -20px;
-// 	left: 21px;
-// }
+#cr-hint-results-score {
+	span {
+		font-size: 19px;
+		
+	}
+}
 
 #cr-hint-results-found {
 	position: relative;
@@ -179,9 +179,9 @@ cr-expansion-panel-body {
 }
 
 .btn-viewing {
-	background: #a0a9bf;
+	background: #8590a2;
 	color: white !important;
-	border-color: #a0a9bf !important;
+	border-color: #8590a2 !important;
 }
 
 .btn-upgrade {

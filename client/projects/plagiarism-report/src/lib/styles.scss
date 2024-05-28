@@ -8,8 +8,8 @@ $color-identical: #ff796e;
 $color-minor-changes: #ff9a9a;
 $color-related: #ffd9b0;
 $color-omitted: #ffffff;
-$dot-border-size: 2px;
-$legend-dot-border: $dot-border-size solid #707070;
+$dot-border-size: 1px;
+$legend-dot-border: $dot-border-size solid #171717;
 
 @mixin xs {
 	@media screen and (max-width: 599px) {
