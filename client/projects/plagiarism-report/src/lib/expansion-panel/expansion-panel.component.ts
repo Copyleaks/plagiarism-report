@@ -47,7 +47,7 @@ export class ExpansionPanelComponent {
 			this.expandChange.emit(this.expanded);
 		}
 
-		this.announcer.announce(this.expanded ? 'Scan properties expended':'Scan properties collapsed','assertive')
+		this.announcer.announce(this.expanded ? 'Scan properties expended' : 'Scan properties collapsed', 'assertive');
 	}
 }
 

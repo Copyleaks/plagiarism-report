@@ -160,7 +160,7 @@ export class ResultsComponent implements OnInit, OnDestroy {
 		this.highlightService.setOriginalTextMatch(null);
 		this.highlightService.setOriginalHtmlMatch(null);
 
-		this.announcer.announce('Cleared focused','assertive')
+		this.announcer.announce('Cleared focused', 'assertive');
 	}
 
 	/**

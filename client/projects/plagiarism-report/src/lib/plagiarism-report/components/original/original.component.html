@@ -148,7 +148,13 @@
 
 <!-- menu -->
 <mat-menu #appMenu>
-	<div title="Open URL in a new tab" mat-menu-item *ngIf="hasUrl" (keyup.enter)="openUrl()" (click)="openUrl()" crClickStopPropagation>
+	<div
+		title="Open URL in a new tab"
+		mat-menu-item
+		*ngIf="hasUrl"
+		(keyup.enter)="openUrl()"
+		(click)="openUrl()"
+		crClickStopPropagation>
 		<!-- <ng-container *ngTemplateOutlet="menu__launch_url"></ng-container> -->
 		<mat-icon svgIcon="launch"></mat-icon>
 		{{ translations?.SHARED?.ACTIONS?.LAUNCH_URL || 'Open URL in a new tab' }}
@@ -191,11 +197,23 @@
 				: translations?.SHARED?.ACTIONS?.SWITCH_TO_RICH_TEXT_MODE || 'Switch to rich text mode'
 		}}
 	</div>
-	<div title="Align Left" mat-menu-item *ngIf="!isHtml" (click)="changeTextAlign('ltr')" (keyup.enter)="changeTextAlign('ltr')" crClickStopPropagation>
+	<div
+		title="Align Left"
+		mat-menu-item
+		*ngIf="!isHtml"
+		(click)="changeTextAlign('ltr')"
+		(keyup.enter)="changeTextAlign('ltr')"
+		crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_left"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.ALIGN_LEFT || 'Align Left' }}
 	</div>
-	<div title="Align Right" mat-menu-item *ngIf="!isHtml" (click)="changeTextAlign('rtl')" (keyup.enter)="changeTextAlign('rtl')" crClickStopPropagation>
+	<div
+		title="Align Right"
+		mat-menu-item
+		*ngIf="!isHtml"
+		(click)="changeTextAlign('rtl')"
+		(keyup.enter)="changeTextAlign('rtl')"
+		crClickStopPropagation>
 		<ng-container *ngTemplateOutlet="menu__align_right"></ng-container>
 		{{ translations?.SHARED?.ACTIONS?.ALIGN_RIGHT || 'Align Right' }}
 	</div>

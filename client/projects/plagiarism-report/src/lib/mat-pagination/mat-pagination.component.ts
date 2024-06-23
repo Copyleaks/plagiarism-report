@@ -73,7 +73,7 @@ export class MatPaginationComponent implements OnInit {
 			previousPage,
 		});
 
-		this.announcer.announce('Moved page','assertive')
+		this.announcer.announce('Moved page', 'assertive');
 	}
 	/**
 	 * Navigate to the previous page.
@@ -88,7 +88,7 @@ export class MatPaginationComponent implements OnInit {
 			previousPage,
 		});
 
-		this.announcer.announce('Moved page','assertive')
+		this.announcer.announce('Moved page', 'assertive');
 	}
 	/**
 	 * Navigate to page.
@@ -103,7 +103,7 @@ export class MatPaginationComponent implements OnInit {
 			previousPage,
 		});
 
-		this.announcer.announce('Moved page','assertive')
+		this.announcer.announce('Moved page', 'assertive');
 	}
 
 	/**

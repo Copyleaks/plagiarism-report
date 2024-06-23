@@ -112,7 +112,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	decreaseFontSize(amount: number = TEXT_FONT_SIZE_UNIT) {
 		this.zoom = Math.max(this.zoom - amount, MIN_TEXT_ZOOM);
 
-		this.announcer.announce('Font size decreased','assertive')
+		this.announcer.announce('Font size decreased', 'assertive');
 	}
 
 	/**
@@ -122,7 +122,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	increaseFontSize(amount: number = TEXT_FONT_SIZE_UNIT) {
 		this.zoom = Math.min(this.zoom + amount, MAX_TEXT_ZOOM);
 
-		this.announcer.announce('Font size increased','assertive')
+		this.announcer.announce('Font size increased', 'assertive');
 	}
 	/**
 	 * toggles between `text` and `html` content mode
@@ -130,7 +130,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	toggleContent() {
 		this.reportService.configure({ contentMode: this.isHtml ? 'text' : 'html' });
 
-		this.announcer.announce('Mode changed','assertive')
+		this.announcer.announce('Mode changed', 'assertive');
 	}
 
 	/**
@@ -140,7 +140,7 @@ export class OriginalComponent implements OnInit, OnDestroy {
 	onJumpToNextMatchClick(next: boolean = true) {
 		this.highlightService.jump(next);
 
-		this.announcer.announce('Moved','assertive')
+		this.announcer.announce('Moved', 'assertive');
 	}
 
 	/**
@@ -204,10 +204,10 @@ export class OriginalComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	changeTextAlign(direction : DirectionMode){
+	changeTextAlign(direction: DirectionMode) {
 		this.direction = direction;
-		
-		this.announcer.announce('Aligned','assertive')
+
+		this.announcer.announce('Aligned', 'assertive');
 	}
 
 	/**

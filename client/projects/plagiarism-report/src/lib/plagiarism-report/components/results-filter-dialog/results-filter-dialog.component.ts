@@ -22,7 +22,7 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 	results: ResultPreview[];
 	translations: CopyleaksTranslations;
 
-	checkedAllResults = false
+	checkedAllResults = false;
 
 	constructor(
 		private translatesService: CopyleaksTranslateService,
@@ -61,9 +61,9 @@ export class ResultsFilterDialogComponent implements OnInit, OnDestroy {
 		} else {
 			this.hidden = [];
 		}
-		this.checkedAllResults = !this.checkedAllResults
+		this.checkedAllResults = !this.checkedAllResults;
 
-		this.announcer.announce(this.checkedAllResults ? 'All results unchecked':'All results checked','assertive')
+		this.announcer.announce(this.checkedAllResults ? 'All results unchecked' : 'All results checked', 'assertive');
 	}
 
 	/**

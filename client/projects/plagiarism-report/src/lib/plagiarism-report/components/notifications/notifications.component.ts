@@ -67,7 +67,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			this.viewModeService.changeViewMode$(EReportViewModel.ScanningResult);
 		}
 
-		this.announcer.announce('toggled','assertive')
+		this.announcer.announce('toggled', 'assertive');
 	}
 	/**
 	 * Life-cycle method
