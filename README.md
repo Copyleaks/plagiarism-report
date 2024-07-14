@@ -1,4 +1,14 @@
-# Copyleaks plagiarism report
+<p align="center">
+   <picture align="center">  
+     <source media="(prefers-color-scheme: dark)" srcset="https://copyleaks.com/wp-content/uploads/2023/07/logo_white.svg">
+     <source media="(prefers-color-scheme: light)" srcset="https://copyleaks.com/wp-content/uploads/2023/01/logo.svg">
+     <img alt="Copyleaks" src="https://user-images.githubusercontent.com/25423296/163456779-a8556205-d0a5-45e2-ac17-42d089e3c3f8.png">
+   </picture>
+</p>
+
+<h1 align="center">[DEPRECATED since 2024-01] Copyleaks plagiarism report</h1>
+
+## Use [Copyleaks Web Report](https://github.com/Copyleaks/ng-web-report) instead
 
 [![npm:badge]][npm:page]
 
