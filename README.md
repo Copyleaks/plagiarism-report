@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 <p align="center">
    <picture align="center">  
      <source media="(prefers-color-scheme: dark)" srcset="https://copyleaks.com/wp-content/uploads/2023/07/logo_white.svg">
